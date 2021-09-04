@@ -1,0 +1,35 @@
+version: "3"
+
+volumes:
+  postgres_data_raw_sql:
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./docker/local/Dockerfile
+    image: backend
+    container_name: backend_raw_sql
+    environment:
+      - "DEBUG=true"
+      - "DB_HOST=db"
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/app
+    ports:
+      - "127.0.0.1:8000:8000"
+    privileged: true
+    command: bash -c 'python manage.py migrate && gunicorn backend.wsgi -b 0.0.0.0:8000 -w 2 --reload'
+
+  db:
+    container_name: db_raw_sql
+    image: "postgres:13-alpine"
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+    volumes:
+      - postgres_data_raw_sql:/var/lib/postgresql/data/
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
