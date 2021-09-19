@@ -1,0 +1,81 @@
+version: "3"
+
+volumes:
+  postgres_data_backup:
+  minio_backup:
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./docker/local/Dockerfile
+    image: backend
+    restart: always
+    container_name: backend_db_first
+    environment:
+      - "DEBUG=true"
+      - "DB_HOST=db"
+      - "DB_USER=db_first"
+      - "DB_NAME=db_first"
+      - "DB_PASSWORD=123456"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    ports:
+      - "127.0.0.1:8000:8000"
+    privileged: true
+    # command: bash -c 'python manage.py inspectdb > db_first/models.py && python manage.py migrate && gunicorn backend.wsgi -b 0.0.0.0:8000 -w 2 --reload'
+    command: bash -c 'python manage.py migrate && gunicorn backend.wsgi -b 0.0.0.0:8000 -w 2 --reload'
+
+  db:
+    container_name: db_backup
+    image: "postgres:13-alpine"
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+    volumes:
+      - postgres_data_backup:/var/lib/postgresql/data/
+      - ./sql-scripts/init.sh:/docker-entrypoint-initdb.d/init.sh
+      - ./sql-scripts:/sql-scripts
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U db_first"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+  minio:
+    volumes:
+      - minio_backup:/data/
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: 123456789
+      MINIO_SECRET_KEY: 123456789
+      MINIO_ROOT_PASSWORD: 123456789
+    image: minio/minio:RELEASE.2021-09-15T04-54-25Z
+    ports:
+    - published: 9000
+      target: 9000
+    command: server /data
+
+  backup:
+    build:
+      context: ./backup-scripts
+      dockerfile: ./Dockerfile
+    image: backup-postgres
+    restart: always
+    container_name: backup_postgres
+    volumes:
+      - ./backup-scripts/main.py:/app/main.py
+      - ./backup-scripts/backup_restore:/app/backup_restore
+    environment:
+      - "ACCESS_KEY=123456789"
+      - "ACCESS_KEY_SECRET=123456789"
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - "POSTGRES_CUSTOM_HOST=db"
+      - "DB_PASSWORD=123456"
+      - "ENDPOINT_URL=http://minio:9000"

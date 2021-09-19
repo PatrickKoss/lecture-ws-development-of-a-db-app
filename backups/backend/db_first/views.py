@@ -1,5 +1,8 @@
 """Accounts tips view."""
 
+from datetime import datetime
+
+import pytz
 from django.contrib.auth.hashers import make_password
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
@@ -10,7 +13,7 @@ from utils.helpers import validate_request_body
 from .documentation import account_swagger
 from .models import Accounts
 from .serializer.account_serializer import (
-    AccountModelSerializer,
+    AccountPostSerializer,
     AccountPutSerializer,
     AccountModelListSerializer,
 )
@@ -26,7 +29,6 @@ class Account(APIView):
     def get(self, request, *args, **kwargs):
         """Get all accounts."""
         accounts = Accounts.objects.all()
-        print(accounts.query)
         accounts = AccountModelListSerializer(accounts, many=True).data
 
         return Response(
@@ -47,7 +49,7 @@ class Account(APIView):
             return error
 
         # validate account body
-        account = AccountModelSerializer(data=json_body)
+        account = AccountPostSerializer(data=json_body)
         if not account.is_valid():
             return Response(
                 data={
@@ -57,18 +59,26 @@ class Account(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+        account_data = account.data
+
         # create account
         try:
-            account.save()
+            date = datetime.utcnow().replace(tzinfo=pytz.UTC)
+            # dont save passwords in clear text
+            account_model = Accounts.objects.create(
+                username=account_data["username"],
+                password=make_password(account_data["password"]),
+                # password=account_data["password"],
+                email=account_data["email"],
+                created_on=date,
+            )
         except Exception:
             return Response(
-                data={"message": "Account already exists"},
+                data={"message": "Account already exists with username or email"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # serialize response
-        account = AccountModelListSerializer(data=json_body)
-        account.is_valid()
+        account = AccountModelListSerializer(account_model)
 
         return Response(
             data={
@@ -93,35 +103,31 @@ class AccountSingle(APIView):
         if error is not None:
             return error
 
-        account_username = kwargs["username"]
+        account_id = kwargs["accountId"]
 
         # validate account body
         account = AccountPutSerializer(data=json_body)
         if not account.is_valid():
             return Response(
                 data={
-                    "message": "Account password or email is not valid",
+                    "message": "Account password is not valid",
                     "errors": account.errors,
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        account = account.data
 
         # check if account exists
         try:
-            account_model = Accounts.objects.get(username=account_username)
+            account_model = Accounts.objects.get(user_id=account_id)
         except Exception:
             return Response(
                 data={"message": "Account does not exists"},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        if "password" in account:
-            account_model.password = make_password(account["password"])
-        if "email" in account:
-            account_model.email = account["email"]
-        if "email" in account or "password" in account:
-            account_model.save()
+        # save new pw
+        account_model.password = make_password(account.data["password"])
+        account_model.save()
 
         account = AccountModelListSerializer(account_model)
 
@@ -136,8 +142,10 @@ class AccountSingle(APIView):
     )
     def delete(self, request, *args, **kwargs):
         """Delete account."""
+        account_id = kwargs["accountId"]
+
         try:
-            account = Accounts.objects.get(username=kwargs["username"])
+            account = Accounts.objects.get(user_id=account_id)
         except Exception:
             return Response(
                 data={"message": "Account does not exists"},
