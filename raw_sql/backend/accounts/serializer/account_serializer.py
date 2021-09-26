@@ -1,7 +1,7 @@
-from rest_framework import serializers
-
 from accounts.models import Accounts
+from django.contrib.auth.hashers import make_password
 from permissions.serializer.permission_serializer import PermissionModelSerializer
+from rest_framework import serializers
 
 
 class AccountModelListSerializer(serializers.HyperlinkedModelSerializer):
@@ -29,6 +29,11 @@ class AccountPermissionResponseSerializer(serializers.Serializer):
 
 class AccountModelSerializer(AccountModelListSerializer):
     password = serializers.CharField(max_length=50, required=True, min_length=1)
+
+    def create(self, validated_data):
+        validated_data.update({"password": make_password(validated_data.pop('password'))})
+        account = super().create(validated_data)
+        return account
 
     class Meta:
         model = Accounts
