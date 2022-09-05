@@ -1,5 +1,6 @@
-# lecture_ws_2021
-> Simple backend for showing different approaches to read and write into a database
+# Introduction
+Simple backend for showing different 
+approaches to read and write into a database
 
 ## Getting Started with Docker
 Start the backend without building it:
@@ -23,27 +24,23 @@ $ docker-compose -f local.yml down -v
 Install [anaconda](https://docs.anaconda.com/anaconda/install/mac-os/) for managing multiple environments. 
 After that create an environment:
 ````bash
-$ conda create -n lecture_ws_2021 python=3.9
+$ conda create -n lecture python=3.10
 ````
 Activate the environment:
 ````bash
-$ conda activate lecture_ws_2021
+$ conda activate lecture 
 ````
 Install python packages:
 ````bash
 $ pip install -r backend/requirements/local.txt
 ````
-Start the postgres:
-````bash
-$ docker-compose -f local.yml up db
-````
-Start the app:
+
 ````bash
 $ cd backend && python manage.py runserver
 ````
 Optional: Set up the environment in pycharm:
 ````bash
-$ Settings > Project: lecture_ws_2021 > Select env or add new one > 
+$ Settings > Project: database-first > Select env or add new one > 
 In case of adding a new env > select conda env > existing > ~/Users/Anaconda3/envs/lecture_ws_2021/python.exe
 ````
 

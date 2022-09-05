@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "health.apps.HealthConfig",
-    "db_first.apps.DbFirstConfig",
+    "accounts.apps.AccountsConfig",
+    "permissions.apps.PermissionsConfig",
+    "account_permissions.apps.AccountPermissionsConfig",
 ]
 
 MIDDLEWARE = [
@@ -140,6 +142,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # DATABASES = {
+# DATABASES = {
+# DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': BASE_DIR / 'db.sqlite3',
@@ -153,7 +157,7 @@ DATABASES = {
         "HOST": os.environ.get("DB_HOST", "localhost"),
         "PORT": os.environ.get("DB_PORT", "5432"),
         "TEST": {
-            "NAME": f"{os.environ.get('DB_NAME', 'postgres')}_test",
+            "NAME": "postgres_test",
         },
         "PASSWORD": os.environ.get("DB_PASSWORD", ""),
     }

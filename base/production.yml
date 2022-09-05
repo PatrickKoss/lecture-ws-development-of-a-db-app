@@ -12,6 +12,7 @@ services:
     container_name: backend_base_prod
     environment:
       - "DB_HOST=db"
+      - "DATABASE_SELECTION=postgresql"
     depends_on:
       - db
     ports:

@@ -17,6 +17,7 @@ services:
       - "DB_USER=db_first"
       - "DB_NAME=db_first"
       - "DB_PASSWORD=123456"
+      - "DATABASE_SELECTION=postgresql"
     depends_on:
       db:
         condition: service_healthy

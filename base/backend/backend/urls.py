@@ -1,10 +1,9 @@
 """Urls."""
 
 from django.conf import settings
-from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
@@ -30,17 +29,17 @@ urlpatterns += [
     path("help/<str:tipId>", help_views.HelpSingle.as_view(), name="help_single"),
 ]
 urlpatterns += [
-    url(
+    re_path(
         r"^swagger(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),
         name="schema-json",
     ),
-    url(
+    re_path(
         r"^swagger/$",
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
-    url(
+    re_path(
         r"^redoc/$", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"
     ),
     path("admin/", admin.site.urls),

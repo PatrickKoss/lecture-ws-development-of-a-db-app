@@ -1,6 +1,7 @@
 """Urls."""
 
-from db_first import views as db_first_views
+from account_permissions import views as account_permission_views
+from accounts import views as account_views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -8,6 +9,7 @@ from django.urls import path, re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from health import views as health_views
+from permissions import views as permission_views
 from rest_framework import permissions
 
 schema_view = get_schema_view(
@@ -24,11 +26,31 @@ schema_view = get_schema_view(
 )
 urlpatterns = static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += [
-    path("accounts", db_first_views.Account.as_view(), name="account"),
+    path("accounts", account_views.Account.as_view(), name="account"),
     path(
-        "accounts/<str:accountId>",
-        db_first_views.AccountSingle.as_view(),
+        "accounts/<str:username>",
+        account_views.AccountSingle.as_view(),
         name="account_single",
+    ),
+]
+urlpatterns += [
+    path("permissions", permission_views.Permission.as_view(), name="permission"),
+    path(
+        "permissions/<str:permission>",
+        permission_views.PermissionSingle.as_view(),
+        name="permission_single",
+    ),
+]
+urlpatterns += [
+    path(
+        "accounts/<str:username>/permissions",
+        account_permission_views.AccountPermission.as_view(),
+        name="account_permission",
+    ),
+    path(
+        "accounts/<str:username>/permissions/<str:permission>",
+        account_permission_views.AccountPermissionSingle.as_view(),
+        name="account_permission_single",
     ),
 ]
 urlpatterns += [

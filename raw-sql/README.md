@@ -1,6 +1,5 @@
 # Introduction
-Simple backend for showing different
-approaches to read and write into a database
+Simple backend for showing different approaches to read and write into a database
 
 ## Getting Started with Docker
 Start the backend without building it:
@@ -44,7 +43,7 @@ $ cd backend && python manage.py runserver
 ````
 Optional: Set up the environment in pycharm:
 ````bash
-$ Settings > Project: base > Select env or add new one > 
+$ Settings > Project: lecture_ws_2021 > Select env or add new one > 
 In case of adding a new env > select conda env > existing > ~/Users/Anaconda3/envs/lecture_ws_2021/python.exe
 ````
 
