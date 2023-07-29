@@ -11,10 +11,10 @@ services:
     image: backend_prod
     container_name: backend_base_prod
     environment:
-      - "DB_HOST=db"
+      - "DB_HOST=db_base"
       - "DATABASE_SELECTION=postgresql"
     depends_on:
-      - db
+      - db_base
     ports:
       - "127.0.0.1:8000:8000"
     privileged: true
