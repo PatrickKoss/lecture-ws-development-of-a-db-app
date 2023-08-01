@@ -38,3 +38,8 @@ server.port=8081
 ./gradlew bootJar
 java -jar build/libs/rest-simple-0.0.1-SNAPSHOT.jar
 ```
+
+2. Visit the swagger ui:
+```bash
+http://localhost:8081/swagger-ui/
+```
