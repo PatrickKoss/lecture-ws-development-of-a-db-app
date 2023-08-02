@@ -1,13 +1,21 @@
 package com.example.restsimple.model;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "student")
 public class Student {
-    public Student( String id, String mnr, String name, String lastName, LocalDateTime createdOn) {
+    public Student(String id, String mnr, String name, String lastName, LocalDateTime createdOn) {
         this.id = id;
         this.mnr = mnr;
         this.name = name;
@@ -16,13 +24,19 @@ public class Student {
     }
 
     @Id
+    @ApiModelProperty(hidden = true)
     @Column(name = "id", nullable = false)
     private String id;
 
+    @JsonProperty("martriclenumber")
+    @JsonAlias({"martriclenumber", "mnr"})
     @Column(name = "mnr", nullable = false)
+    @NotNull(message = "mnr is required")
     private String mnr;
 
     @Column(name = "name", nullable = false)
+    @Size(max = 10, message = "Name must not exceed 200 characters")
+    @NotNull(message = "Name is required")
     private String name;
 
     @Column(name = "last_name", nullable = false)

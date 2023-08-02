@@ -5,7 +5,9 @@ import com.example.restsimple.model.Student;
 import com.example.restsimple.repository.StudentRepository;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class StudentController {
@@ -22,12 +24,15 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public Student createStudent(@RequestBody Student student) {
+    public Student createStudent(@Valid @RequestBody Student student) {
+        String uuid = UUID.randomUUID().toString();
+        student.setId(uuid);
+
         return studentRepository.save(student);
     }
 
     @PutMapping("/students/{id}")
-    public Student updateStudent(@PathVariable String id, @RequestBody Student updatedStudent) {
+    public Student updateStudent(@Valid @PathVariable String id, @RequestBody Student updatedStudent) {
         return studentRepository.findById(id).map(student -> {
             student.setMnr(updatedStudent.getMnr());
             student.setName(updatedStudent.getName());
