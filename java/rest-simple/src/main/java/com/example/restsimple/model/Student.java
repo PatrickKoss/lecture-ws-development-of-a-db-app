@@ -2,14 +2,13 @@ package com.example.restsimple.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.repository.query.Param;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Table(name = "student")
@@ -21,13 +20,14 @@ public class Student {
         this.createdOn = createdOn;
     }
 
-    @Id
     @Column(name = "id", nullable = false)
     @NotNull(message = "id is required")
     private String id;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mnr", nullable = false)
-    private Integer mnr;
+    private String mnr;
 
     @Column(name = "name", nullable = false)
     @Size(max = 200, message = "Name must not exceed 200 characters")
@@ -50,7 +50,7 @@ public class Student {
         return id;
     }
 
-    public Integer getMnr() {
+    public String getMnr() {
         return mnr;
     }
 
@@ -70,7 +70,7 @@ public class Student {
         this.id = id;
     }
 
-    public void setMnr(Integer mnr) {
+    public void setMnr(String mnr) {
         this.mnr = mnr;
     }
 

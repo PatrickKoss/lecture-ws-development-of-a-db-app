@@ -9,14 +9,17 @@ import com.example.restsimple.response.ErrorResponse;
 import com.example.restsimple.response.StudentCreateResponse;
 import com.example.restsimple.response.StudentListResponse;
 import com.example.restsimple.response.StudentUpdateResponse;
+import com.example.restsimple.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,8 +30,11 @@ public class StudentController {
 
     private final StudentRepository studentRepository;
 
-    public StudentController(StudentRepository studentRepository) {
+    private final StudentService studentService;
+
+    public StudentController(StudentRepository studentRepository, StudentService studentService) {
         this.studentRepository = studentRepository;
+        this.studentService = studentService;
     }
 
     @GetMapping("/healthz")
@@ -79,14 +85,7 @@ public class StudentController {
                             schema = @Schema(implementation = ErrorResponse.class)))
     })
     public StudentUpdateResponse updateStudent(@Valid @PathVariable String id, @RequestBody StudentUpdateRequest updatedStudent) {
-        return studentRepository.findById(id).map(student -> {
-            student.setName(updatedStudent.getName());
-            student.setLastName(updatedStudent.getLastName());
-
-            Student updated = studentRepository.save(student);
-
-            return new StudentUpdateResponse(updated);
-        }).orElseThrow(() -> new ResourceNotFoundException("Student not found with id " + id));
+        return studentService.updateStudent(id, updatedStudent);
     }
 
     @DeleteMapping("/students/{id}")
@@ -98,12 +97,7 @@ public class StudentController {
     })
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public ResponseEntity deleteStudent(@PathVariable String id) {
-        if (!studentRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Student not found with id " + id);
-        }
-
-        studentRepository.deleteById(id);
-
+        studentService.deleteByIdColumn(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

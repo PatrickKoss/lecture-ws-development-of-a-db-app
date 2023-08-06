@@ -1,6 +1,8 @@
 package com.example.restsimple.exception;
 
+import com.example.restsimple.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +19,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        // Here, you can process the errors as you wish and build a message
         String message = ex.getBindingResult()
                 .getAllErrors().stream()
                 .map(ObjectError::getDefaultMessage)
@@ -27,5 +28,12 @@ public class GlobalExceptionHandler {
         responseBody.put("message", message);
 
         return responseBody;
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }
