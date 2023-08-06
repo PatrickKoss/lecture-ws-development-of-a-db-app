@@ -2,7 +2,7 @@ package com.example.restsimple.controller;
 
 import com.example.restsimple.exception.ResourceNotFoundException;
 import com.example.restsimple.model.Student;
-import com.example.restsimple.repository.StudentRepository;
+import com.example.restsimple.repository.UpdateStudent;
 import com.example.restsimple.request.StudentCreateRequest;
 import com.example.restsimple.request.StudentUpdateRequest;
 import com.example.restsimple.response.ErrorResponse;
@@ -14,12 +14,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,12 +26,9 @@ import java.util.UUID;
 @RestController
 public class StudentController {
 
-    private final StudentRepository studentRepository;
-
     private final StudentService studentService;
 
-    public StudentController(StudentRepository studentRepository, StudentService studentService) {
-        this.studentRepository = studentRepository;
+    public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
 
@@ -48,7 +43,7 @@ public class StudentController {
                     content = @Content(schema = @Schema(implementation = StudentListResponse.class))),
     })
     public StudentListResponse getAllStudents() {
-        List<Student> students = studentRepository.findAll();
+        List<Student> students = studentService.getAllStudents();
 
         return new StudentListResponse(students);
     }
@@ -67,10 +62,9 @@ public class StudentController {
         LocalDateTime createdOn = LocalDateTime.now();
 
         Student studentToCreate = new Student(uuid, student.getName(), student.getLastName(), createdOn);
+        Student studentCreated = studentService.createStudent(studentToCreate);
 
-        studentToCreate = studentRepository.save(studentToCreate);
-
-        return new ResponseEntity<>(new StudentCreateResponse(studentToCreate), HttpStatus.CREATED);
+        return new ResponseEntity<>(new StudentCreateResponse(studentCreated), HttpStatus.CREATED);
     }
 
     @PutMapping("/students/{id}")
@@ -85,7 +79,10 @@ public class StudentController {
                             schema = @Schema(implementation = ErrorResponse.class)))
     })
     public StudentUpdateResponse updateStudent(@Valid @PathVariable String id, @RequestBody StudentUpdateRequest updatedStudent) {
-        return studentService.updateStudent(id, updatedStudent);
+        Student student = studentService.updateStudent(id, new UpdateStudent(updatedStudent.getName(), updatedStudent.getLastName()))
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id " + id));
+
+        return new StudentUpdateResponse(student);
     }
 
     @DeleteMapping("/students/{id}")
@@ -97,7 +94,9 @@ public class StudentController {
     })
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public ResponseEntity deleteStudent(@PathVariable String id) {
-        studentService.deleteByIdColumn(id);
+        studentService.deleteStudent(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id " + id));
+
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

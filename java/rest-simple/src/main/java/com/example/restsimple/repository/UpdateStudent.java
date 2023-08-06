@@ -1,9 +1,9 @@
-package com.example.restsimple.request;
+package com.example.restsimple.repository;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class StudentCreateRequest {
+public class UpdateStudent {
     @NotNull(message = "name is required")
     @Size(max = 200, message = "name must not exceed 200 characters")
     protected String name;
@@ -11,10 +11,10 @@ public class StudentCreateRequest {
     @Size(max = 200, message = "lastName must not exceed 200 characters")
     protected String lastName;
 
-    public StudentCreateRequest() {
+    public UpdateStudent() {
     }
 
-    public StudentCreateRequest(String name, String lastName) {
+    public UpdateStudent(String name, String lastName) {
         this.name = name;
         this.lastName = lastName;
     }
