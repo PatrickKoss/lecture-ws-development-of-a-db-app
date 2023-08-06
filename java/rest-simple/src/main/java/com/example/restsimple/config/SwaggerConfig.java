@@ -14,8 +14,9 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .useDefaultResponseMessages(false) // Suppress default responses
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.restsimple.controller"))  // specify the base package of your controllers
+                .apis(RequestHandlerSelectors.basePackage("com.example.restsimple.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

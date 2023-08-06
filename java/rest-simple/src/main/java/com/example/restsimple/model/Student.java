@@ -2,7 +2,6 @@ package com.example.restsimple.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,34 +14,32 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "student")
 public class Student {
-    public Student(String id, String mnr, String name, String lastName, LocalDateTime createdOn) {
+    public Student(String id, String name, String lastName, LocalDateTime createdOn) {
         this.id = id;
-        this.mnr = mnr;
         this.name = name;
         this.lastName = lastName;
         this.createdOn = createdOn;
     }
 
     @Id
-    @ApiModelProperty(hidden = true)
     @Column(name = "id", nullable = false)
+    @NotNull(message = "id is required")
     private String id;
 
-    @JsonProperty("martriclenumber")
-    @JsonAlias({"martriclenumber", "mnr"})
     @Column(name = "mnr", nullable = false)
-    @NotNull(message = "mnr is required")
-    private String mnr;
+    private Integer mnr;
 
     @Column(name = "name", nullable = false)
-    @Size(max = 10, message = "Name must not exceed 200 characters")
-    @NotNull(message = "Name is required")
+    @Size(max = 200, message = "Name must not exceed 200 characters")
+    @NotNull(message = "name is required")
     private String name;
 
     @Column(name = "last_name", nullable = false)
+    @NotNull(message = "lastName is required")
     private String lastName;
 
     @Column(name = "created_on", nullable = false)
+    @NotNull(message = "created is required")
     private LocalDateTime createdOn;
 
     public Student() {
@@ -53,7 +50,7 @@ public class Student {
         return id;
     }
 
-    public String getMnr() {
+    public Integer getMnr() {
         return mnr;
     }
 
@@ -73,7 +70,7 @@ public class Student {
         this.id = id;
     }
 
-    public void setMnr(String mnr) {
+    public void setMnr(Integer mnr) {
         this.mnr = mnr;
     }
 
