@@ -25,6 +25,8 @@ dependencies {
     implementation("com.github.gwenn:sqlite-dialect:0.1.1")
     implementation("javax.validation:validation-api:2.0.1.Final")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    testImplementation("junit:junit:4.13.1")
+    testImplementation("junit:junit:4.13.1")
     runtimeOnly("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("io.springfox:springfox-boot-starter:3.0.0")
