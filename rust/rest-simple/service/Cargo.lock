@@ -263,6 +263,7 @@ dependencies = [
  "async-trait",
  "chrono",
  "sqlx",
+ "thiserror",
  "tokio",
  "validator",
  "validator_derive",

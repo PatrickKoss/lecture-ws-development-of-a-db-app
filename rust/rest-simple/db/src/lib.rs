@@ -105,7 +105,7 @@ impl StudentRepository for SqliteStudentRepository {
             .bind(&student.id)
             .bind(&student.name)
             .bind(&student.last_name)
-            .bind(&student.created_on)
+            .bind(student.created_on)
             .fetch_one(&self.pool)
             .await?;
 

@@ -70,6 +70,6 @@ impl From<anyhow::Error> for ApiError {
         e.downcast::<ValidationErrors>()
             .map(ApiError::ValidationError)
             .or_else(|e| e.downcast::<DbError>().map(ApiError::DbError))
-            .unwrap_or_else(|e| ApiError::InternalError(e))
+            .unwrap_or_else(ApiError::InternalError)
     }
 }
