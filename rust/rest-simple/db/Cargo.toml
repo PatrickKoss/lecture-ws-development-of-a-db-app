@@ -1,0 +1,19 @@
+[package]
+name = "db"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.75"
+async-trait = "0.1.73"
+chrono = "0.4.26"
+sqlx = { version = "0.7.1", features = ["runtime-tokio", "sqlite", "chrono"] }
+thiserror = "1.0.47"
+tokio = { version = "1.32.0", features = ["full"] }
+validator = "0.16.1"
+validator_derive = "0.16.0"
+
+[dev-dependencies]
+sqlx = { version = "0.7.1", features = ["sqlite", "macros", "runtime-tokio-rustls"] }
