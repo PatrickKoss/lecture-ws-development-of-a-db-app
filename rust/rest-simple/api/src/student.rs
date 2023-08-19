@@ -1,16 +1,12 @@
-use actix_web::{
-    delete, get, HttpResponse, post,
-    put,
-    Responder, web::{Data, Path, ServiceConfig},
-};
+use actix_web::{delete, get, HttpResponse, post, put, web::{Data, Path, ServiceConfig}};
 use actix_web::web::Json;
 use db::UpdateStudent;
 use serde::{Deserialize, Serialize};
 use service::StudentService;
 use utoipa::ToSchema;
 use uuid::Uuid;
-use validator::ValidationErrors;
-use db::DbError;
+use crate::error::ApiError;
+use crate::domain::{ErrorResponse, MessageResponse};
 
 pub(super) fn configure(student_service: Data<Box<dyn StudentService>>) -> impl FnOnce(&mut ServiceConfig) {
     |config: &mut ServiceConfig| {
@@ -21,17 +17,6 @@ pub(super) fn configure(student_service: Data<Box<dyn StudentService>>) -> impl 
             .service(put_students)
             .service(delete_student);
     }
-}
-
-#[derive(Serialize, Deserialize, Clone, ToSchema)]
-pub(super) struct ErrorResponse {
-    message: String,
-    error: String,
-}
-
-#[derive(Serialize, Deserialize, Clone, ToSchema)]
-pub(super) struct MessageResponse {
-    message: String,
 }
 
 #[derive(Serialize, Deserialize, Clone, ToSchema)]
@@ -109,14 +94,11 @@ responses(
 )
 )]
 #[get("/students")]
-pub(super) async fn list_students(student_service: Data<Box<dyn StudentService>>) -> impl Responder {
-    student_service.all().await
-        .map(|db_students| {
-            let api_students: Vec<Student> = db_students.into_iter().map(Student::from).collect();
-            HttpResponse::Ok().json(ListStudentsResponse { students: api_students })
-        })
-        .map_err(|e| HttpResponse::InternalServerError().json(ErrorResponse { message: String::from("internal server error"), error: e.to_string() }))
-        .unwrap_or_else(|e| e)
+pub(super) async fn list_students(student_service: Data<Box<dyn StudentService>>) -> Result<HttpResponse, ApiError> {
+    let db_students = student_service.all().await?;
+    let api_students: Vec<Student> = db_students.into_iter().map(Student::from).collect();
+
+    Ok(HttpResponse::Ok().json(ListStudentsResponse { students: api_students }))
 }
 
 #[utoipa::path(
@@ -127,7 +109,7 @@ responses(
 )
 )]
 #[post("/students")]
-pub(super) async fn create_student(student_service: Data<Box<dyn StudentService>>, create_student: Json<CreateStudentRequest>) -> impl Responder {
+pub(super) async fn create_student(student_service: Data<Box<dyn StudentService>>, create_student: Json<CreateStudentRequest>) -> Result<HttpResponse, ApiError> {
     let new_student = db::NewStudent {
         id: Uuid::new_v4().to_string(),
         name: create_student.name.clone(),
@@ -135,26 +117,10 @@ pub(super) async fn create_student(student_service: Data<Box<dyn StudentService>
         created_on: chrono::offset::Utc::now().naive_utc(),
     };
 
-    student_service.create(&new_student).await
-        .map(|db_student| {
-            let api_student = Student::from(db_student);
-            HttpResponse::Ok().json(CreateStudentResponse { student: api_student })
-        })
-        .map_err(|err| {
-            if let Some(validation_err) = err.downcast_ref::<ValidationErrors>() {
-                HttpResponse::BadRequest().json(ErrorResponse {
-                    message: String::from("Validation failed"),
-                    error: format!("{:?}", validation_err),
-                })
-            } else {
-                // Handle other errors as you see fit
-                HttpResponse::InternalServerError().json(ErrorResponse {
-                    message: String::from("Internal server error"),
-                    error: format!("{:?}", err),
-                })
-            }
-        })
-        .unwrap_or_else(|e| e)
+    let db_student = student_service.create(&new_student).await?;
+    let api_student = Student::from(db_student);
+
+    Ok(HttpResponse::Ok().json(CreateStudentResponse { student: api_student }))
 }
 
 #[utoipa::path(
@@ -168,38 +134,19 @@ params(
 ),
 )]
 #[put("/students/{id}")]
-pub(super) async fn put_students(id: Path<String>, student_service: Data<Box<dyn StudentService>>, update_student: Json<UpdateStudentRequest>) -> impl Responder {
-    student_service.update(id.as_str(), &UpdateStudent { last_name: update_student.last_name.clone(), name: update_student.name.clone() }).await
-        .map(|db_student| {
-            let api_student = Student::from(db_student);
-            HttpResponse::Ok().json(UpdateStudentResponse { student: api_student })
-        })
-        .map_err(|err| {
-            if let Some(validation_err) = err.downcast_ref::<ValidationErrors>() {
-                HttpResponse::BadRequest().json(ErrorResponse {
-                    message: String::from("Validation failed"),
-                    error: format!("{:?}", validation_err),
-                })
-            }
-            else if let Some(not_found_err) = err.downcast_ref::<DbError>() {
-                if matches!(*not_found_err, DbError::NotFound) {
-                    HttpResponse::NotFound().json(MessageResponse {
-                        message: String::from("Not Found"),
-                    })
-                } else {
-                    HttpResponse::InternalServerError().json(MessageResponse {
-                        message: String::from("Internal server error"),
-                    })
-                }
-            }
-            else {
-                HttpResponse::InternalServerError().json(ErrorResponse {
-                    message: String::from("Internal server error"),
-                    error: format!("{:?}", err),
-                })
-            }
-        })
-        .unwrap_or_else(|e| e)
+pub(super) async fn put_students(id: Path<String>, student_service: Data<Box<dyn StudentService>>, update_student: Json<UpdateStudentRequest>) -> Result<HttpResponse, ApiError> {
+    let db_student = student_service
+        .update(
+            id.as_str(),
+            &UpdateStudent {
+                last_name: update_student.last_name.clone(),
+                name: update_student.name.clone(),
+            },
+        )
+        .await?;
+    let api_student = Student::from(db_student);
+
+    Ok(HttpResponse::Ok().json(UpdateStudentResponse { student: api_student }))
 }
 
 #[utoipa::path(
@@ -212,27 +159,8 @@ params(
 ),
 )]
 #[delete("/students/{id}")]
-pub(super) async fn delete_student(id: Path<String>, student_service: Data<Box<dyn StudentService>>) -> impl Responder {
-    student_service.delete(id.as_str()).await
-        .map(|_| HttpResponse::NoContent().finish())
-        .map_err(|err| {
-            if let Some(not_found_err) = err.downcast_ref::<DbError>() {
-                if matches!(*not_found_err, DbError::NotFound) {
-                    HttpResponse::NotFound().json(MessageResponse {
-                        message: String::from("Not Found"),
-                    })
-                } else {
-                    HttpResponse::InternalServerError().json(MessageResponse {
-                        message: String::from("Internal server error"),
-                    })
-                }
-            }
-            else {
-                HttpResponse::InternalServerError().json(ErrorResponse {
-                    message: String::from("Internal server error"),
-                    error: format!("{:?}", err),
-                })
-            }
-        })
-        .unwrap_or_else(|e| e)
+pub(super) async fn delete_student(id: Path<String>, student_service: Data<Box<dyn StudentService>>) -> Result<HttpResponse, ApiError> {
+    student_service.delete(id.as_str()).await?;
+
+    Ok(HttpResponse::NoContent().finish())
 }

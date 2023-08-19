@@ -21,6 +21,7 @@ service = { path = "../service"}
 db = { path = "../db"}
 chrono = "0.4.26"
 validator = "0.16.1"
+futures-util = "0.3.28"
 
 [dependencies.uuid]
 version = "1.4.1"

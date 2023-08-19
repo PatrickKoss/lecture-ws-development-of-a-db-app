@@ -3,21 +3,18 @@ use std::{
     net::Ipv4Addr,
 };
 
-use actix_web::{
-    App,
-    dev::{Service, Transform},
-    HttpServer, middleware::Logger,
-};
+use actix_web::{App, HttpServer, middleware::Logger};
 use actix_web::web::Data;
-use utoipa::{
-    OpenApi,
-};
+use db::{DbError, SqliteStudentRepository};
+use service::{StudentService, StudentServiceImpl};
+use utoipa::OpenApi;
 use utoipa_rapidoc::RapiDoc;
 use utoipa_swagger_ui::SwaggerUi;
-use service::{StudentService, StudentServiceImpl};
-use db::SqliteStudentRepository;
+use validator::ValidationErrors;
 
-mod students;
+mod student;
+mod error;
+mod domain;
 
 #[actix_web::main]
 async fn main() -> Result<(), impl Error> {
@@ -26,13 +23,13 @@ async fn main() -> Result<(), impl Error> {
     #[derive(OpenApi)]
     #[openapi(
     paths(
-    students::list_students,
-    students::create_student,
-    students::put_students,
-    students::delete_student
+    student::list_students,
+    student::create_student,
+    student::put_students,
+    student::delete_student
     ),
     components(
-    schemas(students::Student, students::ListStudentsResponse, students::CreateStudentRequest, students::CreateStudentResponse, students::UpdateStudentRequest, students::UpdateStudentResponse, students::ErrorResponse)
+    schemas(student::Student, student::ListStudentsResponse, student::CreateStudentRequest, student::CreateStudentResponse, student::UpdateStudentRequest, student::UpdateStudentResponse, domain::ErrorResponse, domain::MessageResponse)
     ),
     tags(
     (name = "students", description = "Student management endpoints.")
@@ -51,7 +48,7 @@ async fn main() -> Result<(), impl Error> {
         // This factory closure is called on each worker thread independently.
         App::new()
             .wrap(Logger::default())
-            .configure(students::configure(student_service_data.clone()))
+            .configure(student::configure(student_service_data.clone()))
             .service(
                 SwaggerUi::new("/swagger-ui/{_:.*}").url("/api-docs/openapi.json", openapi.clone()),
             )
@@ -60,4 +57,24 @@ async fn main() -> Result<(), impl Error> {
         .bind((Ipv4Addr::UNSPECIFIED, 8081))?
         .run()
         .await
+}
+
+#[derive(Debug)]
+pub enum ServiceError {
+    Validation(ValidationErrors),
+    NotFound,
+    DbError(DbError),
+    Unknown(anyhow::Error),
+}
+
+impl From<ValidationErrors> for ServiceError {
+    fn from(err: ValidationErrors) -> Self {
+        ServiceError::Validation(err)
+    }
+}
+
+impl From<DbError> for ServiceError {
+    fn from(err: DbError) -> Self {
+        ServiceError::DbError(err)
+    }
 }
