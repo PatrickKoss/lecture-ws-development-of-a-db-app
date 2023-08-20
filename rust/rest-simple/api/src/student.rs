@@ -7,6 +7,8 @@ use utoipa::ToSchema;
 use uuid::Uuid;
 use crate::error::ApiError;
 use crate::domain::{ErrorResponse, MessageResponse};
+#[cfg(test)]
+use mockall::{mock, predicate::*};
 
 pub(super) fn configure(student_service: Data<Box<dyn StudentService>>) -> impl FnOnce(&mut ServiceConfig) {
     |config: &mut ServiceConfig| {
@@ -163,4 +165,211 @@ pub(super) async fn delete_student(id: Path<String>, student_service: Data<Box<d
     student_service.delete(id.as_str()).await?;
 
     Ok(HttpResponse::NoContent().finish())
+}
+
+#[cfg(test)]
+mod tests {
+    use actix_web::test;
+    use super::*;
+    use anyhow::Result;
+    use async_trait::async_trait;
+    use actix_web::App;
+    use mockall::predicate;
+
+    mock! {
+        Service {}
+        #[async_trait]
+        impl service::StudentService for Service {
+            async fn all(&self) -> Result<Vec<db::Student>>;
+            async fn get(&self, id: &str) -> Result<db::Student>;
+            async fn create(&self, student: &db::NewStudent) -> Result<db::Student>;
+            async fn update(&self, id: &str, student: &db::UpdateStudent) -> Result<db::Student>;
+            async fn delete(&self, id: &str) -> Result<db::Student>;
+        }
+    }
+
+    #[actix_web::test]
+    async fn test_list_students() {
+        let mut mock_service = MockService::new();
+
+        mock_service.expect_all()
+            .times(1)
+            .returning(|| Ok(vec![db::Student {
+                id: String::from("14322988-32fe-447c-ac38-06fb6c699b4a"),
+                name: String::from("John"),
+                mnr: 1,
+                created_on: String::from("2021-01-01T00:00:00Z"),
+                last_name: String::from("Doe"),
+            }]));
+
+        let student_service_data = Data::new(Box::new(mock_service) as Box<dyn StudentService>);
+
+        let mut app = test::init_service(
+            App::new().configure(configure(student_service_data.clone()))
+        ).await;
+
+        let req = test::TestRequest::get().uri("/students").to_request();
+        let resp = test::call_service(&mut app, req).await;
+
+        assert!(resp.status().is_success());
+    }
+
+    #[actix_web::test]
+    async fn test_create_student() {
+        let mut mock_service = MockService::new();
+
+        let new_student = db::NewStudent {
+            created_on: String::from("2021-01-01T00:00:00Z"),
+            id: String::from("new-id"),
+            name: String::from("John"),
+            last_name: String::from("Doe"),
+        };
+        let new_student_test = new_student.clone();
+        mock_service.expect_create()
+            .times(1)
+            .returning(move |_| Ok(db::Student {
+                id: String::from("new-id"),
+                name: new_student_test.name.clone(),
+                created_on: new_student_test.created_on.clone(),
+                last_name: new_student_test.last_name.clone(),
+                mnr: 1,
+            }));
+
+        let student_service_data = Data::new(Box::new(mock_service) as Box<dyn StudentService>);
+
+        let mut app = test::init_service(
+            App::new().configure(configure(student_service_data.clone()))
+        ).await;
+
+        let student = CreateStudentRequest {
+            name: "John".to_string(),
+            last_name: "Doe".to_string(),
+        };
+
+        let req = test::TestRequest::post()
+            .uri("/students")
+            .set_json(&student)
+            .to_request();
+
+        let resp = test::call_service(&mut app, req).await;
+
+        assert!(resp.status().is_success());
+
+        let body = test::read_body(resp).await;
+
+        let returned_student: CreateStudentResponse = serde_json::from_slice(&body).unwrap();
+
+        let expected_student = db::Student {
+            id: String::from("new-id"),
+            name: String::from("John"),
+            last_name: String::from("Doe"),
+            created_on: String::from("2021-01-01T00:00:00Z"),
+            mnr: 1,
+        };
+        assert_eq!(returned_student.student.id, expected_student.id);
+        assert_eq!(returned_student.student.name, expected_student.name);
+        assert_eq!(returned_student.student.last_name, expected_student.last_name);
+        assert_eq!(returned_student.student.created_on, expected_student.created_on);
+    }
+
+    #[actix_web::test]
+    async fn test_update_student() {
+        let mut mock_service = MockService::new();
+
+        let student_id = "some-id";
+        let update_request = UpdateStudentRequest {
+            name: "UpdatedJohn".to_string(),
+            last_name: "UpdatedDoe".to_string(),
+        };
+        let updated_student = db::UpdateStudent {
+            name: update_request.name.clone(),
+            last_name: update_request.last_name.clone(),
+        };
+        let updated_student_test = updated_student.clone();
+        let updated_student_test_predicate = updated_student.clone();
+        mock_service.expect_update()
+            .with(predicate::eq(student_id), predicate::eq(updated_student_test_predicate))
+            .times(1)
+            .returning(move |_, _| Ok(db::Student {
+                id: student_id.clone().to_string(),
+                name: updated_student_test.name.clone(),
+                last_name: updated_student_test.last_name.clone(),
+                created_on: String::from("2021-01-01T00:00:00Z"),
+                mnr: 1,
+            }));
+
+        let student_service_data = Data::new(Box::new(mock_service) as Box<dyn StudentService>);
+
+        let mut app = test::init_service(
+            App::new().configure(configure(student_service_data.clone()))
+        ).await;
+
+        let req = test::TestRequest::put()
+            .uri(&format!("/students/{}", student_id))
+            .set_json(&update_request)
+            .to_request();
+
+        let resp = test::call_service(&mut app, req).await;
+
+        assert!(resp.status().is_success());
+
+        let body = test::read_body(resp).await;
+        let returned_student: UpdateStudentResponse = serde_json::from_slice(&body).unwrap();
+
+        assert_eq!(returned_student.student.name, update_request.name);
+        assert_eq!(returned_student.student.last_name, update_request.last_name);
+    }
+
+    #[actix_web::test]
+    async fn test_delete_student() {
+        let mut mock_service = MockService::new();
+
+        let student_id = "some-id";
+        mock_service.expect_delete()
+            .with(predicate::eq(student_id))
+            .times(1)
+            .returning(|_| Ok(db::Student {
+                id: student_id.to_string(),
+                name: String::from("John"),
+                last_name: String::from("Doe"),
+                created_on: String::from("2021-01-01T00:00:00Z"),
+                mnr: 1,
+            }));
+
+        let student_service_data = Data::new(Box::new(mock_service) as Box<dyn StudentService>);
+
+        let mut app = test::init_service(
+            App::new().configure(configure(student_service_data.clone()))
+        ).await;
+
+        let req = test::TestRequest::delete()
+            .uri(&format!("/students/{}", student_id))
+            .to_request();
+
+        let resp = test::call_service(&mut app, req).await;
+
+        assert!(resp.status().is_success());
+        assert_eq!(resp.status(), 204);
+    }
+
+    #[actix_web::test]
+    async fn test_delete_student_not_found() {
+        let mut mock_service = MockService::new();
+
+        // Set up the mock to return an error of type db::NotFound
+        mock_service.expect_delete()
+            .times(1)
+            .returning(|_| Err(anyhow::anyhow!(db::DbError::NotFound)));
+
+        let student_service_data = Data::new(Box::new(mock_service) as Box<dyn StudentService>);
+
+        let mut app = test::init_service(
+            App::new().configure(configure(student_service_data.clone()))
+        ).await;
+
+        let req = test::TestRequest::delete().uri("/students/some_id").to_request();
+        let resp = test::call_service(&mut app, req).await;
+
+        assert_eq!(resp.status(), 404);
+    }
 }

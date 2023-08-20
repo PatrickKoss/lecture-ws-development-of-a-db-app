@@ -14,7 +14,7 @@ pub enum DbError {
     SqlxError(#[from] sqlx::Error),
 }
 
-#[derive(Debug, FromRow)]
+#[derive(Debug, FromRow, PartialEq, Eq)]
 pub struct Student {
     pub id: String,
     pub mnr: i64,
@@ -41,7 +41,7 @@ pub trait StudentRepository {
     async fn delete(&self, id: &str) -> Result<Student>;
 }
 
-#[derive(Validate)]
+#[derive(Validate, Clone, PartialEq, Debug)]
 pub struct NewStudent {
     pub id: String,
     #[validate(length(min = 1, max = 200))]
@@ -51,7 +51,7 @@ pub struct NewStudent {
     pub created_on: String,
 }
 
-#[derive(Validate)]
+#[derive(Validate, Clone, PartialEq, Debug)]
 pub struct UpdateStudent {
     #[validate(length(min = 1, max = 200))]
     pub name: String,
