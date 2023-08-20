@@ -3,14 +3,15 @@ use std::{
     net::Ipv4Addr,
 };
 
-use actix_web::{App, HttpServer, middleware::Logger};
+use actix_web::{App, HttpResponse, HttpServer, middleware, web};
 use actix_web::web::Data;
-use db::{DbError, SqliteStudentRepository};
+use db::SqliteStudentRepository;
 use service::{StudentService, StudentServiceImpl};
 use utoipa::OpenApi;
 use utoipa_rapidoc::RapiDoc;
 use utoipa_swagger_ui::SwaggerUi;
-use validator::ValidationErrors;
+
+use crate::domain::MessageResponse;
 
 mod student;
 mod error;
@@ -18,7 +19,7 @@ mod domain;
 
 #[actix_web::main]
 async fn main() -> Result<(), impl Error> {
-    env_logger::init();
+    env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
     #[derive(OpenApi)]
     #[openapi(
@@ -47,34 +48,21 @@ async fn main() -> Result<(), impl Error> {
     HttpServer::new(move || {
         // This factory closure is called on each worker thread independently.
         App::new()
-            .wrap(Logger::default())
+            .wrap(middleware::Logger::default())
             .configure(student::configure(student_service_data.clone()))
             .service(
                 SwaggerUi::new("/swagger-ui/{_:.*}").url("/api-docs/openapi.json", openapi.clone()),
             )
             .service(RapiDoc::new("/api-docs/openapi.json").path("/rapidoc"))
+            .default_service(web::route().to(not_found))
     })
         .bind((Ipv4Addr::UNSPECIFIED, 8081))?
         .run()
         .await
 }
 
-#[derive(Debug)]
-pub enum ServiceError {
-    Validation(ValidationErrors),
-    NotFound,
-    DbError(DbError),
-    Unknown(anyhow::Error),
-}
-
-impl From<ValidationErrors> for ServiceError {
-    fn from(err: ValidationErrors) -> Self {
-        ServiceError::Validation(err)
-    }
-}
-
-impl From<DbError> for ServiceError {
-    fn from(err: DbError) -> Self {
-        ServiceError::DbError(err)
-    }
+async fn not_found() -> HttpResponse {
+    HttpResponse::NotFound().json(MessageResponse {
+        message: "not found".to_string(),
+    })
 }

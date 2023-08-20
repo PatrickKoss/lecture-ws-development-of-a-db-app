@@ -30,7 +30,7 @@ pub(super) struct Student {
     name: String,
     /// Matrikelnumber of the student
     #[schema(example = 1)]
-    mnr: i32,
+    mnr: i64,
     /// Date of creation
     #[schema(example = "2021-01-01T00:00:00Z")]
     created_on: String,
@@ -114,7 +114,7 @@ pub(super) async fn create_student(student_service: Data<Box<dyn StudentService>
         id: Uuid::new_v4().to_string(),
         name: create_student.name.clone(),
         last_name: create_student.last_name.clone(),
-        created_on: chrono::offset::Utc::now().naive_utc(),
+        created_on: chrono::offset::Utc::now().naive_utc().to_string(),
     };
 
     let db_student = student_service.create(&new_student).await?;

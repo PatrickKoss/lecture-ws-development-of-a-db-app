@@ -1,10 +1,9 @@
 use anyhow::Result;
 use async_trait::async_trait;
-use chrono::NaiveDateTime;
 use sqlx::FromRow;
+use sqlx::migrate;
 use sqlx::sqlite::SqlitePool;
 use validator_derive::Validate;
-use sqlx::migrate;
 
 #[derive(Debug, thiserror::Error)]
 pub enum DbError {
@@ -18,10 +17,10 @@ pub enum DbError {
 #[derive(Debug, FromRow)]
 pub struct Student {
     pub id: String,
-    pub mnr: i32,
+    pub mnr: i64,
     pub name: String,
     pub last_name: String,
-    pub created_on: NaiveDateTime,
+    pub created_on: String,
 }
 
 #[async_trait]
@@ -49,7 +48,7 @@ pub struct NewStudent {
     pub name: String,
     #[validate(length(min = 1, max = 200))]
     pub last_name: String,
-    pub created_on: NaiveDateTime,
+    pub created_on: String,
 }
 
 #[derive(Validate)]
@@ -78,9 +77,7 @@ impl SqliteStudentRepository {
 #[async_trait]
 impl StudentRepository for SqliteStudentRepository {
     async fn all(&self) -> Result<Vec<Student>> {
-        let students = sqlx::query_as::<_, Student>(
-            "SELECT * FROM student"
-        )
+        let students = sqlx::query_as!(Student, "SELECT * FROM student")
             .fetch_all(&self.pool)
             .await?;
 
@@ -88,10 +85,7 @@ impl StudentRepository for SqliteStudentRepository {
     }
 
     async fn get(&self, id: &str) -> Result<Student> {
-        let student = sqlx::query_as::<_, Student>(
-            "SELECT * FROM student WHERE id = ?"
-        )
-            .bind(id)
+        let student = sqlx::query_as!(Student, "SELECT * FROM student WHERE id = ?", id)
             .fetch_one(&self.pool)
             .await?;
 
@@ -99,26 +93,23 @@ impl StudentRepository for SqliteStudentRepository {
     }
 
     async fn create(&self, student: &NewStudent) -> Result<Student> {
-        let student = sqlx::query_as::<_, Student>(
-            "INSERT INTO student (id, name, last_name, created_on) VALUES (?, ?, ?, ?) RETURNING *"
-        )
-            .bind(&student.id)
-            .bind(&student.name)
-            .bind(&student.last_name)
-            .bind(student.created_on)
+        let new_student = sqlx::query_as!(
+        Student,
+        "INSERT INTO student (id, name, last_name, created_on) VALUES ($1, $2, $3, $4) RETURNING *",
+        student.id, student.name, student.last_name, student.created_on
+    )
             .fetch_one(&self.pool)
             .await?;
 
-        Ok(student)
+        Ok(new_student)
     }
 
     async fn update(&self, id: &str, student: &UpdateStudent) -> Result<Student> {
-        let updated_student = sqlx::query_as::<_, Student>(
-            "UPDATE student SET name = ?, last_name = ? WHERE id = ? RETURNING *"
+        let updated_student = sqlx::query_as!(
+            Student,
+            "UPDATE student SET name = $1, last_name = $2 WHERE id = $3 RETURNING *",
+            student.name, student.last_name, id
         )
-            .bind(&student.name)
-            .bind(&student.last_name)
-            .bind(id)
             .fetch_one(&self.pool)
             .await
             .map_err(|e| {
@@ -132,10 +123,7 @@ impl StudentRepository for SqliteStudentRepository {
     }
 
     async fn delete(&self, id: &str) -> Result<Student> {
-        let deleted_student = sqlx::query_as::<_, Student>(
-            "DELETE FROM student WHERE id = ? RETURNING *"
-        )
-            .bind(id)
+        let deleted_student = sqlx::query_as!(Student, "DELETE FROM student WHERE id = ? RETURNING *", id)
             .fetch_one(&self.pool)
             .await
             .map_err(|e| {
