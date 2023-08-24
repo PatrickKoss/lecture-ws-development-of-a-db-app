@@ -1,0 +1,4 @@
+local:
+  dialect: sqlite3
+  datasource: students.db
+  dir: internal/adapter/repository/sqlboiler/migrations
