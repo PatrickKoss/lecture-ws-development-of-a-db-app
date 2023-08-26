@@ -1,6 +1,10 @@
 package api_test
 
 import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
 	"github.com/PatrickKoss/rest-simple/internal/adapter/api"
 	metrics_collector "github.com/PatrickKoss/rest-simple/internal/adapter/metrics"
 	mock_metrics_collector "github.com/PatrickKoss/rest-simple/internal/adapter/metrics/mock"
@@ -8,9 +12,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
 	"go.uber.org/zap"
-	"net/http"
-	"net/http/httptest"
-	"testing"
 )
 
 func TestApi(t *testing.T) {

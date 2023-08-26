@@ -1,11 +1,11 @@
 package middleware_test
 
 import (
-	"github.com/PatrickKoss/rest-simple/internal/adapter/api/middleware"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
+	"github.com/PatrickKoss/rest-simple/internal/adapter/api/middleware"
 	metrics_collector "github.com/PatrickKoss/rest-simple/internal/adapter/metrics"
 	mock_metrics_collector "github.com/PatrickKoss/rest-simple/internal/adapter/metrics/mock"
 	"github.com/gofiber/fiber/v2"
@@ -49,17 +49,4 @@ func setupTestMetrics(collector metrics_collector.HttpApiMetrics) *fiber.App {
 	})
 
 	return app
-}
-
-func getTestMockMetricsCollector(ctrl *gomock.Controller) metrics_collector.HttpApiMetrics {
-	metricsCollector := mock_metrics_collector.NewMockHttpApiMetrics(ctrl)
-
-	metricsCollector.EXPECT().CollectRequest(gomock.Any(), gomock.Any(), gomock.Any()).AnyTimes()
-	metricsCollector.EXPECT().CollectTotalRequests().AnyTimes()
-	metricsCollector.EXPECT().CollectRequestResponseSize(gomock.Any(), gomock.Any(), gomock.Any()).AnyTimes()
-	metricsCollector.EXPECT().CollectRequestDuration(gomock.Any(), gomock.Any(), gomock.Any()).AnyTimes()
-	metricsCollector.EXPECT().Collect400TotalRequests().AnyTimes()
-	metricsCollector.EXPECT().Collect500TotalRequests().AnyTimes()
-
-	return metricsCollector
 }

@@ -4,15 +4,16 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+	"time"
+
 	"github.com/PatrickKoss/rest-simple/internal/core"
 	"github.com/PatrickKoss/rest-simple/internal/service"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
-	"net/http"
-	"net/http/httptest"
-	"testing"
-	"time"
 )
 
 func TestCreateStudent(t *testing.T) {
@@ -43,7 +44,7 @@ func TestCreateStudent(t *testing.T) {
 
 	resp, err := app.Test(req)
 	assert.NoError(t, err)
-	assert.Equal(t, http.StatusOK, resp.StatusCode)
+	assert.Equal(t, http.StatusCreated, resp.StatusCode)
 
 	var student core.Student
 	err = json.NewDecoder(resp.Body).Decode(&student)

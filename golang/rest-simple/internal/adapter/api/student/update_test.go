@@ -4,14 +4,15 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
 	"github.com/PatrickKoss/rest-simple/internal/adapter/repository"
 	"github.com/PatrickKoss/rest-simple/internal/core"
 	"github.com/PatrickKoss/rest-simple/internal/service"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
-	"net/http"
-	"net/http/httptest"
-	"testing"
 )
 
 func TestUpdateStudent(t *testing.T) {

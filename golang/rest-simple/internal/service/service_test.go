@@ -1,7 +1,6 @@
 package service
 
 import (
-	"go.uber.org/mock/gomock"
 	"testing"
 	"time"
 
@@ -9,9 +8,12 @@ import (
 	"github.com/PatrickKoss/rest-simple/internal/core"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/mock/gomock"
 )
 
 func TestStudentService_All(t *testing.T) {
+	t.Parallel()
+
 	ctrl := gomock.NewController(t)
 	mockRepo := repository_mock.NewMockStudentRepository(ctrl)
 	validator := core.NewStudentValidator()
@@ -29,6 +31,8 @@ func TestStudentService_All(t *testing.T) {
 }
 
 func TestStudentService_Create_ValidStudent(t *testing.T) {
+	t.Parallel()
+
 	ctrl := gomock.NewController(t)
 	mockRepo := repository_mock.NewMockStudentRepository(ctrl)
 	validator := core.NewStudentValidator()
@@ -45,6 +49,8 @@ func TestStudentService_Create_ValidStudent(t *testing.T) {
 }
 
 func TestStudentService_Create_InvalidStudent(t *testing.T) {
+	t.Parallel()
+
 	ctrl := gomock.NewController(t)
 	mockRepo := repository_mock.NewMockStudentRepository(ctrl)
 	validator := core.NewStudentValidator()
@@ -58,6 +64,8 @@ func TestStudentService_Create_InvalidStudent(t *testing.T) {
 }
 
 func TestStudentService_Update_ValidStudent(t *testing.T) {
+	t.Parallel()
+
 	ctrl := gomock.NewController(t)
 	mockRepo := repository_mock.NewMockStudentRepository(ctrl)
 	validator := core.NewStudentValidator()
@@ -76,6 +84,8 @@ func TestStudentService_Update_ValidStudent(t *testing.T) {
 }
 
 func TestStudentService_Update_InvalidStudent(t *testing.T) {
+	t.Parallel()
+
 	ctrl := gomock.NewController(t)
 	mockRepo := repository_mock.NewMockStudentRepository(ctrl)
 	validator := core.NewStudentValidator()
@@ -89,6 +99,8 @@ func TestStudentService_Update_InvalidStudent(t *testing.T) {
 }
 
 func TestStudentService_Delete(t *testing.T) {
+	t.Parallel()
+
 	ctrl := gomock.NewController(t)
 	mockRepo := repository_mock.NewMockStudentRepository(ctrl)
 	validator := core.NewStudentValidator()

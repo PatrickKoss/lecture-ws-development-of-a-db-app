@@ -4,21 +4,24 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
+	_ "github.com/PatrickKoss/rest-simple/api"
 	"github.com/PatrickKoss/rest-simple/internal/adapter/api/middleware"
 	"github.com/PatrickKoss/rest-simple/internal/adapter/api/student"
 	"github.com/PatrickKoss/rest-simple/internal/adapter/metrics"
 	"github.com/PatrickKoss/rest-simple/internal/service"
+	swagger "github.com/arsmn/fiber-swagger/v2"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/helmet"
 	fiberlogger "github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/pprof"
 	fiberrecover "github.com/gofiber/fiber/v2/middleware/recover"
 	"go.uber.org/zap"
-	"net/http"
-	"os"
-	"os/signal"
-	"syscall"
-	"time"
 )
 
 type Api interface {
@@ -63,6 +66,14 @@ func (a api) Listen(port string) error {
 	return err
 }
 
+// New gets new api
+// @title Rest Simple
+// @version 1.0
+// @description This api is an example in golang how to build a simple rest api with database connection.
+// @contact.name lecture
+// @contact.email lecture@example.com
+// @host localhost:8081
+// swagger docu.
 func New(logger *zap.Logger, middlewareCollector metrics.HttpApiMetrics, studentService service.StudentService) Api {
 	app := fiber.New(fiber.Config{
 		DisableStartupMessage: true,
@@ -70,6 +81,9 @@ func New(logger *zap.Logger, middlewareCollector metrics.HttpApiMetrics, student
 		JSONDecoder:           json.Unmarshal,
 		ErrorHandler:          middleware.ErrorMappingMiddleware,
 	})
+
+	// set swagger route
+	app.Get("/swagger/*", swagger.HandlerDefault)
 
 	middleware.RegisterAt(app, "/metrics")
 	app.Get("/healthz", Health)

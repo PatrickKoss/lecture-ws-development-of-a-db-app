@@ -1,6 +1,8 @@
 package service
 
 import (
+	"errors"
+
 	"github.com/PatrickKoss/rest-simple/internal/adapter/repository"
 	"github.com/PatrickKoss/rest-simple/internal/core"
 	"github.com/google/uuid"
@@ -15,7 +17,8 @@ func (e ValidationError) Error() string {
 }
 
 func (e ValidationError) Is(target error) bool {
-	_, ok := target.(ValidationError)
+	var validationError ValidationError
+	ok := errors.As(target, &validationError)
 
 	return ok
 }

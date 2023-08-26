@@ -1,0 +1,294 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This api is an example in golang how to build a simple rest api with database connection.",
+        "title": "Rest Simple",
+        "contact": {
+            "name": "lecture",
+            "email": "lecture@example.com"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8081",
+    "paths": {
+        "/students": {
+            "get": {
+                "description": "All students",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "student"
+                ],
+                "summary": "list all students available",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/student.ListStudentResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "create a new student",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "student"
+                ],
+                "summary": "create a new student",
+                "parameters": [
+                    {
+                        "description": "student to create",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/core.UpdateStudent"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/core.Student"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/students/{id}": {
+            "put": {
+                "description": "update an existing student",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "student"
+                ],
+                "summary": "update an existing student",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "student id",
+                        "name": "student",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "student to update",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/core.UpdateStudent"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/core.Student"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "delete an existing student",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "student"
+                ],
+                "summary": "delete an existing student",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "student id",
+                        "name": "student",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/healthz": {
+            "get": {
+                "description": "Health route",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "health"
+                ],
+                "summary": "Health route",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "core.Student": {
+            "type": "object",
+            "required": [
+                "createdOn",
+                "id",
+                "lastName",
+                "mnr",
+                "name"
+            ],
+            "properties": {
+                "createdOn": {
+                    "description": "date of creation",
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
+                },
+                "id": {
+                    "description": "unique identifier of the student",
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440000"
+                },
+                "lastName": {
+                    "description": "last name of the student",
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 1,
+                    "example": "Doe"
+                },
+                "mnr": {
+                    "description": "martikelnumber of the student",
+                    "type": "string",
+                    "example": "1234567890"
+                },
+                "name": {
+                    "description": "first  name of the student",
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 1,
+                    "example": "John"
+                }
+            }
+        },
+        "core.UpdateStudent": {
+            "type": "object",
+            "required": [
+                "lastName",
+                "name"
+            ],
+            "properties": {
+                "lastName": {
+                    "description": "last name of the student",
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 1,
+                    "example": "Doe"
+                },
+                "name": {
+                    "description": "first  name of the student",
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 1,
+                    "example": "John"
+                }
+            }
+        },
+        "models.ErrorMessage": {
+            "type": "object",
+            "required": [
+                "error",
+                "message"
+            ],
+            "properties": {
+                "error": {
+                    "description": "concrete error",
+                    "type": "string",
+                    "example": "failed to unmarshal"
+                },
+                "message": {
+                    "description": "human readable error message",
+                    "type": "string",
+                    "example": "failed"
+                }
+            }
+        },
+        "models.Message": {
+            "type": "object",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "description": "human-readable message",
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "student.ListStudentResponse": {
+            "type": "object",
+            "properties": {
+                "students": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/core.Student"
+                    }
+                }
+            }
+        }
+    }
+}

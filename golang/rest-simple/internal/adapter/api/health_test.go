@@ -1,15 +1,16 @@
 package api_test
 
 import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+
 	"github.com/PatrickKoss/rest-simple/internal/adapter/api"
 	mock_service "github.com/PatrickKoss/rest-simple/internal/service/mock"
 	"github.com/gofiber/fiber/v2"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
 	"go.uber.org/zap"
-	"net/http"
-	"net/http/httptest"
-	"testing"
 )
 
 func TestHealth(t *testing.T) {
