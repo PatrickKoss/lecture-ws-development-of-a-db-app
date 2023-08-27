@@ -34,19 +34,3 @@ services:
       - "5432"
     ports:
       - "5432:5432"
-
-  vue_frontend:
-    container_name: vue_frontend
-    build:
-      context: ./vue-frontend
-      dockerfile: ./docker/local/Dockerfile
-    ports:
-      - 8080:8080
-    volumes:
-      - ./vue-frontend:/app
-      - /app/node_modules
-    environment:
-      - VUE_APP_BACKEND_URL=http://backend:8000
-      - CHOKIDAR_USEPOLLING=true
-    depends_on:
-      - backend
