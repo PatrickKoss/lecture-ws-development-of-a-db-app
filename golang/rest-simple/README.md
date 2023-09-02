@@ -19,3 +19,13 @@ Create models:
 ```bash
 sqlboiler sqlite3 -c internal/adapter/repository/sqlboiler/sqlboiler.toml
 ```
+
+Install swag:
+```bash
+go install github.com/swaggo/swag/cmd/swag@latest
+```
+
+Init swagger:
+```bash
+swag init -g internal/adapter/api/api.go -o ./api
+```

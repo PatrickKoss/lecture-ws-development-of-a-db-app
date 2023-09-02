@@ -4,6 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"strconv"
+
 	"github.com/PatrickKoss/rest-simple/internal/adapter/repository/sqlboiler/models"
 	"github.com/PatrickKoss/rest-simple/internal/core"
 	"github.com/friendsofgo/errors"
@@ -11,7 +13,6 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries"
-	"strconv"
 )
 
 var ErrNotFound = fmt.Errorf("not found")

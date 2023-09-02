@@ -6,23 +6,34 @@ import (
 )
 
 type Student struct {
-	Id        uuid.UUID `json:"id" validate:"required"`
-	Name      string    `json:"name" validate:"required,min=1,max=200"`
-	LastName  string    `json:"lastName" validate:"required,min=1,max=200"`
-	CreatedOn string    `json:"createdOn" validate:"required"`
-	Mnr       string    `json:"mnr" validate:"required"`
+	// unique identifier of the student
+	Id uuid.UUID `json:"id" validate:"required" example:"550e8400-e29b-41d4-a716-446655440000"`
+	// first  name of the student
+	Name string `json:"name" validate:"required,min=1,max=200" example:"John"`
+	// last name of the student
+	LastName string `json:"lastName" validate:"required,min=1,max=200" example:"Doe"`
+	// date of creation
+	CreatedOn string `json:"createdOn" validate:"required" example:"2021-01-01T00:00:00Z"`
+	// martikelnumber of the student
+	Mnr string `json:"mnr" validate:"required" example:"1234567890"`
 }
 
 type CreateStudent struct {
-	Id        uuid.UUID `json:"id" validate:"required"`
-	Name      string    `json:"name" validate:"required,min=1,max=200"`
-	LastName  string    `json:"lastName" validate:"required,min=1,max=200"`
-	CreatedOn string    `json:"createdOn" validate:"required"`
+	// unique identifier of the student
+	Id uuid.UUID `json:"id" validate:"required" example:"550e8400-e29b-41d4-a716-446655440000"`
+	// first  name of the student
+	Name string `json:"name" validate:"required,min=1,max=200" example:"John"`
+	// last name of the student
+	LastName string `json:"lastName" validate:"required,min=1,max=200" example:"Doe"`
+	// date of creation
+	CreatedOn string `json:"createdOn" validate:"required" example:"2021-01-01T00:00:00Z"`
 }
 
 type UpdateStudent struct {
-	Name     string `json:"name" validate:"required,min=1,max=200"`
-	LastName string `json:"lastName" validate:"required,min=1,max=200"`
+	// first  name of the student
+	Name string `json:"name" validate:"required,min=1,max=200" example:"John"`
+	// last name of the student
+	LastName string `json:"lastName" validate:"required,min=1,max=200" example:"Doe"`
 }
 
 type studentValidator struct {

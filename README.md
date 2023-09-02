@@ -14,5 +14,3 @@ as introduction to an orm.
 database and then generate programming code out of it which then can
 be used as orm.
 - [raw-sql](raw-sql) is mix of all previous concept, speaking cursors and orm.
-- [backups](backups) provide a structure and a task of creating logical backups
-of postgresql.

@@ -10,6 +10,15 @@ type ListStudentResponse struct {
 	Students []core.Student `json:"students"`
 }
 
+// ListStudents godoc
+// @Summary list all students available
+// @Description All students
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} ListStudentResponse
+// @Router /students [get]
+// @Tags student
+// list route.
 func ListStudents(studentService service.StudentService) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		students, err := studentService.All()

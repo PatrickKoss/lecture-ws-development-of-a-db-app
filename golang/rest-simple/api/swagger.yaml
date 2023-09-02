@@ -1,0 +1,205 @@
+definitions:
+  core.Student:
+    properties:
+      createdOn:
+        description: date of creation
+        example: "2021-01-01T00:00:00Z"
+        type: string
+      id:
+        description: unique identifier of the student
+        example: 550e8400-e29b-41d4-a716-446655440000
+        type: string
+      lastName:
+        description: last name of the student
+        example: Doe
+        maxLength: 200
+        minLength: 1
+        type: string
+      mnr:
+        description: martikelnumber of the student
+        example: "1234567890"
+        type: string
+      name:
+        description: first  name of the student
+        example: John
+        maxLength: 200
+        minLength: 1
+        type: string
+    required:
+    - createdOn
+    - id
+    - lastName
+    - mnr
+    - name
+    type: object
+  core.UpdateStudent:
+    properties:
+      lastName:
+        description: last name of the student
+        example: Doe
+        maxLength: 200
+        minLength: 1
+        type: string
+      name:
+        description: first  name of the student
+        example: John
+        maxLength: 200
+        minLength: 1
+        type: string
+    required:
+    - lastName
+    - name
+    type: object
+  models.ErrorMessage:
+    properties:
+      error:
+        description: concrete error
+        example: failed to unmarshal
+        type: string
+      message:
+        description: human readable error message
+        example: failed
+        type: string
+    required:
+    - error
+    - message
+    type: object
+  models.Message:
+    properties:
+      message:
+        description: human-readable message
+        example: success
+        type: string
+    required:
+    - message
+    type: object
+  student.ListStudentResponse:
+    properties:
+      students:
+        items:
+          $ref: '#/definitions/core.Student'
+        type: array
+    type: object
+host: localhost:8081
+info:
+  contact:
+    email: lecture@example.com
+    name: lecture
+  description: This api is an example in golang how to build a simple rest api with
+    database connection.
+  title: Rest Simple
+  version: "1.0"
+paths:
+  /students:
+    get:
+      consumes:
+      - application/json
+      description: All students
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/student.ListStudentResponse'
+      summary: list all students available
+      tags:
+      - student
+    post:
+      consumes:
+      - application/json
+      description: create a new student
+      parameters:
+      - description: student to create
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/core.UpdateStudent'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/core.Student'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorMessage'
+      summary: create a new student
+      tags:
+      - student
+  /students/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete an existing student
+      parameters:
+      - description: student id
+        in: path
+        name: student
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorMessage'
+      summary: delete an existing student
+      tags:
+      - student
+    put:
+      consumes:
+      - application/json
+      description: update an existing student
+      parameters:
+      - description: student id
+        in: path
+        name: student
+        required: true
+        type: string
+      - description: student to update
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/core.UpdateStudent'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/core.Student'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorMessage'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrorMessage'
+      summary: update an existing student
+      tags:
+      - student
+  /v1/healthz:
+    get:
+      consumes:
+      - application/json
+      description: Health route
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Message'
+      summary: Health route
+      tags:
+      - health
+swagger: "2.0"

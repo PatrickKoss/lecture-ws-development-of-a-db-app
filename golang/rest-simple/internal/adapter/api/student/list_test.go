@@ -2,6 +2,11 @@ package student_test
 
 import (
 	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+	"time"
+
 	"github.com/PatrickKoss/rest-simple/internal/adapter/api/middleware"
 	"github.com/PatrickKoss/rest-simple/internal/adapter/api/student"
 	"github.com/PatrickKoss/rest-simple/internal/core"
@@ -10,10 +15,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
-	"net/http"
-	"net/http/httptest"
-	"testing"
-	"time"
 )
 
 func TestListStudents(t *testing.T) {

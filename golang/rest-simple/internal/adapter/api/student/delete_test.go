@@ -1,12 +1,13 @@
 package student_test
 
 import (
-	"github.com/PatrickKoss/rest-simple/internal/adapter/repository"
-	"github.com/google/uuid"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/PatrickKoss/rest-simple/internal/adapter/repository"
+	"github.com/google/uuid"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestDeleteStudent(t *testing.T) {
