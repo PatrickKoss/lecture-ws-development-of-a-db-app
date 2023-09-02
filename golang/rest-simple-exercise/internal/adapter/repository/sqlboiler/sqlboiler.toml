@@ -1,0 +1,21 @@
+output = "internal/adapter/repository/sqlboiler/models"
+wipe = true
+no-tests = true
+
+[sqlite3]
+dbname = "students.db"
+#[psql]
+#dbname = "postgres"
+#host = "localhost"
+#port = 5432
+#user = "postgres"
+#pass = ""
+#sslmode = "disable"
+#blacklist = ["gorp_migrations"]
+
+[[types]]
+[types.match]
+type = "int"
+
+[types.replace]
+type = "int32"

@@ -1,31 +1,29 @@
-# Installation
-Install sql migrate:
+# Introduction
+
+This is the golang implementation of the simple rest api.
+
+# Getting Started
+
+To instantiate the application, execute the following command line instruction:
+
 ```bash
-go install github.com/rubenv/sql-migrate/...@latest
+make run
 ```
 
-Apply migrations:
+For running the test suite associated with this application, utilize the subsequent command:
+
 ```bash
-sql-migrate up -config="internal/adapter/repository/sqlboiler/dbconfig.yaml" -env=local -limit=0
+make test
 ```
 
-Install sqlboiler:
+To auto-generate Swagger API documentation, the following command should be used:
+
 ```bash
-go install github.com/volatiletech/sqlboiler/v4@latest
-go install github.com/volatiletech/sqlboiler/v4/drivers/sqlboiler-sqlite3@latest
+make swagger
 ```
 
-Create models:
-```bash
-sqlboiler sqlite3 -c internal/adapter/repository/sqlboiler/sqlboiler.toml
-```
+Access the generated Swagger documentation via the following URL:
 
-Install swag:
 ```bash
-go install github.com/swaggo/swag/cmd/swag@latest
-```
-
-Init swagger:
-```bash
-swag init -g internal/adapter/api/api.go -o ./api
+http://localhost:8081/swagger/
 ```
