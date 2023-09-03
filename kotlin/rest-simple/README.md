@@ -3,7 +3,7 @@
 This is the java implementation of the simple rest api. It was created using the spring cli.
 
 ```bash
-spring init --build=gradle --java-version=17 --dependencies=web,data-jpa,h2,flyway rest-simple --type=gradle-project-kotlin
+spring init --build=gradle --java-version=17 --dependencies=web,data-jpa,h2,flyway rest-simple --type=gradle-project-kotlin -l kotlin
 ```
 
 # Getting Started
