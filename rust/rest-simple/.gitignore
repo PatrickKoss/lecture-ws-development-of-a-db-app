@@ -1,3 +1,6 @@
 .idea
 target/
 db/students.db
+students.db
+students.db-shm
+students.db-wal
