@@ -2,6 +2,11 @@
 This is the python implementation of the simple rest api.
 
 # Getting Started
+Install dependencies:
+```bash
+make install
+```
+
 Run the application.
 ```bash
 make run
