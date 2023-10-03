@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    application
 }
 
 group = "org.lecture"
@@ -17,4 +18,8 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+application {
+    mainClass.set("org.lecture.Main")
 }
