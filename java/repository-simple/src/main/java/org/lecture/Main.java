@@ -12,7 +12,7 @@ public class Main {
 
             String newId = UUID.randomUUID().toString();
             Account newAccount = new Account(
-                    newId, "test2", "test2", "test2@test.com", new Timestamp(Instant.now().toEpochMilli()));
+                    newId, "test2", "test2", "test2@test.com", new Timestamp(Instant.now().toEpochMilli()).toString());
             repo.create(newAccount);
 
             List<Account> accounts = repo.all();

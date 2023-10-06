@@ -1,20 +1,28 @@
 package org.lecture;
 
-import java.sql.Timestamp;
-
+@Entity(tableName = "account")
 public class Account {
+    @Column(name = "id")
     public String id;
+    @Column(name = "username")
     public String username;
+    @Column(name = "password")
     public String password;
+    @Column(name = "email")
     public String email;
-    public Timestamp created_on;
+    @Column(name = "created_on")
+    public String created_on;
 
-    public Account(String id, String username, String password, String email, Timestamp created_on) {
+    public Account(String id, String username, String password, String email, String created_on) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.created_on = created_on;
+    }
+
+    // default constructor is required for reflection
+    public Account() {
     }
 
     @Override
