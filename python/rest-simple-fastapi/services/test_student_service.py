@@ -27,14 +27,17 @@ def test_create_student(student_service):
         "mnr": 12345,
     }
     student_data = StudentCreate(**create_data_dict)
+    mock_student = Student(id="1", mnr=12345, name="John", last_name="Doe", email="john.doe@example.com")
 
-    with patch.object(student_service.uow.students, "find_by_mnr", return_value=None):
-        with patch.object(student_service.uow.students, "add") as mock_add:
-            with patch("uuid.uuid4", return_value="1"):
-                created_student = student_service.create_student(student_data)
-                mock_add.assert_called_once()
-                assert created_student.id == "1"
-                assert created_student.mnr == 12345
+    with patch.object(student_service.uow.students, "add", return_value=mock_student) as mock_add:
+        with patch("uuid.uuid4", return_value="1"):
+            created_student = student_service.create_student(student_data)
+            mock_add.assert_called_once()
+            assert created_student.id == "1"
+            assert created_student.mnr == 12345
+            assert created_student.name == "John"
+            assert created_student.last_name == "Doe"
+            assert created_student.email == "john.doe@example.com"
 
 
 def test_get_student(student_service):
