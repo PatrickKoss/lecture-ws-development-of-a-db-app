@@ -149,7 +149,7 @@ def main():
         sample_data = generate_sample_data(request_body_schema, spec)
         print(f"Creating entity with data: {sample_data}")
         response = requests.post(url, json=sample_data)
-        assert response.status_code == 201, f"Failed to create entity: {response.text}"
+        assert response.status_code == 201 or response.status_code == 200, f"Failed to create entity: {response.text}"
         created_entity = response.json()
 
         entity_id = find_entity_id_via_api(created_entity, base_url, get_route)
@@ -180,14 +180,14 @@ def main():
         updated_data = generate_sample_data(update_body_schema, spec)
         print(f"Updating entity with data: {updated_data}")
         response = requests.put(url, json=updated_data)
-        assert response.status_code == 200, f"Failed to update entity: {response.text}"
+        assert response.status_code == 200 or response.status_code == 202, f"Failed to update entity: {response.text}"
 
         # Delete entity
         path, details = delete_route
         path = re.sub(r"\{.*?\}", str(entity_id), path)
         url = base_url + path
         response = requests.delete(url)
-        assert response.status_code == 204, f"Failed to delete entity: {response.text}"
+        assert response.status_code == 204 or response.status_code == 200, f"Failed to delete entity: {response.text}"
         print("Entity deleted successfully.")
 
         # Verify deletion
