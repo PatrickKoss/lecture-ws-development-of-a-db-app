@@ -22,6 +22,10 @@ make test
 
 Visit the swagger ui:
 
-```bash
-http://localhost:8081/swagger-ui/
-```
+Try these URLs in order:
+1. http://localhost:8081/swagger-ui.html
+2. http://localhost:8081/swagger-ui/index.html
+3. http://localhost:8081/swagger-ui/
+
+API Documentation:
+- OpenAPI JSON: http://localhost:8081/v3/api-docs

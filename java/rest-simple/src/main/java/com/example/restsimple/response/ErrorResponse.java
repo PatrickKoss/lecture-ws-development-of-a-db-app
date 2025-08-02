@@ -1,6 +1,6 @@
 package com.example.restsimple.response;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 public class ErrorResponse {
     @NotNull(message = "message is required")

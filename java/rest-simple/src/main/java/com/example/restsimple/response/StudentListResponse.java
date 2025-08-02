@@ -2,7 +2,7 @@ package com.example.restsimple.response;
 
 import com.example.restsimple.model.Student;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public class StudentListResponse {

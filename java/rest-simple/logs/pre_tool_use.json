@@ -1,0 +1,30 @@
+[
+  {
+    "session_id": "acf91603-f4de-43da-b182-2c23c8336f9a",
+    "transcript_path": "/home/patrick/.claude/projects/-home-patrick-projects-lecture-ws-development-of-a-db-app-java-rest-simple/acf91603-f4de-43da-b182-2c23c8336f9a.jsonl",
+    "cwd": "/home/patrick/projects/lecture-ws-development-of-a-db-app/java/rest-simple",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "git status",
+      "description": "Check current git status"
+    },
+    "tool_response": {
+      "stdout": "On branch main\nYour branch is up to date with 'origin/main'.\n\nChanges not staged for commit:\n  (use \"git add <file>...\" to update what will be committed)\n  (use \"git restore <file>...\" to discard changes in working directory)\n\tmodified:   README.md\n\tmodified:   build.gradle.kts\n\tmodified:   gradle/wrapper/gradle-wrapper.properties\n\tmodified:   gradlew\n\tmodified:   src/main/java/com/example/restsimple/config/SwaggerConfig.java\n\tmodified:   src/main/java/com/example/restsimple/controller/StudentController.java\n\tmodified:   src/main/java/com/example/restsimple/converter/LocalDateTimeAttributeConverter.java\n\tmodified:   src/main/java/com/example/restsimple/model/Student.java\n\tmodified:   src/main/java/com/example/restsimple/repository/UnitOfWorkImpl.java\n\tmodified:   src/main/java/com/example/restsimple/repository/UpdateStudent.java\n\tmodified:   src/main/java/com/example/restsimple/request/StudentCreateRequest.java\n\tmodified:   src/main/java/com/example/restsimple/response/ErrorResponse.java\n\tmodified:   src/main/java/com/example/restsimple/response/StudentCreateResponse.java\n\tmodified:   src/main/java/com/example/restsimple/response/StudentListResponse.java\n\tmodified:   src/main/resources/application.properties\n\tmodified:   src/test/java/com/example/restsimple/StudentServiceImplTest.java\n\nUntracked files:\n  (use \"git add <file>...\" to include in what will be committed)\n\tapp.log\n\tapp_debug.log\n\tapp_final.log\n\tapp_new.log\n\tapp_working.log\n\tbootrun.log\n\tlogs/\n\nno changes added to commit (use \"git add\" and/or \"git commit -a\")",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
+  },
+  {
+    "session_id": "acf91603-f4de-43da-b182-2c23c8336f9a",
+    "transcript_path": "/home/patrick/.claude/projects/-home-patrick-projects-lecture-ws-development-of-a-db-app-java-rest-simple/acf91603-f4de-43da-b182-2c23c8336f9a.jsonl",
+    "cwd": "/home/patrick/projects/lecture-ws-development-of-a-db-app/java/rest-simple",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "git add -A",
+      "description": "Stage all changes"
+    }
+  }
+]

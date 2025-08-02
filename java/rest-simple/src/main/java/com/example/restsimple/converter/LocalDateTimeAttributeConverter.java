@@ -1,10 +1,11 @@
 package com.example.restsimple.converter;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 @Converter(autoApply = true)
 public class LocalDateTimeAttributeConverter implements AttributeConverter<LocalDateTime, Long> {
