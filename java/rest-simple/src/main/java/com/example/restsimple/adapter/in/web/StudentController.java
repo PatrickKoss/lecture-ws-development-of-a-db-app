@@ -15,6 +15,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,8 @@ import java.util.List;
 
 @RestController
 public class StudentController {
+
+    private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
 
     private final CreateStudentUseCase createStudentUseCase;
     private final GetStudentUseCase getStudentUseCase;
@@ -41,6 +45,7 @@ public class StudentController {
 
     @GetMapping("/healthz")
     public ErrorResponse healthz() {
+        logger.debug("Health check endpoint called");
         return new ErrorResponse("OK");
     }
 
@@ -50,10 +55,14 @@ public class StudentController {
                     content = @Content(schema = @Schema(implementation = StudentsListResponse.class))),
     })
     public StudentsListResponse getAllStudents() {
+        logger.info("GET /students - Retrieving all students");
+        
         List<Student> students = getStudentUseCase.getAllStudents();
         List<StudentResponse> studentResponses = students.stream()
                 .map(StudentResponse::fromDomain)
                 .toList();
+                
+        logger.info("GET /students - Successfully returned {} students", studentResponses.size());
         return new StudentsListResponse(studentResponses);
     }
 
@@ -66,9 +75,19 @@ public class StudentController {
                             schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<StudentResponse> createStudent(@Valid @RequestBody CreateStudentRequest request) {
-        Student student = createStudentUseCase.createStudent(request.toCommand());
-        StudentResponse response = StudentResponse.fromDomain(student);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        logger.info("POST /students - Creating student: {} {}", request.name(), request.lastName());
+        
+        try {
+            Student student = createStudentUseCase.createStudent(request.toCommand());
+            StudentResponse response = StudentResponse.fromDomain(student);
+            
+            logger.info("POST /students - Successfully created student with ID: {}", student.getId());
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            logger.error("POST /students - Failed to create student: {} {} - Error: {}", 
+                        request.name(), request.lastName(), e.getMessage());
+            throw e;
+        }
     }
 
     @PutMapping("/students/{id}")
@@ -83,8 +102,17 @@ public class StudentController {
                             schema = @Schema(implementation = ErrorResponse.class)))
     })
     public StudentResponse updateStudent(@PathVariable String id, @Valid @RequestBody UpdateStudentRequest request) {
-        Student student = updateStudentUseCase.updateStudent(request.toCommand(id));
-        return StudentResponse.fromDomain(student);
+        logger.info("PUT /students/{} - Updating student: {} {}", id, request.name(), request.lastName());
+        
+        try {
+            Student student = updateStudentUseCase.updateStudent(request.toCommand(id));
+            logger.info("PUT /students/{} - Successfully updated student", id);
+            return StudentResponse.fromDomain(student);
+        } catch (Exception e) {
+            logger.error("PUT /students/{} - Failed to update student: {} {} - Error: {}", 
+                        id, request.name(), request.lastName(), e.getMessage());
+            throw e;
+        }
     }
 
     @DeleteMapping("/students/{id}")
@@ -95,7 +123,15 @@ public class StudentController {
                             schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<Void> deleteStudent(@PathVariable String id) {
-        deleteStudentUseCase.deleteStudent(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        logger.info("DELETE /students/{} - Deleting student", id);
+        
+        try {
+            deleteStudentUseCase.deleteStudent(id);
+            logger.info("DELETE /students/{} - Successfully deleted student", id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
+            logger.error("DELETE /students/{} - Failed to delete student - Error: {}", id, e.getMessage());
+            throw e;
+        }
     }
 }
