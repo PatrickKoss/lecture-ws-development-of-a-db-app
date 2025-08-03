@@ -110,11 +110,9 @@ class StudentServiceTest {
         String id = "1";
         UpdateStudentUseCase.UpdateStudentCommand command = 
             new UpdateStudentUseCase.UpdateStudentCommand(id, "John Updated", "Doe Updated");
-        Student existingStudent = new Student(id, null, "John", "Doe", LocalDateTime.now());
-        Student updatedStudent = existingStudent.withUpdatedInfo("John Updated", "Doe Updated");
+        Student updatedStudent = new Student(id, "20250001", "John Updated", "Doe Updated", LocalDateTime.now());
         
-        when(loadStudentPort.loadStudent(id)).thenReturn(Optional.of(existingStudent));
-        when(saveStudentPort.saveStudent(any(Student.class))).thenReturn(updatedStudent);
+        when(saveStudentPort.updateStudentNames(id, "John Updated", "Doe Updated")).thenReturn(Optional.of(updatedStudent));
 
         // When
         Student result = studentService.updateStudent(command);
@@ -123,8 +121,8 @@ class StudentServiceTest {
         assertNotNull(result);
         assertEquals("John Updated", result.getName());
         assertEquals("Doe Updated", result.getLastName());
-        verify(loadStudentPort).loadStudent(id);
-        verify(saveStudentPort).saveStudent(any(Student.class));
+        verify(saveStudentPort).updateStudentNames(id, "John Updated", "Doe Updated");
+        verifyNoInteractions(loadStudentPort);
     }
 
     @Test
@@ -133,12 +131,33 @@ class StudentServiceTest {
         String id = "1";
         UpdateStudentUseCase.UpdateStudentCommand command = 
             new UpdateStudentUseCase.UpdateStudentCommand(id, "John", "Doe");
-        when(loadStudentPort.loadStudent(id)).thenReturn(Optional.empty());
+        when(saveStudentPort.updateStudentNames(id, "John", "Doe")).thenReturn(Optional.empty());
 
         // When & Then
         assertThrows(StudentNotFoundException.class, () -> studentService.updateStudent(command));
-        verify(loadStudentPort).loadStudent(id);
-        verify(saveStudentPort, never()).saveStudent(any(Student.class));
+        verify(saveStudentPort).updateStudentNames(id, "John", "Doe");
+        verifyNoInteractions(loadStudentPort);
+    }
+
+    @Test
+    void updateStudent_WhenDuplicateNameExists_ShouldAllowUpdate() {
+        // Given
+        String id = "1";
+        UpdateStudentUseCase.UpdateStudentCommand command = 
+            new UpdateStudentUseCase.UpdateStudentCommand(id, "Jane", "Smith");
+        Student updatedStudent = new Student(id, "20250001", "Jane", "Smith", LocalDateTime.now());
+        
+        when(saveStudentPort.updateStudentNames(id, "Jane", "Smith")).thenReturn(Optional.of(updatedStudent));
+
+        // When
+        Student result = studentService.updateStudent(command);
+
+        // Then
+        assertNotNull(result);
+        assertEquals("Jane", result.getName());
+        assertEquals("Smith", result.getLastName());
+        verify(saveStudentPort).updateStudentNames(id, "Jane", "Smith");
+        verifyNoInteractions(loadStudentPort);
     }
 
     @Test
@@ -146,7 +165,7 @@ class StudentServiceTest {
         // Given
         String id = "1";
         Student student = new Student(id, null, "John", "Doe", LocalDateTime.now());
-        when(loadStudentPort.loadStudent(id)).thenReturn(Optional.of(student));
+        when(deleteStudentPort.deleteStudentAndReturn(id)).thenReturn(Optional.of(student));
 
         // When
         Student result = studentService.deleteStudent(id);
@@ -154,19 +173,17 @@ class StudentServiceTest {
         // Then
         assertNotNull(result);
         assertEquals(id, result.getId());
-        verify(loadStudentPort).loadStudent(id);
-        verify(deleteStudentPort).deleteStudent(id);
+        verify(deleteStudentPort).deleteStudentAndReturn(id);
     }
 
     @Test
     void deleteStudent_WhenStudentNotExists_ShouldThrowException() {
         // Given
         String id = "1";
-        when(loadStudentPort.loadStudent(id)).thenReturn(Optional.empty());
+        when(deleteStudentPort.deleteStudentAndReturn(id)).thenReturn(Optional.empty());
 
         // When & Then
         assertThrows(StudentNotFoundException.class, () -> studentService.deleteStudent(id));
-        verify(loadStudentPort).loadStudent(id);
-        verify(deleteStudentPort, never()).deleteStudent(anyString());
+        verify(deleteStudentPort).deleteStudentAndReturn(id);
     }
 }

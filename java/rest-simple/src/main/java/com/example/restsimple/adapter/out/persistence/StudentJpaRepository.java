@@ -15,4 +15,8 @@ public interface StudentJpaRepository extends JpaRepository<StudentJpaEntity, St
     @Query("DELETE FROM StudentJpaEntity s WHERE s.id = :id")
     @Modifying
     void deleteByIdColumn(@Param("id") String id);
+    
+    @Query("UPDATE StudentJpaEntity s SET s.name = :name, s.lastName = :lastName WHERE s.id = :id")
+    @Modifying
+    int updateStudentNames(@Param("id") String id, @Param("name") String name, @Param("lastName") String lastName);
 }

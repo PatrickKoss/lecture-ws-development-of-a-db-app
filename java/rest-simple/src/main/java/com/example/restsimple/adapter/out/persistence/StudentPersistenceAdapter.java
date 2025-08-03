@@ -44,4 +44,22 @@ public class StudentPersistenceAdapter implements LoadStudentPort, SaveStudentPo
     public void deleteStudent(String id) {
         studentJpaRepository.deleteByIdColumn(id);
     }
+
+    @Override
+    public Optional<Student> deleteStudentAndReturn(String id) {
+        Optional<Student> student = loadStudent(id);
+        if (student.isPresent()) {
+            studentJpaRepository.deleteByIdColumn(id);
+        }
+        return student;
+    }
+
+    @Override
+    public Optional<Student> updateStudentNames(String id, String name, String lastName) {
+        int updatedRows = studentJpaRepository.updateStudentNames(id, name, lastName);
+        if (updatedRows > 0) {
+            return loadStudent(id);
+        }
+        return Optional.empty();
+    }
 }
