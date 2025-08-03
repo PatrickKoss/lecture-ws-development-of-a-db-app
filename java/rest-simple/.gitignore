@@ -37,4 +37,4 @@ out/
 .vscode/
 
 students.db
-logs/
+logs/**
