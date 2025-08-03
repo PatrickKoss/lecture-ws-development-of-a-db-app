@@ -56,9 +56,9 @@ class StudentControllerTest {
         // When & Then
         mockMvc.perform(get("/students"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[0].name").value("John"))
-                .andExpect(jsonPath("$[1].name").value("Jane"));
+                .andExpect(jsonPath("$.students.length()").value(2))
+                .andExpect(jsonPath("$.students[0].name").value("John"))
+                .andExpect(jsonPath("$.students[1].name").value("Jane"));
     }
 
     @Test

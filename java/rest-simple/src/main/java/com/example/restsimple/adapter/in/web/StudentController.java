@@ -2,6 +2,7 @@ package com.example.restsimple.adapter.in.web;
 
 import com.example.restsimple.adapter.in.dto.CreateStudentRequest;
 import com.example.restsimple.adapter.in.dto.StudentResponse;
+import com.example.restsimple.adapter.in.dto.StudentsListResponse;
 import com.example.restsimple.adapter.in.dto.UpdateStudentRequest;
 import com.example.restsimple.application.port.in.CreateStudentUseCase;
 import com.example.restsimple.application.port.in.DeleteStudentUseCase;
@@ -46,13 +47,14 @@ public class StudentController {
     @GetMapping("/students")
     @Operation(responses = {
             @ApiResponse(responseCode = "200", description = "Successfully got all students",
-                    content = @Content(schema = @Schema(implementation = List.class))),
+                    content = @Content(schema = @Schema(implementation = StudentsListResponse.class))),
     })
-    public List<StudentResponse> getAllStudents() {
+    public StudentsListResponse getAllStudents() {
         List<Student> students = getStudentUseCase.getAllStudents();
-        return students.stream()
+        List<StudentResponse> studentResponses = students.stream()
                 .map(StudentResponse::fromDomain)
                 .toList();
+        return new StudentsListResponse(studentResponses);
     }
 
     @PostMapping("/students")
