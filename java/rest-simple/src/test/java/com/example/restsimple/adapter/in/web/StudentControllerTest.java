@@ -4,6 +4,9 @@ import com.example.restsimple.application.port.in.CreateStudentUseCase;
 import com.example.restsimple.application.port.in.DeleteStudentUseCase;
 import com.example.restsimple.application.port.in.GetStudentUseCase;
 import com.example.restsimple.application.port.in.UpdateStudentUseCase;
+import com.example.restsimple.config.TestSecurityConfig;
+import com.example.restsimple.config.JwtAuthenticationFilter;
+import com.example.restsimple.config.SecurityConfig;
 import com.example.restsimple.domain.exception.StudentNotFoundException;
 import com.example.restsimple.domain.model.Student;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import com.example.restsimple.config.MetricsFilter;
@@ -27,7 +31,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(value = StudentController.class, 
-        excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = MetricsFilter.class))
+        excludeFilters = {
+            @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = MetricsFilter.class),
+            @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtAuthenticationFilter.class),
+            @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)
+        })
+@Import(TestSecurityConfig.class)
 class StudentControllerTest {
 
     @Autowired

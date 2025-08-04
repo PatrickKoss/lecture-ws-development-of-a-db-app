@@ -38,3 +38,5 @@ out/
 
 students.db
 logs/**
+*.log
+students.db

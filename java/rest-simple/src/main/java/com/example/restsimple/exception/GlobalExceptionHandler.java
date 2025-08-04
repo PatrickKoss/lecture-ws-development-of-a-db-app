@@ -1,6 +1,9 @@
 package com.example.restsimple.exception;
 
+import com.example.restsimple.domain.exception.AdminNotFoundException;
+import com.example.restsimple.domain.exception.AuthenticationException;
 import com.example.restsimple.domain.exception.InvalidStudentDataException;
+import com.example.restsimple.domain.exception.InvalidTokenException;
 import com.example.restsimple.domain.exception.StudentNotFoundException;
 import com.example.restsimple.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
@@ -54,5 +57,23 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
         ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("Authentication failed", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidTokenException(InvalidTokenException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("Invalid token", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AdminNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleAdminNotFoundException(AdminNotFoundException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("Admin not found", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }
