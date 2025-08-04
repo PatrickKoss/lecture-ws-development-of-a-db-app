@@ -1,21 +1,25 @@
 package com.example.restsimple.application.service;
 
-import com.example.restsimple.application.port.in.*;
-import com.example.restsimple.application.port.out.DeleteStudentPort;
-import com.example.restsimple.application.port.out.LoadStudentPort;
-import com.example.restsimple.application.port.out.SaveStudentPort;
-import com.example.restsimple.domain.exception.StudentNotFoundException;
-import com.example.restsimple.domain.model.Student;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.restsimple.application.port.in.CreateStudentUseCase;
+import com.example.restsimple.application.port.in.DeleteStudentUseCase;
+import com.example.restsimple.application.port.in.GetStudentUseCase;
+import com.example.restsimple.application.port.in.UpdateStudentUseCase;
+import com.example.restsimple.application.port.out.DeleteStudentPort;
+import com.example.restsimple.application.port.out.LoadStudentPort;
+import com.example.restsimple.application.port.out.SaveStudentPort;
+import com.example.restsimple.domain.exception.StudentNotFoundException;
+import com.example.restsimple.domain.model.Student;
 
 @Service
 @Transactional
@@ -43,6 +47,8 @@ public class StudentService implements CreateStudentUseCase, GetStudentUseCase, 
         logger.info("Creating new student: {} {}", command.name(), command.lastName());
         
         try {
+            // keep in mind that this is a simple example and in a real world application 
+            // you would want database level uniqueness
             validateStudentNames(command.name(), command.lastName());
             checkStudentCapacity();
             preventDuplicateStudent(command.name(), command.lastName());

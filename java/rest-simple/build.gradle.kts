@@ -24,6 +24,8 @@ dependencies {
     implementation("org.flywaydb:flyway-core")
     implementation("org.hibernate.orm:hibernate-community-dialects")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("io.micrometer:micrometer-registry-prometheus")
     testImplementation("org.junit.jupiter:junit-jupiter:5.13.4")
     runtimeOnly("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
