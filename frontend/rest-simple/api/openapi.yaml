@@ -1,0 +1,323 @@
+openapi: 3.0.1
+info:
+  title: REST Simple API
+  description: A simple REST API for student management
+  version: '1.0'
+servers:
+  - url: http://localhost:8081
+    description: Generated server url
+tags:
+  - name: Authentication
+    description: Authentication and registration endpoints
+paths:
+  /students/{id}:
+    put:
+      tags:
+        - student-controller
+      operationId: updateStudent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStudentRequest'
+        required: true
+      responses:
+        '200':
+          description: Successfully updated student
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - student-controller
+      operationId: deleteStudent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successfully deleted student
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /students:
+    get:
+      tags:
+        - student-controller
+      operationId: getAllStudents
+      responses:
+        '200':
+          description: Successfully got all students
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/StudentsListResponse'
+    post:
+      tags:
+        - student-controller
+      operationId: createStudent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStudentRequest'
+        required: true
+      responses:
+        '201':
+          description: Successfully created student
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new admin
+      description: Creates a new admin account with username, name, email and password
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+        required: true
+      responses:
+        '201':
+          description: Admin successfully registered
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Invalid input data
+          content:
+            '*/*':
+              schema:
+                type: object
+        '409':
+          description: Username or email already exists
+          content:
+            '*/*':
+              schema:
+                type: object
+  /auth/refresh:
+    post:
+      tags:
+        - Authentication
+      summary: Refresh access token
+      description: Uses refresh token to generate a new access token
+      operationId: refresh
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+        required: true
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Invalid input data
+          content:
+            '*/*':
+              schema:
+                type: object
+        '401':
+          description: Invalid or expired refresh token
+          content:
+            '*/*':
+              schema:
+                type: object
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login with username and password
+      description: Authenticates user and returns access and refresh tokens
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        '200':
+          description: Login successful
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Invalid input data
+          content:
+            '*/*':
+              schema:
+                type: object
+        '401':
+          description: Invalid credentials
+          content:
+            '*/*':
+              schema:
+                type: object
+  /healthz:
+    get:
+      tags:
+        - student-controller
+      operationId: healthz
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    StudentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        mnr:
+          type: string
+        name:
+          type: string
+        lastName:
+          type: string
+        createdOn:
+          type: string
+          format: date-time
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        details:
+          type: string
+      required:
+        - message
+    UpdateStudentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 200
+          minLength: 0
+        lastName:
+          type: string
+          minLength: 1
+      required:
+        - lastName
+        - name
+    CreateStudentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 200
+          minLength: 0
+        lastName:
+          type: string
+          minLength: 1
+      required:
+        - lastName
+        - name
+    RegisterRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 50
+          minLength: 3
+        firstName:
+          type: string
+          maxLength: 100
+          minLength: 0
+        lastName:
+          type: string
+          maxLength: 100
+          minLength: 0
+        email:
+          type: string
+          minLength: 1
+        password:
+          type: string
+          maxLength: 2147483647
+          minLength: 6
+      required:
+        - email
+        - firstName
+        - lastName
+        - password
+        - username
+    RefreshTokenRequest:
+      type: object
+      properties:
+        refresh_token:
+          type: string
+          minLength: 1
+      required:
+        - refresh_token
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
+      required:
+        - password
+        - username
+    StudentsListResponse:
+      type: object
+      properties:
+        students:
+          type: array
+          description: List of students
+          example:
+            - id: 550e8400-e29b-41d4-a716-446655440000
+              mnr: MNR001
+              name: John
+              lastName: Doe
+              createdOn: '2023-01-01T12:00:00'
+          items:
+            $ref: '#/components/schemas/StudentResponse'
