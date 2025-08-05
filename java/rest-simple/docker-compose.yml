@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # Template service - copy this for each student
+  student-template:
+    build: .
+    ports:
+      - "8080:8080"  # VS Code Server
+      - "8081:8081"  # Spring Boot App
+    volumes:
+      - "./student-workspace:/home/student/workspace"
+    environment:
+      - JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
+      - GRADLE_HOME=/opt/gradle/gradle-8.5
+    restart: unless-stopped
+    profiles:
+      - template  # This prevents it from starting by default
+
+  # Example student containers
+  student1:
+    build: .
+    ports:
+      - "8001:8080"  # VS Code Server
+      - "8101:8081"  # Spring Boot App
+    volumes:
+      - "/home/student1:/home/student/workspace"
+    environment:
+      - JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
+      - GRADLE_HOME=/opt/gradle/gradle-8.5
+    restart: unless-stopped
+    container_name: student1-env
+
+  student2:
+    build: .
+    ports:
+      - "8002:8080"
+      - "8102:8081"
+    volumes:
+      - "/home/student2:/home/student/workspace"
+    environment:
+      - JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
+      - GRADLE_HOME=/opt/gradle/gradle-8.5
+    restart: unless-stopped
+    container_name: student2-env
+
+  # Add more students as needed...
