@@ -59,7 +59,7 @@ export function StudentTable({ students, onEdit, onDelete, isLoading }: StudentT
     return (
       <div className="space-y-4">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="h-16 bg-muted/50 rounded animate-pulse" />
+          <div key={i} className="h-16 bg-gray-700/50 rounded animate-pulse" />
         ))}
       </div>
     );
@@ -67,7 +67,7 @@ export function StudentTable({ students, onEdit, onDelete, isLoading }: StudentT
 
   if (students.length === 0) {
     return (
-      <div className="text-center py-8 text-muted-foreground">
+      <div className="text-center py-8 text-gray-400">
         No students found. Create your first student to get started.
       </div>
     );
@@ -75,50 +75,54 @@ export function StudentTable({ students, onEdit, onDelete, isLoading }: StudentT
 
   return (
     <>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>MNR</TableHead>
-            <TableHead>First Name</TableHead>
-            <TableHead>Last Name</TableHead>
-            <TableHead>Created On</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {students.map((student) => (
-            <TableRow key={student.id}>
-              <TableCell className="font-mono">{student.mnr}</TableCell>
-              <TableCell>{student.name}</TableCell>
-              <TableCell>{student.lastName}</TableCell>
-              <TableCell>{formatDate(student.createdOn)}</TableCell>
-              <TableCell className="text-right">
-                <div className="flex gap-2 justify-end">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setEditingStudent(student)}
-                  >
-                    <Edit className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleDelete(student.id)}
-                    disabled={deletingId === student.id}
-                  >
-                    {deletingId === student.id ? (
-                      <div className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                    ) : (
-                      <Trash2 className="h-4 w-4" />
-                    )}
-                  </Button>
-                </div>
-              </TableCell>
+      <div className="rounded-lg border border-gray-700 bg-gray-800/50">
+        <Table>
+          <TableHeader>
+            <TableRow className="border-gray-700 hover:bg-gray-800/50">
+              <TableHead className="text-gray-300">MNR</TableHead>
+              <TableHead className="text-gray-300">First Name</TableHead>
+              <TableHead className="text-gray-300">Last Name</TableHead>
+              <TableHead className="text-gray-300">Created On</TableHead>
+              <TableHead className="text-right text-gray-300">Actions</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {students.map((student) => (
+              <TableRow key={student.id} className="border-gray-700 hover:bg-gray-800/30">
+                <TableCell className="font-mono text-gray-300">{student.mnr}</TableCell>
+                <TableCell className="text-gray-200">{student.name}</TableCell>
+                <TableCell className="text-gray-200">{student.lastName}</TableCell>
+                <TableCell className="text-gray-400">{formatDate(student.createdOn)}</TableCell>
+                <TableCell className="text-right">
+                  <div className="flex gap-2 justify-end">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setEditingStudent(student)}
+                      className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDelete(student.id)}
+                      disabled={deletingId === student.id}
+                      className="border-gray-600 text-gray-300 hover:bg-red-800 hover:text-white hover:border-red-600"
+                    >
+                      {deletingId === student.id ? (
+                        <div className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <Trash2 className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
 
       <EditStudentDialog
         student={editingStudent}

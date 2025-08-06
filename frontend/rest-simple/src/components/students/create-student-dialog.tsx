@@ -92,16 +92,16 @@ export function CreateStudentDialog({ onCreate }: CreateStudentDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button>
+        <Button className="bg-blue-600 hover:bg-blue-700 text-white">
           <Plus className="h-4 w-4 mr-2" />
           Add Student
         </Button>
       </DialogTrigger>
       
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-gray-800 border-gray-700">
         <DialogHeader>
-          <DialogTitle>Create New Student</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-white">Create New Student</DialogTitle>
+          <DialogDescription className="text-gray-400">
             Add a new student to the system. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
@@ -109,7 +109,7 @@ export function CreateStudentDialog({ onCreate }: CreateStudentDialogProps) {
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
             <div className="space-y-2">
-              <label htmlFor="create-name" className="text-sm font-medium">
+              <label htmlFor="create-name" className="text-sm font-medium text-gray-200">
                 First Name
               </label>
               <Input
@@ -119,14 +119,15 @@ export function CreateStudentDialog({ onCreate }: CreateStudentDialogProps) {
                 disabled={isLoading}
                 maxLength={200}
                 placeholder="Enter first name"
+                className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
               />
               {validationErrors.name && (
-                <div className="text-sm text-destructive">{validationErrors.name}</div>
+                <div className="text-sm text-red-400">{validationErrors.name}</div>
               )}
             </div>
             
             <div className="space-y-2">
-              <label htmlFor="create-lastName" className="text-sm font-medium">
+              <label htmlFor="create-lastName" className="text-sm font-medium text-gray-200">
                 Last Name
               </label>
               <Input
@@ -135,9 +136,10 @@ export function CreateStudentDialog({ onCreate }: CreateStudentDialogProps) {
                 onChange={(e) => handleInputChange('lastName', e.target.value)}
                 disabled={isLoading}
                 placeholder="Enter last name"
+                className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
               />
               {validationErrors.lastName && (
-                <div className="text-sm text-destructive">{validationErrors.lastName}</div>
+                <div className="text-sm text-red-400">{validationErrors.lastName}</div>
               )}
             </div>
           </div>
@@ -148,10 +150,11 @@ export function CreateStudentDialog({ onCreate }: CreateStudentDialogProps) {
               variant="outline" 
               onClick={() => setIsOpen(false)} 
               disabled={isLoading}
+              className="border-gray-600 text-gray-300 hover:bg-gray-700"
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" disabled={isLoading} className="bg-blue-600 hover:bg-blue-700">
               {isLoading ? 'Creating...' : 'Create Student'}
             </Button>
           </DialogFooter>

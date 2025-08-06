@@ -91,14 +91,14 @@ export default function HealthPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">API Health Check</h1>
-          <p className="text-muted-foreground">
+          <p className="text-gray-400 text-sm">
             Monitor the status and performance of your REST API
           </p>
         </div>
         <Button
           onClick={performHealthCheck}
           disabled={healthCheck.status === 'loading'}
+          className="border-gray-700 bg-gray-800 text-gray-200 hover:bg-gray-700 hover:text-white"
         >
           <RefreshCw className={`h-4 w-4 mr-2 ${healthCheck.status === 'loading' ? 'animate-spin' : ''}`} />
           Check Health
@@ -106,13 +106,13 @@ export default function HealthPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Card>
+        <Card className="border-gray-700 bg-gray-800/50">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-white">
               <Activity className="h-5 w-5" />
               Current Status
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-gray-400">
               Real-time health status of the API endpoint
             </CardDescription>
           </CardHeader>
@@ -123,25 +123,25 @@ export default function HealthPage() {
                 <div className={`text-2xl font-bold ${getStatusColor()}`}>
                   {getStatusText()}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-sm text-gray-400">
                   Last checked: {healthCheck.timestamp.toLocaleTimeString()}
                 </div>
               </div>
             </div>
 
             {healthCheck.responseTime && (
-              <div className="mt-4 pt-4 border-t">
-                <div className="text-sm font-medium">Response Time</div>
-                <div className="text-2xl font-bold">
+              <div className="mt-4 pt-4 border-t border-gray-700">
+                <div className="text-sm font-medium text-gray-200">Response Time</div>
+                <div className="text-2xl font-bold text-white">
                   {healthCheck.responseTime}ms
                 </div>
               </div>
             )}
 
             {healthCheck.error && (
-              <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
-                <div className="text-sm font-medium text-red-800">Error Details</div>
-                <div className="text-sm text-red-700 mt-1">
+              <div className="mt-4 p-3 bg-red-900/20 border border-red-800 rounded-md">
+                <div className="text-sm font-medium text-red-400">Error Details</div>
+                <div className="text-sm text-red-300 mt-1">
                   {healthCheck.error}
                 </div>
               </div>
@@ -149,38 +149,38 @@ export default function HealthPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-gray-700 bg-gray-800/50">
           <CardHeader>
-            <CardTitle>Configuration</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-white">Configuration</CardTitle>
+            <CardDescription className="text-gray-400">
               Current API configuration settings
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-sm font-medium">Base URL:</span>
-              <span className="text-sm text-muted-foreground font-mono">
+              <span className="text-sm font-medium text-gray-200">Base URL:</span>
+              <span className="text-sm text-gray-400 font-mono">
                 {appConfig.api.baseUrl}
               </span>
             </div>
             
             <div className="flex justify-between items-center">
-              <span className="text-sm font-medium">Timeout:</span>
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm font-medium text-gray-200">Timeout:</span>
+              <span className="text-sm text-gray-400">
                 {appConfig.api.timeout / 1000}s
               </span>
             </div>
             
             <div className="flex justify-between items-center">
-              <span className="text-sm font-medium">Health Endpoint:</span>
-              <span className="text-sm text-muted-foreground font-mono">
+              <span className="text-sm font-medium text-gray-200">Health Endpoint:</span>
+              <span className="text-sm text-gray-400 font-mono">
                 /healthz
               </span>
             </div>
 
             <div className="flex justify-between items-center">
-              <span className="text-sm font-medium">Authentication:</span>
-              <span className={`text-sm ${appConfig.auth.enabled ? 'text-green-600' : 'text-yellow-600'}`}>
+              <span className="text-sm font-medium text-gray-200">Authentication:</span>
+              <span className={`text-sm ${appConfig.auth.enabled ? 'text-green-400' : 'text-yellow-400'}`}>
                 {appConfig.auth.enabled ? 'Enabled' : 'Disabled'}
               </span>
             </div>
@@ -189,15 +189,15 @@ export default function HealthPage() {
       </div>
 
       {healthCheck.data && (
-        <Card>
+        <Card className="border-gray-700 bg-gray-800/50">
           <CardHeader>
-            <CardTitle>Response Data</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-white">Response Data</CardTitle>
+            <CardDescription className="text-gray-400">
               Raw response from the health endpoint
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <pre className="bg-muted p-4 rounded-md text-sm overflow-auto">
+            <pre className="bg-gray-900 p-4 rounded-md text-sm overflow-auto text-gray-200 border border-gray-700">
               {JSON.stringify(healthCheck.data, null, 2)}
             </pre>
           </CardContent>

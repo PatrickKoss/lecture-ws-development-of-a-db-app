@@ -1,7 +1,6 @@
 package com.example.restsimple.application.service;
 
 import java.time.LocalDateTime;
-import java.time.Year;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -54,12 +53,12 @@ public class StudentService implements CreateStudentUseCase, GetStudentUseCase, 
             preventDuplicateStudent(command.name(), command.lastName());
             
             String id = UUID.randomUUID().toString();
-            String studentNumber = generateStudentNumber();
             LocalDateTime createdOn = LocalDateTime.now();
             
-            logger.debug("Generated student ID: {}, student number: {}", id, studentNumber);
+            logger.debug("Generated student ID: {}", id);
             
-            Student student = new Student(id, studentNumber, command.name(), command.lastName(), createdOn);
+            // Pass null for mnr - let the database auto-generate it
+            Student student = new Student(id, null, command.name(), command.lastName(), createdOn);
             Student savedStudent = saveStudentPort.saveStudent(student);
             
             logger.info("Successfully created student with ID: {} and student number: {}", 
@@ -197,20 +196,4 @@ public class StudentService implements CreateStudentUseCase, GetStudentUseCase, 
     }
 
 
-    private String generateStudentNumber() {
-        int currentYear = Year.now().getValue();
-        logger.debug("Generating student number for year: {}", currentYear);
-        
-        List<Student> studentsThisYear = loadStudentPort.loadAllStudents().stream()
-                .filter(student -> student.getMnr() != null && student.getMnr().startsWith(String.valueOf(currentYear)))
-                .toList();
-        
-        int nextSequence = studentsThisYear.size() + 1;
-        String studentNumber = String.format("%d%04d", currentYear, nextSequence);
-        
-        logger.debug("Generated student number: {} (sequence: {} for {} students this year)", 
-                    studentNumber, nextSequence, studentsThisYear.size());
-        
-        return studentNumber;
-    }
 }

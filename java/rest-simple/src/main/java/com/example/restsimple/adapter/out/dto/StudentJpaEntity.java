@@ -18,7 +18,7 @@ public class StudentJpaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mnr", nullable = false)
-    private String mnr;
+    private Integer mnr;
     
     @Column(name = "name", nullable = false)
     @Size(max = 200, message = "Name must not exceed 200 characters")
@@ -46,7 +46,10 @@ public class StudentJpaEntity {
     public static StudentJpaEntity fromDomain(Student student) {
         StudentJpaEntity entity = new StudentJpaEntity();
         entity.id = student.getId();
-        entity.mnr = student.getMnr();
+        // Only set mnr if it's not null (for updates), let database generate it for new entities
+        if (student.getMnr() != null && !student.getMnr().isEmpty()) {
+            entity.mnr = Integer.parseInt(student.getMnr());
+        }
         entity.name = student.getName();
         entity.lastName = student.getLastName();
         entity.createdOn = student.getCreatedOn();
@@ -54,7 +57,7 @@ public class StudentJpaEntity {
     }
 
     public Student toDomain() {
-        return new Student(id, mnr, name, lastName, createdOn);
+        return new Student(id, mnr != null ? mnr.toString() : null, name, lastName, createdOn);
     }
 
     // Getters and setters
@@ -66,11 +69,11 @@ public class StudentJpaEntity {
         this.id = id;
     }
 
-    public String getMnr() {
+    public Integer getMnr() {
         return mnr;
     }
 
-    public void setMnr(String mnr) {
+    public void setMnr(Integer mnr) {
         this.mnr = mnr;
     }
 

@@ -35,8 +35,7 @@ export function StudentsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Students</h1>
-          <p className="text-muted-foreground">
+          <p className="text-gray-400 text-sm">
             Manage student records in the system
           </p>
         </div>
@@ -45,6 +44,7 @@ export function StudentsPage() {
             variant="outline"
             onClick={refreshStudents}
             disabled={isLoading}
+            className="border-gray-700 bg-gray-800 text-gray-200 hover:bg-gray-700 hover:text-white"
           >
             <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
             Refresh
@@ -54,16 +54,17 @@ export function StudentsPage() {
       </div>
 
       {error && (
-        <Card className="border-destructive/50 bg-destructive/10">
+        <Card className="border-red-800 bg-red-900/20">
           <CardHeader>
-            <CardTitle className="text-destructive">Error</CardTitle>
+            <CardTitle className="text-red-400">Error</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-destructive mb-4">{error}</p>
+            <p className="text-sm text-red-300 mb-4">{error}</p>
             <Button
               variant="outline"
               size="sm"
               onClick={clearError}
+              className="border-red-700 text-red-300 hover:bg-red-800"
             >
               Dismiss
             </Button>
@@ -71,10 +72,10 @@ export function StudentsPage() {
         </Card>
       )}
 
-      <Card>
+      <Card className="border-gray-700 bg-gray-800/50">
         <CardHeader>
-          <CardTitle>All Students</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-white">All Students</CardTitle>
+          <CardDescription className="text-gray-400">
             {students.length} student{students.length !== 1 ? 's' : ''} in the system
           </CardDescription>
         </CardHeader>

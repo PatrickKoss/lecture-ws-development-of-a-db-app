@@ -52,7 +52,7 @@ export function Sidebar() {
 
   return (
     <aside className={cn(
-      "border-r bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300",
+      "border-r bg-gray-900 border-gray-800 transition-all duration-300",
       collapsed ? "w-16" : "w-64"
     )}>
       <div className="p-4">
@@ -60,13 +60,13 @@ export function Sidebar() {
           variant="ghost"
           size="sm"
           onClick={() => setCollapsed(!collapsed)}
-          className="w-full justify-end"
+          className="w-full justify-end text-gray-400 hover:text-white hover:bg-gray-800"
         >
           {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </Button>
       </div>
 
-      <nav className="space-y-2 p-4">
+      <nav className="space-y-1 p-4">
         {(appConfig.auth.enabled ? isAuthenticated : true) && navigationItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
@@ -74,10 +74,11 @@ export function Sidebar() {
           return (
             <Link key={item.href} href={item.href}>
               <Button
-                variant={isActive ? "secondary" : "ghost"}
+                variant="ghost"
                 className={cn(
-                  "w-full justify-start",
-                  collapsed && "px-2"
+                  "w-full justify-start text-gray-300 hover:text-white hover:bg-gray-800",
+                  collapsed && "px-2",
+                  isActive && "bg-gray-800 text-white"
                 )}
               >
                 <Icon className="h-4 w-4" />
@@ -89,9 +90,9 @@ export function Sidebar() {
 
         {showAuthItems && (
           <>
-            <div className={cn("border-t pt-4 mt-4", collapsed && "mx-2")}>
+            <div className={cn("border-t border-gray-700 pt-4 mt-4", collapsed && "mx-2")}>
               {!collapsed && (
-                <p className="text-xs text-muted-foreground mb-2 px-2">
+                <p className="text-xs text-gray-500 mb-2 px-2">
                   Authentication
                 </p>
               )}
@@ -104,10 +105,11 @@ export function Sidebar() {
               return (
                 <Link key={item.href} href={item.href}>
                   <Button
-                    variant={isActive ? "secondary" : "ghost"}
+                    variant="ghost"
                     className={cn(
-                      "w-full justify-start",
-                      collapsed && "px-2"
+                      "w-full justify-start text-gray-300 hover:text-white hover:bg-gray-800",
+                      collapsed && "px-2",
+                      isActive && "bg-gray-800 text-white"
                     )}
                   >
                     <Icon className="h-4 w-4" />
