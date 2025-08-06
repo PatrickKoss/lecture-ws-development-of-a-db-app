@@ -13,10 +13,76 @@ export function LoginForm() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const { login, register, isLoading, error, clearError } = useAuth();
+
+  const validateLoginForm = () => {
+    const errors: Record<string, string> = {};
+
+    if (username.trim().length === 0) {
+      errors.username = 'Username is required';
+    }
+
+    if (password.trim().length === 0) {
+      errors.password = 'Password is required';
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const validateRegisterForm = () => {
+    const errors: Record<string, string> = {};
+
+    // Username validation (3-50 characters)
+    if (username.trim().length === 0) {
+      errors.username = 'Username is required';
+    } else if (username.length < 3) {
+      errors.username = 'Username must be at least 3 characters';
+    } else if (username.length > 50) {
+      errors.username = 'Username must be 50 characters or less';
+    }
+
+    // First name validation (0-100 characters, required)
+    if (firstName.trim().length === 0) {
+      errors.firstName = 'First name is required';
+    } else if (firstName.length > 100) {
+      errors.firstName = 'First name must be 100 characters or less';
+    }
+
+    // Last name validation (0-100 characters, required)
+    if (lastName.trim().length === 0) {
+      errors.lastName = 'Last name is required';
+    } else if (lastName.length > 100) {
+      errors.lastName = 'Last name must be 100 characters or less';
+    }
+
+    // Email validation (required, basic email format)
+    if (email.trim().length === 0) {
+      errors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+
+    // Password validation (6+ characters)
+    if (password.trim().length === 0) {
+      errors.password = 'Password is required';
+    } else if (password.length < 6) {
+      errors.password = 'Password must be at least 6 characters';
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const isValid = isRegisterMode ? validateRegisterForm() : validateLoginForm();
+    if (!isValid) {
+      return;
+    }
+
     try {
       if (isRegisterMode) {
         await register({ username, firstName, lastName, email, password });
@@ -36,6 +102,31 @@ export function LoginForm() {
     setFirstName('');
     setLastName('');
     setEmail('');
+    setValidationErrors({});
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    switch (field) {
+      case 'username':
+        setUsername(value);
+        break;
+      case 'password':
+        setPassword(value);
+        break;
+      case 'firstName':
+        setFirstName(value);
+        break;
+      case 'lastName':
+        setLastName(value);
+        break;
+      case 'email':
+        setEmail(value);
+        break;
+    }
+    // Clear validation error when user starts typing
+    if (validationErrors[field]) {
+      setValidationErrors(prev => ({ ...prev, [field]: '' }));
+    }
   };
 
   const toggleMode = () => {
@@ -73,10 +164,14 @@ export function LoginForm() {
                   id="firstName"
                   type="text"
                   value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  required
+                  onChange={(e) => handleInputChange('firstName', e.target.value)}
                   disabled={isLoading}
+                  maxLength={100}
+                  placeholder="Enter first name"
                 />
+                {validationErrors.firstName && (
+                  <div className="text-sm text-destructive">{validationErrors.firstName}</div>
+                )}
               </div>
               
               <div className="space-y-2">
@@ -87,10 +182,14 @@ export function LoginForm() {
                   id="lastName"
                   type="text"
                   value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  required
+                  onChange={(e) => handleInputChange('lastName', e.target.value)}
                   disabled={isLoading}
+                  maxLength={100}
+                  placeholder="Enter last name"
                 />
+                {validationErrors.lastName && (
+                  <div className="text-sm text-destructive">{validationErrors.lastName}</div>
+                )}
               </div>
               
               <div className="space-y-2">
@@ -101,10 +200,13 @@ export function LoginForm() {
                   id="email"
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
+                  onChange={(e) => handleInputChange('email', e.target.value)}
                   disabled={isLoading}
+                  placeholder="Enter email address"
                 />
+                {validationErrors.email && (
+                  <div className="text-sm text-destructive">{validationErrors.email}</div>
+                )}
               </div>
             </>
           )}
@@ -117,10 +219,14 @@ export function LoginForm() {
               id="username"
               type="text"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
+              onChange={(e) => handleInputChange('username', e.target.value)}
               disabled={isLoading}
+              maxLength={50}
+              placeholder="Enter username"
             />
+            {validationErrors.username && (
+              <div className="text-sm text-destructive">{validationErrors.username}</div>
+            )}
           </div>
           
           <div className="space-y-2">
@@ -131,10 +237,13 @@ export function LoginForm() {
               id="password"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              onChange={(e) => handleInputChange('password', e.target.value)}
               disabled={isLoading}
+              placeholder="Enter password"
             />
+            {validationErrors.password && (
+              <div className="text-sm text-destructive">{validationErrors.password}</div>
+            )}
           </div>
           
           <Button type="submit" className="w-full" disabled={isLoading}>

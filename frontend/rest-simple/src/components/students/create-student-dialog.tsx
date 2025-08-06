@@ -26,6 +26,7 @@ export function CreateStudentDialog({ onCreate }: CreateStudentDialogProps) {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const resetForm = () => {
     setFormData({
@@ -33,19 +34,29 @@ export function CreateStudentDialog({ onCreate }: CreateStudentDialogProps) {
       lastName: '',
     });
     setValidationErrors({});
+    setApiError(null);
   };
 
   const validateForm = () => {
     const errors: Record<string, string> = {};
 
+    // Regex pattern for allowed characters: letters, spaces, hyphens, apostrophes
+    const namePattern = /^[a-zA-ZÀ-ÿ\s'-]*$/;
+
+    // Name validation: required, 0-200 characters, valid characters
     if (formData.name.trim().length === 0) {
       errors.name = 'First name is required';
     } else if (formData.name.length > 200) {
       errors.name = 'First name must be 200 characters or less';
+    } else if (!namePattern.test(formData.name)) {
+      errors.name = 'First name contains invalid characters. Only letters, spaces, hyphens and apostrophes are allowed';
     }
 
+    // Last name validation: required, minLength 1, valid characters
     if (formData.lastName.trim().length === 0) {
       errors.lastName = 'Last name is required';
+    } else if (!namePattern.test(formData.lastName)) {
+      errors.lastName = 'Last name contains invalid characters. Only letters, spaces, hyphens and apostrophes are allowed';
     }
 
     setValidationErrors(errors);
@@ -60,6 +71,8 @@ export function CreateStudentDialog({ onCreate }: CreateStudentDialogProps) {
     }
 
     setIsLoading(true);
+    setApiError(null);
+    
     try {
       await onCreate({
         name: formData.name.trim(),
@@ -67,8 +80,10 @@ export function CreateStudentDialog({ onCreate }: CreateStudentDialogProps) {
       });
       setIsOpen(false);
       resetForm();
-    } catch (error) {
-      // Error handled by parent component
+    } catch (error: any) {
+      // Display error in the dialog instead of propagating to parent
+      const errorMessage = error?.message || 'Failed to create student. Please try again.';
+      setApiError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -79,6 +94,10 @@ export function CreateStudentDialog({ onCreate }: CreateStudentDialogProps) {
     // Clear validation error when user starts typing
     if (validationErrors[field]) {
       setValidationErrors(prev => ({ ...prev, [field]: '' }));
+    }
+    // Clear API error when user starts typing
+    if (apiError) {
+      setApiError(null);
     }
   };
 
@@ -102,11 +121,17 @@ export function CreateStudentDialog({ onCreate }: CreateStudentDialogProps) {
         <DialogHeader>
           <DialogTitle className="text-white">Create New Student</DialogTitle>
           <DialogDescription className="text-gray-400">
-            Add a new student to the system. Click save when you're done.
+            Add a new student to the system. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         
         <form onSubmit={handleSubmit}>
+          {apiError && (
+            <div className="text-sm text-red-400 bg-red-900/20 p-3 rounded-md mb-4 border border-red-800">
+              {apiError}
+            </div>
+          )}
+          
           <div className="grid gap-4 py-4">
             <div className="space-y-2">
               <label htmlFor="create-name" className="text-sm font-medium text-gray-200">

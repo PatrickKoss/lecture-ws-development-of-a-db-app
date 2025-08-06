@@ -30,10 +30,15 @@ export function StudentTable({ students, onEdit, onDelete, isLoading }: StudentT
     
     try {
       await onEdit(editingStudent.id, student);
-      setEditingStudent(null);
+      // Dialog will close itself on success, error handling is now in the dialog
     } catch (error) {
-      // Error handled by parent component
+      // Error is now handled by the dialog component, not propagated
+      throw error;
     }
+  };
+
+  const handleEditClose = () => {
+    setEditingStudent(null);
   };
 
   const handleDelete = async (id: string) => {
