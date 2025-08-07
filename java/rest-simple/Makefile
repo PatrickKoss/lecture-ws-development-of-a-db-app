@@ -3,7 +3,7 @@ run: build
 
 .PHONY: build
 build:
-	./gradlew build
+	./gradlew build --stacktrace
 
 test:
 	./gradlew test
