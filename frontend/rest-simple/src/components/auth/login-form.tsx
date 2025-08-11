@@ -136,10 +136,10 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-md mx-auto border-gray-700 bg-gray-800/50">
       <CardHeader>
-        <CardTitle>{isRegisterMode ? 'Register' : 'Login'}</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-white">{isRegisterMode ? 'Register' : 'Login'}</CardTitle>
+        <CardDescription className="text-gray-400">
           {isRegisterMode 
             ? 'Create a new account to access the application'
             : 'Enter your credentials to access the application'
@@ -149,7 +149,7 @@ export function LoginForm() {
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md">
+            <div className="text-sm text-red-300 bg-red-900/20 p-3 rounded-md border border-red-800">
               {error}
             </div>
           )}
@@ -157,7 +157,7 @@ export function LoginForm() {
           {isRegisterMode && (
             <>
               <div className="space-y-2">
-                <label htmlFor="firstName" className="text-sm font-medium">
+                <label htmlFor="firstName" className="text-sm font-medium text-gray-200">
                   First Name
                 </label>
                 <Input
@@ -168,14 +168,15 @@ export function LoginForm() {
                   disabled={isLoading}
                   maxLength={100}
                   placeholder="Enter first name"
+                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-gray-500"
                 />
                 {validationErrors.firstName && (
-                  <div className="text-sm text-destructive">{validationErrors.firstName}</div>
+                  <div className="text-sm text-red-400">{validationErrors.firstName}</div>
                 )}
               </div>
               
               <div className="space-y-2">
-                <label htmlFor="lastName" className="text-sm font-medium">
+                <label htmlFor="lastName" className="text-sm font-medium text-gray-200">
                   Last Name
                 </label>
                 <Input
@@ -186,14 +187,15 @@ export function LoginForm() {
                   disabled={isLoading}
                   maxLength={100}
                   placeholder="Enter last name"
+                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-gray-500"
                 />
                 {validationErrors.lastName && (
-                  <div className="text-sm text-destructive">{validationErrors.lastName}</div>
+                  <div className="text-sm text-red-400">{validationErrors.lastName}</div>
                 )}
               </div>
               
               <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium">
+                <label htmlFor="email" className="text-sm font-medium text-gray-200">
                   Email
                 </label>
                 <Input
@@ -203,16 +205,17 @@ export function LoginForm() {
                   onChange={(e) => handleInputChange('email', e.target.value)}
                   disabled={isLoading}
                   placeholder="Enter email address"
+                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-gray-500"
                 />
                 {validationErrors.email && (
-                  <div className="text-sm text-destructive">{validationErrors.email}</div>
+                  <div className="text-sm text-red-400">{validationErrors.email}</div>
                 )}
               </div>
             </>
           )}
           
           <div className="space-y-2">
-            <label htmlFor="username" className="text-sm font-medium">
+            <label htmlFor="username" className="text-sm font-medium text-gray-200">
               Username
             </label>
             <Input
@@ -223,14 +226,15 @@ export function LoginForm() {
               disabled={isLoading}
               maxLength={50}
               placeholder="Enter username"
+              className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-gray-500"
             />
             {validationErrors.username && (
-              <div className="text-sm text-destructive">{validationErrors.username}</div>
+              <div className="text-sm text-red-400">{validationErrors.username}</div>
             )}
           </div>
           
           <div className="space-y-2">
-            <label htmlFor="password" className="text-sm font-medium">
+            <label htmlFor="password" className="text-sm font-medium text-gray-200">
               Password
             </label>
             <Input
@@ -240,13 +244,14 @@ export function LoginForm() {
               onChange={(e) => handleInputChange('password', e.target.value)}
               disabled={isLoading}
               placeholder="Enter password"
+              className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-gray-500"
             />
             {validationErrors.password && (
-              <div className="text-sm text-destructive">{validationErrors.password}</div>
+              <div className="text-sm text-red-400">{validationErrors.password}</div>
             )}
           </div>
           
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white" disabled={isLoading}>
             {isLoading 
               ? (isRegisterMode ? 'Registering...' : 'Logging in...') 
               : (isRegisterMode ? 'Register' : 'Login')
@@ -259,7 +264,7 @@ export function LoginForm() {
               variant="link" 
               onClick={toggleMode}
               disabled={isLoading}
-              className="text-sm"
+              className="text-sm text-gray-400 hover:text-white"
             >
               {isRegisterMode 
                 ? 'Already have an account? Sign in'
