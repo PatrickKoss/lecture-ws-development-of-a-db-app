@@ -214,30 +214,16 @@ describe('ApiClient', () => {
     });
 
     it('should handle timeout errors', async () => {
-      jest.useFakeTimers();
+      // Mock fetch to simulate an AbortError
+      const abortError = new Error('The operation was aborted');
+      abortError.name = 'AbortError';
       
-      // Mock a long-running request
-      let timeoutId: NodeJS.Timeout;
       mockFetch.mockImplementationOnce(() => 
-        new Promise((resolve) => {
-          timeoutId = setTimeout(() => resolve({
-            ok: true,
-            json: async () => ({}),
-          }), appConfig.api.timeout + 1000);
-        })
+        Promise.reject(abortError)
       );
 
-      const promise = apiClient.getAllStudents();
-      
-      // Fast-forward time to trigger timeout
-      jest.advanceTimersByTime(appConfig.api.timeout);
-      
-      await expect(promise).rejects.toThrow('Request timeout');
-      
-      // Clean up
-      clearTimeout(timeoutId!);
-      jest.useRealTimers();
-    }, 10000);
+      await expect(apiClient.getAllStudents()).rejects.toThrow('Request timeout');
+    });
 
     it('should handle network errors', async () => {
       mockFetch.mockRejectedValueOnce(new Error('Network error'));

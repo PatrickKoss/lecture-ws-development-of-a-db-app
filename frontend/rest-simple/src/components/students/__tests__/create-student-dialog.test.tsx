@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { CreateStudentDialog } from '../create-student-dialog';
 
@@ -89,11 +89,16 @@ describe('CreateStudentDialog', () => {
     
     await user.type(firstNameInput, "Jean-Pierre O'Connor"); // Valid characters
     await user.type(lastNameInput, "Van Der Berg-Smith"); // Valid characters
-    await user.click(screen.getByText('Create Student'));
     
-    expect(mockOnCreate).toHaveBeenCalledWith({
-      name: "Jean-Pierre O'Connor",
-      lastName: "Van Der Berg-Smith",
+    await act(async () => {
+      await user.click(screen.getByText('Create Student'));
+    });
+    
+    await waitFor(() => {
+      expect(mockOnCreate).toHaveBeenCalledWith({
+        name: "Jean-Pierre O'Connor",
+        lastName: "Van Der Berg-Smith",
+      });
     });
   });
 
@@ -106,7 +111,10 @@ describe('CreateStudentDialog', () => {
     
     await user.type(screen.getByLabelText('First Name'), 'John');
     await user.type(screen.getByLabelText('Last Name'), 'Doe');
-    await user.click(screen.getByText('Create Student'));
+    
+    await act(async () => {
+      await user.click(screen.getByText('Create Student'));
+    });
     
     await waitFor(() => {
       expect(mockOnCreate).toHaveBeenCalledWith({
@@ -133,7 +141,9 @@ describe('CreateStudentDialog', () => {
     expect(screen.getByText('Creating...')).toBeInTheDocument();
     
     // Resolve the promise to complete the test
-    resolveCreate!({});
+    await act(async () => {
+      resolveCreate!({});
+    });
   });
 
   it('should display API error in dialog', async () => {
@@ -144,7 +154,10 @@ describe('CreateStudentDialog', () => {
     await user.click(screen.getByText('Add Student'));
     await user.type(screen.getByLabelText('First Name'), 'John');
     await user.type(screen.getByLabelText('Last Name'), 'Doe');
-    await user.click(screen.getByText('Create Student'));
+    
+    await act(async () => {
+      await user.click(screen.getByText('Create Student'));
+    });
     
     await waitFor(() => {
       expect(screen.getByText('Server error')).toBeInTheDocument();
@@ -177,7 +190,10 @@ describe('CreateStudentDialog', () => {
     await user.click(screen.getByText('Add Student'));
     await user.type(screen.getByLabelText('First Name'), 'John');
     await user.type(screen.getByLabelText('Last Name'), 'Doe');
-    await user.click(screen.getByText('Create Student'));
+    
+    await act(async () => {
+      await user.click(screen.getByText('Create Student'));
+    });
     
     await waitFor(() => {
       expect(screen.getByText('Server error')).toBeInTheDocument();
@@ -196,7 +212,10 @@ describe('CreateStudentDialog', () => {
     await user.click(screen.getByText('Add Student'));
     await user.type(screen.getByLabelText('First Name'), 'John');
     await user.type(screen.getByLabelText('Last Name'), 'Doe');
-    await user.click(screen.getByText('Create Student'));
+    
+    await act(async () => {
+      await user.click(screen.getByText('Create Student'));
+    });
     
     await waitFor(() => {
       expect(screen.queryByText('Create New Student')).not.toBeInTheDocument();

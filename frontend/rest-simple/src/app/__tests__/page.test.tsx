@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, act } from '@testing-library/react';
 import Dashboard from '../page';
 import { apiClient } from '@/lib/api-client';
 import { appConfig } from '@/lib/config';
@@ -25,21 +25,31 @@ describe('Dashboard', () => {
     jest.clearAllMocks();
   });
 
-  it('should render dashboard title and description', () => {
+  it('should render dashboard title and description', async () => {
     mockApiClient.healthCheck.mockResolvedValue({ status: 'ok' });
     mockApiClient.getAllStudents.mockResolvedValue({ students: [] });
     
-    render(<Dashboard />);
+    await act(async () => {
+      render(<Dashboard />);
+    });
     
     expect(screen.getByText('Dashboard')).toBeInTheDocument();
     expect(screen.getByText('Overview of your REST Simple application')).toBeInTheDocument();
+    
+    // Wait for async effects to complete
+    await waitFor(() => {
+      expect(mockApiClient.healthCheck).toHaveBeenCalled();
+      expect(mockApiClient.getAllStudents).toHaveBeenCalled();
+    });
   });
 
   it('should display API status as healthy', async () => {
     mockApiClient.healthCheck.mockResolvedValue({ status: 'ok' });
     mockApiClient.getAllStudents.mockResolvedValue({ students: [] });
     
-    render(<Dashboard />);
+    await act(async () => {
+      render(<Dashboard />);
+    });
     
     await waitFor(() => {
       expect(screen.getByText('Healthy')).toBeInTheDocument();
@@ -52,18 +62,22 @@ describe('Dashboard', () => {
     mockApiClient.healthCheck.mockRejectedValue(new Error('Network error'));
     mockApiClient.getAllStudents.mockResolvedValue({ students: [] });
     
-    render(<Dashboard />);
+    await act(async () => {
+      render(<Dashboard />);
+    });
     
     await waitFor(() => {
       expect(screen.getByText('Error')).toBeInTheDocument();
     });
   });
 
-  it('should display loading state initially', () => {
+  it('should display loading state initially', async () => {
     mockApiClient.healthCheck.mockImplementation(() => new Promise(() => {})); // Never resolves
     mockApiClient.getAllStudents.mockImplementation(() => new Promise(() => {}));
     
-    render(<Dashboard />);
+    await act(async () => {
+      render(<Dashboard />);
+    });
     
     expect(screen.getByText('Checking...')).toBeInTheDocument();
   });
@@ -77,7 +91,9 @@ describe('Dashboard', () => {
       ] 
     });
     
-    render(<Dashboard />);
+    await act(async () => {
+      render(<Dashboard />);
+    });
     
     await waitFor(() => {
       expect(screen.getByText('2')).toBeInTheDocument();
@@ -90,7 +106,9 @@ describe('Dashboard', () => {
     mockApiClient.healthCheck.mockResolvedValue({ status: 'ok' });
     mockApiClient.getAllStudents.mockResolvedValue({ students: [] });
     
-    render(<Dashboard />);
+    await act(async () => {
+      render(<Dashboard />);
+    });
     
     await waitFor(() => {
       expect(screen.getByText('0')).toBeInTheDocument();
@@ -101,7 +119,9 @@ describe('Dashboard', () => {
     mockApiClient.healthCheck.mockResolvedValue({ status: 'ok' });
     mockApiClient.getAllStudents.mockRejectedValue(new Error('Failed to fetch'));
     
-    render(<Dashboard />);
+    await act(async () => {
+      render(<Dashboard />);
+    });
     
     await waitFor(() => {
       expect(screen.getByText('--')).toBeInTheDocument();
@@ -112,7 +132,9 @@ describe('Dashboard', () => {
     mockApiClient.healthCheck.mockResolvedValue({ status: 'ok' });
     mockApiClient.getAllStudents.mockResolvedValue({ students: [] });
     
-    render(<Dashboard />);
+    await act(async () => {
+      render(<Dashboard />);
+    });
     
     await waitFor(() => {
       expect(screen.getByText('Authentication')).toBeInTheDocument();
@@ -126,11 +148,15 @@ describe('Dashboard', () => {
     mockApiClient.healthCheck.mockResolvedValue({ status: 'ok' });
     mockApiClient.getAllStudents.mockResolvedValue({ students: [] });
     
-    render(<Dashboard />);
+    await act(async () => {
+      render(<Dashboard />);
+    });
     
-    expect(screen.getByText('Quick Actions')).toBeInTheDocument();
-    expect(screen.getByText('Manage Students')).toBeInTheDocument();
-    expect(screen.getByText('Check API Health')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Quick Actions')).toBeInTheDocument();
+      expect(screen.getByText('Manage Students')).toBeInTheDocument();
+      expect(screen.getByText('Check API Health')).toBeInTheDocument();
+    });
   });
 
   it('should display register button when auth is enabled', async () => {
@@ -145,26 +171,34 @@ describe('Dashboard', () => {
     mockApiClient.healthCheck.mockResolvedValue({ status: 'ok' });
     mockApiClient.getAllStudents.mockResolvedValue({ students: [] });
     
-    render(<Dashboard />);
+    await act(async () => {
+      render(<Dashboard />);
+    });
     
-    if (appConfig.auth.enabled) {
-      expect(screen.getByText('Register New User')).toBeInTheDocument();
-    }
+    await waitFor(() => {
+      if (appConfig.auth.enabled) {
+        expect(screen.getByText('Register New User')).toBeInTheDocument();
+      }
+    });
   });
 
   it('should display system information', async () => {
     mockApiClient.healthCheck.mockResolvedValue({ status: 'ok' });
     mockApiClient.getAllStudents.mockResolvedValue({ students: [] });
     
-    render(<Dashboard />);
+    await act(async () => {
+      render(<Dashboard />);
+    });
     
-    expect(screen.getByText('System Information')).toBeInTheDocument();
-    expect(screen.getByText('API Base URL:')).toBeInTheDocument();
-    expect(screen.getByText('Request Timeout:')).toBeInTheDocument();
-    // Be more specific about the text we're looking for
-    const apiUrlElements = screen.getAllByText(appConfig.api.baseUrl);
-    expect(apiUrlElements.length).toBeGreaterThan(0);
-    expect(screen.getByText('30s')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('System Information')).toBeInTheDocument();
+      expect(screen.getByText('API Base URL:')).toBeInTheDocument();
+      expect(screen.getByText('Request Timeout:')).toBeInTheDocument();
+      // Be more specific about the text we're looking for
+      const apiUrlElements = screen.getAllByText(appConfig.api.baseUrl);
+      expect(apiUrlElements.length).toBeGreaterThan(0);
+      expect(screen.getByText('30s')).toBeInTheDocument();
+    });
   });
 
   it('should display auth disabled warning when auth is disabled', async () => {
@@ -179,7 +213,9 @@ describe('Dashboard', () => {
     mockApiClient.healthCheck.mockResolvedValue({ status: 'ok' });
     mockApiClient.getAllStudents.mockResolvedValue({ students: [] });
     
-    render(<Dashboard />);
+    await act(async () => {
+      render(<Dashboard />);
+    });
     
     if (!appConfig.auth.enabled) {
       await waitFor(() => {
@@ -192,17 +228,21 @@ describe('Dashboard', () => {
     mockApiClient.healthCheck.mockResolvedValue({ status: 'ok' });
     mockApiClient.getAllStudents.mockResolvedValue({ students: [] });
     
-    render(<Dashboard />);
+    await act(async () => {
+      render(<Dashboard />);
+    });
     
-    const studentsLink = screen.getByRole('link', { name: /manage students/i });
-    const healthLink = screen.getByRole('link', { name: /check api health/i });
-    
-    expect(studentsLink).toHaveAttribute('href', '/students');
-    expect(healthLink).toHaveAttribute('href', '/health');
-    
-    if (appConfig.auth.enabled) {
-      const registerLink = screen.getByRole('link', { name: /register new user/i });
-      expect(registerLink).toHaveAttribute('href', '/register');
-    }
+    await waitFor(() => {
+      const studentsLink = screen.getByRole('link', { name: /manage students/i });
+      const healthLink = screen.getByRole('link', { name: /check api health/i });
+      
+      expect(studentsLink).toHaveAttribute('href', '/students');
+      expect(healthLink).toHaveAttribute('href', '/health');
+      
+      if (appConfig.auth.enabled) {
+        const registerLink = screen.getByRole('link', { name: /register new user/i });
+        expect(registerLink).toHaveAttribute('href', '/register');
+      }
+    });
   });
 });
