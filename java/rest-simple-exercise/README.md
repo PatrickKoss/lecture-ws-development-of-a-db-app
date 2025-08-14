@@ -51,164 +51,781 @@ The exercise starts with these essential components already configured:
 
 ## Exercise Todos 🎯
 
-Follow these steps to build the complete student management API. Each step builds on the previous one:
+Follow these steps to build the complete student management API. Each step builds on the previous one, starting with simple transaction script pattern and evolving to clean architecture:
 
-### Phase 1: Domain Foundation
+### Phase 1: Simple Transaction Script (Start Here)
 
-- [ ] **1.1 Create Student Domain Model**
+- [ ] **1.1 Create Basic Student Model**
+  - Create `model/Student.java` as simple POJO
+  - Include: id (Long), firstName, lastName, email, registrationDate
+  - Use basic getters/setters (no validation yet)
+  - Keep it simple - just a data holder
 
-  - Create `domain/model/Student.java` with immutable design
-  - Include: id (UUID), firstName, lastName, email, registrationDate
-  - Add validation rules in constructor (null checks, email format)
-  - Implement `withUpdatedInfo()` method for modifications
+  **Abstract Example (Book domain):**
+  ```java
+  // Abstract pattern: Simple POJO with basic fields
+  public class Book {
+      private Long id;
+      private String title;
+      private String author;
+      private String isbn;
+      private LocalDateTime publishedDate;
+      
+      // Default constructor
+      public Book() {}
+      
+      // Full constructor
+      public Book(Long id, String title, String author, String isbn, LocalDateTime publishedDate) {
+          this.id = id;
+          this.title = title;
+          this.author = author;
+          this.isbn = isbn;
+          this.publishedDate = publishedDate;
+      }
+      
+      // Standard getters and setters
+      public Long getId() { return id; }
+      public void setId(Long id) { this.id = id; }
+      // ... etc for all fields
+  }
+  ```
+  
+  **Your Task:** Create similar `Student.java` with fields: id, firstName, lastName, email, registrationDate
 
-- [ ] **1.2 Create Domain Exceptions**
-  - Create `domain/exception/StudentNotFoundException.java`
-  - Create `domain/exception/InvalidStudentDataException.java`
-  - Update `GlobalExceptionHandler` to handle these new exceptions
+- [ ] **1.2 Add Simple GET Endpoint**
+  - Add `GET /api/students` endpoint to `StudentController`
+  - Return hardcoded list of 2-3 students (no database yet)
+  - Create `StudentResponse.java` DTO for JSON response
+  - Test endpoint returns JSON properly
 
-### Phase 2: Application Layer (Use Cases)
+  **Abstract Example (Book domain):**
+  ```java
+  // Pattern: Response DTO that mirrors domain model
+  public class BookResponse {
+      private Long id;
+      private String title;
+      private String author;
+      private String isbn;
+      private LocalDateTime publishedDate;
+      
+      // Constructor from domain model
+      public BookResponse(Book book) {
+          this.id = book.getId();
+          this.title = book.getTitle();
+          this.author = book.getAuthor();
+          this.isbn = book.getIsbn();
+          this.publishedDate = book.getPublishedDate();
+      }
+      
+      // Only getters (response DTOs are read-only)
+      public Long getId() { return id; }
+      // ... etc
+  }
+  
+  // Pattern: Controller with hardcoded data
+  @GetMapping
+  public ResponseEntity<List<BookResponse>> getAllBooks() {
+      List<Book> books = Arrays.asList(
+          new Book(1L, "Clean Code", "Robert Martin", "978-0132350884", LocalDateTime.now().minusYears(1)),
+          new Book(2L, "Spring in Action", "Craig Walls", "978-1617294945", LocalDateTime.now().minusMonths(6))
+      );
+      
+      List<BookResponse> response = books.stream()
+          .map(BookResponse::new)
+          .collect(Collectors.toList());
+          
+      return ResponseEntity.ok(response);
+  }
+  ```
+  
+  **Your Task:** Create `StudentResponse.java` and implement `GET /api/students` endpoint with hardcoded students
 
-- [ ] **2.1 Define Inbound Ports (Use Case Interfaces)**
+  **Test:** Visit <http://localhost:8081/api/students> - should return JSON array
 
-  - Create `application/port/in/CreateStudentUseCase.java`
-  - Create `application/port/in/GetStudentUseCase.java`
-  - Create `application/port/in/UpdateStudentUseCase.java`
-  - Create `application/port/in/DeleteStudentUseCase.java`
-  - Define command objects for each use case
+### Phase 2: Add Database Persistence
 
-- [ ] **2.2 Define Outbound Ports (Repository Interfaces)**
-
-  - Create `application/port/out/SaveStudentPort.java`
-  - Create `application/port/out/LoadStudentPort.java`
-  - Create `application/port/out/DeleteStudentPort.java`
-  - Keep interfaces focused and single-purpose
-
-- [ ] **2.3 Implement Application Services**
-  - Create `application/service/StudentService.java`
-  - Implement all use case interfaces
-  - Use `@Service` and `@Transactional` annotations
-  - Handle business logic and coordinate between ports
-
-### Phase 3: Persistence Layer (Outbound Adapters)
-
-- [ ] **3.1 Create JPA Entities**
-
-  - Create `adapter/out/dto/StudentJpaEntity.java`
-  - Map to `student` table with proper JPA annotations
-  - Keep separate from domain model
-
-- [ ] **3.2 Create JPA Repository**
-
-  - Create `adapter/out/persistence/StudentJpaRepository.java` (extends JpaRepository)
-  - Create `adapter/out/persistence/StudentPersistenceAdapter.java`
-  - Implement outbound ports
-  - Handle entity/domain model conversion
-
-- [ ] **3.3 Add Database Migration**
+- [ ] **2.1 Add Database Migration**
   - Create `src/main/resources/db/migration/V1__Create_student_table.sql`
-  - Define table schema with proper constraints
-  - Test migration works on startup
+  - Define student table: id, first_name, last_name, email, registration_date
+  - Test migration runs on startup
 
-### Phase 4: REST API Layer (Inbound Adapters)
+  **Abstract Example (Book domain):**
+  ```sql
+  -- Pattern: Flyway migration with table creation and test data
+  CREATE TABLE book (
+      id BIGINT PRIMARY KEY AUTOINCREMENT,
+      title VARCHAR(100) NOT NULL,
+      author VARCHAR(100) NOT NULL,
+      isbn VARCHAR(20) NOT NULL,
+      published_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  );
+  
+  -- Insert some test data for development
+  INSERT INTO book (title, author, isbn, published_date) VALUES
+  ('Clean Code', 'Robert Martin', '978-0132350884', '2008-08-01 10:00:00'),
+  ('Spring in Action', 'Craig Walls', '978-1617294945', '2018-10-01 14:30:00');
+  ```
+  
+  **Your Task:** Create `V1__Create_student_table.sql` with student fields and test data
 
-- [ ] **4.1 Create DTOs**
+- [ ] **2.2 Create JPA Entity and Repository**
+  - Convert `Student.java` to JPA entity with `@Entity`, `@Table`
+  - Add JPA annotations: `@Id`, `@GeneratedValue`, `@Column`
+  - Create `StudentRepository.java` extending `JpaRepository<Student, Long>`
+  - Inject repository into controller and return real database data
 
-  - Create `adapter/in/dto/CreateStudentRequest.java`
-  - Create `adapter/in/dto/UpdateStudentRequest.java`
-  - Create `adapter/in/dto/StudentResponse.java`
-  - Add validation annotations (`@NotNull`, `@Email`, etc.)
+  **Abstract Example (Book domain):**
+  ```java
+  // Pattern: JPA Entity with proper annotations
+  @Entity
+  @Table(name = "book")
+  public class Book {
+      @Id
+      @GeneratedValue(strategy = GenerationType.IDENTITY)
+      private Long id;
+      
+      @Column(name = "title", nullable = false, length = 100)
+      private String title;
+      
+      @Column(name = "author", nullable = false, length = 100)
+      private String author;
+      
+      @Column(name = "isbn", nullable = false, length = 20)
+      private String isbn;
+      
+      @Column(name = "published_date", nullable = false)
+      private LocalDateTime publishedDate;
+      
+      // Keep existing constructors, getters, setters
+  }
+  ```
 
-- [ ] **4.2 Expand REST Controller**
-  - Add CRUD endpoints to `StudentController`:
-    - `POST /api/students` - Create student
-    - `GET /api/students/{id}` - Get student by ID
-    - `GET /api/students` - List all students
-    - `PUT /api/students/{id}` - Update student
-    - `DELETE /api/students/{id}` - Delete student
-  - Add proper OpenAPI annotations
-  - Handle validation and error responses
+  ```java
+  // Pattern: Repository interface
+  @Repository
+  public interface BookRepository extends JpaRepository<Book, Long> {
+      // Spring Data JPA provides:
+      // - List<Book> findAll()
+      // - Optional<Book> findById(Long id)
+      // - Book save(Book book)
+      // - void deleteById(Long id)
+      // - boolean existsById(Long id)
+  }
+  ```
 
-### Phase 5: Testing
+  ```java
+  // Pattern: Controller with injected repository
+  @RestController
+  @RequestMapping("/api/books")
+  public class BookController {
+      
+      private final BookRepository bookRepository;
+      
+      // Constructor injection (recommended)
+      public BookController(BookRepository bookRepository) {
+          this.bookRepository = bookRepository;
+      }
+      
+      @GetMapping
+      public ResponseEntity<List<BookResponse>> getAllBooks() {
+          List<Book> books = bookRepository.findAll(); // Real database query
+          List<BookResponse> response = books.stream()
+              .map(BookResponse::new)
+              .collect(Collectors.toList());
+          return ResponseEntity.ok(response);
+      }
+  }
+  ```
+  
+  **Your Task:** Convert `Student.java` to JPA entity, create `StudentRepository.java`, and update controller to use database
 
-- [ ] **5.1 Unit Tests - Domain Layer**
+- [ ] **2.3 Add CRUD Operations**
+  - Add `POST /api/students` (create student)
+  - Add `GET /api/students/{id}` (get single student)
+  - Add `PUT /api/students/{id}` (update student)  
+  - Add `DELETE /api/students/{id}` (delete student)
+  - Create `CreateStudentRequest.java` and `UpdateStudentRequest.java` DTOs
+  - Handle basic error cases (student not found)
 
-  - Test `Student` domain model validation rules
-  - Test domain exceptions
+  **Abstract Example (Book domain):**
+  ```java
+  // Pattern: Request DTO with conversion method
+  public class CreateBookRequest {
+      private String title;
+      private String author;
+      private String isbn;
+      
+      public CreateBookRequest() {}
+      
+      public Book toBook() {
+          return new Book(null, title, author, isbn, LocalDateTime.now());
+      }
+      
+      // getters/setters...
+  }
+  
+  // Pattern: CRUD controller methods
+  @PostMapping
+  public ResponseEntity<BookResponse> createBook(@RequestBody CreateBookRequest request) {
+      Book book = request.toBook();
+      Book saved = bookRepository.save(book);
+      return ResponseEntity.status(HttpStatus.CREATED).body(new BookResponse(saved));
+  }
+  
+  @GetMapping("/{id}")
+  public ResponseEntity<BookResponse> getBook(@PathVariable Long id) {
+      Book book = bookRepository.findById(id)
+          .orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + id));
+      return ResponseEntity.ok(new BookResponse(book));
+  }
+  
+  @PutMapping("/{id}")
+  public ResponseEntity<BookResponse> updateBook(@PathVariable Long id, @RequestBody UpdateBookRequest request) {
+      Book book = bookRepository.findById(id)
+          .orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + id));
+      
+      // Update fields
+      book.setTitle(request.getTitle());
+      book.setAuthor(request.getAuthor());
+      book.setIsbn(request.getIsbn());
+      
+      Book updated = bookRepository.save(book);
+      return ResponseEntity.ok(new BookResponse(updated));
+  }
+  
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+      if (!bookRepository.existsById(id)) {
+          throw new ResourceNotFoundException("Book not found with id: " + id);
+      }
+      bookRepository.deleteById(id);
+      return ResponseEntity.noContent().build();
+  }
+  ```
 
-- [ ] **5.2 Unit Tests - Application Layer**
+  **Your Task:** Implement all CRUD operations for students following the same pattern
 
-  - Test `StudentService` with mocked ports
-  - Use `@ExtendWith(MockitoExtension.class)`
-  - Test happy path and error scenarios
+  **Test:** Use Swagger UI at <http://localhost:8081/swagger-ui.html> to test all operations
 
-- [ ] **5.3 Integration Tests - REST Layer**
+### Phase 3: Add Input Validation and Business Logic
 
-  - Test `StudentController` endpoints
-  - Use `@SpringBootTest` with test database
-  - Test full request/response cycle
+- [ ] **3.1 Add Input Validation**
+  - Add validation annotations to request DTOs (`@NotNull`, `@Email`, `@Size`)
+  - Add `@Valid` to controller methods
+  - Test validation works and returns proper error messages
+  - Update `GlobalExceptionHandler` for validation errors
 
-- [ ] **5.4 Integration Tests - Persistence Layer**
-  - Test `StudentPersistenceAdapter`
-  - Use `@DataJpaTest` for repository testing
-  - Test entity mapping and queries
+  **Abstract Example (Book domain):**
+  ```java
+  // Pattern: Request DTO with validation annotations
+  public class CreateBookRequest {
+      @NotBlank(message = "Title is required")
+      @Size(min = 1, max = 100, message = "Title must be between 1 and 100 characters")
+      private String title;
+      
+      @NotBlank(message = "Author is required")
+      @Size(min = 2, max = 100, message = "Author must be between 2 and 100 characters")
+      private String author;
+      
+      @NotBlank(message = "ISBN is required")
+      @Pattern(regexp = "^978-\\d{10}$", message = "ISBN must be in format 978-xxxxxxxxxx")
+      private String isbn;
+      
+      // getters/setters...
+  }
+  
+  // Pattern: Controller with @Valid
+  @PostMapping
+  public ResponseEntity<BookResponse> createBook(@Valid @RequestBody CreateBookRequest request) {
+      // Spring automatically validates and returns 400 if invalid
+      Book book = request.toBook();
+      return ResponseEntity.status(HttpStatus.CREATED).body(new BookResponse(book));
+  }
+  ```
+  
+  **Your Task:** Add validation annotations to student request DTOs and use `@Valid` in controller
 
-### Phase 6: Advanced Features (Optional)
+- [ ] **3.2 Add Business Rules**
+  - Email must be unique (add database constraint + check)
+  - Student names cannot be empty or only whitespace
+  - Registration date defaults to current time if not provided
+  - Add custom `StudentAlreadyExistsException` for duplicate emails
 
-- [ ] **6.1 Add Pagination**
+  **Abstract Example (Book domain):**
+  ```java
+  // Pattern: Custom business exception
+  public class BookAlreadyExistsException extends RuntimeException {
+      public BookAlreadyExistsException(String isbn) {
+          super("Book with ISBN '" + isbn + "' already exists");
+      }
+  }
+  
+  // Pattern: Database constraint
+  ALTER TABLE book ADD CONSTRAINT uk_book_isbn UNIQUE (isbn);
+  
+  // Pattern: Repository with business queries
+  public interface BookRepository extends JpaRepository<Book, Long> {
+      boolean existsByIsbn(String isbn);
+      Optional<Book> findByIsbn(String isbn);
+  }
+  ```
+  
+  **Your Task:** Add uniqueness constraint for student email and create custom exception
 
-  - Modify list endpoint to support pagination
-  - Use Spring's `Pageable` and `Page<T>`
+- [ ] **3.3 Add Service Layer**
+  - Create `StudentService.java` with `@Service` annotation
+  - Move business logic from controller to service
+  - Add `@Transactional` to service methods
+  - Controller should only handle HTTP concerns, delegate to service
 
-- [ ] **6.2 Add Search/Filtering**
+  **Abstract Example (Book domain):**
+  ```java
+  // Pattern: Service layer with business logic
+  @Service
+  @Transactional
+  public class BookService {
+      
+      private final BookRepository bookRepository;
+      
+      public BookService(BookRepository bookRepository) {
+          this.bookRepository = bookRepository;
+      }
+      
+      @Transactional(readOnly = true)
+      public List<Book> getAllBooks() {
+          return bookRepository.findAll();
+      }
+      
+      public Book createBook(CreateBookRequest request) {
+          // Business rule: Check ISBN uniqueness
+          if (bookRepository.existsByIsbn(request.getIsbn())) {
+              throw new BookAlreadyExistsException(request.getIsbn());
+          }
+          
+          // Business rule: Normalize data
+          Book book = new Book(null, 
+              request.getTitle().trim(), 
+              request.getAuthor().trim(), 
+              request.getIsbn().trim(), 
+              LocalDateTime.now());
+              
+          return bookRepository.save(book);
+      }
+  }
+  
+  // Pattern: Thin controller delegating to service
+  @RestController
+  public class BookController {
+      private final BookService bookService;
+      
+      @PostMapping
+      public ResponseEntity<BookResponse> createBook(@Valid @RequestBody CreateBookRequest request) {
+          Book book = bookService.createBook(request);
+          return ResponseEntity.status(HttpStatus.CREATED).body(new BookResponse(book));
+      }
+  }
+  ```
+  
+  **Your Task:** Create `StudentService.java` and move all business logic from controller to service
 
-  - Add query parameters for filtering students
-  - Implement search by name, email, etc.
+  ```java
+  // src/main/java/com/example/restsimple/service/StudentService.java
+  package com.example.restsimple.service;
+  
+  import com.example.restsimple.dto.CreateStudentRequest;
+  import com.example.restsimple.dto.UpdateStudentRequest;
+  import com.example.restsimple.exception.ResourceNotFoundException;
+  import com.example.restsimple.exception.StudentAlreadyExistsException;
+  import com.example.restsimple.model.Student;
+  import com.example.restsimple.repository.StudentRepository;
+  import org.springframework.stereotype.Service;
+  import org.springframework.transaction.annotation.Transactional;
+  
+  import java.time.LocalDateTime;
+  import java.util.List;
+  
+  @Service
+  @Transactional
+  public class StudentService {
+      
+      private final StudentRepository studentRepository;
+      
+      public StudentService(StudentRepository studentRepository) {
+          this.studentRepository = studentRepository;
+      }
+      
+      @Transactional(readOnly = true)
+      public List<Student> getAllStudents() {
+          return studentRepository.findAll();
+      }
+      
+      @Transactional(readOnly = true)
+      public Student getStudentById(Long id) {
+          return studentRepository.findById(id)
+              .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
+      }
+      
+      public Student createStudent(CreateStudentRequest request) {
+          // Business rule: Check email uniqueness
+          if (studentRepository.existsByEmail(request.getEmail())) {
+              throw new StudentAlreadyExistsException(request.getEmail());
+          }
+          
+          // Business rule: Validate names are not just whitespace
+          if (request.getFirstName().trim().isEmpty() || request.getLastName().trim().isEmpty()) {
+              throw new IllegalArgumentException("Student names cannot be empty or only whitespace");
+          }
+          
+          // Business rule: Set registration date to current time
+          Student student = new Student(null, 
+              request.getFirstName().trim(), 
+              request.getLastName().trim(), 
+              request.getEmail().toLowerCase().trim(), 
+              LocalDateTime.now());
+              
+          return studentRepository.save(student);
+      }
+      
+      public Student updateStudent(Long id, UpdateStudentRequest request) {
+          Student existingStudent = getStudentById(id);
+          
+          // Business rule: Check email uniqueness (if email changed)
+          if (!existingStudent.getEmail().equals(request.getEmail()) && 
+              studentRepository.existsByEmail(request.getEmail())) {
+              throw new StudentAlreadyExistsException(request.getEmail());
+          }
+          
+          // Update fields
+          existingStudent.setFirstName(request.getFirstName().trim());
+          existingStudent.setLastName(request.getLastName().trim());
+          existingStudent.setEmail(request.getEmail().toLowerCase().trim());
+          
+          return studentRepository.save(existingStudent);
+      }
+      
+      public void deleteStudent(Long id) {
+          if (!studentRepository.existsById(id)) {
+              throw new ResourceNotFoundException("Student not found with id: " + id);
+          }
+          studentRepository.deleteById(id);
+      }
+  }
+  ```
 
-- [ ] **6.3 Add Validation Groups**
+  ```java
+  // Update StudentController.java - delegate to service
+  @RestController
+  @RequestMapping("/api/students")
+  public class StudentController {
+      
+      private final StudentService studentService;
+      
+      public StudentController(StudentService studentService) {
+          this.studentService = studentService;
+      }
+      
+      @GetMapping
+      public ResponseEntity<List<StudentResponse>> getAllStudents() {
+          List<Student> students = studentService.getAllStudents();
+          List<StudentResponse> response = students.stream()
+              .map(StudentResponse::new)
+              .collect(Collectors.toList());
+          return ResponseEntity.ok(response);
+      }
+      
+      @PostMapping
+      public ResponseEntity<StudentResponse> createStudent(@Valid @RequestBody CreateStudentRequest request) {
+          Student student = studentService.createStudent(request);
+          return ResponseEntity.status(HttpStatus.CREATED).body(new StudentResponse(student));
+      }
+      
+      // ... update other methods to delegate to service
+  }
+  ```
 
-  - Use different validation rules for create vs update
-  - Implement custom validators
+  ```java
+  // Update GlobalExceptionHandler.java to handle new exception
+  @ExceptionHandler(StudentAlreadyExistsException.class)
+  public ResponseEntity<ErrorResponse> handleStudentAlreadyExistsException(StudentAlreadyExistsException ex) {
+      ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
+      return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+  }
+  ```
 
-- [ ] **6.4 Add Audit Fields**
-  - Add createdAt, updatedAt, createdBy fields
-  - Use JPA auditing features
+### Phase 4: Refactor to Hexagonal Architecture (Ports & Adapters)
 
-## Architecture Principles
+- [ ] **4.1 Extract Domain Model**
+  - Move `Student.java` to `domain/model/` package
+  - Make it immutable with private constructor
+  - Add static factory methods and validation in constructor
+  - Create `withUpdatedInfo()` method for modifications
+  - Move exceptions to `domain/exception/` package
 
-This exercise follows **Hexagonal Architecture** principles:
+  **Abstract Example (Book domain):**
+  ```java
+  // Pattern: Immutable domain model with business logic
+  public class Book {
+      private final Long id;
+      private final String title;
+      private final String author;
+      private final String isbn;
+      private final LocalDateTime publishedDate;
+      
+      private Book(Long id, String title, String author, String isbn, LocalDateTime publishedDate) {
+          this.id = id;
+          this.title = validateTitle(title);
+          this.author = validateAuthor(author);
+          this.isbn = validateIsbn(isbn);
+          this.publishedDate = publishedDate != null ? publishedDate : LocalDateTime.now();
+      }
+      
+      public static Book create(String title, String author, String isbn) {
+          return new Book(null, title, author, isbn, LocalDateTime.now());
+      }
+      
+      public static Book restore(Long id, String title, String author, String isbn, LocalDateTime publishedDate) {
+          return new Book(id, title, author, isbn, publishedDate);
+      }
+      
+      public Book withUpdatedInfo(String title, String author, String isbn) {
+          return new Book(this.id, title, author, isbn, this.publishedDate);
+      }
+      
+      private String validateTitle(String title) {
+          if (title == null || title.trim().isEmpty()) {
+              throw new IllegalArgumentException("Title cannot be empty");
+          }
+          return title.trim();
+      }
+      
+      // Only getters (immutable)
+      public Long getId() { return id; }
+      // ... etc
+  }
+  ```
 
-### Dependency Rule
+- [ ] **4.2 Define Ports (Interfaces)**
+  - Create use case interfaces in `application/port/in/`
+  - Create repository interface in `application/port/out/`
 
-Dependencies must point inward: Adapters → Application → Domain
+  **Abstract Example (Book domain):**
+  ```java
+  // Pattern: Use case interface with command objects
+  public interface CreateBookUseCase {
+      Book createBook(CreateBookCommand command);
+      
+      record CreateBookCommand(String title, String author, String isbn) {}
+  }
+  
+  // Pattern: Repository port (interface)
+  public interface BookPort {
+      Book save(Book book);
+      Optional<Book> findById(Long id);
+      List<Book> findAll();
+      boolean existsByIsbn(String isbn);
+      void deleteById(Long id);
+  }
+  ```
 
-### Layer Responsibilities
+- [ ] **4.3 Implement Adapters**
+  - Move controller to `adapter/in/web/StudentController.java`
+  - Create `adapter/out/persistence/StudentPersistenceAdapter.java`
+  - Create domain service implementing use cases
+
+  **Abstract Example (Book domain):**
+  ```java
+  // Pattern: Application service implementing use cases
+  @Service
+  @Transactional
+  public class BookService implements CreateBookUseCase /* other use cases */ {
+      
+      private final BookPort bookPort;
+      
+      public BookService(BookPort bookPort) {
+          this.bookPort = bookPort;
+      }
+      
+      @Override
+      public Book createBook(CreateBookCommand command) {
+          if (bookPort.existsByIsbn(command.isbn())) {
+              throw new BookAlreadyExistsException(command.isbn());
+          }
+          
+          Book book = Book.create(command.title(), command.author(), command.isbn());
+          return bookPort.save(book);
+      }
+  }
+  
+  // Pattern: Persistence adapter implementing port
+  @Component
+  public class BookPersistenceAdapter implements BookPort {
+      private final BookJpaRepository jpaRepository;
+      
+      @Override
+      public Book save(Book book) {
+          BookJpaEntity entity = BookJpaEntity.fromDomain(book);
+          BookJpaEntity saved = jpaRepository.save(entity);
+          return saved.toDomain();
+      }
+  }
+  ```
+
+**Your Task:** Refactor student code to hexagonal architecture following these patterns
+
+**Key Insight:** Domain model is now pure business logic with no framework dependencies!
+
+### Phase 5-7: Advanced Features (Brief Abstract Examples)
+
+**Your Task:** Follow the patterns below to implement logging, authentication, and testing for students
+
+- [ ] **5.1 Add Request/Response Logging**
+  **Pattern:** Create filter with correlation IDs and structured logging
+  ```java
+  // Pattern: Filter for request tracking
+  @Component
+  public class LoggingFilter implements Filter {
+      @Override
+      public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) {
+          String correlationId = UUID.randomUUID().toString();
+          MDC.put("correlationId", correlationId);
+          log.info("Request: {} {}", method, uri);
+          chain.doFilter(request, response);
+          MDC.clear();
+      }
+  }
+  ```
+
+- [ ] **5.2 Add Custom Metrics**
+  **Pattern:** Use Micrometer for business metrics and timing
+  ```java
+  // Pattern: Service with metrics
+  public Book createBook(CreateBookCommand command) {
+      Timer.Sample sample = Timer.start(meterRegistry);
+      try {
+          Book book = // business logic
+          bookCreatedCounter.increment();
+          return book;
+      } finally {
+          sample.stop(Timer.builder("book.create.duration").register(meterRegistry));
+      }
+  }
+  ```
+
+- [ ] **6.1 Add User Authentication**
+  **Pattern:** User domain model with encrypted passwords
+  ```java
+  // Pattern: User domain with security
+  public class User {
+      public static User create(String username, String email, String rawPassword) {
+          String passwordHash = BCrypt.hashpw(rawPassword, BCrypt.gensalt());
+          return new User(null, username, email, passwordHash, Set.of(Role.USER));
+      }
+  }
+  ```
+
+- [ ] **6.2 Add JWT Endpoints**
+  **Pattern:** Auth controller with login and refresh
+  ```java
+  // Pattern: Authentication endpoints
+  @PostMapping("/login")
+  public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+      User user = authService.authenticate(request.email(), request.password());
+      String accessToken = jwtService.generateToken(user);
+      return ResponseEntity.ok(new LoginResponse(accessToken, refreshToken));
+  }
+  ```
+
+- [ ] **7.1 Add Unit Tests**
+  **Pattern:** Test domain and application layers with mocks
+  ```java
+  // Pattern: Unit test with mocks
+  @ExtendWith(MockitoExtension.class)
+  class BookServiceTest {
+      @Mock private BookPort bookPort;
+      @InjectMocks private BookService bookService;
+      
+      @Test
+      void createBook_ShouldCreateBook_WhenIsbnIsUnique() {
+          // Given-When-Then pattern
+          var command = new CreateBookCommand("Title", "Author", "ISBN");
+          when(bookPort.existsByIsbn("ISBN")).thenReturn(false);
+          
+          Book result = bookService.createBook(command);
+          
+          verify(bookPort).save(any(Book.class));
+      }
+  }
+  ```
+
+- [ ] **7.2 Add Integration Tests**
+  **Pattern:** End-to-end tests with real HTTP calls
+  ```java
+  // Pattern: Integration test
+  @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+  class BookControllerIntegrationTest {
+      @Autowired private TestRestTemplate restTemplate;
+      
+      @Test
+      void createBook_ShouldReturn201_WhenValidRequest() {
+          var request = new CreateBookRequest("Title", "Author", "ISBN");
+          
+          ResponseEntity<BookResponse> response = restTemplate.postForEntity(
+              "/api/books", request, BookResponse.class);
+              
+          assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+      }
+  }
+  ```
+
+## Architecture Evolution 🏗️
+
+This exercise teaches architecture through **progressive refinement** - starting simple and evolving to clean architecture:
+
+### Phase 1-3: Transaction Script Pattern
+**Simple and pragmatic approach for getting started**
+
+```
+Controller → Service → Repository → Database
+```
+
+- **Controller**: Handles HTTP requests/responses
+- **Service**: Contains business logic and validation  
+- **Repository**: Data access layer (Spring Data JPA)
+- **Model**: Simple POJOs with JPA annotations
+
+**When to use:** Small applications, rapid prototyping, learning fundamentals
+
+### Phase 4+: Hexagonal Architecture (Ports & Adapters)
+**Clean architecture for maintainable, testable systems**
+
+```
+Adapters → Application → Domain
+```
 
 **Domain Layer** (`domain/`)
-
 - Pure business logic, no external dependencies
-- Domain entities with business rules
+- Immutable domain entities with business rules
 - Domain exceptions
 - No Spring annotations
 
 **Application Layer** (`application/`)
-
 - Use case orchestration
 - Port interfaces (inbound and outbound)
-- Application services with `@Service` and `@Transactional`
+- Application services implementing business workflows
 
 **Adapter Layer** (`adapter/`)
+- **Inbound**: REST controllers, DTOs, web concerns
+- **Outbound**: JPA repositories, external APIs, infrastructure
 
-- **Inbound**: REST controllers, DTOs
-- **Outbound**: JPA repositories, external APIs
-- Framework-specific code lives here
+### Key Benefits of Evolution
 
-### Key Benefits
+✅ **Learning Progression**: Start simple, add complexity gradually
+✅ **Practical Understanding**: See why clean architecture matters
+✅ **Refactoring Skills**: Learn to transform legacy code
+✅ **Architecture Decision**: Understand when to apply which pattern
 
-✅ **Testability**: Easy to unit test with mocked dependencies
-✅ **Flexibility**: Can swap adapters without changing business logic  
-✅ **Separation of Concerns**: Clear boundaries between layers
-✅ **Independence**: Domain logic doesn't depend on frameworks
+### Dependency Rule (Phase 4+)
+Dependencies must point inward: `Adapters → Application → Domain`
 
 ## Development Guidelines
 
@@ -246,16 +863,34 @@ As you implement each phase, validate by:
 
 After completing this exercise, you will understand:
 
-- ✅ **Hexagonal Architecture** principles and implementation
+### Phase 1-3: Fundamentals
 - ✅ **Spring Boot 3** modern features and configuration
-- ✅ **Clean Code** practices and SOLID principles
+- ✅ **REST API Design** with proper HTTP semantics and documentation  
+- ✅ **Database Integration** with JPA and Flyway migrations
+- ✅ **Input Validation** and error handling patterns
+- ✅ **Transaction Script** pattern for rapid development
+
+### Phase 4: Clean Architecture  
+- ✅ **Hexagonal Architecture** principles and implementation
+- ✅ **Dependency Inversion** and ports & adapters pattern
+- ✅ **Domain-Driven Design** basics with immutable entities
+- ✅ **Refactoring** legacy code to clean architecture
+- ✅ **SOLID Principles** in practice
+
+### Phase 5-6: Production Ready
+- ✅ **Observability** with logging, metrics, and monitoring
+- ✅ **Security** with JWT authentication and authorization
+- ✅ **Performance** monitoring and optimization
+- ✅ **Error Handling** and proper HTTP status codes
+
+### Phase 7: Quality Assurance
 - ✅ **Test-Driven Development** with proper test pyramid
-- ✅ **API Design** with proper HTTP semantics and documentation
-- ✅ **Database Integration** with JPA and migrations
-- ✅ **Error Handling** and validation patterns
+- ✅ **Unit Testing** with mocks and isolation
+- ✅ **Integration Testing** with real databases
+- ✅ **Code Quality** and best practices
 
 ---
 
-**Start with Phase 1** and work through each todo systematically. Take time to understand the architecture decisions and test your implementation at each step.
+**Start with Phase 1** and work through each todo systematically. Each phase builds important skills and prepares you for the next level of complexity.
 
-Happy coding! 🚀
+**Key Learning:** See how simple solutions evolve into clean, maintainable architectures! 🚀
