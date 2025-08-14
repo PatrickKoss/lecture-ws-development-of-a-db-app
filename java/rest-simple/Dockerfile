@@ -8,22 +8,18 @@ ARG USERNAME=student
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
-# Install system dependencies
+# Install minimal system dependencies
 RUN apt-get update && apt-get install -y \
     curl \
     wget \
     git \
     unzip \
     sqlite3 \
-    build-essential \
     ca-certificates \
     gnupg \
     lsb-release \
-    sudo \
     vim \
     nano \
-    tree \
-    htop \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Java 21
@@ -45,18 +41,32 @@ RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.
 ENV GRADLE_HOME=/opt/gradle/gradle-${GRADLE_VERSION}
 ENV PATH=$GRADLE_HOME/bin:$PATH
 
-# Create user
+# Create restricted user without sudo access
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
-    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-    && chmod 0440 /etc/sudoers.d/$USERNAME
+    && mkdir -p /home/$USERNAME/workspace \
+    && chown -R $USERNAME:$USERNAME /home/$USERNAME
 
-# Install VS Code Server
+# Remove dangerous tools after installation is complete
+RUN rm -f /usr/bin/wget /usr/bin/curl /bin/wget /bin/curl \
+    && rm -f /usr/bin/apt /usr/bin/apt-get /usr/bin/dpkg \
+    && rm -f /usr/bin/snap /usr/bin/systemctl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create restricted PATH for student user
+RUN echo '#!/bin/bash' > /usr/local/bin/restricted-shell \
+    && echo 'export PATH=/usr/lib/jvm/temurin-21-jdk-amd64/bin:/opt/gradle/gradle-8.5/bin:/usr/bin:/bin:/usr/local/bin' >> /usr/local/bin/restricted-shell \
+    && echo 'export SHELL=/bin/bash' >> /usr/local/bin/restricted-shell \
+    && echo 'cd /home/student/workspace' >> /usr/local/bin/restricted-shell \
+    && echo 'exec /bin/bash "$@"' >> /usr/local/bin/restricted-shell \
+    && chmod +x /usr/local/bin/restricted-shell
+
+# Install VS Code Server as root before switching to student user
+RUN curl -fsSL https://code-server.dev/install.sh | sh
+
+# Switch to student user
 USER $USERNAME
 WORKDIR /home/$USERNAME
-
-# Download and install code-server
-RUN curl -fsSL https://code-server.dev/install.sh | sh
 
 # Create VS Code Server config directory
 RUN mkdir -p /home/$USERNAME/.config/code-server
@@ -141,14 +151,38 @@ RUN echo '{\
     "java.gradle.buildServer.enabled": "on"\
 }' > /home/$USERNAME/workspace/.vscode/settings.json
 
+# Set proper permissions for workspace
+RUN chmod 755 /home/$USERNAME/workspace \
+    && find /home/$USERNAME -type d -exec chmod 755 {} \; \
+    && find /home/$USERNAME -type f -exec chmod 644 {} \;
+
+# Create allowed commands list for student user
+RUN echo 'java' > /home/$USERNAME/.allowed_commands \
+    && echo 'javac' >> /home/$USERNAME/.allowed_commands \
+    && echo 'gradle' >> /home/$USERNAME/.allowed_commands \
+    && echo 'sqlite3' >> /home/$USERNAME/.allowed_commands \
+    && echo 'git' >> /home/$USERNAME/.allowed_commands \
+    && echo 'vim' >> /home/$USERNAME/.allowed_commands \
+    && echo 'nano' >> /home/$USERNAME/.allowed_commands \
+    && echo 'ls' >> /home/$USERNAME/.allowed_commands \
+    && echo 'cd' >> /home/$USERNAME/.allowed_commands \
+    && echo 'mkdir' >> /home/$USERNAME/.allowed_commands \
+    && echo 'rm' >> /home/$USERNAME/.allowed_commands \
+    && echo 'cp' >> /home/$USERNAME/.allowed_commands \
+    && echo 'mv' >> /home/$USERNAME/.allowed_commands \
+    && echo 'cat' >> /home/$USERNAME/.allowed_commands \
+    && echo 'grep' >> /home/$USERNAME/.allowed_commands \
+    && echo 'find' >> /home/$USERNAME/.allowed_commands \
+    && echo 'chmod' >> /home/$USERNAME/.allowed_commands
+
 # Set working directory
 WORKDIR /home/$USERNAME/workspace
 
 # Expose VS Code Server port
 EXPOSE 8080
 
-# Expose Spring Boot application port
+# Expose Spring Boot application port  
 EXPOSE 8081
 
-# Start VS Code Server
-CMD ["code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "none", "/home/student/workspace"]
+# Start VS Code Server with restricted environment
+CMD ["sh", "-c", "export PATH=/usr/lib/jvm/temurin-21-jdk-amd64/bin:/opt/gradle/gradle-8.5/bin:/usr/bin:/bin:/usr/local/bin && code-server --bind-addr 0.0.0.0:8080 --auth none /home/student/workspace"]

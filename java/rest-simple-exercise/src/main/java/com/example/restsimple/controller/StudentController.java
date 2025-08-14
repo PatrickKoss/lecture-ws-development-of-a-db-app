@@ -1,34 +1,30 @@
 package com.example.restsimple.controller;
 
-import com.example.restsimple.exception.ResourceNotFoundException;
-import com.example.restsimple.model.Student;
-import com.example.restsimple.repository.UpdateStudent;
-import com.example.restsimple.request.StudentCreateRequest;
-import com.example.restsimple.request.StudentUpdateRequest;
-import com.example.restsimple.response.ErrorResponse;
-import com.example.restsimple.response.StudentCreateResponse;
-import com.example.restsimple.response.StudentListResponse;
-import com.example.restsimple.response.StudentUpdateResponse;
-import com.example.restsimple.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.http.HttpStatus;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 @RestController
+@RequestMapping("/api/students")
+@Tag(name = "Student Management", description = "Student management operations")
 public class StudentController {
 
-    private final StudentService studentService;
-
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
+    @GetMapping("/health")
+    @Operation(
+        summary = "Health check endpoint", 
+        description = "Returns the health status of the student service"
+    )
+    @ApiResponse(responseCode = "200", description = "Service is healthy")
+    public ResponseEntity<Map<String, Object>> health() {
+        return ResponseEntity.ok(Map.of(
+            "status", "UP",
+            "service", "student-service",
+            "timestamp", LocalDateTime.now()
+        ));
     }
 }

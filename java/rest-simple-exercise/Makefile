@@ -1,9 +1,16 @@
-run: build
-	./gradlew run
+.PHONY: run build test clean bootrun
 
-.PHONY: build
+run: build
+	./gradlew bootRun
+
 build:
 	./gradlew build
 
 test:
 	./gradlew test
+
+clean:
+	./gradlew clean
+
+bootrun:
+	./gradlew bootRun

@@ -1,0 +1,65 @@
+[
+  {
+    "timestamp": "2025-08-14 21:11:15.121872",
+    "title": "Claude Notification",
+    "message": "Claude needs your permission to use Bash",
+    "type": "notification",
+    "platform": "WSL/Windows"
+  },
+  {
+    "timestamp": "2025-08-14 21:14:12.918800",
+    "title": "Claude Notification",
+    "message": "Claude needs your permission to use Bash",
+    "type": "notification",
+    "platform": "WSL/Windows"
+  },
+  {
+    "timestamp": "2025-08-14 21:16:26.030481",
+    "title": "Claude Session Ended",
+    "message": "The Claude session has been terminated.",
+    "type": "stop",
+    "platform": "WSL/Windows"
+  },
+  {
+    "timestamp": "2025-08-14 21:19:13.742485",
+    "title": "Claude Session Ended",
+    "message": "The Claude session has been terminated.",
+    "type": "stop",
+    "platform": "WSL/Windows"
+  },
+  {
+    "timestamp": "2025-08-14 21:28:40.679827",
+    "title": "Claude Notification",
+    "message": "Claude needs your permission to use Bash",
+    "type": "notification",
+    "platform": "WSL/Windows"
+  },
+  {
+    "timestamp": "2025-08-14 21:31:04.369790",
+    "title": "Claude Notification",
+    "message": "Claude needs your permission to use Bash",
+    "type": "notification",
+    "platform": "WSL/Windows"
+  },
+  {
+    "timestamp": "2025-08-14 21:32:43.239150",
+    "title": "Claude Notification",
+    "message": "Claude needs your permission to use Bash",
+    "type": "notification",
+    "platform": "WSL/Windows"
+  },
+  {
+    "timestamp": "2025-08-14 21:33:35.239283",
+    "title": "Claude Session Ended",
+    "message": "The Claude session has been terminated.",
+    "type": "stop",
+    "platform": "WSL/Windows"
+  },
+  {
+    "timestamp": "2025-08-14 21:35:03.303661",
+    "title": "Claude Notification",
+    "message": "Claude needs your permission to use Bash",
+    "type": "notification",
+    "platform": "WSL/Windows"
+  }
+]
