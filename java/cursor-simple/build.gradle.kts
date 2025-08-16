@@ -6,13 +6,19 @@ plugins {
 group = "org.lecture"
 version = "1.0-SNAPSHOT"
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation("org.xerial:sqlite-jdbc:3.42.0.0")
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
+    implementation("org.xerial:sqlite-jdbc:3.47.1.0")
+    testImplementation(platform("org.junit:junit-bom:5.11.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
@@ -22,4 +28,11 @@ tasks.test {
 
 application {
     mainClass.set("org.lecture.Main")
+}
+
+tasks.register<JavaExec>("test-crud") {
+    group = "application"
+    description = "Run CRUD test"
+    classpath = sourceSets["main"].runtimeClasspath
+    mainClass.set("org.lecture.TestMain")
 }
