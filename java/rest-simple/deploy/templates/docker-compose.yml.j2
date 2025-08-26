@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+{% for i in range(1, student_count + 1) %}
+  student{{ i }}-vscode:
+    image: student-vscode:latest
+    container_name: student{{ i }}-vscode
+    restart: unless-stopped
+    ports:
+      - "{{ 8080 + (i - 1) * 10 }}:8080"  # VSCode Server
+      - "{{ 8081 + (i - 1) * 10 }}:${SERVER_PORT:-8081}"  # Spring Boot App
+    volumes:
+      - "/opt/student-env/students/student{{ i }}:/home/student/workspace:rw"
+      - "student{{ i }}-data:/home/student/.config"
+    environment:
+      - SERVER_PORT={{ 8081 + (i - 1) * 10 }}
+      - STUDENT_ID={{ i }}
+    working_dir: /home/student/workspace
+    user: "1000:1000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"] 
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+{% endfor %}
+
+volumes:
+{% for i in range(1, student_count + 1) %}
+  student{{ i }}-data:
+    driver: local
+{% endfor %}
+
+networks:
+  default:
+    driver: bridge

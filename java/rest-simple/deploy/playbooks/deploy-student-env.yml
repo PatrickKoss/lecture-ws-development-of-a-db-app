@@ -1,0 +1,208 @@
+---
+- name: Deploy Student Development Environment
+  hosts: student_servers
+  become: yes
+  vars_files:
+    - ../vars/main.yml
+  
+  pre_tasks:
+    - name: Load or generate student credentials
+      include_tasks: ../scripts/manage_credentials.yml
+
+  tasks:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install required packages
+      apt:
+        name:
+          - docker.io
+          - docker-compose
+          - nginx
+          - apache2-utils
+          - git
+          - python3-passlib
+        state: present
+
+    - name: Start and enable Docker
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add ansible user to docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+
+    - name: Create base directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - /opt/student-env
+        - /opt/student-env/nginx
+        - /opt/student-env/students
+        - /var/log/nginx
+
+    - name: Check if student repositories exist
+      stat:
+        path: "/opt/student-env/students/student{{ item }}"
+      register: student_repo_exists
+      loop: "{{ range(1, student_count + 1) | list }}"
+
+    - name: Clone repository for new students
+      git:
+        repo: "{{ repository_url }}"
+        dest: "/opt/student-env/students/student{{ item }}"
+        version: "{{ repository_branch | default('main') }}"
+        force: yes
+      loop: "{{ range(1, student_count + 1) | list }}"
+      when: not student_repo_exists.results[item - 1].stat.exists
+      register: git_clone_result
+
+    - name: Get current commit hash before pull for existing repositories
+      shell: git -C "/opt/student-env/students/student{{ item }}" rev-parse HEAD
+      register: current_commit_hash
+      loop: "{{ range(1, student_count + 1) | list }}"
+      when: student_repo_exists.results[item - 1].stat.exists
+      changed_when: false
+      failed_when: false
+
+    - name: Pull latest changes for existing student repositories
+      git:
+        repo: "{{ repository_url }}"
+        dest: "/opt/student-env/students/student{{ item }}"
+        version: "{{ repository_branch | default('main') }}"
+        force: yes
+      loop: "{{ range(1, student_count + 1) | list }}"
+      when: student_repo_exists.results[item - 1].stat.exists
+      register: git_pull_result
+
+    - name: Get new commit hash after pull
+      shell: git -C "/opt/student-env/students/student{{ item }}" rev-parse HEAD
+      register: new_commit_hash
+      loop: "{{ range(1, student_count + 1) | list }}"
+      when: student_repo_exists.results[item - 1].stat.exists
+      changed_when: false
+      failed_when: false
+
+    - name: Determine which students need container rebuild
+      set_fact:
+        students_need_rebuild: "{{ students_need_rebuild | default([]) + [item] }}"
+      loop: "{{ range(1, student_count + 1) | list }}"
+      when: >
+        (git_clone_result is defined and git_clone_result.results[item - 1] is defined and git_clone_result.results[item - 1].changed) or
+        (current_commit_hash is defined and new_commit_hash is defined and 
+         current_commit_hash.results[item - 1] is defined and new_commit_hash.results[item - 1] is defined and
+         current_commit_hash.results[item - 1].stdout != new_commit_hash.results[item - 1].stdout)
+
+    - name: Set ownership of student directories
+      file:
+        path: "/opt/student-env/students/student{{ item }}"
+        owner: "1000"
+        group: "1000"
+        recurse: yes
+      loop: "{{ range(1, student_count + 1) | list }}"
+
+    - name: Generate nginx htpasswd files for each student
+      htpasswd:
+        path: "/opt/student-env/nginx/student{{ item }}.htpasswd"
+        name: "{{ student_credentials[item - 1].username }}"
+        password: "{{ student_credentials[item - 1].password }}"
+        mode: '0644'
+      loop: "{{ range(1, student_count + 1) | list }}"
+
+    - name: Create nginx configuration
+      template:
+        src: ../templates/nginx.conf.j2
+        dest: /opt/student-env/nginx/nginx.conf
+        mode: '0644'
+      notify: restart nginx
+
+    - name: Create docker-compose file
+      template:
+        src: ../templates/docker-compose.yml.j2
+        dest: /opt/student-env/docker-compose.yml
+        mode: '0644'
+
+    - name: Copy nginx configuration to system
+      copy:
+        src: /opt/student-env/nginx/nginx.conf
+        dest: /etc/nginx/sites-available/student-env
+        remote_src: yes
+      notify: restart nginx
+
+    - name: Enable nginx site
+      file:
+        src: /etc/nginx/sites-available/student-env
+        dest: /etc/nginx/sites-enabled/student-env
+        state: link
+      notify: restart nginx
+
+    - name: Remove default nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: restart nginx
+
+    - name: Build Docker image (initial or when students need rebuild)
+      docker_image:
+        build:
+          path: "/opt/student-env/students/student1/java/rest-simple"
+          dockerfile: Dockerfile
+          args:
+            SERVER_PORT: "8081"
+        name: "student-vscode"
+        tag: "latest"
+        source: build
+        force_source: "{{ students_need_rebuild is defined and students_need_rebuild | length > 0 }}"
+
+    - name: Stop containers that need rebuild
+      docker_compose:
+        project_src: /opt/student-env
+        services: "student{{ item }}-vscode"
+        state: absent
+      loop: "{{ students_need_rebuild | default([]) }}"
+      when: students_need_rebuild is defined and students_need_rebuild | length > 0
+
+    - name: Start student containers
+      docker_compose:
+        project_src: /opt/student-env
+        state: present
+
+    - name: Display rebuild information
+      debug:
+        msg: |
+          Repository update summary:
+          - Students that were rebuilt: {{ students_need_rebuild | default([]) | join(', ') if students_need_rebuild is defined and students_need_rebuild | length > 0 else 'None' }}
+          - Total students: {{ student_count }}
+      when: students_need_rebuild is defined
+
+    - name: Save credentials to local file
+      delegate_to: localhost
+      copy:
+        content: |
+          # Student Credentials for {{ inventory_hostname }}
+          # Generated on {{ ansible_date_time.iso8601 }}
+          
+          {% for student in student_credentials %}
+          Student {{ loop.index }}:
+            Username: {{ student.username }}
+            Password: {{ student.password }}
+            VSCode URL: https://student{{ loop.index }}.vscode.{{ domain_name }}
+            API URL: https://student{{ loop.index }}.api.{{ domain_name }}
+          
+          {% endfor %}
+        dest: "./student-credentials-{{ inventory_hostname }}.txt"
+        mode: '0600'
+
+  handlers:
+    - name: restart nginx
+      systemd:
+        name: nginx
+        state: restarted

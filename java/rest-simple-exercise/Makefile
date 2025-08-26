@@ -1,7 +1,7 @@
 .PHONY: run build test clean bootrun
 
 run: build
-	./gradlew bootRun
+	SERVER_PORT=8081 ./gradlew bootRun
 
 build:
 	./gradlew build
@@ -13,4 +13,4 @@ clean:
 	./gradlew clean
 
 bootrun:
-	./gradlew bootRun
+	SERVER_PORT=8081 ./gradlew bootRun

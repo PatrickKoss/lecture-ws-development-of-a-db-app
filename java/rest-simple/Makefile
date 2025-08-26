@@ -1,5 +1,5 @@
 run: build
-	./gradlew run
+	SERVER_PORT=8081 ./gradlew bootRun
 
 .PHONY: build
 build:

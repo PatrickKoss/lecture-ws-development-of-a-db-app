@@ -1,0 +1,130 @@
+# Generated Nginx configuration for Student Development Environment
+# Domain: {{ domain_name }}
+# Students: {{ student_count }}
+
+{% for i in range(1, student_count + 1) %}
+# Student {{ i }} - VSCode Server
+server {
+    listen 80;
+    server_name student{{ i }}.vscode.{{ domain_name }};
+
+    # Basic Authentication
+    auth_basic "Student {{ i }} VSCode Access";
+    auth_basic_user_file /opt/student-env/nginx/student{{ i }}.htpasswd;
+
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "no-referrer-when-downgrade" always;
+    add_header Content-Security-Policy "default-src 'self' http: https: data: blob: 'unsafe-inline'" always;
+
+    # Increase client max body size for file uploads
+    client_max_body_size 100M;
+
+    location / {
+        proxy_pass http://localhost:{{ 8080 + (i - 1) * 10 }};
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        proxy_read_timeout 86400;
+        proxy_send_timeout 86400;
+        proxy_connect_timeout 60;
+    }
+
+    # WebSocket support for VSCode
+    location /socket.io/ {
+        proxy_pass http://localhost:{{ 8080 + (i - 1) * 10 }};
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+# Student {{ i }} - API Server
+server {
+    listen 80;
+    server_name student{{ i }}.api.{{ domain_name }};
+
+    # Basic Authentication (same credentials as VSCode)
+    auth_basic "Student {{ i }} API Access";
+    auth_basic_user_file /opt/student-env/nginx/student{{ i }}.htpasswd;
+
+    # Security headers
+    add_header X-Frame-Options "DENY" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "no-referrer-when-downgrade" always;
+
+    # CORS headers for API
+    add_header Access-Control-Allow-Origin "https://student{{ i }}.vscode.{{ domain_name }}" always;
+    add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS" always;
+    add_header Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization" always;
+
+    location / {
+        # Handle preflight requests
+        if ($request_method = 'OPTIONS') {
+            add_header Access-Control-Allow-Origin "https://student{{ i }}.vscode.{{ domain_name }}";
+            add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS";
+            add_header Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization";
+            add_header Access-Control-Max-Age 1728000;
+            add_header Content-Type 'text/plain; charset=utf-8';
+            add_header Content-Length 0;
+            return 204;
+        }
+
+        proxy_pass http://localhost:{{ 8081 + (i - 1) * 10 }};
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_connect_timeout 60;
+        proxy_send_timeout 60;
+        proxy_read_timeout 60;
+    }
+
+    # Health check endpoint
+    location /actuator/health {
+        proxy_pass http://localhost:{{ 8081 + (i - 1) * 10 }}/actuator/health;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        
+        # Remove auth for health checks
+        auth_basic off;
+    }
+}
+
+{% endfor %}
+
+# Default server block - redirect to main domain or show 404
+server {
+    listen 80 default_server;
+    server_name _;
+    
+    location / {
+        return 404 "Student environment not found";
+    }
+}
+
+# Log format for better debugging
+log_format student_access '$remote_addr - $remote_user [$time_local] "$request" '
+                         '$status $body_bytes_sent "$http_referer" '
+                         '"$http_user_agent" "$http_x_forwarded_for" '
+                         'student_id="$server_name"';
+
+# Global settings
+access_log /var/log/nginx/student-access.log student_access;
+error_log /var/log/nginx/student-error.log warn;
