@@ -33,9 +33,10 @@ nginx_proxy_send_timeout: "86400"
 nginx_proxy_connect_timeout: "60"
 
 # Security configuration
-enable_ssl: false  # Set to true if you want to enable SSL/TLS
-ssl_cert_path: "/etc/ssl/certs/{{ domain_name }}.crt"
-ssl_key_path: "/etc/ssl/private/{{ domain_name }}.key"
+enable_ssl: false  # Set to true to enable SSL/TLS with Let's Encrypt
+ssl_email: "admin@{{ domain_name }}"  # Email for Let's Encrypt notifications
+ssl_cert_path: "/etc/letsencrypt/live/student1.vscode.{{ domain_name }}/fullchain.pem"
+ssl_key_path: "/etc/letsencrypt/live/student1.vscode.{{ domain_name }}/privkey.pem"
 
 # Logging configuration
 log_level: "info"

@@ -102,8 +102,8 @@ Create a JSON file with the following format:
 
 After deployment, students can access:
 
-- **VSCode**: `https://student[1-23].vscode.patrick-koss.de`
-- **API**: `https://student[1-23].api.patrick-koss.de`
+- **VSCode**: `http://student[1-23].vscode.patrick-koss.de` (or `https://` if SSL enabled)
+- **API**: `http://student[1-23].api.patrick-koss.de` (or `https://` if SSL enabled)
 
 Each student uses their individual username/password for both VSCode and API access.
 
@@ -167,15 +167,32 @@ base_api_port: 9001
 port_increment: 100  # student1: 9000/9001, student2: 9100/9101
 ```
 
-### Enable SSL/TLS
-1. Obtain SSL certificates for your domain
-2. Edit `vars/main.yml`:
+### Enable SSL/TLS with Let's Encrypt
 
-```yaml
-enable_ssl: true
-ssl_cert_path: "/etc/ssl/certs/patrick-koss.de.crt"
-ssl_key_path: "/etc/ssl/private/patrick-koss.de.key"
-```
+1. **Configure SSL Variables**:
+   ```bash
+   # Copy and edit SSL configuration
+   cp vars/ssl.yml vars/production-ssl.yml
+   # Edit vars/production-ssl.yml and set your email
+   ```
+
+2. **Deploy with SSL**:
+   ```bash
+   ./scripts/update_and_deploy.sh -e vars/production-ssl.yml
+   ```
+
+3. **Or edit `vars/main.yml` directly**:
+   ```yaml
+   enable_ssl: true
+   ssl_email: "your-email@patrick-koss.de"  # Required for Let's Encrypt
+   ```
+
+**Important SSL Notes**:
+- Uses **single SAN certificate** for all 46 student domains (efficient!)
+- **HTTP challenge** only - no DNS provider required
+- **Automatic renewal** via cron (daily at 2 AM)
+- **A+ SSL rating** with modern TLS configuration
+- Certificates valid for 90 days, renewed automatically at 60 days
 
 ## Repository Updates and Smart Rebuilds
 
@@ -204,6 +221,49 @@ cd /opt/student-env
 docker-compose down
 docker image rm student-vscode:latest
 ./scripts/update_and_deploy.sh
+```
+
+## SSL Certificate Management
+
+### Check Certificate Status
+```bash
+# Check certificate details
+sudo certbot certificates
+
+# Check certificate expiry
+sudo openssl x509 -in /etc/letsencrypt/live/student1.vscode.patrick-koss.de/fullchain.pem -text -noout | grep "Not After"
+
+# Test renewal (dry run)
+sudo certbot renew --dry-run
+```
+
+### Manual Certificate Operations
+```bash
+# Force renewal (if needed)
+sudo certbot renew --force-renewal
+
+# Revoke certificate (emergency only)
+sudo certbot revoke --cert-path /etc/letsencrypt/live/student1.vscode.patrick-koss.de/fullchain.pem
+
+# Test SSL configuration
+curl -I https://student1.vscode.patrick-koss.de
+```
+
+### SSL Troubleshooting
+```bash
+# Check nginx SSL configuration
+sudo nginx -t
+
+# View SSL logs
+sudo tail -f /var/log/letsencrypt/letsencrypt.log
+
+# Check certificate validity for all domains
+for i in {1..23}; do
+  echo "Testing student$i vscode..."
+  curl -I https://student$i.vscode.patrick-koss.de 2>/dev/null | head -1
+  echo "Testing student$i api..."
+  curl -I https://student$i.api.patrick-koss.de 2>/dev/null | head -1
+done
 ```
 
 ## Troubleshooting

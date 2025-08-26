@@ -1,0 +1,26 @@
+---
+# SSL/TLS Configuration for Production Environment
+# Copy this file and modify for your environment
+
+# SSL Configuration
+enable_ssl: true
+ssl_email: "your-email@patrick-koss.de"  # REQUIRED: Your email for Let's Encrypt notifications
+
+# Let's Encrypt Rate Limits (informational)
+# - 50 certificates per registered domain per week
+# - 100 domains per certificate (SAN limit)
+# - 5 failed validations per account per hostname per hour
+# - 300 new orders per account per 3 hours
+
+# Our setup uses 1 certificate for all 46 domains (23 vscode + 23 api)
+# This is well within Let's Encrypt limits
+
+# Certificate paths (automatically set by certbot)
+ssl_cert_path: "/etc/letsencrypt/live/student1.vscode.{{ domain_name }}/fullchain.pem"
+ssl_key_path: "/etc/letsencrypt/live/student1.vscode.{{ domain_name }}/privkey.pem"
+
+# Additional SSL hardening options
+ssl_protocols: "TLSv1.2 TLSv1.3"
+ssl_ciphers: "ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384"
+ssl_session_timeout: "10m"
+ssl_session_cache: "shared:SSL:10m"

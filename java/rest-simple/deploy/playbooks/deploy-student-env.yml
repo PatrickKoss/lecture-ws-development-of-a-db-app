@@ -24,7 +24,21 @@
           - apache2-utils
           - git
           - python3-passlib
+          - snapd
         state: present
+
+    - name: Install certbot via snap
+      community.general.snap:
+        name: certbot
+        classic: yes
+      when: enable_ssl | default(false)
+
+    - name: Create certbot nginx plugin symlink
+      file:
+        src: /snap/bin/certbot
+        dest: /usr/bin/certbot
+        state: link
+      when: enable_ssl | default(false)
 
     - name: Start and enable Docker
       systemd:
@@ -149,6 +163,49 @@
         path: /etc/nginx/sites-enabled/default
         state: absent
       notify: restart nginx
+
+    - name: Start nginx for SSL certificate generation
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+      when: enable_ssl | default(false)
+
+    - name: Generate SSL certificate with all student domains
+      shell: |
+        certbot certonly --nginx --agree-tos --email {{ ssl_email }} --non-interactive \
+        {% for i in range(1, student_count + 1) %}
+        -d student{{ i }}.vscode.{{ domain_name }} \
+        -d student{{ i }}.api.{{ domain_name }}{% if not loop.last %} \{% endif %}
+        {% endfor %}
+      args:
+        creates: "/etc/letsencrypt/live/student1.vscode.{{ domain_name }}/fullchain.pem"
+      when: enable_ssl | default(false)
+      register: ssl_cert_result
+
+    - name: Set up SSL certificate renewal
+      cron:
+        name: "Renew Let's Encrypt certificates"
+        minute: "0"
+        hour: "2"
+        job: "/usr/bin/certbot renew --quiet && systemctl reload nginx"
+      when: enable_ssl | default(false)
+
+    - name: Update nginx configuration with SSL
+      template:
+        src: ../templates/nginx.conf.j2
+        dest: /opt/student-env/nginx/nginx.conf
+        mode: '0644'
+      notify: restart nginx
+      when: enable_ssl | default(false) and ssl_cert_result.changed
+
+    - name: Copy updated nginx configuration to system
+      copy:
+        src: /opt/student-env/nginx/nginx.conf
+        dest: /etc/nginx/sites-available/student-env
+        remote_src: yes
+      notify: restart nginx
+      when: enable_ssl | default(false) and ssl_cert_result.changed
 
     - name: Build Docker image (initial or when students need rebuild)
       docker_image:

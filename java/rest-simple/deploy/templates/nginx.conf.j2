@@ -6,7 +6,29 @@
 # Student {{ i }} - VSCode Server
 server {
     listen 80;
+{% if enable_ssl | default(false) %}
+    listen 443 ssl http2;
+{% endif %}
     server_name student{{ i }}.vscode.{{ domain_name }};
+
+{% if enable_ssl | default(false) %}
+    # SSL Configuration
+    ssl_certificate /etc/letsencrypt/live/student1.vscode.{{ domain_name }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/student1.vscode.{{ domain_name }}/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384;
+    ssl_prefer_server_ciphers off;
+    ssl_session_timeout 10m;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_tickets off;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+
+    # Redirect HTTP to HTTPS
+    if ($scheme != "https") {
+        return 301 https://$host$request_uri;
+    }
+{% endif %}
 
     # Basic Authentication
     auth_basic "Student {{ i }} VSCode Access";
@@ -53,7 +75,29 @@ server {
 # Student {{ i }} - API Server
 server {
     listen 80;
+{% if enable_ssl | default(false) %}
+    listen 443 ssl http2;
+{% endif %}
     server_name student{{ i }}.api.{{ domain_name }};
+
+{% if enable_ssl | default(false) %}
+    # SSL Configuration
+    ssl_certificate /etc/letsencrypt/live/student1.vscode.{{ domain_name }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/student1.vscode.{{ domain_name }}/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384;
+    ssl_prefer_server_ciphers off;
+    ssl_session_timeout 10m;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_tickets off;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+
+    # Redirect HTTP to HTTPS
+    if ($scheme != "https") {
+        return 301 https://$host$request_uri;
+    }
+{% endif %}
 
     # Basic Authentication (same credentials as VSCode)
     auth_basic "Student {{ i }} API Access";
@@ -66,14 +110,14 @@ server {
     add_header Referrer-Policy "no-referrer-when-downgrade" always;
 
     # CORS headers for API
-    add_header Access-Control-Allow-Origin "https://student{{ i }}.vscode.{{ domain_name }}" always;
+    add_header Access-Control-Allow-Origin "{{ 'https' if enable_ssl | default(false) else 'http' }}://student{{ i }}.vscode.{{ domain_name }}" always;
     add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS" always;
     add_header Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization" always;
 
     location / {
         # Handle preflight requests
         if ($request_method = 'OPTIONS') {
-            add_header Access-Control-Allow-Origin "https://student{{ i }}.vscode.{{ domain_name }}";
+            add_header Access-Control-Allow-Origin "{{ 'https' if enable_ssl | default(false) else 'http' }}://student{{ i }}.vscode.{{ domain_name }}";
             add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS";
             add_header Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization";
             add_header Access-Control-Max-Age 1728000;
