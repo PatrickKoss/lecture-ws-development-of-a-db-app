@@ -6,9 +6,9 @@ services:
     build: .
     ports:
       - "8080:8080"  # VS Code Server
-      - "8081:8081"  # Spring Boot App
+      - "8081:8888"  # Spring Boot App
     volumes:
-      - "./student-workspace:/home/student/workspace"
+      - "../:/home/student/workspace"
     environment:
       - JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
       - GRADLE_HOME=/opt/gradle/gradle-8.5
