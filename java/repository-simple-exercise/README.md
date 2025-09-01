@@ -27,6 +27,7 @@ You are provided with a skeleton Student Management System that includes:
 ### Student Entity
 
 The `Student` class contains the following fields:
+
 - `id` (int) - Auto-generated primary key
 - `firstName` (String) - Student's first name
 - `lastName` (String) - Student's last name
@@ -55,32 +56,38 @@ CREATE TABLE IF NOT EXISTS students (
 
 Complete the implementation of `StudentRepositoryImpl.java` by implementing all methods defined in the `StudentRepository` interface:
 
-#### Required Methods:
+#### Required Methods
 
 1. **`initializeDatabase()`**
+
    - Create database connection to `students.db`
    - Create the students table if it doesn't exist
    - Handle any SQLExceptions appropriately
 
 2. **`createStudent(Student student)`**
+
    - Insert new student into database using prepared statement
    - Return the student with generated ID
    - Handle unique constraint violations (email, student number)
 
 3. **`findStudentById(int id)`**
+
    - Query student by ID using prepared statement
    - Return `Optional<Student>` (empty if not found)
 
 4. **`findAllStudents()`**
+
    - Query all students ordered by ID
    - Return `List<Student>` (empty list if none found)
 
 5. **`updateStudent(Student student)`**
+
    - Update existing student using prepared statement
    - Return boolean indicating success
    - Handle unique constraint violations
 
 6. **`deleteStudent(int id)`**
+
    - Delete student by ID using prepared statement
    - Return boolean indicating success
 
@@ -93,6 +100,7 @@ Complete the implementation of `StudentRepositoryImpl.java` by implementing all 
 Once you've implemented the repository:
 
 1. **Uncomment the repository initialization** in `Main.java`:
+
    ```java
    studentRepository = new StudentRepositoryImpl();
    studentRepository.initializeDatabase();
@@ -117,16 +125,16 @@ Once you've implemented the repository:
 @Override
 public Student createStudent(Student student) {
     String insertSQL = "INSERT INTO students (first_name, last_name, email, student_number, enrollment_date) VALUES (?, ?, ?, ?, ?)";
-    
+
     try (Connection conn = DriverManager.getConnection(DATABASE_URL);
          PreparedStatement pstmt = conn.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS)) {
-        
+
         pstmt.setString(1, student.getFirstName());
         pstmt.setString(2, student.getLastName());
         pstmt.setString(3, student.getEmail());
         pstmt.setString(4, student.getStudentNumber());
         pstmt.setDate(5, Date.valueOf(student.getEnrollmentDate()));
-        
+
         int rowsAffected = pstmt.executeUpdate();
         if (rowsAffected > 0) {
             try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
@@ -137,7 +145,7 @@ public Student createStudent(Student student) {
             }
         }
         return null;
-        
+
     } catch (SQLException e) {
         if (e.getMessage().contains("UNIQUE constraint failed")) {
             // Handle unique constraint violation
@@ -160,16 +168,19 @@ public Student createStudent(Student student) {
 ### Getting Started
 
 1. **Clone/Navigate to the exercise directory**:
+
    ```bash
    cd repository-simple-exercise
    ```
 
 2. **Build the project**:
+
    ```bash
    ./gradlew build
    ```
 
 3. **Run the application**:
+
    ```bash
    ./gradlew run
    ```
@@ -182,7 +193,7 @@ public Student createStudent(Student student) {
 
 ### Example Usage
 
-```
+```bash
 === Student Management System ===
 Initializing database...
 Database initialized successfully.
