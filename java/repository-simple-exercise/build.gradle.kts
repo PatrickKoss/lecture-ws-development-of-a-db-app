@@ -29,3 +29,7 @@ tasks.test {
 application {
     mainClass.set("org.lecture.Main")
 }
+
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
+}
