@@ -159,12 +159,40 @@ public class Main {
             boolean hasBooks = false;
             while (rs.next()) {
                 hasBooks = true;
+                LocalDate publishedDate;
+                try {
+                    // SQLite stores dates as TEXT, so get as string first
+                    String dateStr = rs.getString("published_date");
+                    if (dateStr != null && !dateStr.isEmpty()) {
+                        // Check if it's a timestamp (all digits)
+                        if (dateStr.matches("\\d+")) {
+                            long timestamp = Long.parseLong(dateStr);
+                            publishedDate = new Date(timestamp).toLocalDate();
+                        } else {
+                            // It's a date string, parse it
+                            publishedDate = LocalDate.parse(dateStr);
+                        }
+                    } else {
+                        // Try as SQL Date if string is null
+                        Date sqlDate = rs.getDate("published_date");
+                        if (sqlDate != null) {
+                            publishedDate = sqlDate.toLocalDate();
+                        } else {
+                            publishedDate = LocalDate.now();
+                        }
+                    }
+                } catch (Exception e) {
+                    // Fallback to current date if parsing fails
+                    System.err.println("Warning: Could not parse date for book, using current date");
+                    publishedDate = LocalDate.now();
+                }
+                
                 Book book = new Book(
                     rs.getInt("id"),
                     rs.getString("title"),
                     rs.getString("author"),
                     rs.getString("isbn"),
-                    rs.getDate("published_date").toLocalDate()
+                    publishedDate
                 );
                 System.out.println(book);
             }
@@ -192,12 +220,40 @@ public class Main {
             
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
+                    LocalDate publishedDate;
+                    try {
+                        // SQLite stores dates as TEXT, so get as string first
+                        String dateStr = rs.getString("published_date");
+                        if (dateStr != null && !dateStr.isEmpty()) {
+                            // Check if it's a timestamp (all digits)
+                            if (dateStr.matches("\\d+")) {
+                                long timestamp = Long.parseLong(dateStr);
+                                publishedDate = new Date(timestamp).toLocalDate();
+                            } else {
+                                // It's a date string, parse it
+                                publishedDate = LocalDate.parse(dateStr);
+                            }
+                        } else {
+                            // Try as SQL Date if string is null
+                            Date sqlDate = rs.getDate("published_date");
+                            if (sqlDate != null) {
+                                publishedDate = sqlDate.toLocalDate();
+                            } else {
+                                publishedDate = LocalDate.now();
+                            }
+                        }
+                    } catch (Exception e) {
+                        // Fallback to current date if parsing fails
+                        System.err.println("Warning: Could not parse date for book ID " + rs.getInt("id") + ", using current date");
+                        publishedDate = LocalDate.now();
+                    }
+                    
                     Book book = new Book(
                         rs.getInt("id"),
                         rs.getString("title"),
                         rs.getString("author"),
                         rs.getString("isbn"),
-                        rs.getDate("published_date").toLocalDate()
+                        publishedDate
                     );
                     System.out.println("Book found:");
                     System.out.println(book);

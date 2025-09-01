@@ -30,6 +30,10 @@ application {
     mainClass.set("org.lecture.Main")
 }
 
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
+}
+
 tasks.register<JavaExec>("test-crud") {
     group = "application"
     description = "Run CRUD test"
