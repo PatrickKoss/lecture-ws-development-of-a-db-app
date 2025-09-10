@@ -46,6 +46,11 @@
         state: started
         enabled: yes
 
+    - name: Check Docker Compose version
+      shell: docker-compose --version
+      register: compose_version
+      changed_when: false
+
     - name: Add ansible user to docker group
       user:
         name: "{{ ansible_user }}"
@@ -78,6 +83,11 @@
       loop: "{{ range(1, student_count + 1) | list }}"
       when: not student_repo_exists.results[item - 1].stat.exists
       register: git_clone_result
+
+    - name: Configure Git to trust student directories
+      shell: git config --global --add safe.directory "/opt/student-env/students/student{{ item }}"
+      loop: "{{ range(1, student_count + 1) | list }}"
+      changed_when: false
 
     - name: Get current commit hash before pull for existing repositories
       shell: git -C "/opt/student-env/students/student{{ item }}" rev-parse HEAD
@@ -207,30 +217,61 @@
       notify: restart nginx
       when: enable_ssl | default(false) and ssl_cert_result.changed
 
+    - name: Clean up old Docker image if exists
+      shell: |
+        docker rmi student-vscode:latest || true
+      when: students_need_rebuild is defined and students_need_rebuild | length > 0
+      ignore_errors: yes
+
     - name: Build Docker image (initial or when students need rebuild)
-      docker_image:
-        build:
-          path: "/opt/student-env/students/student1/java/rest-simple"
-          dockerfile: Dockerfile
-          args:
-            SERVER_PORT: "8081"
-        name: "student-vscode"
-        tag: "latest"
-        source: build
-        force_source: "{{ students_need_rebuild is defined and students_need_rebuild | length > 0 }}"
+      shell: |
+        cd /opt/student-env/students/student1/java/rest-simple
+        docker build -t student-vscode:latest --build-arg SERVER_PORT=8081 .
+      register: docker_build_result
 
     - name: Stop containers that need rebuild
-      docker_compose:
-        project_src: /opt/student-env
-        services: "student{{ item }}-vscode"
-        state: absent
+      shell: |
+        cd /opt/student-env
+        docker-compose stop student{{ item }}-vscode
+        docker-compose rm -f student{{ item }}-vscode
       loop: "{{ students_need_rebuild | default([]) }}"
       when: students_need_rebuild is defined and students_need_rebuild | length > 0
+      ignore_errors: yes
 
-    - name: Start student containers
-      docker_compose:
-        project_src: /opt/student-env
-        state: present
+    - name: Stop all existing student containers
+      shell: |
+        cd /opt/student-env
+        docker-compose down -v --remove-orphans || true
+      ignore_errors: yes
+
+    - name: Force remove all student containers
+      shell: |
+        docker ps -aq --filter "name=student*-vscode" | xargs -r docker rm -f || true
+      ignore_errors: yes
+
+    - name: Clean up dangling volumes
+      shell: |
+        docker volume ls -q --filter "name=student*" | xargs -r docker volume rm -f || true
+      ignore_errors: yes
+
+    - name: Prune Docker system to clean corrupted data
+      shell: |
+        docker system prune -f --volumes || true
+      ignore_errors: yes
+
+    - name: Verify image exists and rebuild if needed
+      shell: |
+        docker images | grep -q "student-vscode.*latest" || \
+        (cd /opt/student-env/students/student1/java/rest-simple && \
+         docker build -t student-vscode:latest --build-arg SERVER_PORT=8081 .)
+      ignore_errors: no
+
+    - name: Start student containers fresh
+      shell: |
+        cd /opt/student-env
+        docker-compose up -d
+      register: docker_compose_result
+      failed_when: docker_compose_result.rc != 0
 
     - name: Display rebuild information
       debug:

@@ -3,6 +3,7 @@
 # Example:
 # server1 ansible_host=192.168.1.100 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
 # server2 ansible_host=server2.example.com ansible_user=root
+server ansible_host=82.165.95.178 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
 
 [student_servers:vars]
 # Common variables for all servers

@@ -16,6 +16,7 @@ This Ansible deployment sets up individual development environments for students
 ## Prerequisites
 
 ### Control Machine (where you run Ansible)
+
 ```bash
 # Install Ansible
 sudo apt update && sudo apt install ansible
@@ -29,6 +30,7 @@ ansible-galaxy collection install community.general
 ```
 
 ### Target Server Requirements
+
 - Ubuntu 20.04+ or Debian 10+
 - SSH access with sudo privileges
 - Minimum 8GB RAM, 50GB storage
@@ -37,6 +39,7 @@ ansible-galaxy collection install community.general
 ## Quick Start
 
 ### 1. Configure Inventory
+
 Edit `deploy/inventory` and add your target server:
 
 ```ini
@@ -45,15 +48,17 @@ myserver ansible_host=192.168.1.100 ansible_user=ubuntu ansible_ssh_private_key_
 ```
 
 ### 2. Configure Variables
+
 Edit `deploy/vars/main.yml` to customize:
 
 ```yaml
 domain_name: "patrick-koss.de"
 student_count: 23
-repository_url: "https://github.com/your-username/your-repo.git"  # Optional
+repository_url: "https://github.com/your-username/your-repo.git" # Optional
 ```
 
 ### 3. Deploy
+
 ```bash
 cd deploy/
 
@@ -76,15 +81,18 @@ ansible-playbook -i inventory playbooks/deploy-student-env.yml
 ## Credential Management
 
 ### Option 1: Auto-Generate Credentials
+
 If no credentials file is provided, the playbook will automatically generate secure passwords and save them to `student-credentials.json`.
 
 ### Option 2: Pre-Generate Credentials
+
 ```bash
 cd deploy/scripts/
 ./generate_credentials.py --count=23 --output=../student-credentials.json
 ```
 
 ### Option 3: Provide Existing Credentials
+
 Create a JSON file with the following format:
 
 ```json
@@ -92,8 +100,8 @@ Create a JSON file with the following format:
   "generated_at": "2024-01-01T12:00:00",
   "student_count": 23,
   "credentials": [
-    {"username": "student1", "password": "secure_password_1"},
-    {"username": "student2", "password": "secure_password_2"}
+    { "username": "student1", "password": "secure_password_1" },
+    { "username": "student2", "password": "secure_password_2" }
   ]
 }
 ```
@@ -145,6 +153,7 @@ deploy/
 ## Customization
 
 ### Add Environment-Specific Variables
+
 Create files like `vars/production.yml`:
 
 ```yaml
@@ -154,22 +163,25 @@ enable_ssl: true
 ```
 
 Deploy with:
+
 ```bash
 ansible-playbook -i inventory playbooks/deploy-student-env.yml -e @vars/production.yml
 ```
 
 ### Modify Port Allocation
+
 Edit `vars/main.yml`:
 
 ```yaml
 base_vscode_port: 9000
 base_api_port: 9001
-port_increment: 100  # student1: 9000/9001, student2: 9100/9101
+port_increment: 100 # student1: 9000/9001, student2: 9100/9101
 ```
 
 ### Enable SSL/TLS with Let's Encrypt
 
 1. **Configure SSL Variables**:
+
    ```bash
    # Copy and edit SSL configuration
    cp vars/ssl.yml vars/production-ssl.yml
@@ -177,6 +189,7 @@ port_increment: 100  # student1: 9000/9001, student2: 9100/9101
    ```
 
 2. **Deploy with SSL**:
+
    ```bash
    ./scripts/update_and_deploy.sh -e vars/production-ssl.yml
    ```
@@ -184,10 +197,11 @@ port_increment: 100  # student1: 9000/9001, student2: 9100/9101
 3. **Or edit `vars/main.yml` directly**:
    ```yaml
    enable_ssl: true
-   ssl_email: "your-email@patrick-koss.de"  # Required for Let's Encrypt
+   ssl_email: "your-email@patrick-koss.de" # Required for Let's Encrypt
    ```
 
 **Important SSL Notes**:
+
 - Uses **single SAN certificate** for all 46 student domains (efficient!)
 - **HTTP challenge** only - no DNS provider required
 - **Automatic renewal** via cron (daily at 2 AM)
@@ -199,14 +213,16 @@ port_increment: 100  # student1: 9000/9001, student2: 9100/9101
 The system automatically handles repository updates:
 
 ### How It Works
+
 1. **First Run**: Clones repository for each student
-2. **Subsequent Runs**: 
+2. **Subsequent Runs**:
    - Checks current commit hash
    - Pulls latest changes
    - Compares commit hashes
    - Rebuilds and restarts only changed containers
 
 ### Manual Repository Update
+
 ```bash
 # Update repositories and rebuild affected containers
 ./scripts/update_and_deploy.sh
@@ -216,6 +232,7 @@ The system automatically handles repository updates:
 ```
 
 ### Force Rebuild All Containers
+
 ```bash
 cd /opt/student-env
 docker-compose down
@@ -226,6 +243,7 @@ docker image rm student-vscode:latest
 ## SSL Certificate Management
 
 ### Check Certificate Status
+
 ```bash
 # Check certificate details
 sudo certbot certificates
@@ -238,6 +256,7 @@ sudo certbot renew --dry-run
 ```
 
 ### Manual Certificate Operations
+
 ```bash
 # Force renewal (if needed)
 sudo certbot renew --force-renewal
@@ -250,6 +269,7 @@ curl -I https://student1.vscode.patrick-koss.de
 ```
 
 ### SSL Troubleshooting
+
 ```bash
 # Check nginx SSL configuration
 sudo nginx -t
@@ -269,6 +289,7 @@ done
 ## Troubleshooting
 
 ### Check Container Status
+
 ```bash
 ssh user@server
 cd /opt/student-env
@@ -276,6 +297,7 @@ docker-compose ps
 ```
 
 ### View Repository Status
+
 ```bash
 # Check which students have which commit
 for i in {1..23}; do
@@ -284,6 +306,7 @@ done
 ```
 
 ### View Logs
+
 ```bash
 # Nginx logs
 sudo tail -f /var/log/nginx/student-access.log
@@ -297,6 +320,7 @@ docker-compose logs -f student1-vscode
 ```
 
 ### Restart Services
+
 ```bash
 # Restart all containers
 docker-compose restart
@@ -309,17 +333,20 @@ sudo systemctl restart nginx
 ```
 
 ### Regenerate Credentials
+
 ```bash
 rm student-credentials.json
 ./scripts/update_and_deploy.sh
 ```
 
 ### Access Container Shell
+
 ```bash
 docker exec -it student1-vscode /bin/bash
 ```
 
 ### Debug Repository Issues
+
 ```bash
 # Check git status for a student
 git -C /opt/student-env/students/student1 status
@@ -354,6 +381,7 @@ The system will automatically create additional containers and nginx configurati
 ## Backup and Maintenance
 
 ### Backup Student Data
+
 ```bash
 # Backup all student workspaces
 tar -czf student-backup-$(date +%Y%m%d).tar.gz /opt/student-env/students/
@@ -363,6 +391,7 @@ cp student-credentials.json student-credentials-backup-$(date +%Y%m%d).json
 ```
 
 ### Update Application
+
 ```bash
 # Rebuild and restart containers
 cd /opt/student-env

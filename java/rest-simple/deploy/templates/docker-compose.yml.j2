@@ -8,17 +8,17 @@ services:
     restart: unless-stopped
     ports:
       - "{{ 8080 + (i - 1) * 10 }}:8080"  # VSCode Server
-      - "{{ 8081 + (i - 1) * 10 }}:${SERVER_PORT:-8081}"  # Spring Boot App
+      - "{{ 8081 + (i - 1) * 10 }}:8081"  # Spring Boot App
     volumes:
       - "/opt/student-env/students/student{{ i }}:/home/student/workspace:rw"
       - "student{{ i }}-data:/home/student/.config"
     environment:
-      - SERVER_PORT={{ 8081 + (i - 1) * 10 }}
+      - SERVER_PORT=8081
       - STUDENT_ID={{ i }}
     working_dir: /home/student/workspace
     user: "1000:1000"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080"] 
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"] 
       interval: 30s
       timeout: 10s
       retries: 3

@@ -40,3 +40,6 @@ students.db
 logs/**
 *.log
 students.db
+
+deploy/playbooks/student-credentials-*.txt
+deploy/playbooks/student-credentials.json
