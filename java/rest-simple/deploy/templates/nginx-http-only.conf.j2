@@ -1,0 +1,67 @@
+# HTTP-only nginx configuration for certificate generation
+# Domain: {{ domain_name }}
+# Students: {{ student_count }}
+
+{% for i in range(1, student_count + 1) %}
+# Student {{ i }} - VSCode Server (HTTP only for cert generation)
+server {
+    listen 80;
+    listen [::]:80;
+    server_name student{{ i }}.vscode.{{ domain_name }};
+
+    # Let's Encrypt challenge location (no auth required)
+    location /.well-known/acme-challenge/ {
+        root /var/www/html;
+        allow all;
+        try_files $uri $uri/ =404;
+    }
+
+    # Temporary redirect to show service is being set up
+    location / {
+        return 503 "Service temporarily unavailable - certificates being generated";
+        add_header Content-Type text/plain;
+    }
+}
+
+# Student {{ i }} - API Server (HTTP only for cert generation)
+server {
+    listen 80;
+    listen [::]:80;
+    server_name student{{ i }}.api.{{ domain_name }};
+
+    # Let's Encrypt challenge location (no auth required)
+    location /.well-known/acme-challenge/ {
+        root /var/www/html;
+        allow all;
+        try_files $uri $uri/ =404;
+    }
+
+    # Temporary redirect to show service is being set up
+    location / {
+        return 503 "Service temporarily unavailable - certificates being generated";
+        add_header Content-Type text/plain;
+    }
+}
+
+{% endfor %}
+
+# Default server block - redirect to main domain or show 404
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+    
+    location / {
+        return 404 "Student environment not found";
+    }
+}
+
+# Log format for better debugging
+log_format student_access '$remote_addr - $remote_user [$time_local] "$request" '
+                         '$status $body_bytes_sent "$http_referer" '
+                         '"$http_user_agent" "$http_x_forwarded_for" '
+                         'student_id="$server_name"';
+
+# Global settings
+access_log /var/log/nginx/student-access.log student_access;
+error_log /var/log/nginx/student-error.log warn;

@@ -33,10 +33,13 @@ nginx_proxy_send_timeout: "86400"
 nginx_proxy_connect_timeout: "60"
 
 # Security configuration
-enable_ssl: false  # Set to true to enable SSL/TLS with Let's Encrypt
-ssl_email: "admin@{{ domain_name }}"  # Email for Let's Encrypt notifications
-ssl_cert_path: "/etc/letsencrypt/live/student1.vscode.{{ domain_name }}/fullchain.pem"
-ssl_key_path: "/etc/letsencrypt/live/student1.vscode.{{ domain_name }}/privkey.pem"
+enable_ssl: true  # Set to true to enable SSL/TLS with Let's Encrypt
+ssl_email: "patrick.koss@mein.gmx.de"  # Email for Let's Encrypt notifications
+# Force redirect HTTP -> HTTPS and set HSTS when SSL is enabled
+force_https_redirect: false
+# SSL paths are now handled per-student in nginx template
+# Each student gets their own certificate: /etc/letsencrypt/live/student{N}.vscode.{domain}/
+# This supports HTTP-01 challenge which doesn't require DNS API access
 
 # Logging configuration
 log_level: "info"

@@ -134,7 +134,7 @@ The application will be accessible at their API domain (e.g., `https://student1.
 
 ## File Structure
 
-```
+```bash
 deploy/
 ├── inventory                    # Ansible inventory file
 ├── playbooks/
@@ -195,6 +195,7 @@ port_increment: 100 # student1: 9000/9001, student2: 9100/9101
    ```
 
 3. **Or edit `vars/main.yml` directly**:
+
    ```yaml
    enable_ssl: true
    ssl_email: "your-email@patrick-koss.de" # Required for Let's Encrypt
@@ -207,6 +208,21 @@ port_increment: 100 # student1: 9000/9001, student2: 9100/9101
 - **Automatic renewal** via cron (daily at 2 AM)
 - **A+ SSL rating** with modern TLS configuration
 - Certificates valid for 90 days, renewed automatically at 60 days
+
+### Temporary HTTP Access While SSL Is Enabled
+
+If you need to keep SSL enabled but allow HTTP without redirect (e.g., to work around local TLS issues temporarily), set:
+
+```yaml
+force_https_redirect: false
+```
+
+Then redeploy. This disables the automatic HTTP→HTTPS redirect and HSTS header. You can access:
+
+- `http://studentN.vscode.patrick-koss.de`
+- `http://studentN.api.patrick-koss.de`
+
+Note: when you’re ready to enforce HTTPS again, set `force_https_redirect: true` and redeploy.
 
 ## Repository Updates and Smart Rebuilds
 
@@ -338,6 +354,104 @@ sudo systemctl restart nginx
 rm student-credentials.json
 ./scripts/update_and_deploy.sh
 ```
+
+## DNS-01 Wildcard SSL (Cloudflare)
+
+You can issue a single wildcard certificate via Let's Encrypt DNS-01 using Cloudflare. This covers all student subdomains:
+
+- `*.vscode.{{domain_name}}`
+- `*.api.{{domain_name}}`
+
+### 1) Create a Cloudflare API Token
+
+- Permissions: Zone → DNS → Edit
+- Scope: restrict to your delegated zone (e.g. `patrick-koss.de`)
+- Copy the token value (keep it secret)
+
+### 2) Choose how to pass the token
+
+Safer options are preferred over CLI args because shell history can capture secrets.
+
+- Option A (recommended): Environment variable
+  - `export CF_API_TOKEN='YOUR_TOKEN'`
+- Option B: Token file (only token text inside)
+  - `echo -n 'YOUR_TOKEN' > /path/to/cf-token.txt && chmod 600 /path/to/cf-token.txt`
+- Option C: CLI argument (least safe)
+  - `--cf-token 'YOUR_TOKEN'`
+
+### 3) Run deployment with DNS-01 enabled
+
+Examples below also show how to include your existing student credentials file.
+
+```bash
+# Using environment variable (preferred)
+export CF_API_TOKEN='YOUR_TOKEN'
+./scripts/update_and_deploy.sh \
+  --dns-01 \
+  -e deploy/vars/main.yml \
+  -c deploy/playbooks/student-credentials.json
+
+# Using a token file
+./scripts/update_and_deploy.sh \
+  --dns-01 \
+  --cf-token-file /path/to/cf-token.txt \
+  -e deploy/vars/main.yml \
+  -c deploy/playbooks/student-credentials.json
+
+# Passing the token directly on the CLI (not recommended)
+./scripts/update_and_deploy.sh \
+  --dns-01 \
+  --cf-token 'YOUR_TOKEN' \
+  -e deploy/vars/main.yml \
+  -c deploy/playbooks/student-credentials.json
+```
+
+Notes:
+
+- Ensure `enable_ssl: true` in your vars (use `--enable-ssl` to force if needed).
+- With `--dns-01`, the playbook issues `wildcard.<domain>` once and nginx uses it for all student hosts.
+- Cloudflare orange cloud (proxy) can remain ON for your records; DNS-01 works independently of HTTP.
+ - You can adjust DNS propagation wait with `ssl_dns_propagation_seconds` (default 60s).
+
+### 4) Verify
+
+```bash
+ssh user@server
+sudo ls -l /etc/letsencrypt/live/wildcard.patrick-koss.de
+sudo openssl x509 -in /etc/letsencrypt/live/wildcard.patrick-koss.de/fullchain.pem -noout -text | grep -E 'DNS:|Not After|Subject:'
+sudo nginx -t && sudo systemctl reload nginx
+
+# From your machine, bypass DNS to test origin directly:
+curl -vkI --resolve 'student1.api.patrick-koss.de:443:82.165.95.178' https://student1.api.patrick-koss.de
+curl -vkI --resolve 'student1.vscode.patrick-koss.de:443:82.165.95.178' https://student1.vscode.patrick-koss.de
+```
+
+### Renewal
+
+The playbook installs `certbot-dns-cloudflare` and sets up a daily cron:
+
+```text
+0 2 * * * /usr/bin/certbot renew --quiet && systemctl reload nginx
+```
+
+The Cloudflare credentials are written to `/root/.secrets/certbot/cloudflare.ini` with `0600` permissions.
+
+If you rotate the token, redeploy with `--dns-01` and the new token.
+
+### Important: Make Cloudflare authoritative for your zone
+
+DNS-01 using the Cloudflare plugin only works if Cloudflare is the authoritative DNS for your domain.
+
+- At your registrar (Strato), change the domain’s nameservers to the two nameservers shown by Cloudflare for your zone.
+- Do not create custom NS records at the apex in Cloudflare that point back to Strato — Cloudflare must serve the zone.
+- After changing nameservers at Strato, wait for propagation (minutes to hours). You can check with:
+
+```bash
+dig +short NS patrick-koss.de
+# Expected: two Cloudflare NS (e.g., lily.ns.cloudflare.com, ...)
+```
+
+If the authoritative NS are not on `cloudflare.com`, the ACME TXT records created by the plugin will not be visible to Let’s Encrypt and issuance will fail with “No TXT record found at _acme-challenge…”.
 
 ### Access Container Shell
 

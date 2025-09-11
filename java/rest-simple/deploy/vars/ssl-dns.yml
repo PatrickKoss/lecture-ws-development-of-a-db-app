@@ -1,0 +1,17 @@
+---
+# Enable DNS-01 wildcard certs via Cloudflare
+enable_ssl: true
+ssl_use_dns_challenge: true
+
+# Email for Let's Encrypt
+ssl_email: "your-email@example.com"
+
+# Cloudflare API token with Zone.DNS:Edit for the delegated zone
+# IMPORTANT: Do NOT commit real tokens to source control.
+# Provide via --extra-vars, Ansible Vault, or environment.
+cloudflare_api_token: "REPLACE_WITH_CLOUDFLARE_API_TOKEN"
+
+# Notes:
+# - Issues a single RSA certificate named wildcard.{{ domain_name }}
+#   covering: *.vscode.{{ domain_name }}, *.api.{{ domain_name }}
+# - Nginx uses this wildcard cert for all student subdomains.

@@ -6,29 +6,47 @@
 # Student {{ i }} - VSCode Server
 server {
     listen 80;
+    listen [::]:80;
 {% if enable_ssl | default(false) %}
     listen 443 ssl http2;
+    listen [::]:443 ssl http2;
 {% endif %}
     server_name student{{ i }}.vscode.{{ domain_name }};
 
 {% if enable_ssl | default(false) %}
-    # SSL Configuration
-    ssl_certificate /etc/letsencrypt/live/student1.vscode.{{ domain_name }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/student1.vscode.{{ domain_name }}/privkey.pem;
+    {% set cert_base = 'wildcard.' ~ domain_name if use_wildcard_cert | default(false) else 'student' ~ i ~ '.' ~ domain_name %}
+    # SSL Configuration (Mozilla intermediate)
+    ssl_certificate /etc/letsencrypt/live/{{ cert_base }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ cert_base }}/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/{{ cert_base }}/fullchain.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305;
+    ssl_ecdh_curve X25519:P-256;
     ssl_prefer_server_ciphers off;
-    ssl_session_timeout 10m;
-    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 1d;
+    ssl_session_cache shared:SSL:50m;
     ssl_session_tickets off;
     ssl_stapling on;
     ssl_stapling_verify on;
+    
+    {% if force_https_redirect | default(true) %}
+    # Security headers for SSL (only when forcing HTTPS)
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
     # Redirect HTTP to HTTPS
     if ($scheme != "https") {
         return 301 https://$host$request_uri;
     }
+    {% endif %}
 {% endif %}
+
+    # Let's Encrypt challenge location (no auth required)
+    location /.well-known/acme-challenge/ {
+        root /var/www/html;
+        allow all;
+        auth_basic off;
+        try_files $uri $uri/ =404;
+    }
 
     # Basic Authentication
     auth_basic "Student {{ i }} VSCode Access";
@@ -75,29 +93,47 @@ server {
 # Student {{ i }} - API Server
 server {
     listen 80;
+    listen [::]:80;
 {% if enable_ssl | default(false) %}
     listen 443 ssl http2;
+    listen [::]:443 ssl http2;
 {% endif %}
     server_name student{{ i }}.api.{{ domain_name }};
 
 {% if enable_ssl | default(false) %}
-    # SSL Configuration
-    ssl_certificate /etc/letsencrypt/live/student1.vscode.{{ domain_name }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/student1.vscode.{{ domain_name }}/privkey.pem;
+    {% set cert_base = 'wildcard.' ~ domain_name if use_wildcard_cert | default(false) else 'student' ~ i ~ '.' ~ domain_name %}
+    # SSL Configuration (Mozilla intermediate)
+    ssl_certificate /etc/letsencrypt/live/{{ cert_base }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ cert_base }}/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/{{ cert_base }}/fullchain.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305;
+    ssl_ecdh_curve X25519:P-256;
     ssl_prefer_server_ciphers off;
-    ssl_session_timeout 10m;
-    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 1d;
+    ssl_session_cache shared:SSL:50m;
     ssl_session_tickets off;
     ssl_stapling on;
     ssl_stapling_verify on;
+    
+    {% if force_https_redirect | default(true) %}
+    # Security headers for SSL (only when forcing HTTPS)
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
     # Redirect HTTP to HTTPS
     if ($scheme != "https") {
         return 301 https://$host$request_uri;
     }
+    {% endif %}
 {% endif %}
+
+    # Let's Encrypt challenge location (no auth required)
+    location /.well-known/acme-challenge/ {
+        root /var/www/html;
+        allow all;
+        auth_basic off;
+        try_files $uri $uri/ =404;
+    }
 
     # Basic Authentication (same credentials as VSCode)
     auth_basic "Student {{ i }} API Access";
@@ -109,15 +145,15 @@ server {
     add_header X-Content-Type-Options "nosniff" always;
     add_header Referrer-Policy "no-referrer-when-downgrade" always;
 
-    # CORS headers for API
-    add_header Access-Control-Allow-Origin "{{ 'https' if enable_ssl | default(false) else 'http' }}://student{{ i }}.vscode.{{ domain_name }}" always;
+    # CORS headers for API (match current request scheme)
+    add_header Access-Control-Allow-Origin "$scheme://student{{ i }}.vscode.{{ domain_name }}" always;
     add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS" always;
     add_header Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization" always;
 
     location / {
         # Handle preflight requests
         if ($request_method = 'OPTIONS') {
-            add_header Access-Control-Allow-Origin "{{ 'https' if enable_ssl | default(false) else 'http' }}://student{{ i }}.vscode.{{ domain_name }}";
+            add_header Access-Control-Allow-Origin "$scheme://student{{ i }}.vscode.{{ domain_name }}";
             add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS";
             add_header Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization";
             add_header Access-Control-Max-Age 1728000;
@@ -156,12 +192,41 @@ server {
 # Default server block - redirect to main domain or show 404
 server {
     listen 80 default_server;
+    listen [::]:80 default_server;
     server_name _;
     
     location / {
         return 404 "Student environment not found";
     }
 }
+
+{% if enable_ssl | default(false) %}
+# Default TLS server (catch-all) to avoid TLS handshake failures when SNI doesn't match
+server {
+    listen 443 ssl http2 default_server;
+    listen [::]:443 ssl http2 default_server;
+
+    # Use wildcard (or student1) cert as fallback
+    {% if use_wildcard_cert | default(false) %}
+    ssl_certificate /etc/letsencrypt/live/wildcard.{{ domain_name }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/wildcard.{{ domain_name }}/privkey.pem;
+    {% else %}
+    ssl_certificate /etc/letsencrypt/live/student1.{{ domain_name }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/student1.{{ domain_name }}/privkey.pem;
+    {% endif %}
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305;
+    ssl_ecdh_curve X25519:P-256;
+    ssl_prefer_server_ciphers off;
+    ssl_session_timeout 1d;
+    ssl_session_cache shared:SSL:50m;
+    ssl_session_tickets off;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+
+    return 421; # Misdirected Request
+}
+{% endif %}
 
 # Log format for better debugging
 log_format student_access '$remote_addr - $remote_user [$time_local] "$request" '

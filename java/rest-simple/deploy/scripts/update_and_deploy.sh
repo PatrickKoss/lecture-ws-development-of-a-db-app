@@ -19,6 +19,10 @@ VARS_FILE=""
 CREDENTIALS_FILE=""
 DRY_RUN=false
 VERBOSE=""
+DNS01=false
+CF_TOKEN=""
+CF_TOKEN_FILE=""
+ENABLE_SSL_FLAG=""
 
 # Function to display usage
 usage() {
@@ -31,6 +35,12 @@ usage() {
     echo "  -n, --dry-run          Run in check mode (no changes made)"
     echo "  -v, --verbose          Enable verbose output"
     echo "  -h, --help             Display this help message"
+    echo ""
+    echo "DNS-01 (Cloudflare) options:"
+    echo "  --dns-01               Enable DNS-01 wildcard issuance"
+    echo "  --cf-token TOKEN       Cloudflare API token (Zone.DNS:Edit)"
+    echo "  --cf-token-file FILE   Read Cloudflare API token from file"
+    echo "  --enable-ssl           Force enable_ssl=true via extra-vars"
     echo ""
     echo "Examples:"
     echo "  $0                                    # Basic deployment"
@@ -65,6 +75,22 @@ while [[ $# -gt 0 ]]; do
         -h|--help)
             usage
             exit 0
+            ;;
+        --dns-01)
+            DNS01=true
+            shift
+            ;;
+        --cf-token)
+            CF_TOKEN="$2"
+            shift 2
+            ;;
+        --cf-token-file)
+            CF_TOKEN_FILE="$2"
+            shift 2
+            ;;
+        --enable-ssl)
+            ENABLE_SSL_FLAG="-e enable_ssl=true"
+            shift
             ;;
         *)
             echo -e "${RED}Unknown option: $1${NC}"
@@ -109,12 +135,41 @@ if [[ -n "$CREDENTIALS_FILE" ]]; then
     ANSIBLE_CMD="$ANSIBLE_CMD -e credentials_file=\"$CREDENTIALS_FILE\""
 fi
 
+# Handle DNS-01 options
+if [[ "$DNS01" == true ]]; then
+    ANSIBLE_CMD="$ANSIBLE_CMD -e ssl_use_dns_challenge=true"
+    # Prefer explicit token options, else environment fallback
+    if [[ -n "$CF_TOKEN_FILE" ]]; then
+        if [[ ! -f "$CF_TOKEN_FILE" ]]; then
+            echo -e "${RED}Error: Cloudflare token file not found: $CF_TOKEN_FILE${NC}"
+            exit 1
+        fi
+        CF_TOKEN_CONTENT=$(cat "$CF_TOKEN_FILE")
+        ANSIBLE_CMD="$ANSIBLE_CMD -e cloudflare_api_token='${CF_TOKEN_CONTENT}'"
+    elif [[ -n "$CF_TOKEN" ]]; then
+        ANSIBLE_CMD="$ANSIBLE_CMD -e cloudflare_api_token='${CF_TOKEN}'"
+    elif [[ -n "$CF_API_TOKEN" ]]; then
+        ANSIBLE_CMD="$ANSIBLE_CMD -e cloudflare_api_token='${CF_API_TOKEN}'"
+    else
+        echo -e "${YELLOW}Warning: DNS-01 enabled but no Cloudflare token provided. Set --cf-token, --cf-token-file, or CF_API_TOKEN env.${NC}"
+    fi
+fi
+
+# Optional enable_ssl flag
+if [[ -n "$ENABLE_SSL_FLAG" ]]; then
+    ANSIBLE_CMD="$ANSIBLE_CMD $ENABLE_SSL_FLAG"
+fi
+
 # Display deployment information
 echo -e "${GREEN}=== Student Environment Deployment ===${NC}"
 echo "Inventory: $INVENTORY_FILE"
 echo "Playbook: $PLAYBOOK"
 [[ -n "$VARS_FILE" ]] && echo "Vars file: $VARS_FILE"
 [[ -n "$CREDENTIALS_FILE" ]] && echo "Credentials: $CREDENTIALS_FILE"
+[[ "$DNS01" == true ]] && echo "DNS-01: ENABLED"
+[[ -n "$CF_TOKEN_FILE" ]] && echo "Cloudflare token file: $CF_TOKEN_FILE"
+[[ -n "$CF_TOKEN" ]] && echo "Cloudflare token: (provided via CLI)"
+[[ -n "$CF_API_TOKEN" ]] && echo "Cloudflare token: (provided via env CF_API_TOKEN)"
 echo "Mode: $([ "$DRY_RUN" == true ] && echo "DRY RUN" || echo "LIVE DEPLOYMENT")"
 echo ""
 
