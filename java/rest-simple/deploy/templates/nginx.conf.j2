@@ -14,20 +14,25 @@ server {
     server_name student{{ i }}.vscode.{{ domain_name }};
 
 {% if enable_ssl | default(false) %}
-    {% set cert_base = 'wildcard.' ~ domain_name if use_wildcard_cert | default(false) else 'student' ~ i ~ '.' ~ domain_name %}
-    # SSL Configuration (Mozilla intermediate)
-    ssl_certificate /etc/letsencrypt/live/{{ cert_base }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/{{ cert_base }}/privkey.pem;
-    ssl_trusted_certificate /etc/letsencrypt/live/{{ cert_base }}/fullchain.pem;
+    {% if use_vscode_wildcard_cert | default(false) %}
+        {% set vscode_cert_base = wildcard_vscode_cert_name %}
+    {% else %}
+        {% set vscode_cert_base = 'student' ~ i ~ '.vscode.' ~ domain_name %}
+    {% endif %}
+    # SSL Configuration (Mozilla intermediate) - VSCode
+    ssl_certificate /etc/letsencrypt/live/{{ vscode_cert_base }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ vscode_cert_base }}/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/{{ vscode_cert_base }}/fullchain.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
     ssl_ecdh_curve X25519:P-256;
     ssl_prefer_server_ciphers off;
     ssl_session_timeout 1d;
     ssl_session_cache shared:SSL:50m;
     ssl_session_tickets off;
-    ssl_stapling on;
-    ssl_stapling_verify on;
+    # SSL stapling disabled - certificates don't include OCSP responder URLs
+    # ssl_stapling on;
+    # ssl_stapling_verify on;
     
     {% if force_https_redirect | default(true) %}
     # Security headers for SSL (only when forcing HTTPS)
@@ -101,20 +106,25 @@ server {
     server_name student{{ i }}.api.{{ domain_name }};
 
 {% if enable_ssl | default(false) %}
-    {% set cert_base = 'wildcard.' ~ domain_name if use_wildcard_cert | default(false) else 'student' ~ i ~ '.' ~ domain_name %}
-    # SSL Configuration (Mozilla intermediate)
-    ssl_certificate /etc/letsencrypt/live/{{ cert_base }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/{{ cert_base }}/privkey.pem;
-    ssl_trusted_certificate /etc/letsencrypt/live/{{ cert_base }}/fullchain.pem;
+    {% if use_api_wildcard_cert | default(false) %}
+        {% set api_cert_base = wildcard_api_cert_name %}
+    {% else %}
+        {% set api_cert_base = 'student' ~ i ~ '.api.' ~ domain_name %}
+    {% endif %}
+    # SSL Configuration (Mozilla intermediate) - API
+    ssl_certificate /etc/letsencrypt/live/{{ api_cert_base }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ api_cert_base }}/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/{{ api_cert_base }}/fullchain.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
     ssl_ecdh_curve X25519:P-256;
     ssl_prefer_server_ciphers off;
     ssl_session_timeout 1d;
     ssl_session_cache shared:SSL:50m;
     ssl_session_tickets off;
-    ssl_stapling on;
-    ssl_stapling_verify on;
+    # SSL stapling disabled - certificates don't include OCSP responder URLs
+    # ssl_stapling on;
+    # ssl_stapling_verify on;
     
     {% if force_https_redirect | default(true) %}
     # Security headers for SSL (only when forcing HTTPS)
@@ -206,23 +216,24 @@ server {
     listen 443 ssl http2 default_server;
     listen [::]:443 ssl http2 default_server;
 
-    # Use wildcard (or student1) cert as fallback
-    {% if use_wildcard_cert | default(false) %}
-    ssl_certificate /etc/letsencrypt/live/wildcard.{{ domain_name }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/wildcard.{{ domain_name }}/privkey.pem;
+    # Use wildcard VSCode cert as fallback (or student1.vscode cert)
+    {% if use_vscode_wildcard_cert | default(false) %}
+    ssl_certificate /etc/letsencrypt/live/{{ wildcard_vscode_cert_name }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ wildcard_vscode_cert_name }}/privkey.pem;
     {% else %}
-    ssl_certificate /etc/letsencrypt/live/student1.{{ domain_name }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/student1.{{ domain_name }}/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/student1.vscode.{{ domain_name }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/student1.vscode.{{ domain_name }}/privkey.pem;
     {% endif %}
     ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
     ssl_ecdh_curve X25519:P-256;
     ssl_prefer_server_ciphers off;
     ssl_session_timeout 1d;
     ssl_session_cache shared:SSL:50m;
     ssl_session_tickets off;
-    ssl_stapling on;
-    ssl_stapling_verify on;
+    # SSL stapling disabled - certificates don't include OCSP responder URLs
+    # ssl_stapling on;
+    # ssl_stapling_verify on;
 
     return 421; # Misdirected Request
 }

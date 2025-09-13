@@ -239,25 +239,26 @@
         delay: 2
       when: enable_ssl | default(false) and not (ssl_use_dns_challenge | default(false))
 
-    - name: Remove any existing certificates with wrong names (legacy)
+    - name: Remove any existing certificates with wrong names (legacy cleanup)
       shell: |
         certbot delete --cert-name student{{ item }}.vscode.{{ domain_name }} --non-interactive || true
         certbot delete --cert-name student{{ item }}.api.{{ domain_name }} --non-interactive || true
+        certbot delete --cert-name student{{ item }}.{{ domain_name }} --non-interactive || true
+        certbot delete --cert-name wildcard.{{ domain_name }} --non-interactive || true
       loop: "{{ range(1, student_count + 1) | list }}"
-      when: enable_ssl | default(false) and not (ssl_use_dns_challenge | default(false))
+      when: enable_ssl | default(false)
       failed_when: false
 
-    - name: Generate/renew SSL certificates for each student domain pair using webroot (RSA keys)
+    - name: Generate individual SSL certificates for vscode domains using webroot (HTTP-01 challenge)
       shell: |
         certbot certonly --webroot -w /var/www/html --agree-tos --email {{ ssl_email }} --non-interactive --key-type rsa \
-        --cert-name student{{ item }}.{{ domain_name }} \
-        -d student{{ item }}.vscode.{{ domain_name }} \
-        -d student{{ item }}.api.{{ domain_name }}
+        --cert-name student{{ item }}.vscode.{{ domain_name }} \
+        -d student{{ item }}.vscode.{{ domain_name }}
       args:
-        creates: "/etc/letsencrypt/live/student{{ item }}.{{ domain_name }}/fullchain.pem"
+        creates: "/etc/letsencrypt/live/student{{ item }}.vscode.{{ domain_name }}/fullchain.pem"
       loop: "{{ range(1, student_count + 1) | list }}"
-      when: enable_ssl | default(false) and not (ssl_use_dns_challenge | default(false))
-      register: ssl_cert_result
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['individual', 'mixed'] and not (ssl_use_dns_challenge | default(false))
+      register: ssl_cert_individual_result
 
     # DNS-01 wildcard issuance via Cloudflare
     - name: Create directory for certbot DNS credentials
@@ -275,71 +276,92 @@
         mode: '0600'
       when: enable_ssl | default(false) and (ssl_use_dns_challenge | default(false))
 
-    - name: Issue wildcard certificate for *.vscode and *.api (DNS-01)
+    - name: Issue wildcard certificate for *.vscode.patrick-koss.de (DNS-01)
       shell: |
         certbot certonly --dns-cloudflare \
           --dns-cloudflare-credentials /root/.secrets/certbot/cloudflare.ini \
           --dns-cloudflare-propagation-seconds {{ ssl_dns_propagation_seconds | default(60) }} \
           --agree-tos --email {{ ssl_email }} --non-interactive --key-type rsa \
-          --cert-name wildcard.{{ domain_name }} \
-          -d "*.vscode.{{ domain_name }}" -d "*.api.{{ domain_name }}"
+          --cert-name {{ wildcard_vscode_cert_name }} \
+          -d "*.vscode.{{ domain_name }}"
       args:
-        creates: "/etc/letsencrypt/live/wildcard.{{ domain_name }}/fullchain.pem"
-      when: enable_ssl | default(false) and (ssl_use_dns_challenge | default(false))
-      register: dns_wildcard_cert
+        creates: "/etc/letsencrypt/live/{{ wildcard_vscode_cert_name }}/fullchain.pem"
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['wildcard', 'mixed'] and (ssl_use_dns_challenge | default(false))
+      register: dns_wildcard_vscode_cert
 
-    - name: Check if wildcard certificate exists
+    - name: Issue wildcard certificate for *.api.patrick-koss.de (DNS-01)
+      shell: |
+        certbot certonly --dns-cloudflare \
+          --dns-cloudflare-credentials /root/.secrets/certbot/cloudflare.ini \
+          --dns-cloudflare-propagation-seconds {{ ssl_dns_propagation_seconds | default(60) }} \
+          --agree-tos --email {{ ssl_email }} --non-interactive --key-type rsa \
+          --cert-name {{ wildcard_api_cert_name }} \
+          -d "*.api.{{ domain_name }}"
+      args:
+        creates: "/etc/letsencrypt/live/{{ wildcard_api_cert_name }}/fullchain.pem"
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['wildcard', 'mixed'] and (ssl_use_dns_challenge | default(false))
+      register: dns_wildcard_api_cert
+
+    - name: Check if wildcard certificates exist
       stat:
-        path: "/etc/letsencrypt/live/wildcard.{{ domain_name }}/fullchain.pem"
-      register: wildcard_cert_exists
+        path: "/etc/letsencrypt/live/{{ item }}/fullchain.pem"
+      register: wildcard_certs_exist
+      loop:
+        - "{{ wildcard_vscode_cert_name }}"
+        - "{{ wildcard_api_cert_name }}"
       when: enable_ssl | default(false)
 
-    - name: Use wildcard certificate if present
+    - name: Set wildcard certificate usage facts
       set_fact:
-        use_wildcard_cert: true
-      when: enable_ssl | default(false) and (wildcard_cert_exists.stat is defined and wildcard_cert_exists.stat.exists)
+        use_vscode_wildcard_cert: "{{ (wildcard_certs_exist.results[0].stat is defined and wildcard_certs_exist.results[0].stat.exists) }}"
+        use_api_wildcard_cert: "{{ (wildcard_certs_exist.results[1].stat is defined and wildcard_certs_exist.results[1].stat.exists) }}"
+      when: enable_ssl | default(false) and wildcard_certs_exist is defined
 
-    - name: Verify SSL certificates are valid
+    - name: Verify individual SSL certificates are valid
       shell: |
-        openssl x509 -in /etc/letsencrypt/live/student{{ item }}.{{ domain_name }}/fullchain.pem -text -noout | grep -E "(Subject:|Not After|DNS:)"
+        openssl x509 -in /etc/letsencrypt/live/student{{ item }}.vscode.{{ domain_name }}/fullchain.pem -text -noout | grep -E "(Subject:|Not After|DNS:)"
       loop: "{{ range(1, student_count + 1) | list }}"
-      when: enable_ssl | default(false) and not (ssl_use_dns_challenge | default(false))
-      register: cert_info
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['individual', 'mixed']
+      register: individual_cert_info
       failed_when: false
       
-    - name: Display certificate information
+    - name: Display individual certificate information
       debug:
-        msg: "Certificate info for student{{ item }}: {{ (cert_info.results[item-1].stdout_lines | default([])) | join(' ') if (cert_info.results | default([])) | length >= item else 'Certificate check skipped or failed' }}"
+        msg: "Certificate info for student{{ item }}.vscode: {{ (individual_cert_info.results[item-1].stdout_lines | default([])) | join(' ') if (individual_cert_info.results | default([])) | length >= item else 'Certificate check skipped or failed' }}"
       loop: "{{ range(1, student_count + 1) | list }}"
-      when: enable_ssl | default(false) and not (ssl_use_dns_challenge | default(false)) and cert_info is defined
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['individual', 'mixed'] and individual_cert_info is defined
 
-    - name: Verify wildcard SSL certificate is valid
+    - name: Verify wildcard SSL certificates are valid
       shell: |
-        openssl x509 -in /etc/letsencrypt/live/wildcard.{{ domain_name }}/fullchain.pem -text -noout | grep -E "(Subject:|Not After|DNS:)"
-      when: enable_ssl | default(false) and (ssl_use_dns_challenge | default(false))
-      register: wildcard_cert_info
+        openssl x509 -in /etc/letsencrypt/live/{{ item }}/fullchain.pem -text -noout | grep -E "(Subject:|Not After|DNS:)"
+      loop:
+        - "{{ wildcard_vscode_cert_name }}"
+        - "{{ wildcard_api_cert_name }}"
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['wildcard', 'mixed']
+      register: wildcard_certs_info
       failed_when: false
 
     - name: Display wildcard certificate information
       debug:
-        msg: "Wildcard certificate info: {{ wildcard_cert_info.stdout_lines if wildcard_cert_info.stdout_lines else 'Certificate check failed' }}"
-      when: enable_ssl | default(false) and (ssl_use_dns_challenge | default(false)) and wildcard_cert_info is defined
+        msg: "{{ item.item }} certificate info: {{ item.stdout_lines if item.stdout_lines else 'Certificate check failed' }}"
+      loop: "{{ wildcard_certs_info.results | default([]) }}"
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['wildcard', 'mixed'] and wildcard_certs_info is defined
 
-    - name: Set up SSL certificate renewal (webroot)
+    - name: Set up SSL certificate renewal (webroot for individual certs)
       cron:
-        name: "Renew Let's Encrypt certificates"
+        name: "Renew Let's Encrypt individual certificates"
         minute: "0"
         hour: "2"
         job: "/usr/bin/certbot renew --webroot --webroot-path=/var/www/html --quiet && systemctl reload nginx"
-      when: enable_ssl | default(false) and not (ssl_use_dns_challenge | default(false))
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['individual', 'mixed']
 
-    - name: Set up SSL certificate renewal (DNS-01)
+    - name: Set up SSL certificate renewal (DNS-01 for wildcard certs)
       cron:
         name: "Renew Let's Encrypt wildcard certificates"
         minute: "15"
         hour: "2"
         job: "/usr/bin/certbot renew --quiet && systemctl reload nginx"
-      when: enable_ssl | default(false) and (ssl_use_dns_challenge | default(false))
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['wildcard', 'mixed']
 
     - name: Update nginx configuration with SSL
       template:
