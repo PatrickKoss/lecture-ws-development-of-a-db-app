@@ -1,0 +1,1577 @@
+<style>
+  .d07-content {
+    position: absolute;
+    inset: 9rem 4.8rem 5.5rem;
+  }
+
+  .d07-source {
+    position: absolute;
+    right: var(--frame-gutter);
+    bottom: 1.45rem;
+    left: var(--frame-gutter);
+    color: var(--color-text-dim);
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .d07-grid-2 {
+    display: grid;
+    grid-template-columns: 46% 46%;
+    gap: 8%;
+    height: 100%;
+    align-items: center;
+  }
+
+  .d07-card {
+    box-sizing: border-box;
+    padding: 28px;
+    border: 2px solid var(--color-blue);
+    border-radius: 8px;
+    background: var(--color-grey-dim);
+    color: var(--color-white);
+  }
+
+  .d07-card.red {
+    border-color: var(--color-red);
+  }
+
+  .d07-card.green {
+    border-color: var(--color-green);
+  }
+
+  .d07-card.amber {
+    border-color: var(--color-amber);
+  }
+
+  .d07-card h3 {
+    margin: 0 0 1.2rem;
+    font-size: 38px;
+  }
+
+  .d07-card pre {
+    width: 100%;
+    margin: 0;
+    box-shadow: none;
+    font-size: 26px;
+  }
+
+  .d07-callout {
+    margin-top: 1.4rem;
+    padding: 1rem 1.2rem;
+    border-left: 4px solid var(--color-amber);
+    color: var(--color-amber);
+    font-size: 30px;
+  }
+
+  .d07-callout.red {
+    border-color: var(--color-red);
+    color: var(--color-red);
+  }
+
+  .d07-callout.green {
+    border-color: var(--color-green);
+    color: var(--color-green);
+  }
+
+  .d07-answer {
+    position: absolute;
+    top: 68%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--color-amber);
+    font-size: 42px;
+    font-weight: 700;
+  }
+
+  .d07-svg text {
+    font-size: 30px;
+    fill: var(--color-white);
+  }
+
+  .d07-svg .small {
+    font-size: 24px;
+    fill: var(--color-text-dim);
+  }
+
+  .d07-svg .label {
+    font-size: 26px;
+    font-weight: 700;
+  }
+
+  .d07-svg .blue {
+    fill: var(--color-blue);
+  }
+
+  .d07-svg .amber {
+    fill: var(--color-amber);
+  }
+
+  .d07-svg .red {
+    fill: var(--color-red);
+  }
+
+  .d07-svg .green {
+    fill: var(--color-green);
+  }
+
+  .d07-svg .box {
+    fill: var(--color-grey-dim);
+    stroke: var(--color-grey);
+    stroke-width: 2;
+  }
+
+  .d07-svg .box-blue {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+  }
+
+  .d07-svg .box-amber {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-amber);
+    stroke-width: 3;
+  }
+
+  .d07-svg .box-red {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-red);
+    stroke-width: 3;
+  }
+
+  .d07-svg .box-green {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-green);
+    stroke-width: 3;
+  }
+
+  .d07-svg .line-blue {
+    fill: none;
+    stroke: var(--color-blue);
+    stroke-width: 4;
+  }
+
+  .d07-svg .line-amber {
+    fill: none;
+    stroke: var(--color-amber);
+    stroke-width: 4;
+  }
+
+  .d07-svg .line-green {
+    fill: none;
+    stroke: var(--color-green);
+    stroke-width: 4;
+  }
+
+  .d07-redline .redline__step text {
+    font-size: 28px;
+  }
+
+  .d07-redline .d07-redline-done rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+  }
+
+  .d07-redline .d07-redline-done text {
+    fill: var(--color-blue);
+  }
+
+  .d07-redline .d07-redline-next rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+    stroke-dasharray: 12 9;
+  }
+
+  .d07-redline .d07-redline-next text {
+    fill: var(--color-blue);
+  }
+
+  .d07-code-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    align-self: start;
+    height: fit-content;
+  }
+
+  .d07-code-stack {
+    display: grid;
+    gap: 1.2rem;
+    align-self: start;
+  }
+
+  .d07-mapping-pair {
+    gap: 1rem;
+  }
+
+  .d07-mapping-pair code {
+    font-variant-ligatures: none;
+    letter-spacing: -1.6px;
+  }
+
+  .d07-code-card {
+    position: relative;
+  }
+
+  .d07-code-card__label {
+    min-height: 2.2rem;
+    margin-bottom: 0.7rem;
+    color: var(--color-amber);
+    font-size: 22px;
+  }
+
+  .reveal .code-slide .d07-code-card pre {
+    font-size: 24px;
+  }
+
+  .reveal .code-slide pre.d07-code-dense {
+    font-size: 24px;
+    line-height: 1.24;
+  }
+
+  .reveal .code-slide pre.d07-code-compact {
+    font-size: 24px;
+    line-height: 1.28;
+  }
+
+  .reveal .code-slide pre.d07-code-fit {
+    align-self: center;
+    height: fit-content;
+  }
+
+  .d07-svg .walk {
+    font-size: 24px;
+  }
+
+  .d07-injection {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    gap: 1rem;
+    width: 100%;
+    height: fit-content;
+    align-content: start;
+    align-self: center;
+  }
+
+  .d07-injection .d07-card {
+    padding: 20px 24px;
+  }
+
+  .d07-injection pre {
+    margin: 0;
+    width: 100%;
+    box-shadow: none;
+    font-size: 27px;
+  }
+
+  .d07-injection__result {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 230px;
+    border: 2px solid var(--color-red);
+    border-radius: 8px;
+    color: var(--color-red);
+    font-size: 36px;
+    font-weight: 700;
+  }
+
+  .d07-context-card {
+    min-height: 450px;
+  }
+
+  .d07-context-card p {
+    margin: 0.45rem 0;
+    font-size: 34px;
+  }
+
+  .d07-context-card .d07-callout {
+    margin-top: 0.7rem;
+  }
+
+  .d07-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+    margin: 0 5rem 1.5rem;
+  }
+
+  .d07-step {
+    min-height: 210px;
+    padding: 1.2rem;
+    border: 1px solid var(--color-line-bright);
+    border-radius: 6px;
+    background: var(--color-bg-deep);
+    color: var(--color-text-mid);
+    font-size: 28px;
+    line-height: 1.3;
+  }
+
+  .d07-step__number {
+    display: block;
+    margin-bottom: 0.8rem;
+    color: var(--color-amber);
+    font-size: 32px;
+    font-weight: 700;
+  }
+
+  .d07-exercise-path {
+    margin: -1rem 5rem 0.8rem;
+    color: var(--color-text-dim);
+    font-size: 19px;
+    text-align: center;
+  }
+
+  .d07-mapping-bracket {
+    position: absolute;
+    inset: -0.9rem;
+    border: 4px solid var(--color-red);
+    border-radius: 10px;
+    pointer-events: none;
+  }
+
+  .d07-mapping-bracket span {
+    position: absolute;
+    right: 1.2rem;
+    bottom: -2.2rem;
+    padding: 0 0.7rem;
+    background: var(--color-bg);
+    color: var(--color-red);
+    font-size: 24px;
+  }
+
+  .d07-citation-layout {
+    position: absolute;
+    inset: 3.2rem 5rem;
+    display: grid;
+    grid-template-columns: 48% 48%;
+    gap: 4%;
+    align-items: center;
+  }
+
+  .d07-citation-copy {
+    text-align: left;
+  }
+
+  .d07-citation-copy .citation-text {
+    font-size: 2.4rem;
+    font-style: normal;
+  }
+
+  .d07-citation-url {
+    margin-top: 2rem;
+    color: var(--color-text-dim);
+    font-size: 22px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .d07-citation-layout svg {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .d07-connection .d07-code-stack,
+  .d07-mapping-slide .d07-code-pair {
+    align-self: center;
+    width: 100%;
+  }
+
+  .d07-date .d07-svg .small {
+    font-size: 28px;
+  }
+</style>
+
+<section class="chapter-slide">
+  <div class="chapter-number">07</div>
+  <div class="chapter-eyebrow">Kapitel 07</div>
+  <h1 class="chapter-title-big">JDBC und Cursor</h1>
+  <p class="chapter-subtitle">SQL aus Java</p>
+  <svg
+    class="slide-svg d07-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Java kommuniziert über einen Driver mit einer SQLite-Datei"
+  >
+    <defs>
+      <marker
+        id="d07-title-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <path d="M0,0 L12,6 L0,12 Z" fill="var(--color-blue)"></path>
+      </marker>
+    </defs>
+    <g transform="translate(240 740)">
+      <path
+        d="M0 80 H190 A90 90 0 0 0 280 -10 H410 A90 90 0 0 1 320 80 H520"
+        fill="none"
+        stroke="var(--color-white)"
+        stroke-width="14"
+      ></path>
+      <path
+        d="M120 80 V-65 H310 V80 M155 -65 V-125 M205 -65 V-125 M255 -65 V-125"
+        fill="none"
+        stroke="var(--color-white)"
+        stroke-width="14"
+        stroke-linecap="round"
+      ></path>
+      <text x="260" y="150" text-anchor="middle">Java</text>
+    </g>
+    <path
+      d="M820 820 H1040"
+      class="line-blue"
+      marker-end="url(#d07-title-arrow)"
+    ></path>
+    <rect
+      x="1080"
+      y="710"
+      width="360"
+      height="210"
+      rx="12"
+      class="box-blue"
+    ></rect>
+    <text x="1260" y="805" text-anchor="middle" class="blue">JDBC Driver</text>
+    <text x="1260" y="850" text-anchor="middle" class="small">übersetzt</text>
+    <path
+      d="M1440 820 H1600"
+      class="line-blue"
+      marker-end="url(#d07-title-arrow)"
+    ></path>
+    <path
+      d="M1640 715 H1810 V915 H1640 Z M1640 715 L1685 670 H1810 V715"
+      class="box-blue"
+    ></path>
+    <text x="1725" y="810" text-anchor="middle">SQLite</text>
+    <text x="1725" y="855" text-anchor="middle" class="small">students.db</text>
+  </svg>
+  <aside class="notes">
+    Wir ändern nicht die Abfragen, sondern ihren Absender. Java übernimmt
+    Terminalarbeit und Objektabbildung.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Java fragt die Tabellen</h2>
+  <svg
+    class="slide-svg redline d07-redline"
+    viewBox="0 0 1920 1080"
+    aria-label="Der rote Faden des Kurses"
+  >
+    <defs>
+      <marker
+        id="d07-redline-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon class="redline__arrow" points="0 0, 10 5, 0 10"></polygon>
+      </marker>
+    </defs>
+    <path
+      class="redline__line"
+      d="M460 345 H500 M900 345 H940 M1340 345 H1380 M1780 345 H1810 V730 H1780 M1380 730 H1340 M940 730 H900 M500 730 H460"
+      marker-end="url(#d07-redline-arrow)"
+    ></path>
+    <g class="redline__step d07-redline-done">
+      <rect x="60" y="270" width="400" height="150" rx="8"></rect>
+      <text x="260" y="330"><tspan class="blue">1</tspan></text>
+      <text x="260" y="375">Idee im Kopf</text>
+    </g>
+    <g class="redline__step d07-redline-done">
+      <rect x="500" y="270" width="400" height="150" rx="8"></rect>
+      <text x="700" y="315"><tspan class="blue">2</tspan></text>
+      <text x="700" y="355">Darüber sprechen:</text>
+      <text x="700" y="390">Abstraktion und ER-Modell</text>
+    </g>
+    <g class="redline__step d07-redline-done">
+      <rect x="940" y="270" width="400" height="150" rx="8"></rect>
+      <text x="1140" y="315"><tspan class="blue">3</tspan></text>
+      <text x="1140" y="355">Tabellen, die uns nicht</text>
+      <text x="1140" y="390">anlügen: Normalisierung</text>
+    </g>
+    <g class="redline__step d07-redline-done">
+      <rect x="1380" y="270" width="400" height="150" rx="8"></rect>
+      <text x="1580" y="310"><tspan class="blue">4</tspan></text>
+      <text x="1580" y="350">Den Tabellen</text>
+      <text x="1580" y="380">Fragen stellen:</text>
+      <text x="1580" y="410">SQL</text>
+    </g>
+    <g class="redline__step redline__step--active">
+      <rect x="1380" y="655" width="400" height="150" rx="8"></rect>
+      <text x="1580" y="700">5</text>
+      <text x="1580" y="740">Aus Java fragen: JDBC,</text>
+      <text x="1580" y="775">Cursor, Statements</text>
+    </g>
+    <g class="redline__step d07-redline-next">
+      <rect x="940" y="655" width="400" height="150" rx="8"></rect>
+      <text x="1140" y="700">6</text>
+      <text x="1140" y="740">Wiederholungen beenden:</text>
+      <text x="1140" y="775">Repository Pattern</text>
+    </g>
+    <g class="redline__step">
+      <rect x="500" y="655" width="400" height="150" rx="8"></rect>
+      <text x="700" y="700">7</text>
+      <text x="700" y="740">Andere zugreifen lassen:</text>
+      <text x="700" y="775">REST API mit Spring</text>
+    </g>
+    <g class="redline__step">
+      <rect x="60" y="655" width="400" height="150" rx="8"></rect>
+      <text x="260" y="685">8</text>
+      <text x="260" y="725">Solide machen: Schichten,</text>
+      <text x="260" y="760">Validierung, Fehler, OpenAPI,</text>
+      <text x="260" y="795">Tests, Middleware</text>
+    </g>
+  </svg>
+  <p class="slide-caption">
+    Vorher: SQL im Terminal · Jetzt: JDBC · Danach: Repository Pattern
+  </p>
+  <aside class="notes">
+    JDBC ist die Brücke. Am Ende funktioniert CRUD aus Java. Die Wiederholung im
+    Code liefert morgen früh den Grund für das Repository Pattern.
+  </aside>
+</section>
+
+<section class="lead-question">
+  <div class="lead-question__mark">?</div>
+  <h2 class="lead-question__text">
+    Wer übersetzt <code>prepareStatement</code> für SQLite?
+  </h2>
+  <div class="d07-answer fragment fade-in" data-fragment-index="1">
+    JDBC Driver
+  </div>
+  <aside class="notes">
+    Erwartet ist der SQLite JDBC Driver. Typisch falsch sind der Java-Compiler
+    und Spring. JDBC ist die API, der Driver die konkrete Umsetzung.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Der JDBC-Weg</h2>
+  <svg class="slide-svg d07-svg" viewBox="0 0 1920 1080">
+    <defs>
+      <marker
+        id="d07-path-blue"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <path d="M0,0 L12,6 L0,12 Z" fill="var(--color-blue)"></path>
+      </marker>
+      <marker
+        id="d07-path-amber"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <path d="M0,0 L12,6 L0,12 Z" fill="var(--color-amber)"></path>
+      </marker>
+    </defs>
+    <g transform="translate(95 400)">
+      <rect width="350" height="190" rx="10" class="box-blue"></rect>
+      <text x="175" y="105" text-anchor="middle">Application</text>
+    </g>
+    <g transform="translate(560 400)">
+      <rect width="350" height="190" rx="10" class="box-blue"></rect>
+      <text x="175" y="105" text-anchor="middle">JDBC API</text>
+    </g>
+    <g transform="translate(1025 400)">
+      <rect width="350" height="190" rx="10" class="box-blue"></rect>
+      <text x="175" y="105" text-anchor="middle">SQLite Driver</text>
+    </g>
+    <g transform="translate(1490 400)">
+      <rect width="350" height="190" rx="10" class="box-blue"></rect>
+      <text x="175" y="88" text-anchor="middle">students.db</text>
+      <text x="175" y="132" text-anchor="middle" class="small">
+        SQLite-Datei
+      </text>
+    </g>
+    <path
+      class="line-blue fragment fade-in"
+      data-fragment-index="1"
+      d="M445 475 H560"
+      marker-end="url(#d07-path-blue)"
+    ></path>
+    <path
+      class="line-blue fragment fade-in"
+      data-fragment-index="2"
+      d="M910 475 H1025"
+      marker-end="url(#d07-path-blue)"
+    ></path>
+    <path
+      class="line-blue fragment fade-in"
+      data-fragment-index="3"
+      d="M1375 475 H1490"
+      marker-end="url(#d07-path-blue)"
+    ></path>
+    <path
+      class="line-amber fragment fade-in"
+      data-fragment-index="4"
+      d="M1490 555 H445"
+      marker-end="url(#d07-path-amber)"
+    ></path>
+    <text
+      x="968"
+      y="645"
+      text-anchor="middle"
+      class="amber fragment fade-in"
+      data-fragment-index="4"
+    >
+      ResultSet
+    </text>
+    <text x="960" y="755" text-anchor="middle">
+      eine Java-API, konkrete Driver
+    </text>
+  </svg>
+  <aside class="notes">
+    Unser Anwendungscode spricht JDBC. Der Driver kennt SQLite. Ein anderer
+    JDBC-Driver kann denselben Grundcode mit PostgreSQL verbinden, Details
+    bleiben trotzdem verschieden.
+  </aside>
+</section>
+
+<section class="code-slide d07-connection">
+  <h2 class="slide-title">Connection öffnen</h2>
+  <div class="code-slide__content code-slide__content--wide">
+    <div class="d07-code-stack">
+      <div class="d07-code-card">
+        <div class="d07-code-card__label">Main.java · Zeile 13</div>
+        <pre
+          class="d07-code-fit"
+        ><code class="language-java" data-trim data-line-numbers="1">private static final String DATABASE_URL = "jdbc:sqlite:students.db";</code></pre>
+      </div>
+      <div class="d07-code-card">
+        <div class="d07-code-card__label">gekürzt: Block endet in Zeile 71</div>
+        <pre
+          class="d07-code-fit"
+        ><code class="language-java" data-trim data-line-numbers="1-2|3">try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+     Statement statement = connection.createStatement()) {
+    statement.execute(sql);</code></pre>
+      </div>
+    </div>
+  </div>
+  <div class="d07-source">
+    java/cursor-simple/src/main/java/org/lecture/Main.java, Zeile 13 sowie
+    Zeilen 65 bis 67
+  </div>
+  <aside class="notes">
+    Die URL wählt Driver und Datei. Die Connection begrenzt eine Sitzung. Der
+    vollständige try-with-resources-Block in den Zeilen 65 bis 71 schließt
+    Connection und Statement.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Statement oder PreparedStatement?</h2>
+  <div class="d07-content d07-grid-2">
+    <div class="d07-card red">
+      <h3 class="t-red">Statement</h3>
+      <pre><code class="language-java">"... WHERE id = " + id</code></pre>
+      <div class="d07-callout red fragment fade-in" data-fragment-index="1">
+        Syntax und Daten vermischt
+      </div>
+    </div>
+    <div class="d07-card green">
+      <h3 class="t-green">PreparedStatement</h3>
+      <pre><code class="language-java">"... WHERE id = ?"</code></pre>
+      <div class="d07-callout green fragment fade-in" data-fragment-index="2">
+        getrennte Bindung
+      </div>
+    </div>
+  </div>
+  <div
+    class="slide-caption amber bold fragment fade-in"
+    data-fragment-index="3"
+  >
+    Standard für Werte
+  </div>
+  <aside class="notes">
+    Statement ist für statisches SQL möglich. Sobald Werte aus Eingaben kommen,
+    verwende ich PreparedStatement. Es schützt und behandelt Typen sauberer.
+  </aside>
+</section>
+
+<section class="code-slide">
+  <h2 class="slide-title">SQL Injection live</h2>
+  <div class="code-slide__content code-slide__content--wide">
+    <div class="d07-injection">
+      <div class="d07-card red">
+        <pre><code class="language-java" data-trim data-line-numbers="1">String sql = "SELECT * FROM students WHERE email = '" + input + "'";</code></pre>
+      </div>
+      <div class="d07-code-pair">
+        <div class="d07-card amber">
+          <div class="d07-code-card__label">Eingabe</div>
+          <pre><code class="language-sql">' OR 1=1 --</code></pre>
+        </div>
+        <div class="d07-card red fragment fade-in" data-fragment-index="1">
+          <div class="d07-code-card__label">resultierendes SQL</div>
+          <pre><code class="language-sql">SELECT * FROM students
+WHERE email = '' OR 1=1 --'</code></pre>
+        </div>
+      </div>
+      <div
+        class="d07-injection__result fragment fade-in"
+        data-fragment-index="2"
+      >
+        alle Student-Zeilen
+      </div>
+    </div>
+  </div>
+  <div class="d07-source">
+    Didaktisches Gegenbeispiel, nicht im Repository. Abgeleitet von der sicheren
+    SELECT-Struktur in java/cursor-simple/src/main/java/org/lecture/Main.java,
+    Zeilen 137 bis 145.
+  </div>
+  <aside class="notes">
+    Ich führe die harmlose Demo nur gegen lokale Seed-Daten aus. Das Repository
+    enthält diese unsichere Variante nicht. Die Eingabe beendet den String und
+    ergänzt SQL-Syntax.
+  </aside>
+</section>
+
+<section class="code-slide">
+  <h2 class="slide-title">PreparedStatement trennt Code und Daten</h2>
+  <div class="code-slide__content code-slide__content--wide">
+    <pre
+      class="d07-code-compact d07-code-fit"
+    ><code class="language-java" data-trim data-line-numbers="1-5|7-8|9|11">String sql = """
+        SELECT id, first_name, last_name, email, student_number, enrollment_date
+        FROM students
+        WHERE id = ?
+        """;
+…
+try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+     PreparedStatement statement = connection.prepareStatement(sql)) {
+    statement.setInt(1, id);
+…
+    try (ResultSet resultSet = statement.executeQuery()) {</code></pre>
+    <svg
+      class="d07-svg fragment fade-in"
+      viewBox="0 0 1600 170"
+      style="position: absolute; right: 0; bottom: 0; left: 0; width: 100%"
+      aria-label="Der Wert id läuft als Datenwert zum Placeholder"
+    >
+      <defs>
+        <marker
+          id="d07-value-arrow"
+          markerWidth="12"
+          markerHeight="12"
+          refX="10"
+          refY="6"
+          orient="auto"
+        >
+          <path d="M0,0 L12,6 L0,12 Z" fill="var(--color-blue)"></path>
+        </marker>
+      </defs>
+      <text x="400" y="105" text-anchor="middle" class="blue">id</text>
+      <path
+        d="M460 95 H1110"
+        class="line-blue"
+        marker-end="url(#d07-value-arrow)"
+      ></path>
+      <text x="1200" y="105" text-anchor="middle" class="blue">?</text>
+    </svg>
+  </div>
+  <div class="d07-source">
+    java/cursor-simple/src/main/java/org/lecture/Main.java, Zeilen 137 bis 147,
+    gekürzt und mit … markiert
+  </div>
+  <aside class="notes">
+    Main bindet die ID als Datenwert. Der gezeigte Ausschnitt lässt nur
+    Leerzeilen aus und markiert die ausgelassene Stelle. Escaping von Hand ist
+    kein gleichwertiger Ersatz.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Der Cursor startet vor Zeile 1</h2>
+  <svg class="slide-svg d07-svg" viewBox="0 0 1920 1080">
+    <defs>
+      <marker
+        id="d07-cursor-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <path d="M0,0 L12,6 L0,12 Z" fill="var(--color-amber)"></path>
+      </marker>
+    </defs>
+    <rect x="520" y="330" width="1080" height="90" class="box-blue"></rect>
+    <rect x="520" y="420" width="1080" height="130" class="box"></rect>
+    <rect x="520" y="550" width="1080" height="130" class="box"></rect>
+    <rect x="520" y="680" width="1080" height="130" class="box"></rect>
+    <line
+      x1="730"
+      y1="330"
+      x2="730"
+      y2="810"
+      stroke="var(--color-grey)"
+      stroke-width="2"
+    ></line>
+    <line
+      x1="1170"
+      y1="330"
+      x2="1170"
+      y2="810"
+      stroke="var(--color-grey)"
+      stroke-width="2"
+    ></line>
+    <text x="625" y="387" text-anchor="middle" class="blue">id</text>
+    <text x="950" y="387" text-anchor="middle" class="blue">first_name</text>
+    <text x="1385" y="387" text-anchor="middle" class="blue">email</text>
+    <text x="625" y="500" text-anchor="middle">1</text>
+    <text x="950" y="500" text-anchor="middle">Lena</text>
+    <text x="1385" y="500" text-anchor="middle">lena@example.org</text>
+    <text x="625" y="630" text-anchor="middle">2</text>
+    <text x="950" y="630" text-anchor="middle">Noah</text>
+    <text x="1385" y="630" text-anchor="middle">noah@example.org</text>
+    <text x="625" y="760" text-anchor="middle">3</text>
+    <text x="950" y="760" text-anchor="middle">Mina</text>
+    <text x="1385" y="760" text-anchor="middle">mina@example.org</text>
+    <path
+      d="M360 265 H500"
+      class="line-amber"
+      marker-end="url(#d07-cursor-arrow)"
+    ></path>
+    <text x="345" y="235" text-anchor="middle" class="amber">Cursor</text>
+    <text x="345" y="280" text-anchor="middle" class="small">vor Zeile 1</text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <path
+        d="M390 300 V485 H500"
+        class="line-amber"
+        marker-end="url(#d07-cursor-arrow)"
+      ></path>
+      <text x="300" y="475" text-anchor="middle" class="amber">rs.next()</text>
+      <text x="300" y="515" text-anchor="middle" class="small">Zeile 1</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="540"
+        y="440"
+        width="1040"
+        height="90"
+        rx="6"
+        fill="none"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+      ></rect>
+      <text x="1060" y="875" text-anchor="middle" class="blue">
+        liest Spalten
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <path
+        d="M390 485 V615 H500"
+        class="line-amber"
+        marker-end="url(#d07-cursor-arrow)"
+      ></path>
+      <text x="300" y="605" text-anchor="middle" class="amber">next()</text>
+      <rect
+        x="540"
+        y="565"
+        width="1040"
+        height="90"
+        rx="6"
+        fill="none"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+      ></rect>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <path
+        d="M390 615 V880 H500"
+        class="line-amber"
+        marker-end="url(#d07-cursor-arrow)"
+      ></path>
+      <text x="300" y="875" text-anchor="middle" class="red">false</text>
+      <text x="760" y="875" text-anchor="middle" class="small">
+        hinter letzter Zeile
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Ohne erstes next() darf ich keine Spalte lesen. Die while-Schleife passt,
+    weil sie Bewegung und Ende verbindet.
+  </aside>
+</section>
+
+<section class="code-slide">
+  <h2 class="slide-title">ResultSet wird Student</h2>
+  <div class="code-slide__content code-slide__content--wide">
+    <pre
+      class="d07-code-fit"
+    ><code class="language-java" data-trim data-line-numbers="1|2-6|7-8">Student student = new Student(
+        resultSet.getInt("id"),
+        resultSet.getString("first_name"),
+        resultSet.getString("last_name"),
+        resultSet.getString("email"),
+        resultSet.getString("student_number"),
+        LocalDate.parse(resultSet.getString("enrollment_date"))
+);</code></pre>
+  </div>
+  <div class="d07-source">
+    java/cursor-simple/src/main/java/org/lecture/Main.java, Zeilen 115 bis 122
+  </div>
+  <aside class="notes">
+    Die Namen entsprechen students in schema.sql. Hier wird eine Zeile zum
+    Objekt. Ein falscher Spaltenname fällt erst zur Laufzeit auf.
+  </aside>
+</section>
+
+<section class="code-slide">
+  <h2 class="slide-title">SELECT und Cursor zusammen</h2>
+  <div class="code-slide__content">
+    <pre
+      class="d07-code-dense"
+    ><code class="language-java" data-trim data-line-numbers="1-5|7-9|10-13|14-20|21-22">String sql = """
+        SELECT id, first_name, last_name, email, student_number, enrollment_date
+        FROM students
+        ORDER BY id
+        """;
+
+try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+     PreparedStatement statement = connection.prepareStatement(sql);
+     ResultSet resultSet = statement.executeQuery()) {
+    boolean foundStudent = false;
+    while (resultSet.next()) {
+        foundStudent = true;
+        Student student = new Student(
+                resultSet.getInt("id"),
+                resultSet.getString("first_name"),
+                resultSet.getString("last_name"),
+                resultSet.getString("email"),
+                resultSet.getString("student_number"),
+                LocalDate.parse(resultSet.getString("enrollment_date"))
+        );
+        System.out.println(student);
+    }</code></pre>
+    <div class="code-slide__notes">
+      <h3>Query · Ressourcen · Cursor · Row Mapping</h3>
+    </div>
+  </div>
+  <div class="d07-source">
+    java/cursor-simple/src/main/java/org/lecture/Main.java, Zeilen 103 bis 124
+  </div>
+  <aside class="notes">
+    PreparedStatement und ResultSet haben getrennte Lebensdauern.
+    try-with-resources schließt in umgekehrter Reihenfolge. Die while-Schleife
+    verarbeitet null bis viele Zeilen.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">try-with-resources räumt auf</h2>
+  <svg class="slide-svg d07-svg" viewBox="0 0 1920 1080">
+    <defs>
+      <marker
+        id="d07-close-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <path d="M0,0 L12,6 L0,12 Z" fill="var(--color-green)"></path>
+      </marker>
+    </defs>
+    <rect
+      x="260"
+      y="230"
+      width="1400"
+      height="580"
+      rx="16"
+      class="box-blue"
+    ></rect>
+    <text x="330" y="290" class="blue">Connection</text>
+    <rect
+      x="470"
+      y="330"
+      width="980"
+      height="390"
+      rx="14"
+      class="box-amber"
+    ></rect>
+    <text x="540" y="400" class="amber">PreparedStatement</text>
+    <rect
+      x="690"
+      y="430"
+      width="540"
+      height="190"
+      rx="12"
+      class="box-green"
+    ></rect>
+    <text x="960" y="540" text-anchor="middle" class="green">ResultSet</text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <circle
+        cx="960"
+        cy="525"
+        r="135"
+        fill="none"
+        stroke="var(--color-red)"
+        stroke-width="5"
+      ></circle>
+      <text x="960" y="700" text-anchor="middle" class="red">Exception</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <text x="520" y="885" text-anchor="middle" class="green">ResultSet</text>
+      <path
+        d="M665 875 H825"
+        class="line-green"
+        marker-end="url(#d07-close-arrow)"
+      ></path>
+      <text x="960" y="885" text-anchor="middle" class="green">Statement</text>
+      <path
+        d="M1110 875 H1270"
+        class="line-green"
+        marker-end="url(#d07-close-arrow)"
+      ></path>
+      <text x="1430" y="885" text-anchor="middle" class="green">
+        Connection
+      </text>
+    </g>
+    <text x="960" y="960" text-anchor="middle">
+      Schließen auch im Fehlerfall
+    </text>
+  </svg>
+  <aside class="notes">
+    Offene Ressourcen sammeln sich sonst unter Last. try-with-resources macht
+    den Lebenszyklus im Code sichtbar. Jeder Typ implementiert AutoCloseable.
+  </aside>
+</section>
+
+<section class="code-slide">
+  <h2 class="slide-title">INSERT mit gebundenen Werten</h2>
+  <div class="code-slide__content">
+    <pre
+      class="d07-code-compact d07-code-fit"
+    ><code class="language-java" data-trim data-line-numbers="1-4|6-7|8-12|13-14">String sql = """
+        INSERT INTO students (first_name, last_name, email, student_number, enrollment_date)
+        VALUES (?, ?, ?, ?, ?)
+        """;
+
+try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+     PreparedStatement statement = connection.prepareStatement(sql)) {
+    statement.setString(1, firstName);
+    statement.setString(2, lastName);
+    statement.setString(3, email);
+    statement.setString(4, studentNumber);
+    statement.setString(5, enrollmentDate.toString());
+    statement.executeUpdate();
+    System.out.println("Student created successfully!");</code></pre>
+    <div class="code-slide__notes">
+      <h3>SQL</h3>
+      <p>PreparedStatement</p>
+      <p>fünf Bindings</p>
+      <p>executeUpdate</p>
+    </div>
+  </div>
+  <div class="d07-source">
+    java/cursor-simple/src/main/java/org/lecture/Main.java, Zeilen 82 bis 95
+  </div>
+  <aside class="notes">
+    Parameterpositionen beginnen bei 1. Ihre Reihenfolge folgt den Fragezeichen.
+    Das Datum wird im vereinbarten ISO-Format gebunden.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">executeQuery oder executeUpdate</h2>
+  <div class="d07-content d07-grid-2">
+    <div class="d07-card">
+      <h3 class="t-blue">SELECT</h3>
+      <p>executeQuery()</p>
+      <p class="t-blue">ResultSet</p>
+    </div>
+    <div class="d07-card fragment fade-in" data-fragment-index="1">
+      <h3 class="t-blue">INSERT/UPDATE/DELETE</h3>
+      <p>executeUpdate()</p>
+      <p class="t-blue">int</p>
+    </div>
+  </div>
+  <div
+    class="slide-caption amber bold fragment fade-in"
+    data-fragment-index="2"
+  >
+    Zeilenzahl
+  </div>
+  <aside class="notes">
+    Der Rückgabetyp zeigt die Absicht. Bei Writes prüfen wir die betroffene
+    Zeilenzahl. Null betroffene Zeilen sind oft ein 404-Kandidat für später.
+  </aside>
+</section>
+
+<section class="d07-date">
+  <h2 class="slide-title">SQLite und LocalDate</h2>
+  <svg class="slide-svg d07-svg" viewBox="0 0 1920 1080">
+    <defs>
+      <marker
+        id="d07-date-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <path d="M0,0 L12,6 L0,12 Z" fill="var(--color-blue)"></path>
+      </marker>
+    </defs>
+    <g>
+      <rect
+        x="120"
+        y="390"
+        width="480"
+        height="210"
+        rx="10"
+        class="box-blue"
+      ></rect>
+      <text x="360" y="485" text-anchor="middle">enrollment_date TEXT</text>
+      <text x="360" y="535" text-anchor="middle" class="small">
+        SQLite-Spalte
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <path
+        d="M600 495 H720"
+        class="line-blue"
+        marker-end="url(#d07-date-arrow)"
+      ></path>
+      <rect
+        x="740"
+        y="390"
+        width="480"
+        height="210"
+        rx="10"
+        class="box-amber"
+      ></rect>
+      <text x="980" y="485" text-anchor="middle">date(enrollment_date)</text>
+      <text x="980" y="535" text-anchor="middle" class="small">CHECK</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <path
+        d="M1220 495 H1340"
+        class="line-blue"
+        marker-end="url(#d07-date-arrow)"
+      ></path>
+      <rect
+        x="1360"
+        y="390"
+        width="440"
+        height="210"
+        rx="10"
+        class="box-green"
+      ></rect>
+      <text x="1580" y="470" text-anchor="middle" class="green">
+        LocalDate.parse(
+      </text>
+      <text x="1580" y="515" text-anchor="middle" class="green">
+        resultSet.getString(
+      </text>
+      <text x="1580" y="560" text-anchor="middle" class="green">
+        "enrollment_date"))
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        x="650"
+        y="710"
+        width="620"
+        height="130"
+        rx="10"
+        class="box-red"
+      ></rect>
+      <text x="960" y="790" text-anchor="middle" class="red">
+        NULL und anderes Format
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    SQLite hat keinen eigenständigen Date-Typ wie Java. Unser Schema legt
+    ISO-Text fest und prüft das Format. Java wandelt denselben Text mit
+    LocalDate.parse um.
+  </aside>
+</section>
+
+<section class="code-slide d07-mapping-slide">
+  <h2 class="slide-title">Dasselbe Row Mapping zweimal</h2>
+  <div class="code-slide__content code-slide__content--wide">
+    <div class="d07-code-pair d07-mapping-pair" style="position: relative">
+      <div class="d07-code-card fragment fade-in" data-fragment-index="1">
+        <div class="d07-code-card__label">Zeilen 115 bis 122</div>
+        <pre
+          class="d07-code-compact"
+        ><code class="language-java" data-trim data-line-numbers="1-8">Student student = new Student(
+        resultSet.getInt("id"),
+        resultSet.getString("first_name"),
+        resultSet.getString("last_name"),
+        resultSet.getString("email"),
+        resultSet.getString("student_number"),
+        LocalDate.parse(resultSet.getString("enrollment_date"))
+);</code></pre>
+      </div>
+      <div class="d07-code-card fragment fade-in" data-fragment-index="2">
+        <div class="d07-code-card__label">Zeilen 149 bis 156</div>
+        <pre
+          class="d07-code-compact"
+        ><code class="language-java" data-trim data-line-numbers="1-8">Student student = new Student(
+        resultSet.getInt("id"),
+        resultSet.getString("first_name"),
+        resultSet.getString("last_name"),
+        resultSet.getString("email"),
+        resultSet.getString("student_number"),
+        LocalDate.parse(resultSet.getString("enrollment_date"))
+);</code></pre>
+      </div>
+      <div class="d07-mapping-bracket fragment fade-in" data-fragment-index="3">
+        <span>derselbe Konstruktorblock zweimal</span>
+      </div>
+    </div>
+  </div>
+  <div class="d07-source">
+    java/cursor-simple/src/main/java/org/lecture/Main.java
+  </div>
+  <aside class="notes">
+    Das Programm funktioniert, aber dieselbe Abbildung kann auseinanderlaufen.
+    Deck 08 zeigt MainRefactored.rowToStudent als gemeinsame Stelle.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Fehler enthalten Kontext</h2>
+  <div class="d07-content d07-grid-2">
+    <div class="d07-card red">
+      <h3 class="t-red">catch (SQLException e)</h3>
+      <div class="d07-callout red fragment fade-in" data-fragment-index="1">
+        Database error
+      </div>
+    </div>
+    <div class="d07-card amber d07-context-card">
+      <h3 class="t-amber">Kontext</h3>
+      <p>operation</p>
+      <p>student id</p>
+      <p>constraint</p>
+      <div class="d07-callout green fragment fade-in" data-fragment-index="2">
+        Read student id=42 failed
+      </div>
+    </div>
+  </div>
+  <p class="slide-caption">ohne Passwort oder komplettes SQL</p>
+  <aside class="notes">
+    Eine Fehlermeldung soll die Operation und den betroffenen Identifier nennen.
+    Sensible Werte gehören nicht ins Log. SQLException bleibt die technische
+    Ursache.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Walkthrough durch cursor-simple</h2>
+  <div class="slide-context grey">
+    java/cursor-simple/src/main/java/org/lecture/Main.java
+  </div>
+  <svg class="slide-svg d07-svg" viewBox="0 0 1920 1080">
+    <defs>
+      <marker
+        id="d07-walk-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <path d="M0,0 L12,6 L0,12 Z" fill="var(--color-blue)"></path>
+      </marker>
+    </defs>
+    <g transform="translate(70 390)">
+      <rect width="300" height="160" rx="10" class="box-blue"></rect>
+      <text x="150" y="92" text-anchor="middle" class="walk">
+        initializeDatabase
+      </text>
+    </g>
+    <g transform="translate(440 390)">
+      <rect width="300" height="160" rx="10" class="box-blue"></rect>
+      <text x="150" y="92" text-anchor="middle" class="walk">
+        createStudent
+      </text>
+    </g>
+    <g transform="translate(810 390)">
+      <rect width="300" height="160" rx="10" class="box-blue"></rect>
+      <text x="150" y="92" text-anchor="middle" class="walk">
+        listAllStudents
+      </text>
+    </g>
+    <g transform="translate(1180 390)">
+      <rect width="300" height="160" rx="10" class="box-blue"></rect>
+      <text x="150" y="92" text-anchor="middle" class="walk">readStudent</text>
+    </g>
+    <g transform="translate(1550 390)">
+      <rect width="300" height="160" rx="10" class="box-blue"></rect>
+      <text x="150" y="75" text-anchor="middle" class="walk">
+        updateStudent/
+      </text>
+      <text x="150" y="115" text-anchor="middle" class="walk">
+        deleteStudent
+      </text>
+    </g>
+    <path
+      class="line-blue fragment fade-in"
+      data-fragment-index="1"
+      d="M370 470 H440"
+      marker-end="url(#d07-walk-arrow)"
+    ></path>
+    <path
+      class="line-blue fragment fade-in"
+      data-fragment-index="2"
+      d="M740 470 H810"
+      marker-end="url(#d07-walk-arrow)"
+    ></path>
+    <path
+      class="line-blue fragment fade-in"
+      data-fragment-index="3"
+      d="M1110 470 H1180"
+      marker-end="url(#d07-walk-arrow)"
+    ></path>
+    <path
+      class="line-blue fragment fade-in"
+      data-fragment-index="4"
+      d="M1480 470 H1550"
+      marker-end="url(#d07-walk-arrow)"
+    ></path>
+    <rect x="650" y="690" width="620" height="130" rx="10" class="box"></rect>
+    <text x="960" y="770" text-anchor="middle" class="small">Input-Helfer</text>
+  </svg>
+  <aside class="notes">
+    Die Datei hat 248 Zeilen. Wir folgen einem Create und einem Read. Danach
+    markieren wir die beiden Row-Mapping-Blöcke für das nächste Kapitel.
+  </aside>
+</section>
+
+<section class="exercise-slide">
+  <div class="exercise-slide__tag">Übung 6A</div>
+  <div class="exercise-slide__time">45 min</div>
+  <p class="exercise-slide__task">StudentRepositoryImpl</p>
+  <div class="d07-steps">
+    <div class="d07-step">
+      <span class="d07-step__number">1</span>
+      Implementiert Initialisierung, Create, Read, Update, Delete und
+      Existenzprüfung.
+    </div>
+    <div class="d07-step">
+      <span class="d07-step__number">2</span>
+      Nutzt PreparedStatement und try-with-resources.
+    </div>
+    <div class="d07-step">
+      <span class="d07-step__number">3</span>
+      Übernehmt IDs und behandelt leere Ergebnisse mit Optional.
+    </div>
+    <div class="d07-step">
+      <span class="d07-step__number">4</span>
+      Aktiviert die CLI-TODOs und führt ./verify-exercise.sh aus.
+    </div>
+  </div>
+  <div class="exercise-slide__deliverable">
+    <strong>Abgabe:</strong> StudentRepositoryImpl.java, aktive CLI, grüner
+    Verify-Lauf
+  </div>
+  <div class="d07-exercise-path">
+    exercises/&lt;domain&gt;/04-jdbc.md ·
+    java/repository-simple-exercise/README.md
+  </div>
+  <aside class="notes">
+    Folgt dem README und der Karte, nicht dem fertigen Repository. Bindet jeden
+    externen Wert. Testet auch eine doppelte E-Mail-Adresse oder
+    Studierendennummer.
+  </aside>
+</section>
+
+<section class="exercise-slide">
+  <div class="exercise-slide__tag">Übung 6B</div>
+  <div class="exercise-slide__time">30 min</div>
+  <p class="exercise-slide__task">Eine Entity eurer Domäne</p>
+  <div class="d07-steps">
+    <div class="d07-step">
+      <span class="d07-step__number">1</span>
+      Nehmt die Entity und Felder aus der Karte.
+    </div>
+    <div class="d07-step">
+      <span class="d07-step__number">2</span>
+      Legt Model, Repository-Interface und Implementierung an.
+    </div>
+    <div class="d07-step">
+      <span class="d07-step__number">3</span>
+      Ergänzt genau zwei CLI-Punkte: anlegen und auflisten.
+    </div>
+    <div class="d07-step">
+      <span class="d07-step__number">4</span>
+      Testet gültige Daten und die zwei Fehlerfälle der Karte.
+    </div>
+  </div>
+  <div class="exercise-slide__deliverable">
+    <strong>Abgabe:</strong> ausführbares repository-simple-exercise plus kurze
+    Testnotiz
+  </div>
+  <div class="d07-exercise-path">exercises/&lt;domain&gt;/04-jdbc.md</div>
+  <aside class="notes">
+    Die konkrete Entity steht in der Domänenkarte. Für die Bibliothek ist es
+    Book. Erfindet auf der Folie keine generische Haupttabelle.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Debrief, wo wiederholt sich CRUD?</h2>
+  <svg class="slide-svg d07-svg" viewBox="0 0 1920 1080">
+    <g transform="translate(70 320)">
+      <rect width="320" height="160" rx="10" class="box-blue"></rect>
+      <text x="160" y="95" text-anchor="middle">Create</text>
+      <text x="160" y="215" text-anchor="middle" class="blue small">
+        SQL · bind · execute
+      </text>
+      <text x="160" y="250" text-anchor="middle" class="blue small">
+        map · close
+      </text>
+    </g>
+    <g transform="translate(435 320)">
+      <rect width="320" height="160" rx="10" class="box-blue"></rect>
+      <text x="160" y="95" text-anchor="middle">Read one</text>
+      <text x="160" y="215" text-anchor="middle" class="blue small">
+        SQL · bind · execute
+      </text>
+      <text x="160" y="250" text-anchor="middle" class="blue small">
+        map · close
+      </text>
+    </g>
+    <g transform="translate(800 320)">
+      <rect width="320" height="160" rx="10" class="box-blue"></rect>
+      <text x="160" y="95" text-anchor="middle">Read all</text>
+      <text x="160" y="215" text-anchor="middle" class="blue small">
+        SQL · bind · execute
+      </text>
+      <text x="160" y="250" text-anchor="middle" class="blue small">
+        map · close
+      </text>
+    </g>
+    <g transform="translate(1165 320)">
+      <rect width="320" height="160" rx="10" class="box-blue"></rect>
+      <text x="160" y="95" text-anchor="middle">Update</text>
+      <text x="160" y="215" text-anchor="middle" class="blue small">
+        SQL · bind · execute
+      </text>
+      <text x="160" y="250" text-anchor="middle" class="blue small">
+        map · close
+      </text>
+    </g>
+    <g transform="translate(1530 320)">
+      <rect width="320" height="160" rx="10" class="box-blue"></rect>
+      <text x="160" y="95" text-anchor="middle">Delete</text>
+      <text x="160" y="215" text-anchor="middle" class="blue small">
+        SQL · bind · execute
+      </text>
+      <text x="160" y="250" text-anchor="middle" class="blue small">
+        map · close
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <path
+        d="M80 610 V700 H1840 V610"
+        fill="none"
+        stroke="var(--color-red)"
+        stroke-width="5"
+      ></path>
+      <text x="960" y="755" text-anchor="middle" class="red">Wiederholung</text>
+    </g>
+    <text
+      x="960"
+      y="900"
+      text-anchor="middle"
+      class="amber fragment fade-in"
+      data-fragment-index="2"
+    >
+      Was kann generisch werden?
+    </text>
+  </svg>
+  <aside class="notes">
+    Wir vergleichen zwei Repositories. Tabellennamen und Mapping ändern sich,
+    der Ablauf kaum. Das ist der Übergang zum Repository Pattern.
+  </aside>
+</section>
+
+<section class="citation-slide">
+  <div class="d07-citation-layout">
+    <div class="d07-citation-copy">
+      <div class="citation-text">
+        Standard-JDBC-Code · natives PostgreSQL-Protokoll
+      </div>
+      <div class="d07-citation-url">
+        https://jdbc.postgresql.org/documentation/<br />
+        Abruf: 2026-08-23
+      </div>
+    </div>
+    <svg class="d07-svg" viewBox="0 0 900 760" aria-label="JDBC mit pgJDBC">
+      <defs>
+        <marker
+          id="d07-pg-arrow"
+          markerWidth="12"
+          markerHeight="12"
+          refX="10"
+          refY="6"
+          orient="auto"
+        >
+          <path d="M0,0 L12,6 L0,12 Z" fill="var(--color-blue)"></path>
+        </marker>
+      </defs>
+      <rect x="80" y="40" width="520" height="140" rx="10" class="box"></rect>
+      <text x="340" y="125" text-anchor="middle">Java-Anwendung</text>
+      <path
+        d="M340 180 V250"
+        class="line-blue"
+        marker-end="url(#d07-pg-arrow)"
+      ></path>
+      <rect
+        x="80"
+        y="270"
+        width="520"
+        height="140"
+        rx="10"
+        class="box-blue"
+      ></rect>
+      <text x="340" y="355" text-anchor="middle" class="blue">JDBC-API</text>
+      <path
+        d="M340 410 V455 H180 V480"
+        class="line-blue"
+        marker-end="url(#d07-pg-arrow)"
+      ></path>
+      <rect
+        x="40"
+        y="500"
+        width="280"
+        height="130"
+        rx="10"
+        class="box-blue"
+      ></rect>
+      <text x="180" y="580" text-anchor="middle">pgJDBC-Driver</text>
+      <path
+        d="M320 565 H365"
+        class="line-blue"
+        marker-end="url(#d07-pg-arrow)"
+      ></path>
+      <rect x="380" y="500" width="280" height="130" rx="10" class="box"></rect>
+      <text x="520" y="560" text-anchor="middle">PostgreSQL-</text>
+      <text x="520" y="595" text-anchor="middle">Server</text>
+    </svg>
+  </div>
+  <aside class="notes">
+    pgJDBC verbindet Java über standardisierten JDBC-Code mit PostgreSQL. Der
+    Driver spricht darunter das PostgreSQL-Protokoll. Als Nächstes kapseln wir
+    diesen Zugriff hinter Repositories.
+  </aside>
+</section>
