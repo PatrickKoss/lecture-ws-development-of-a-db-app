@@ -572,7 +572,7 @@ Status values: `todo`, `running`, `review`, `done`, `blocked`.
 | WP-G-2    | slides lint/debug/pdf-all + blind review          | done    | lint clean, 812 PNGs, 4 PDFs; reviews in docs/review/review-NN.md: 1 blockiert (deck 03 grade type), 74 sollte, ~20 nit |
 | WP-G-3    | fix review findings + polish list                 | done    | all blockiert/sollte findings fixed and re-shot, incl. deck 03 grade REAL, deck 08 footer em dashes, deck 07 centering; lint clean |
 | WP-G-4    | consistency grep + unslop audit of .md            | done    | orchestrator pass done: no em dashes in decks, ports consistent, registrationDate gone (rest-simple-exercise-example README rewritten German, instructor-only), stray cursor-simple/logs removed; exercise time boxes aligned to schedule (Ex 5 50 min, Ex 10 55 min, Beziehungsendpunkt optional in all 06-rest.md); markdown corpus verified clean of curly quotes and em dashes (only pre-existing java/rest-simple/deploy/README.md keeps them, untouched) |
-| WP-G-5    | commits per work package                          | todo    |       |
+| WP-G-5    | commits per work package                          | done    | 31 commits: tooling, spec, 14 decks, template + 10 domains, java packages, schedule/guide, reviews; final lint and pdf-all green |
 
 Orchestrator notes:
 
