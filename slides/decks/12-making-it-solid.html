@@ -1,0 +1,1814 @@
+<style>
+  .d12-content .slide-svg {
+    inset: 7.6rem 2.4rem 4.8rem;
+    width: calc(100% - 4.8rem);
+    height: calc(100% - 12.4rem);
+  }
+
+  .d12-svg text,
+  .d12-svg tspan {
+    font-size: 28px;
+    fill: var(--color-white);
+  }
+
+  .d12-svg .d12-label {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .d12-svg .d12-redline-label,
+  .d12-svg .d12-redline-label tspan {
+    font-size: 28px;
+  }
+
+  .d12-svg .d12-small {
+    font-size: 24px;
+    fill: var(--color-text-dim);
+  }
+
+  .d12-svg .d12-blue {
+    fill: var(--color-blue);
+  }
+
+  .d12-svg .d12-amber {
+    fill: var(--color-amber);
+  }
+
+  .d12-svg .d12-red {
+    fill: var(--color-red);
+  }
+
+  .d12-svg .d12-green {
+    fill: var(--color-green);
+  }
+
+  .d12-svg .d12-box {
+    fill: var(--color-grey-dim);
+    stroke: var(--color-line-bright);
+    stroke-width: 2;
+  }
+
+  .d12-svg .d12-box-blue {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+  }
+
+  .d12-svg .d12-box-amber {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-amber);
+    stroke-width: 3;
+  }
+
+  .d12-svg .d12-box-red {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-red);
+    stroke-width: 3;
+  }
+
+  .d12-svg .d12-box-green {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-green);
+    stroke-width: 3;
+  }
+
+  .d12-svg .d12-line {
+    fill: none;
+    stroke: var(--color-blue);
+    stroke-width: 4;
+  }
+
+  .d12-svg .d12-line-amber {
+    fill: none;
+    stroke: var(--color-amber);
+    stroke-width: 4;
+  }
+
+  .d12-svg .d12-line-red {
+    fill: none;
+    stroke: var(--color-red);
+    stroke-width: 4;
+  }
+
+  .d12-chapter-visual {
+    position: absolute;
+    top: 145px;
+    right: 10px;
+    width: 700px;
+    height: 570px;
+  }
+
+  .d12-lead-answer {
+    position: absolute;
+    top: 72%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1200px;
+    color: var(--color-amber);
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .d12-code-source {
+    position: absolute;
+    right: var(--frame-gutter);
+    bottom: 1.15rem;
+    left: var(--frame-gutter);
+    overflow: hidden;
+    color: var(--color-text-dim);
+    font-size: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .d12-code-note {
+    color: var(--color-amber);
+    font-size: 25px;
+    line-height: 1.45;
+  }
+
+  .d12-code-tall .code-slide__content {
+    grid-template-columns: minmax(0, 1fr) 16rem;
+    gap: 1.4rem;
+  }
+
+  .reveal .d12-code-tall pre {
+    height: 100%;
+    max-height: none;
+    font-size: 24px;
+    line-height: 1.08;
+  }
+
+  .reveal .d12-code-tall pre code {
+    padding: 0.7rem 1rem;
+  }
+
+  .d12-code-fade {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .d12-code-short .code-slide__content {
+    top: 24rem;
+    bottom: auto;
+    height: auto;
+    align-items: center;
+  }
+
+  .d12-code-medium .code-slide__content {
+    top: 11rem;
+    bottom: auto;
+    height: 560px;
+  }
+
+  .d12-two-columns {
+    position: absolute;
+    top: 10rem;
+    right: 5rem;
+    bottom: 7rem;
+    left: 5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+  }
+
+  .d12-list-card {
+    padding: 2rem 2.2rem;
+    border: 2px solid var(--color-line-bright);
+    border-radius: 8px;
+    background: var(--color-bg-deep);
+  }
+
+  .d12-list-card.green {
+    border-color: var(--color-green);
+  }
+
+  .d12-list-card.red {
+    border-color: var(--color-red);
+  }
+
+  .d12-test-choice .d12-two-columns {
+    top: 14rem;
+    bottom: auto;
+    height: 440px;
+  }
+
+  .d12-list-card h3 {
+    margin: 0 0 1.5rem;
+    font-size: 34px;
+  }
+
+  .d12-list-card ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 30px;
+    line-height: 1.7;
+  }
+
+  .d12-list-card li::before {
+    display: inline-block;
+    width: 1.7em;
+  }
+
+  .d12-list-card.green li::before {
+    content: "+";
+    color: var(--color-green);
+  }
+
+  .d12-list-card.red li::before {
+    content: "×";
+    color: var(--color-red);
+  }
+
+  .d12-exercise-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 3.5rem 5rem 1.4rem;
+  }
+
+  .d12-exercise-step {
+    min-height: 230px;
+    padding: 1.25rem 1.35rem;
+    border: 1px solid var(--color-line-bright);
+    border-radius: 4px;
+    background: var(--color-grey-dim);
+    color: var(--color-text-mid);
+    font-size: 24px;
+    line-height: 1.4;
+  }
+
+  .d12-exercise-step strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--color-amber);
+    font-size: 30px;
+  }
+
+  .d12-exercise-path {
+    margin: 0 5rem 0.6rem;
+    color: var(--color-text-dim);
+    font-size: 20px;
+  }
+
+  .d12-reserve-tag {
+    color: var(--color-text-dim);
+  }
+
+  .d12-citation-visual {
+    width: 1120px;
+    height: 260px;
+    margin-bottom: 1.3rem;
+  }
+
+  .d12-citation-source {
+    margin-top: 1.7rem;
+    color: var(--color-text-dim);
+    font-size: 23px;
+    text-align: center;
+  }
+</style>
+
+<section class="chapter-slide terminal slide-frame">
+  <div class="slide-frame__top">
+    <span class="slide-frame__marker slide-frame__marker--amber"
+      >Kapitel 12</span
+    >
+    <span class="slide-frame__context">Solide machen</span>
+  </div>
+  <div class="slide-frame__body">
+    <div class="chapter-number">12</div>
+    <div class="chapter-eyebrow">Kapitel 12</div>
+    <h1 class="chapter-title-big">Die Anwendung absichern</h1>
+    <div class="chapter-subtitle">Tests, Logs, Betrieb</div>
+    <svg
+      class="d12-chapter-visual d12-svg"
+      viewBox="0 0 700 570"
+      aria-label="Getestete und beobachtbare API"
+    >
+      <path class="d12-line" d="M180 285 H185 M515 285 H630"></path>
+      <rect
+        class="d12-box-blue"
+        x="185"
+        y="155"
+        width="330"
+        height="260"
+        rx="12"
+      ></rect>
+      <text class="d12-label d12-blue" x="350" y="215" text-anchor="middle">
+        REST API
+      </text>
+      <path
+        d="M290 290 l38 38 78-94"
+        fill="none"
+        stroke="var(--color-green)"
+        stroke-width="14"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+      <rect
+        x="10"
+        y="225"
+        width="170"
+        height="120"
+        rx="60"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-amber)"
+        stroke-width="4"
+      ></rect>
+      <text class="d12-amber" x="95" y="278" text-anchor="middle">
+        Correlation
+      </text>
+      <text class="d12-amber" x="95" y="315" text-anchor="middle">ID</text>
+      <polyline
+        points="630,300 650,270 670,315 690,245"
+        fill="none"
+        stroke="var(--color-blue)"
+        stroke-width="8"
+        stroke-linejoin="round"
+      ></polyline>
+      <text class="d12-small" x="650" y="355" text-anchor="middle">Health</text>
+    </svg>
+  </div>
+  <div class="slide-frame__footer">
+    <span class="slide-frame__footer-left"
+      >Entwicklung einer Datenbankanwendung</span
+    >
+    <span class="slide-frame__footer-mid">Tests, Logs, Betrieb</span>
+    <span class="slide-frame__footer-right">12.1</span>
+  </div>
+  <aside class="notes">
+    Wir machen aus einer laufenden Demo ein System, dessen Verhalten prüfbar und
+    beobachtbar ist.
+  </aside>
+</section>
+
+<section class="d12-content">
+  <h2 class="slide-title">Der letzte Schritt</h2>
+  <svg
+    class="slide-svg d12-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Der rote Faden des Kurses"
+  >
+    <defs>
+      <marker
+        id="d12-redline-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+    <path
+      d="M435 260 H475 M865 260 H905 M1295 260 H1335 M1725 260 H1770 V485 H1725 M1335 485 H1295 M905 485 H865 M475 485 H435"
+      fill="none"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+      marker-end="url(#d12-redline-arrow)"
+    ></path>
+    <g>
+      <rect
+        x="45"
+        y="190"
+        width="390"
+        height="140"
+        rx="10"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+      ></rect>
+      <text
+        class="d12-redline-label"
+        x="240"
+        y="270"
+        text-anchor="middle"
+        fill="var(--color-blue)"
+      >
+        1. Idee im Kopf
+      </text>
+    </g>
+    <g>
+      <rect
+        x="475"
+        y="190"
+        width="390"
+        height="140"
+        rx="10"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+      ></rect>
+      <text
+        class="d12-redline-label"
+        x="670"
+        y="230"
+        text-anchor="middle"
+        fill="var(--color-blue)"
+      >
+        <tspan x="670">2. Darüber sprechen:</tspan>
+        <tspan x="670" dy="32">Abstraktion und</tspan>
+        <tspan x="670" dy="32">ER-Modell</tspan>
+      </text>
+    </g>
+    <g>
+      <rect
+        x="905"
+        y="190"
+        width="390"
+        height="140"
+        rx="10"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+      ></rect>
+      <text
+        class="d12-redline-label"
+        x="1100"
+        y="230"
+        text-anchor="middle"
+        fill="var(--color-blue)"
+      >
+        <tspan x="1100">3. Tabellen, die uns</tspan>
+        <tspan x="1100" dy="32">nicht anlügen:</tspan>
+        <tspan x="1100" dy="32">Normalisierung</tspan>
+      </text>
+    </g>
+    <g>
+      <rect
+        x="1335"
+        y="190"
+        width="390"
+        height="140"
+        rx="10"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+      ></rect>
+      <text
+        class="d12-redline-label"
+        x="1530"
+        y="230"
+        text-anchor="middle"
+        fill="var(--color-blue)"
+      >
+        <tspan x="1530">4. Den Tabellen</tspan>
+        <tspan x="1530" dy="32">Fragen stellen:</tspan>
+        <tspan x="1530" dy="32">SQL</tspan>
+      </text>
+    </g>
+    <g>
+      <rect
+        x="1335"
+        y="415"
+        width="390"
+        height="140"
+        rx="10"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+      ></rect>
+      <text
+        class="d12-redline-label"
+        x="1530"
+        y="455"
+        text-anchor="middle"
+        fill="var(--color-blue)"
+      >
+        <tspan x="1530">5. Aus Java fragen:</tspan>
+        <tspan x="1530" dy="32">JDBC, Cursor,</tspan>
+        <tspan x="1530" dy="32">Statements</tspan>
+      </text>
+    </g>
+    <g>
+      <rect
+        x="905"
+        y="415"
+        width="390"
+        height="140"
+        rx="10"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+      ></rect>
+      <text
+        class="d12-redline-label"
+        x="1100"
+        y="455"
+        text-anchor="middle"
+        fill="var(--color-blue)"
+      >
+        <tspan x="1100">6. Wiederholungen</tspan>
+        <tspan x="1100" dy="32">beenden:</tspan>
+        <tspan x="1100" dy="32">Repository Pattern</tspan>
+      </text>
+    </g>
+    <g>
+      <rect
+        x="475"
+        y="415"
+        width="390"
+        height="140"
+        rx="10"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+      ></rect>
+      <text
+        class="d12-redline-label"
+        x="670"
+        y="455"
+        text-anchor="middle"
+        fill="var(--color-blue)"
+      >
+        <tspan x="670">7. Andere zugreifen</tspan>
+        <tspan x="670" dy="32">lassen: REST API</tspan>
+        <tspan x="670" dy="32">mit Spring</tspan>
+      </text>
+    </g>
+    <g>
+      <rect
+        x="45"
+        y="415"
+        width="390"
+        height="140"
+        rx="10"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-amber)"
+        stroke-width="5"
+      ></rect>
+      <text
+        class="d12-redline-label"
+        x="240"
+        y="440"
+        text-anchor="middle"
+        fill="var(--color-amber)"
+      >
+        <tspan x="240">8. Solide machen:</tspan>
+        <tspan x="240" dy="30">Schichten, Validierung,</tspan>
+        <tspan x="240" dy="30">Fehler, OpenAPI, Tests,</tspan>
+        <tspan x="240" dy="30">Middleware</tspan>
+      </text>
+    </g>
+    <path
+      d="M240 555 V625"
+      fill="none"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+      stroke-dasharray="10 8"
+    ></path>
+    <rect
+      x="590"
+      y="625"
+      width="740"
+      height="100"
+      rx="10"
+      fill="var(--color-bg-deep)"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+      stroke-dasharray="12 9"
+    ></rect>
+    <text x="960" y="685" text-anchor="middle" fill="var(--color-blue)">
+      Abschluss: Dateien zuordnen
+    </text>
+    <path
+      d="M240 625 H590"
+      fill="none"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+      stroke-dasharray="10 8"
+      marker-end="url(#d12-redline-arrow)"
+    ></path>
+  </svg>
+  <div class="slide-caption">
+    Vorher: REST API mit Spring · Jetzt: Tests und Middleware · Danach:
+    Abschluss
+  </div>
+  <aside class="notes">
+    Wir bleiben beim achten Schritt. Design schützt Änderungen im Code. Tests
+    und Betriebsmittel schützen Verhalten über Zeit und im laufenden Prozess.
+  </aside>
+</section>
+
+<section class="lead-question">
+  <div class="lead-question__mark">?</div>
+  <h2 class="lead-question__text">
+    Braucht jeder Controller-Test eine echte SQLite-Datei?
+  </h2>
+  <div class="d12-lead-answer fragment fade-in" data-fragment-index="1">
+    Nein, Web-Vertrag isoliert testen
+  </div>
+  <aside class="notes">
+    Erwartet ist nein. Typisch falsch sind "ja, sonst ist es kein Test" und
+    "Controller brauchen gar keine Tests". Integrationstests mit DB ergänzen,
+    ersetzen aber nicht den schnellen Web-Test.
+  </aside>
+</section>
+
+<section class="d12-content">
+  <h2 class="slide-title">MockMvc testet den HTTP-Rand</h2>
+  <svg
+    class="slide-svg d12-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="MockMvc isoliert den HTTP-Rand"
+  >
+    <defs>
+      <marker
+        id="d12-mock-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      class="d12-box-blue"
+      x="110"
+      y="390"
+      width="290"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d12-label d12-blue" x="255" y="450" text-anchor="middle">
+      Test
+    </text>
+    <rect
+      class="d12-box-blue"
+      x="535"
+      y="390"
+      width="330"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d12-label d12-blue" x="700" y="450" text-anchor="middle">
+      MockMvc
+    </text>
+    <path
+      class="d12-line"
+      d="M865 465 H1000"
+      marker-end="url(#d12-mock-arrow)"
+    ></path>
+    <rect
+      class="d12-box-blue"
+      x="1000"
+      y="390"
+      width="330"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d12-label d12-blue" x="1165" y="450" text-anchor="middle">
+      Controller
+    </text>
+    <path
+      class="d12-line fragment fade-in"
+      data-fragment-index="1"
+      d="M400 465 H535"
+      marker-end="url(#d12-mock-arrow)"
+    ></path>
+    <text
+      class="d12-blue fragment fade-in"
+      data-fragment-index="1"
+      x="468"
+      y="430"
+      text-anchor="middle"
+    >
+      Request
+    </text>
+    <rect
+      class="d12-box"
+      x="1000"
+      y="660"
+      width="330"
+      height="120"
+      rx="10"
+      stroke-dasharray="10 8"
+    ></rect>
+    <text class="d12-small" x="1165" y="725" text-anchor="middle">
+      Use Cases als Mockito-Mocks
+    </text>
+    <path
+      class="d12-line fragment fade-in"
+      data-fragment-index="2"
+      d="M1165 660 V540"
+      marker-end="url(#d12-mock-arrow)"
+    ></path>
+    <text
+      class="d12-amber fragment fade-in"
+      data-fragment-index="2"
+      x="1195"
+      y="615"
+    >
+      Mock-Antwort
+    </text>
+    <rect
+      class="d12-box"
+      x="1490"
+      y="390"
+      width="300"
+      height="150"
+      rx="10"
+      stroke-dasharray="10 8"
+    ></rect>
+    <text class="d12-small" x="1640" y="455" text-anchor="middle">
+      Datenbank
+    </text>
+    <text class="d12-small" x="1640" y="500" text-anchor="middle">
+      abgetrennt
+    </text>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <path
+        d="M1330 465 H1490"
+        fill="none"
+        stroke="var(--color-grey)"
+        stroke-width="3"
+        stroke-dasharray="10 8"
+      ></path>
+      <rect
+        class="d12-box-green"
+        x="535"
+        y="675"
+        width="330"
+        height="105"
+        rx="10"
+      ></rect>
+      <text class="d12-green" x="700" y="740" text-anchor="middle">
+        Assertions ✓
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    MockMvc führt Spring MVC ohne echten Netzwerkport aus. Die Use Cases liefern
+    kontrollierte Daten. Wir prüfen Status und JSON-Vertrag.
+  </aside>
+</section>
+
+<section class="code-slide d12-code-short">
+  <h2 class="slide-title">Ein MockMvc-Test</h2>
+  <div class="code-slide__content">
+    <pre><code class="language-java" data-trim data-ln-start-from="70" data-line-numbers="70|71|72-74">mockMvc.perform(get("/students"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.students.length()").value(2))
+        .andExpect(jsonPath("$.students[0].firstName").value("John"))
+        .andExpect(jsonPath("$.students[1].firstName").value("Jane"));</code></pre>
+    <div class="code-slide__notes">
+      <h3>Hinweis</h3>
+      <p class="d12-code-note">
+        Der Test prüft den Kursvertrag mit <code>firstName</code>.
+      </p>
+    </div>
+  </div>
+  <div class="d12-code-source">
+    Für den Kursvertrag angepasster Ausschnitt aus
+    java/rest-simple/src/test/java/com/example/restsimple/adapter/in/web/StudentControllerTest.java
+  </div>
+  <aside class="notes">
+    Der Mock liefert vorher zwei Students. Der Test prüft Status, Länge und die
+    beiden Vornamen im vereinbarten Feld `firstName`.
+  </aside>
+</section>
+
+<section class="d12-content">
+  <h2 class="slide-title">Service-Test mit Mockito</h2>
+  <svg
+    class="slide-svg d12-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="StudentService mit drei Port-Mocks"
+  >
+    <defs>
+      <marker
+        id="d12-service-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+      </marker>
+      <marker
+        id="d12-service-arrow-green"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-green)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      class="d12-box-blue"
+      x="710"
+      y="365"
+      width="500"
+      height="230"
+      rx="12"
+    ></rect>
+    <text class="d12-label d12-blue" x="960" y="455" text-anchor="middle">
+      StudentService
+    </text>
+    <text x="960" y="510" text-anchor="middle">Fachentscheidung</text>
+    <rect
+      class="d12-box"
+      x="100"
+      y="230"
+      width="390"
+      height="140"
+      rx="10"
+    ></rect>
+    <text x="295" y="315" text-anchor="middle">LoadStudentPort Mock</text>
+    <rect
+      class="d12-box"
+      x="100"
+      y="650"
+      width="390"
+      height="140"
+      rx="10"
+    ></rect>
+    <text x="295" y="735" text-anchor="middle">DeleteStudentPort Mock</text>
+    <rect
+      class="d12-box"
+      x="1430"
+      y="440"
+      width="390"
+      height="140"
+      rx="10"
+    ></rect>
+    <text x="1625" y="525" text-anchor="middle">SaveStudentPort Mock</text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <path
+        class="d12-line"
+        d="M490 300 Q620 300 710 420"
+        marker-end="url(#d12-service-arrow)"
+      ></path>
+      <text class="d12-amber" x="570" y="275">Given stub</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d12-box-amber"
+        x="710"
+        y="690"
+        width="500"
+        height="100"
+        rx="10"
+      ></rect>
+      <text class="d12-amber" x="960" y="752" text-anchor="middle">
+        When call
+      </text>
+      <path class="d12-line-amber" d="M960 690 V595"></path>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        class="d12-box-green"
+        x="710"
+        y="190"
+        width="500"
+        height="100"
+        rx="10"
+      ></rect>
+      <text class="d12-green" x="960" y="252" text-anchor="middle">
+        Then assert
+      </text>
+      <path
+        d="M960 290 V365"
+        fill="none"
+        stroke="var(--color-green)"
+        stroke-width="4"
+        marker-end="url(#d12-service-arrow-green)"
+      ></path>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <path
+        d="M1210 480 H1430"
+        fill="none"
+        stroke="var(--color-green)"
+        stroke-width="4"
+        marker-end="url(#d12-service-arrow-green)"
+      ></path>
+      <text class="d12-green" x="1320" y="450" text-anchor="middle">
+        verify ✓
+      </text>
+    </g>
+  </svg>
+  <div class="slide-caption">Fachfall ohne HTTP und Datenbank</div>
+  <aside class="notes">
+    Mockito kontrolliert Antworten der Ports. Wir testen die Entscheidung im
+    Service. Ein Test pro sinnvoller Regel ist wertvoller als einer pro privater
+    Methode.
+  </aside>
+</section>
+
+<section class="code-slide d12-code-medium">
+  <h2 class="slide-title">Ein Mockito-Test</h2>
+  <div class="code-slide__content code-slide__content--wide">
+    <pre><code class="language-java" data-trim data-ln-start-from="51" data-line-numbers="51|54|57-59|60">when(saveStudentPort.saveStudent(any(Student.class))).thenReturn(expectedStudent);
+
+// When
+Student result = studentService.createStudent(command);
+
+// Then
+assertNotNull(result);
+assertEquals("John", result.getFirstName());
+assertEquals("Doe", result.getLastName());
+verify(saveStudentPort).saveStudent(any(Student.class));</code></pre>
+  </div>
+  <div class="d12-code-source">
+    java/rest-simple/src/test/java/com/example/restsimple/application/service/StudentServiceTest.java,
+    Zeilen 51 bis 60
+  </div>
+  <aside class="notes">
+    Stub, Aufruf, zwei Zustandsprüfungen und eine Interaktionsprüfung sind
+    sichtbar. Wir prüfen nur die Interaktion, die zum Fachfall gehört. Der
+    Ausschnitt verwendet den Getter aus dem Kursmodell.
+  </aside>
+</section>
+
+<section class="d12-test-choice">
+  <h2 class="slide-title">Was wir nicht testen</h2>
+  <div class="d12-two-columns">
+    <div class="d12-list-card green">
+      <ul>
+        <li class="fragment fade-in" data-fragment-index="1">Status</li>
+        <li class="fragment fade-in" data-fragment-index="2">JSON</li>
+        <li class="fragment fade-in" data-fragment-index="3">Validation</li>
+        <li class="fragment fade-in" data-fragment-index="4">Fachregeln</li>
+        <li class="fragment fade-in" data-fragment-index="5">Fehlerpfade</li>
+      </ul>
+    </div>
+    <div class="d12-list-card red">
+      <ul>
+        <li class="fragment fade-in" data-fragment-index="6">Getter</li>
+        <li class="fragment fade-in" data-fragment-index="7">
+          private Methoden
+        </li>
+        <li class="fragment fade-in" data-fragment-index="8">Spring selbst</li>
+        <li class="fragment fade-in" data-fragment-index="9">jede Logzeile</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">
+    Tests kaufen Sicherheit für Änderungen. Triviale Getter und
+    Framework-Verhalten liefern wenig Wert. Ein fehlender 404-Test ist dagegen
+    ein echtes Vertragsloch.
+  </aside>
+</section>
+
+<section class="d12-content">
+  <h2 class="slide-title">Eine Correlation ID pro Request</h2>
+  <svg
+    class="slide-svg d12-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Correlation ID durch alle Schichten"
+  >
+    <defs>
+      <marker
+        id="d12-cid-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d12-box-blue"
+        x="90"
+        y="380"
+        width="300"
+        height="170"
+        rx="10"
+      ></rect>
+      <text class="d12-label d12-blue" x="240" y="440" text-anchor="middle">
+        Client
+      </text>
+      <text x="240" y="495" text-anchor="middle">X-Correlation-ID?</text>
+      <path
+        class="d12-line"
+        d="M390 465 H560"
+        marker-end="url(#d12-cid-arrow)"
+      ></path>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d12-box-amber"
+        x="560"
+        y="350"
+        width="340"
+        height="230"
+        rx="10"
+      ></rect>
+      <text class="d12-label d12-amber" x="730" y="420" text-anchor="middle">
+        Filter
+      </text>
+      <text x="730" y="475" text-anchor="middle">übernehmen</text>
+      <text class="d12-amber" x="730" y="525" text-anchor="middle">
+        oder UUID erzeugen
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <path
+        class="d12-line"
+        d="M900 465 H1040"
+        marker-end="url(#d12-cid-arrow)"
+      ></path>
+      <rect
+        class="d12-box-blue"
+        x="1040"
+        y="350"
+        width="720"
+        height="230"
+        rx="10"
+      ></rect>
+      <text class="d12-label d12-blue" x="1400" y="415" text-anchor="middle">
+        MDC
+      </text>
+      <text class="d12-amber" x="1400" y="465" text-anchor="middle">
+        correlationId
+      </text>
+      <text x="1400" y="525" text-anchor="middle">
+        Controller → Service → Repository
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <path
+        class="d12-line-amber"
+        d="M730 580 V720 H240 V550"
+        marker-end="url(#d12-cid-arrow)"
+      ></path>
+      <text class="d12-amber" x="485" y="755" text-anchor="middle">
+        Response: X-Correlation-ID
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Die gleiche ID steht in allen Logzeilen eines Requests. Ein Client kann sie
+    bei einer Fehlermeldung nennen. Nach dem Request räumt der Filter MDC auf.
+  </aside>
+</section>
+
+<section class="code-slide d12-code-tall">
+  <h2 class="slide-title">LoggingFilter</h2>
+  <div class="code-slide__content">
+    <div class="d12-code-fade">
+      <pre><code class="language-java" data-trim data-ln-start-from="31" data-line-numbers="31|33-35|41|56-58">String correlationId = getOrGenerateCorrelationId(request);
+        
+try {
+    MDC.put(CORRELATION_ID_KEY, correlationId);
+    response.setHeader(CORRELATION_ID_HEADER, correlationId);
+    
+    long startTime = System.currentTimeMillis();
+    logger.debug("Request started: {} {} - Correlation ID: {}", 
+                request.getMethod(), request.getRequestURI(), correlationId);
+    
+    filterChain.doFilter(request, response);
+    
+    long duration = System.currentTimeMillis() - startTime;
+    
+    // Log basic timing info for all requests
+    if (response.getStatus() >= 400) {
+        logger.warn("Request failed: {} {} - Status: {} - Duration: {}ms - Correlation ID: {}", 
+                   request.getMethod(), request.getRequestURI(), response.getStatus(), 
+                   duration, correlationId);
+    } else {
+        logger.debug("Request completed: {} {} - Status: {} - Duration: {}ms - Correlation ID: {}", 
+                    request.getMethod(), request.getRequestURI(), response.getStatus(), 
+                    duration, correlationId);
+    }
+               
+} finally {
+    MDC.clear();
+}
+}</code></pre>
+    </div>
+    <div class="code-slide__notes">
+      <h3>Drei Aufgaben</h3>
+      <p>Correlation ID übernehmen oder erzeugen</p>
+      <p>in MDC und Response setzen</p>
+      <p>im <code>finally</code> löschen</p>
+    </div>
+  </div>
+  <div class="d12-code-source">
+    java/rest-simple/src/main/java/com/example/restsimple/config/LoggingFilter.java,
+    Zeilen 30 bis 59
+  </div>
+  <aside class="notes">
+    Der Filter liegt vor dem Controller. finally verhindert, dass eine
+    Thread-Wiederverwendung die alte ID trägt. Passwörter und Tokens gehören nie
+    in detaillierte Logs.
+  </aside>
+</section>
+
+<section class="d12-content">
+  <h2 class="slide-title">Actuator zeigt Gesundheit und Messwerte</h2>
+  <svg
+    class="slide-svg d12-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Vier Actuator-Endpunkte"
+  >
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d12-box-green"
+        x="70"
+        y="330"
+        width="410"
+        height="220"
+        rx="10"
+      ></rect>
+      <text class="d12-green" x="275" y="430" text-anchor="middle">
+        /actuator/health
+      </text>
+      <text class="d12-small" x="275" y="485" text-anchor="middle">
+        Springs Standardfreigabe
+      </text>
+    </g>
+    <rect
+      class="d12-box-blue"
+      x="525"
+      y="330"
+      width="410"
+      height="220"
+      rx="10"
+    ></rect>
+    <text class="d12-blue" x="730" y="455" text-anchor="middle">
+      /actuator/info
+    </text>
+    <rect
+      class="d12-box-blue"
+      x="980"
+      y="330"
+      width="410"
+      height="220"
+      rx="10"
+    ></rect>
+    <text class="d12-blue" x="1185" y="455" text-anchor="middle">
+      /actuator/metrics
+    </text>
+    <rect
+      class="d12-box-blue"
+      x="1435"
+      y="330"
+      width="410"
+      height="220"
+      rx="10"
+    ></rect>
+    <text class="d12-blue" x="1640" y="455" text-anchor="middle">
+      /actuator/prometheus
+    </text>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="505"
+        y="305"
+        width="1360"
+        height="270"
+        rx="16"
+        fill="none"
+        stroke="var(--color-amber)"
+        stroke-width="5"
+      ></rect>
+      <text class="d12-amber" x="1185" y="625" text-anchor="middle">
+        im Exercise ausdrücklich freigegeben
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        class="d12-box-amber"
+        x="655"
+        y="690"
+        width="610"
+        height="115"
+        rx="10"
+      ></rect>
+      <g
+        transform="translate(735 720)"
+        fill="none"
+        stroke="var(--color-amber)"
+        stroke-width="4"
+      >
+        <path d="M10 25 V15 A15 15 0 0 1 40 15 V25"></path>
+        <rect x="5" y="25" width="40" height="34" rx="4"></rect>
+      </g>
+      <text class="d12-amber" x="1010" y="760" text-anchor="middle">
+        in Produktion absichern
+      </text>
+    </g>
+  </svg>
+  <div class="slide-caption">
+    java/rest-simple-exercise/src/main/resources/application.properties, Zeilen
+    43 bis 48
+  </div>
+  <aside class="notes">
+    Die Exercise-Konfiguration exponiert genau health, info, metrics und
+    prometheus. `/actuator/flyway` ist dort nicht freigegeben. Spring Boot gibt
+    über HTTP standardmäßig nur Health frei.
+  </aside>
+</section>
+
+<section class="d12-content">
+  <h2 class="slide-title">CORS ist eine Browserregel</h2>
+  <svg
+    class="slide-svg d12-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="CORS zwischen Browser-Origin und API"
+  >
+    <defs>
+      <marker
+        id="d12-cors-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-amber)"></polygon>
+      </marker>
+      <marker
+        id="d12-cors-green"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-green)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      class="d12-box-blue"
+      x="130"
+      y="300"
+      width="570"
+      height="260"
+      rx="12"
+    ></rect>
+    <text class="d12-label d12-blue" x="415" y="390" text-anchor="middle">
+      Browser-Origin
+    </text>
+    <text x="415" y="465" text-anchor="middle">http://localhost:3000</text>
+    <rect
+      class="d12-box-blue"
+      x="1220"
+      y="300"
+      width="570"
+      height="260"
+      rx="12"
+    ></rect>
+    <text class="d12-label d12-blue" x="1505" y="390" text-anchor="middle">
+      API
+    </text>
+    <text x="1505" y="465" text-anchor="middle">:8081</text>
+    <path
+      class="d12-line-amber"
+      d="M700 375 H1220"
+      marker-end="url(#d12-cors-arrow)"
+    ></path>
+    <text class="d12-amber" x="960" y="340" text-anchor="middle">
+      Preflight OPTIONS
+    </text>
+    <path
+      d="M1220 495 H700"
+      fill="none"
+      stroke="var(--color-green)"
+      stroke-width="4"
+      marker-end="url(#d12-cors-green)"
+    ></path>
+    <text class="d12-green" x="960" y="545" text-anchor="middle">
+      Origin erlaubt
+    </text>
+    <path class="d12-line-red" d="M360 720 H780"></path>
+    <text class="d12-red" x="130" y="730">curl</text>
+    <text class="d12-red" x="820" y="730">keine Browser-CORS-Prüfung</text>
+  </svg>
+  <aside class="notes">
+    CORS steuert, ob Browser JavaScript eine andere Origin lesen darf. Es
+    ersetzt keine Authentifizierung. Ein Server-Client wird nicht durch
+    Browser-CORS geschützt.
+  </aside>
+</section>
+
+<section class="d12-content">
+  <h2 class="slide-title">Security als Filter Chain</h2>
+  <div class="slide-context">Überblick, keine Übung</div>
+  <svg
+    class="slide-svg d12-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Security Filter Chain vor dem Controller"
+  >
+    <defs>
+      <marker
+        id="d12-security-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+      </marker>
+      <marker
+        id="d12-security-red"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-red)"></polygon>
+      </marker>
+      <marker
+        id="d12-security-green"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-green)"></polygon>
+      </marker>
+    </defs>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d12-box-blue"
+        x="70"
+        y="380"
+        width="250"
+        height="150"
+        rx="10"
+      ></rect>
+      <text x="195" y="470" text-anchor="middle">Request</text>
+      <rect
+        class="d12-box-blue"
+        x="410"
+        y="380"
+        width="310"
+        height="150"
+        rx="10"
+      ></rect>
+      <text x="565" y="470" text-anchor="middle">LoggingFilter</text>
+      <rect
+        class="d12-box-amber"
+        x="810"
+        y="380"
+        width="390"
+        height="150"
+        rx="10"
+      ></rect>
+      <text x="1005" y="470" text-anchor="middle">SecurityFilterChain</text>
+      <rect
+        class="d12-box-amber"
+        x="1290"
+        y="380"
+        width="400"
+        height="150"
+        rx="10"
+      ></rect>
+      <text x="1490" y="445" text-anchor="middle">JwtAuthentication</text>
+      <text x="1490" y="485" text-anchor="middle">Filter</text>
+      <path
+        class="d12-line"
+        d="M320 455 H410 M720 455 H810 M1200 455 H1290"
+        marker-end="url(#d12-security-arrow)"
+      ></path>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d12-box-amber"
+        x="1260"
+        y="185"
+        width="460"
+        height="105"
+        rx="10"
+      ></rect>
+      <text class="d12-amber" x="1490" y="250" text-anchor="middle">
+        signiertes JWT: Claims
+      </text>
+      <path class="d12-line-amber" d="M1490 290 V380"></path>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <path
+        d="M1005 530 V645"
+        fill="none"
+        stroke="var(--color-red)"
+        stroke-width="4"
+        marker-end="url(#d12-security-red)"
+      ></path>
+      <rect
+        class="d12-box-red"
+        x="840"
+        y="645"
+        width="330"
+        height="110"
+        rx="10"
+      ></rect>
+      <text class="d12-red" x="1005" y="715" text-anchor="middle">401</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <path
+        d="M1690 455 H1770 V700 H1650"
+        fill="none"
+        stroke="var(--color-green)"
+        stroke-width="4"
+        marker-end="url(#d12-security-green)"
+      ></path>
+      <rect
+        class="d12-box-green"
+        x="1320"
+        y="645"
+        width="330"
+        height="110"
+        rx="10"
+      ></rect>
+      <text class="d12-green" x="1485" y="715" text-anchor="middle">
+        Controller ✓
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    JWT trägt signierte Claims, keine geheime Datenablage. Die Filter Chain
+    entscheidet vor dem Controller über Zugriff. Das vollständige rest-simple
+    zeigt eine mögliche Umsetzung.
+  </aside>
+</section>
+
+<section class="d12-content">
+  <h2 class="slide-title">Docker in einer Folie</h2>
+  <svg
+    class="slide-svg d12-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Vom Dockerfile zum laufenden Container"
+  >
+    <defs>
+      <marker
+        id="d12-docker-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      class="d12-box-amber"
+      x="330"
+      y="150"
+      width="1260"
+      height="90"
+      rx="10"
+    ></rect>
+    <text class="d12-amber" x="960" y="208" text-anchor="middle">
+      Architekturdiagramm, kein vorhandener Produktions-Dockerfile
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d12-box"
+        x="80"
+        y="330"
+        width="380"
+        height="150"
+        rx="10"
+      ></rect>
+      <text x="270" y="400" text-anchor="middle">
+        <tspan x="270">hypothetischer</tspan>
+        <tspan x="270" dy="38">Dockerfile</tspan>
+      </text>
+      <rect
+        class="d12-box"
+        x="80"
+        y="520"
+        width="380"
+        height="150"
+        rx="10"
+      ></rect>
+      <text x="270" y="610" text-anchor="middle">Spring-JAR</text>
+      <rect
+        class="d12-box"
+        x="80"
+        y="710"
+        width="380"
+        height="150"
+        rx="10"
+      ></rect>
+      <text x="270" y="800" text-anchor="middle">Java Runtime</text>
+      <path
+        class="d12-line"
+        d="M460 405 H610 V550 H700"
+        marker-end="url(#d12-docker-arrow)"
+      ></path>
+      <path
+        class="d12-line"
+        d="M460 595 H700"
+        marker-end="url(#d12-docker-arrow)"
+      ></path>
+      <path
+        class="d12-line"
+        d="M460 785 H610 V670 H700"
+        marker-end="url(#d12-docker-arrow)"
+      ></path>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d12-box-blue"
+        x="700"
+        y="500"
+        width="350"
+        height="220"
+        rx="12"
+      ></rect>
+      <text class="d12-label d12-blue" x="875" y="625" text-anchor="middle">
+        Image
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <path
+        class="d12-line"
+        d="M1050 610 H1240"
+        marker-end="url(#d12-docker-arrow)"
+      ></path>
+      <rect
+        class="d12-box-blue"
+        x="1240"
+        y="410"
+        width="570"
+        height="400"
+        rx="12"
+      ></rect>
+      <text class="d12-label d12-blue" x="1525" y="485" text-anchor="middle">
+        Container
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <rect
+        class="d12-box-amber"
+        x="1340"
+        y="540"
+        width="370"
+        height="90"
+        rx="10"
+      ></rect>
+      <text class="d12-amber" x="1525" y="598" text-anchor="middle">
+        Port 8081
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="5">
+      <rect
+        class="d12-box-amber"
+        x="1340"
+        y="665"
+        width="370"
+        height="90"
+        rx="10"
+      ></rect>
+      <text class="d12-amber" x="1525" y="723" text-anchor="middle">
+        Volume students.db
+      </text>
+    </g>
+  </svg>
+  <div class="slide-caption">
+    Der vorhandene java/rest-simple/Dockerfile baut die VS-Code-Lernumgebung.
+  </div>
+  <aside class="notes">
+    Das Diagramm erklärt Verpackung, es zeigt keinen vorhandenen
+    Anwendungs-Dockerfile. Eine dauerhafte SQLite-Datei bräuchte ein Volume.
+    Docker ersetzt weder Tests noch Security.
+  </aside>
+</section>
+
+<section class="d12-content">
+  <h2 class="slide-title">Pagination begrenzt Collections</h2>
+  <div class="slide-context grey d12-reserve-tag">Reserve</div>
+  <svg
+    class="slide-svg d12-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Pagination einer Student-Collection"
+  >
+    <text class="d12-small" x="130" y="190">Collection</text>
+    <g>
+      <rect
+        class="d12-box"
+        x="130"
+        y="230"
+        width="1080"
+        height="510"
+        rx="12"
+      ></rect>
+      <g fill="var(--color-grey)">
+        <rect x="175" y="275" width="150" height="75" rx="6"></rect>
+        <rect x="350" y="275" width="150" height="75" rx="6"></rect>
+        <rect x="525" y="275" width="150" height="75" rx="6"></rect>
+        <rect x="700" y="275" width="150" height="75" rx="6"></rect>
+        <rect x="875" y="275" width="150" height="75" rx="6"></rect>
+        <rect x="175" y="380" width="150" height="75" rx="6"></rect>
+        <rect x="350" y="380" width="150" height="75" rx="6"></rect>
+        <rect x="525" y="380" width="150" height="75" rx="6"></rect>
+        <rect x="700" y="380" width="150" height="75" rx="6"></rect>
+        <rect x="875" y="380" width="150" height="75" rx="6"></rect>
+        <rect x="175" y="485" width="150" height="75" rx="6"></rect>
+        <rect x="350" y="485" width="150" height="75" rx="6"></rect>
+        <rect x="525" y="485" width="150" height="75" rx="6"></rect>
+        <rect x="700" y="485" width="150" height="75" rx="6"></rect>
+        <rect x="875" y="485" width="150" height="75" rx="6"></rect>
+      </g>
+      <text x="670" y="650" text-anchor="middle">… 10.000 Student-Karten</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d12-box-amber"
+        x="1300"
+        y="245"
+        width="520"
+        height="130"
+        rx="10"
+      ></rect>
+      <text class="d12-amber" x="1560" y="325" text-anchor="middle">
+        GET /students?page=2&amp;size=20
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="150"
+        y="255"
+        width="900"
+        height="330"
+        rx="10"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+      ></rect>
+      <text class="d12-blue" x="600" y="400" text-anchor="middle">
+        Karten 21 bis 40
+      </text>
+      <text class="d12-small" x="600" y="455" text-anchor="middle">
+        20 Ergebnisse, stabil sortiert
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        class="d12-box-amber"
+        x="1300"
+        y="470"
+        width="520"
+        height="250"
+        rx="10"
+      ></rect>
+      <text class="d12-amber" x="1560" y="545" text-anchor="middle">
+        page: 2
+      </text>
+      <text class="d12-amber" x="1560" y="605" text-anchor="middle">
+        size: 20
+      </text>
+      <text class="d12-amber" x="1560" y="665" text-anchor="middle">
+        totalElements: 10000
+      </text>
+    </g>
+  </svg>
+  <div class="slide-caption">Nicht jede Collection in einer Antwort</div>
+  <aside class="notes">
+    Pagination begrenzt Antwortgröße und Datenbankarbeit. Eine stabile
+    Sortierung gehört dazu. Diese Reservefolie enthält keine Übungsanforderung.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">PATCH ändert einen Teil</h2>
+  <div class="slide-context grey d12-reserve-tag">Reserve</div>
+  <div class="d12-two-columns">
+    <div class="d12-list-card">
+      <h3 class="t-blue">PUT</h3>
+      <pre><code class="language-json">{
+  "firstName": "Lena",
+  "lastName": "Bauer",
+  "email": "neu@uni.example",
+  "studentNumber": "S-1007",
+  "enrollmentDate": "2026-04-01"
+}</code></pre>
+      <p class="fragment fade-in t-red" data-fragment-index="1">
+        Fehlende Felder machen den Ersatz unvollständig.
+      </p>
+    </div>
+    <div class="d12-list-card">
+      <h3 class="t-amber">PATCH</h3>
+      <pre><code class="language-json">{"email":"neu@uni.example"}</code></pre>
+      <p class="fragment fade-in t-amber" data-fragment-index="2">
+        Ein einzelnes Feld ändert sich.
+      </p>
+      <p class="fragment fade-in t-green" data-fragment-index="3">
+        Validierung und Konfliktprüfung bleiben aktiv.
+      </p>
+    </div>
+  </div>
+  <div class="slide-caption">PUT ersetzt · PATCH ändert teilweise</div>
+  <aside class="notes">
+    PATCH braucht klare Regeln für fehlend, NULL und unverändert. Es ist deshalb
+    mehr als ein kleiner PUT. Diese Reservefolie wird nicht geübt.
+  </aside>
+</section>
+
+<section class="exercise-slide">
+  <div class="exercise-slide__tag">Übung 11, falls Zeit</div>
+  <div class="exercise-slide__time">40 min</div>
+  <p class="exercise-slide__task">Zwei Tests und ein Filter</p>
+  <div class="d12-exercise-steps">
+    <div class="d12-exercise-step">
+      <strong>1</strong>Testet den POST-Erfolg der Karte mit 201, Response-ID
+      und dem dort genannten Fachfeld.
+    </div>
+    <div class="d12-exercise-step">
+      <strong>2</strong>Testet den Konflikt der Karte mit 409 und Fehlercode.
+    </div>
+    <div class="d12-exercise-step">
+      <strong>3</strong>Ergänzt einen LoggingFilter mit X-Correlation-ID in
+      Response und Log.
+    </div>
+  </div>
+  <div class="exercise-slide__deliverable">
+    <strong>Abgabe:</strong> genau zwei grüne Tests plus passender
+    Response-Header und Logeintrag
+  </div>
+  <div class="d12-exercise-path">
+    exercises/&lt;domain&gt;/06-rest.md, Abschnitt "Schreibt genau zwei Tests"
+  </div>
+  <aside class="notes">
+    Die zwei Testfälle der eigenen Domänenkarte sind verbindlich. Auf der
+    Bibliothekskarte prüft Test 1 `dueOn`; Test 2 prüft die zweite offene
+    Ausleihe desselben Exemplars. Der Mockito-Test aus 12.7 gehört zur
+    Demonstration, nicht zur Abgabe.
+  </aside>
+</section>
+
+<section class="citation-slide">
+  <svg
+    class="d12-citation-visual d12-svg"
+    viewBox="0 0 1120 260"
+    aria-label="Spring App mit Health Endpoint"
+  >
+    <rect
+      class="d12-box-blue"
+      x="30"
+      y="45"
+      width="310"
+      height="160"
+      rx="12"
+    ></rect>
+    <text class="d12-label d12-blue" x="185" y="140" text-anchor="middle">
+      Spring-App
+    </text>
+    <path class="d12-line" d="M340 125 H460"></path>
+    <rect
+      class="d12-box-green"
+      x="460"
+      y="25"
+      width="630"
+      height="95"
+      rx="10"
+    ></rect>
+    <text class="d12-green" x="775" y="84" text-anchor="middle">
+      /actuator/health ✓
+    </text>
+    <rect
+      class="d12-box-amber"
+      x="460"
+      y="145"
+      width="630"
+      height="95"
+      rx="10"
+    ></rect>
+    <g
+      transform="translate(535 166)"
+      fill="none"
+      stroke="var(--color-amber)"
+      stroke-width="4"
+    >
+      <path d="M10 25 V15 A15 15 0 0 1 40 15 V25"></path>
+      <rect x="5" y="25" width="40" height="34" rx="4"></rect>
+    </g>
+    <text class="d12-amber" x="810" y="205" text-anchor="middle">
+      weitere Detailendpoints
+    </text>
+  </svg>
+  <div class="citation-text">
+    Health ist standardmäßig verfügbar.<br />Weitere Endpoints bewusst freigeben
+    und sichern.
+  </div>
+  <div class="d12-citation-source">
+    https://docs.spring.io/spring-boot/reference/actuator/endpoints.html<br />Abruf:
+    2026-08-23
+  </div>
+  <aside class="notes">
+    Spring Boot nennt Health, Metrics und viele weitere Endpoints. Die
+    Dokumentation warnt vor sensiblen Informationen. Jetzt haben wir den Kursweg
+    vollständig gebaut und geprüft.
+  </aside>
+</section>
