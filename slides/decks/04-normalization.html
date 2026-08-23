@@ -1,0 +1,2136 @@
+<style>
+  .d04-content .slide-svg {
+    z-index: 1;
+  }
+
+  .d04-content .slide-title {
+    max-width: 1450px;
+  }
+
+  .d04-content .fragment.fade-in,
+  .d04-citation .fragment.fade-in {
+    transition-duration: 120ms !important;
+  }
+
+  .d04-box {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-line-bright);
+    stroke-width: 2;
+  }
+
+  .d04-box-blue {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+  }
+
+  .d04-box-amber {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-amber);
+    stroke-width: 4;
+  }
+
+  .d04-box-red {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-red);
+    stroke-width: 4;
+  }
+
+  .d04-text {
+    fill: var(--color-white);
+    font-size: 30px;
+  }
+
+  .d04-text-compact {
+    font-size: 28px;
+  }
+
+  .d04-label {
+    fill: var(--color-text-dim);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+
+  .d04-blue {
+    fill: var(--color-blue);
+  }
+
+  .d04-amber {
+    fill: var(--color-amber);
+  }
+
+  .d04-red {
+    fill: var(--color-red);
+  }
+
+  .d04-green {
+    fill: var(--color-green);
+  }
+
+  .d04-grey {
+    fill: var(--color-text-dim);
+  }
+
+  .d04-line {
+    fill: none;
+    stroke: var(--color-line-bright);
+    stroke-width: 2;
+  }
+
+  .d04-line-blue {
+    fill: none;
+    stroke: var(--color-blue);
+    stroke-width: 4;
+  }
+
+  .d04-line-amber {
+    fill: none;
+    stroke: var(--color-amber);
+    stroke-width: 4;
+  }
+
+  .d04-line-red {
+    fill: none;
+    stroke: var(--color-red);
+    stroke-width: 5;
+  }
+
+  .d04-line-green {
+    fill: none;
+    stroke: var(--color-green);
+    stroke-width: 5;
+  }
+
+  .d04-table-head {
+    fill: var(--color-grey-dim);
+    stroke: var(--color-blue);
+    stroke-width: 2;
+  }
+
+  .d04-table-cell {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-line-bright);
+    stroke-width: 1.5;
+  }
+
+  .d04-table-header {
+    fill: var(--color-blue);
+    font-size: 24px;
+    font-weight: 700;
+    text-anchor: middle;
+  }
+
+  .d04-table-value {
+    fill: var(--color-white);
+    font-size: 28px;
+    text-anchor: middle;
+  }
+
+  .d04-highlight-amber {
+    fill: var(--color-amber);
+    fill-opacity: 0.2;
+    stroke: var(--color-amber);
+    stroke-width: 3;
+  }
+
+  .d04-highlight-red {
+    fill: var(--color-red);
+    fill-opacity: 0.18;
+    stroke: var(--color-red);
+    stroke-width: 3;
+  }
+
+  .d04-question-answer {
+    position: absolute;
+    right: 8rem;
+    bottom: 7rem;
+    left: 8rem;
+    color: var(--color-amber);
+    font-family: var(--font-mono);
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .d04-exercise-steps {
+    display: grid;
+    flex: 1;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1rem 1.5rem;
+    margin: 0 5rem 1.5rem;
+    min-height: 0;
+  }
+
+  .d04-exercise-step {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 0.8rem;
+    align-items: center;
+    min-height: 0;
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--color-line-bright);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    color: var(--color-text-mid);
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    line-height: 1.35;
+  }
+
+  .d04-exercise-step span:first-child {
+    color: var(--color-amber);
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  .d04-exercise-path {
+    margin: -1.2rem 5rem 1rem;
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+
+  .d04-caption-small {
+    width: calc(100% - 10rem);
+    font-size: 0.78rem;
+    line-height: 1.35;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .d04-citation {
+    display: grid !important;
+    grid-template-rows: auto 1fr auto;
+    padding: 3rem 5rem !important;
+    box-sizing: border-box;
+  }
+
+  .d04-citation .citation-text {
+    align-self: start;
+    font-size: 2.35rem;
+    font-style: normal;
+    text-align: center;
+  }
+
+  .d04-citation-visual {
+    width: 100%;
+    height: 610px;
+  }
+
+  .d04-source {
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  .d04-redline-done rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+  }
+
+  .d04-redline-done text {
+    fill: var(--color-blue);
+  }
+
+  .d04-redline-next rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+    stroke-dasharray: 12 8;
+  }
+
+  .d04-redline-next text {
+    fill: var(--color-blue);
+  }
+</style>
+
+<section class="chapter-slide d04-chapter">
+  <div class="chapter-number">04</div>
+  <div class="chapter-eyebrow">Kapitel 04</div>
+  <h1 class="chapter-title-big">Normalisierung</h1>
+  <p class="chapter-subtitle">Tabellen, die uns nicht anlügen</p>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Eine flache Tabelle zerfällt in fünf verbundene Tabellen"
+  >
+    <g transform="translate(880 245)">
+      <rect
+        class="d04-box-red"
+        x="0"
+        y="170"
+        width="300"
+        height="250"
+        rx="12"
+      ></rect>
+      <line class="d04-line-red" x1="25" y1="225" x2="275" y2="225"></line>
+      <line class="d04-line-red" x1="25" y1="280" x2="275" y2="280"></line>
+      <line class="d04-line-red" x1="25" y1="335" x2="275" y2="335"></line>
+      <path class="d04-line-red" d="M330 295 H420"></path>
+      <polygon class="d04-red" points="420,280 450,295 420,310"></polygon>
+      <g transform="translate(480 0) scale(0.72)">
+        <rect
+          class="d04-box-blue"
+          x="0"
+          y="0"
+          width="260"
+          height="100"
+          rx="10"
+        ></rect>
+        <rect
+          class="d04-box-blue"
+          x="300"
+          y="120"
+          width="260"
+          height="100"
+          rx="10"
+        ></rect>
+        <rect
+          class="d04-box-blue"
+          x="0"
+          y="240"
+          width="260"
+          height="100"
+          rx="10"
+        ></rect>
+        <rect
+          class="d04-box-blue"
+          x="300"
+          y="360"
+          width="260"
+          height="100"
+          rx="10"
+        ></rect>
+        <rect
+          class="d04-box-blue"
+          x="0"
+          y="480"
+          width="260"
+          height="100"
+          rx="10"
+        ></rect>
+        <path class="d04-line-green" d="M260 50 C330 50 230 170 300 170"></path>
+        <path
+          class="d04-line-green"
+          d="M300 170 C220 170 340 290 260 290"
+        ></path>
+        <path
+          class="d04-line-green"
+          d="M260 290 C330 290 230 410 300 410"
+        ></path>
+        <path
+          class="d04-line-green"
+          d="M300 410 C220 410 340 530 260 530"
+        ></path>
+        <line class="d04-line-blue" x1="30" y1="35" x2="225" y2="35"></line>
+        <line class="d04-line-blue" x1="30" y1="65" x2="175" y2="65"></line>
+        <line class="d04-line-blue" x1="330" y1="155" x2="525" y2="155"></line>
+        <line class="d04-line-blue" x1="330" y1="185" x2="475" y2="185"></line>
+        <line class="d04-line-blue" x1="30" y1="275" x2="225" y2="275"></line>
+        <line class="d04-line-blue" x1="30" y1="305" x2="175" y2="305"></line>
+        <line class="d04-line-blue" x1="330" y1="395" x2="525" y2="395"></line>
+        <line class="d04-line-blue" x1="330" y1="425" x2="475" y2="425"></line>
+        <line class="d04-line-blue" x1="30" y1="515" x2="225" y2="515"></line>
+        <line class="d04-line-blue" x1="30" y1="545" x2="175" y2="545"></line>
+      </g>
+    </g>
+  </svg>
+  <aside class="notes">
+    Wir beginnen mit Fehlern, nicht mit Definitionen. Jede Normalform bekommt
+    erst dann einen Namen, wenn ihr Problem sichtbar ist.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">Wir prüfen den Schemaentwurf</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Der rote Faden des Kurses"
+  >
+    <defs>
+      <marker
+        id="d04-redline-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon class="redline__arrow" points="0 0, 10 5, 0 10"></polygon>
+      </marker>
+    </defs>
+    <g transform="translate(160 265)">
+      <path
+        class="redline__line"
+        d="M360 70 H410 M750 70 H800 M1140 70 H1190 M1530 70 H1560 V420 H1530 M1190 420 H1140 M800 420 H750 M410 420 H360"
+        marker-end="url(#d04-redline-arrow)"
+      ></path>
+      <g class="redline__step d04-redline-done">
+        <rect x="20" y="0" width="340" height="140" rx="8"></rect>
+        <text x="190" y="65">
+          <tspan x="190">1. Idee</tspan>
+          <tspan x="190" dy="32">im Kopf</tspan>
+        </text>
+      </g>
+      <g class="redline__step d04-redline-done">
+        <rect x="410" y="0" width="340" height="140" rx="8"></rect>
+        <text x="580" y="48">
+          <tspan x="580">2. Darüber sprechen:</tspan>
+          <tspan x="580" dy="32">Abstraktion und</tspan>
+          <tspan x="580" dy="32">ER-Modell</tspan>
+        </text>
+      </g>
+      <g class="redline__step redline__step--active">
+        <rect x="800" y="0" width="340" height="140" rx="8"></rect>
+        <text x="970" y="48">
+          <tspan x="970">3. Tabellen, die uns</tspan>
+          <tspan x="970" dy="32">nicht anlügen:</tspan>
+          <tspan x="970" dy="32">Normalisierung</tspan>
+        </text>
+      </g>
+      <g class="redline__step d04-redline-next">
+        <rect x="1190" y="0" width="340" height="140" rx="8"></rect>
+        <text x="1360" y="65">
+          <tspan x="1360">4. Den Tabellen</tspan>
+          <tspan x="1360" dy="32">Fragen stellen: SQL</tspan>
+        </text>
+      </g>
+      <g class="redline__step">
+        <rect x="1190" y="350" width="340" height="140" rx="8"></rect>
+        <text x="1360" y="398">
+          <tspan x="1360">5. Aus Java fragen:</tspan>
+          <tspan x="1360" dy="32">JDBC, Cursor,</tspan>
+          <tspan x="1360" dy="32">Statements</tspan>
+        </text>
+      </g>
+      <g class="redline__step">
+        <rect x="800" y="350" width="340" height="140" rx="8"></rect>
+        <text x="970" y="415">
+          <tspan x="970">6. Wiederholungen beenden:</tspan>
+          <tspan x="970" dy="32">Repository Pattern</tspan>
+        </text>
+      </g>
+      <g class="redline__step">
+        <rect x="410" y="350" width="340" height="140" rx="8"></rect>
+        <text x="580" y="398">
+          <tspan x="580">7. Andere zugreifen</tspan>
+          <tspan x="580" dy="32">lassen: REST API</tspan>
+          <tspan x="580" dy="32">mit Spring</tspan>
+        </text>
+      </g>
+      <g class="redline__step">
+        <rect x="20" y="350" width="340" height="140" rx="8"></rect>
+        <text x="190" y="382">
+          <tspan x="190">8. Solide machen:</tspan>
+          <tspan x="190" dy="28">Schichten, Validierung, Fehler,</tspan>
+          <tspan x="190" dy="28">OpenAPI, Tests,</tspan>
+          <tspan x="190" dy="28">Middleware</tspan>
+        </text>
+      </g>
+    </g>
+  </svg>
+  <div class="slide-caption">
+    Vorher: Tabellenentwurf · Jetzt: Anomalien entfernen · Danach: SQL
+  </div>
+  <aside class="notes">
+    Der Entwurf aus dem ER-Modell ist unser Ausgangspunkt. Normalisierung prüft,
+    ob eine Tatsache an genau dem passenden Ort liegt. Morgen verlassen wir uns
+    bei jeder Abfrage darauf.
+  </aside>
+</section>
+
+<section class="lead-question">
+  <div class="lead-question__mark">?</div>
+  <h2 class="lead-question__text">
+    Was kostet die Umbenennung eines Lecturers bei 80 Enrollments?
+  </h2>
+  <div class="d04-question-answer fragment fade-in" data-fragment-index="1">
+    80 Updates, 80 Chancen auf Widerspruch
+  </div>
+  <aside class="notes">
+    Erwartet ist, dass alle 80 Zeilen geändert werden müssen. Typisch falsch
+    sind ein Update an einer zentralen Stelle und "die Datenbank erkennt gleiche
+    Namen". Jetzt zeige ich die flache Tabelle.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">enrollments_flat</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Flache Enrollment-Tabelle mit sechs Zeilen"
+  >
+    <g transform="translate(60 165)">
+      <rect class="d04-table-head" width="1800" height="82" rx="8"></rect>
+      <g class="d04-table-header">
+        <text x="75" y="34">
+          <tspan x="75">student_</tspan>
+          <tspan x="75" dy="26">id</tspan>
+        </text>
+        <text x="250" y="50">student_name</text>
+        <text x="415" y="34">
+          <tspan x="415">course_</tspan>
+          <tspan x="415" dy="26">id</tspan>
+        </text>
+        <text x="565" y="50">course_code</text>
+        <text x="775" y="50">course_title</text>
+        <text x="975" y="34">
+          <tspan x="975">lecturer_</tspan>
+          <tspan x="975" dy="26">id</tspan>
+        </text>
+        <text x="1165" y="50">lecturer_name</text>
+        <text x="1390" y="34">
+          <tspan x="1390">department_</tspan>
+          <tspan x="1390" dy="26">name</tspan>
+        </text>
+        <text x="1595" y="50">enrolled_on</text>
+        <text x="1745" y="50">grade</text>
+      </g>
+      <g class="d04-line">
+        <path
+          d="M150 0 V682 M350 0 V682 M480 0 V682 M650 0 V682 M900 0 V682 M1050 0 V682 M1280 0 V682 M1500 0 V682 M1690 0 V682"
+        ></path>
+        <path
+          d="M0 82 H1800 M0 182 H1800 M0 282 H1800 M0 382 H1800 M0 482 H1800 M0 582 H1800 M0 682 H1800"
+        ></path>
+      </g>
+      <rect
+        class="d04-box"
+        x="0"
+        y="82"
+        width="1800"
+        height="600"
+        rx="0"
+      ></rect>
+      <g class="fragment fade-in" data-fragment-index="1">
+        <rect
+          class="d04-highlight-amber"
+          x="350"
+          y="82"
+          width="550"
+          height="300"
+        ></rect>
+        <rect
+          class="d04-highlight-amber"
+          x="350"
+          y="382"
+          width="550"
+          height="300"
+        ></rect>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="2">
+        <rect
+          class="d04-highlight-amber"
+          x="900"
+          y="82"
+          width="380"
+          height="300"
+        ></rect>
+        <rect
+          class="d04-highlight-amber"
+          x="900"
+          y="382"
+          width="380"
+          height="300"
+        ></rect>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="3">
+        <rect
+          class="d04-highlight-amber"
+          x="1280"
+          y="82"
+          width="220"
+          height="600"
+        ></rect>
+      </g>
+      <g class="d04-line">
+        <path
+          d="M150 82 V682 M350 82 V682 M480 82 V682 M650 82 V682 M900 82 V682 M1050 82 V682 M1280 82 V682 M1500 82 V682 M1690 82 V682"
+        ></path>
+        <path
+          d="M0 182 H1800 M0 282 H1800 M0 382 H1800 M0 482 H1800 M0 582 H1800"
+        ></path>
+      </g>
+      <g class="d04-table-value">
+        <text x="75" y="145">1</text>
+        <text x="250" y="145">Lena Hoffmann</text>
+        <text x="415" y="145">1</text>
+        <text x="565" y="145">INF-201</text>
+        <text x="775" y="145">Datenbanken</text>
+        <text x="975" y="145">1</text>
+        <text x="1165" y="145">Anna Weber</text>
+        <text x="1390" y="145">Informatik</text>
+        <text x="1595" y="145">2024-04-08</text>
+        <text x="1745" y="145">1.7</text>
+        <text x="75" y="245">2</text>
+        <text x="250" y="245">Jonas Becker</text>
+        <text x="415" y="245">1</text>
+        <text x="565" y="245">INF-201</text>
+        <text x="775" y="245">Datenbanken</text>
+        <text x="975" y="245">1</text>
+        <text x="1165" y="245">Anna Weber</text>
+        <text x="1390" y="245">Informatik</text>
+        <text x="1595" y="245">2024-04-08</text>
+        <text x="1745" y="245">2.3</text>
+        <text x="75" y="345">3</text>
+        <text x="250" y="345">Aylin Kaya</text>
+        <text x="415" y="345">1</text>
+        <text x="565" y="345">INF-201</text>
+        <text x="775" y="345">Datenbanken</text>
+        <text x="975" y="345">1</text>
+        <text x="1165" y="345">Anna Weber</text>
+        <text x="1390" y="345">Informatik</text>
+        <text x="1595" y="345">2024-04-08</text>
+        <text x="1745" y="345">1.3</text>
+        <text x="75" y="445">1</text>
+        <text x="250" y="445">Lena Hoffmann</text>
+        <text x="415" y="445">2</text>
+        <text x="565" y="445">INF-202</text>
+        <text x="775" y="432">
+          <tspan x="775">Programmierung</tspan>
+          <tspan x="775" dy="30">II</tspan>
+        </text>
+        <text x="975" y="445">2</text>
+        <text x="1165" y="445">Mehmet Yilmaz</text>
+        <text x="1390" y="445">Informatik</text>
+        <text x="1595" y="445">2024-10-07</text>
+        <text x="1745" y="445">2.0</text>
+        <text x="75" y="545">3</text>
+        <text x="250" y="545">Aylin Kaya</text>
+        <text x="415" y="545">2</text>
+        <text x="565" y="545">INF-202</text>
+        <text x="775" y="532">
+          <tspan x="775">Programmierung</tspan>
+          <tspan x="775" dy="30">II</tspan>
+        </text>
+        <text x="975" y="545">2</text>
+        <text x="1165" y="545">Mehmet Yilmaz</text>
+        <text x="1390" y="545">Informatik</text>
+        <text x="1595" y="545">2024-10-07</text>
+        <text x="1745" y="545">1.7</text>
+        <text x="75" y="645">4</text>
+        <text x="250" y="645">Paul Schneider</text>
+        <text x="415" y="645">2</text>
+        <text x="565" y="645">INF-202</text>
+        <text x="775" y="632">
+          <tspan x="775">Programmierung</tspan>
+          <tspan x="775" dy="30">II</tspan>
+        </text>
+        <text x="975" y="645">2</text>
+        <text x="1165" y="645">Mehmet Yilmaz</text>
+        <text x="1390" y="645">Informatik</text>
+        <text x="1595" y="645">2024-10-07</text>
+        <text x="1745" y="645">2.7</text>
+      </g>
+    </g>
+  </svg>
+  <div class="slide-caption d04-caption-small">
+    Abgeleitet aus <code>java/sql/university/seed.sql</code>, Zeilen 5 bis 15,
+    46 bis 53 und 62 bis 71.
+  </div>
+  <aside class="notes">
+    Die sechs Zeilen sind aus dem Seed abgeleitet. Die flache Tabelle existiert
+    nicht im Repository. Sie zeigt, welche Wiederholungen eine unnormalisierte
+    Ablage erzeugen würde.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">Update-Anomalie</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Drei widersprüchliche Lecturer-Zeilen"
+  >
+    <g transform="translate(220 235)">
+      <rect class="d04-table-head" width="1480" height="90" rx="8"></rect>
+      <text class="d04-table-header" x="170" y="56">student_name</text>
+      <text class="d04-table-header" x="510" y="56">course_code</text>
+      <text class="d04-table-header" x="820" y="56">lecturer_id</text>
+      <text class="d04-table-header" x="1190" y="56">lecturer_name</text>
+      <rect class="d04-box" y="90" width="1480" height="330"></rect>
+      <path
+        class="d04-line"
+        d="M340 0 V420 M680 0 V420 M960 0 V420 M0 200 H1480 M0 310 H1480"
+      ></path>
+      <g class="d04-table-value">
+        <text x="170" y="160">Lena Hoffmann</text>
+        <text x="510" y="160">INF-201</text>
+        <text x="820" y="160">1</text>
+        <text x="1190" y="160">Anna Weber</text>
+        <text x="170" y="270">Jonas Becker</text>
+        <text x="510" y="270">INF-201</text>
+        <text x="820" y="270">1</text>
+        <text x="1190" y="270">Anna Weber</text>
+        <text x="170" y="380">Aylin Kaya</text>
+        <text x="510" y="380">INF-201</text>
+        <text x="820" y="380">1</text>
+        <text x="1190" y="380">Anna Weber</text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="1">
+        <rect
+          class="d04-box-amber"
+          x="960"
+          y="90"
+          width="520"
+          height="220"
+        ></rect>
+        <rect
+          x="975"
+          y="105"
+          width="490"
+          height="90"
+          fill="var(--color-bg-deep)"
+        ></rect>
+        <rect
+          x="975"
+          y="215"
+          width="490"
+          height="80"
+          fill="var(--color-bg-deep)"
+        ></rect>
+        <text class="d04-table-value d04-amber" x="1190" y="160">
+          Anna Weber-Stein
+        </text>
+        <text class="d04-table-value d04-amber" x="1190" y="270">
+          Anna Weber-Stein
+        </text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="2">
+        <rect
+          class="d04-highlight-red"
+          x="960"
+          y="310"
+          width="520"
+          height="110"
+        ></rect>
+        <text class="d04-table-value d04-red" x="1190" y="380">Anna Weber</text>
+      </g>
+      <text
+        class="d04-text d04-red fragment fade-in"
+        data-fragment-index="3"
+        x="740"
+        y="540"
+        text-anchor="middle"
+      >
+        Welcher Name gilt für lecturer_id 1?
+      </text>
+    </g>
+  </svg>
+  <div class="slide-caption">Hypothetische Namensänderung auf Seed-Daten</div>
+  <aside class="notes">
+    Ein ausgelassenes Update erzeugt zwei Namen für dieselbe ID. Die
+    normalisierte Tabelle `lecturers` speichert den Namen nur einmal.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">Insert-Anomalie</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Eine unvollständige flache Zeile für einen neuen Course"
+  >
+    <g transform="translate(70 300)">
+      <rect class="d04-table-head" width="1780" height="90" rx="8"></rect>
+      <g class="d04-table-header">
+        <text x="90" y="38">
+          <tspan x="90">student_</tspan>
+          <tspan x="90" dy="28">id</tspan>
+        </text>
+        <text x="290" y="55">student_name</text>
+        <text x="490" y="38">
+          <tspan x="490">course_</tspan>
+          <tspan x="490" dy="28">code</tspan>
+        </text>
+        <text x="740" y="55">course_title</text>
+        <text x="1010" y="55">lecturer_name</text>
+        <text x="1255" y="38">
+          <tspan x="1255">department_</tspan>
+          <tspan x="1255" dy="28">name</tspan>
+        </text>
+        <text x="1495" y="38">
+          <tspan x="1495">enrolled_</tspan>
+          <tspan x="1495" dy="28">on</tspan>
+        </text>
+        <text x="1690" y="55">grade</text>
+      </g>
+      <rect class="d04-box" y="90" width="1780" height="150"></rect>
+      <path
+        class="d04-line"
+        d="M180 0 V240 M400 0 V240 M580 0 V240 M900 0 V240 M1120 0 V240 M1390 0 V240 M1600 0 V240"
+      ></path>
+      <g class="d04-table-value">
+        <text class="d04-grey" x="90" y="180">∅</text>
+        <text class="d04-grey" x="290" y="180">∅</text>
+        <text x="490" y="180">INF-260</text>
+        <text x="740" y="180">Datenvisualisierung</text>
+        <text x="1010" y="180">Jana Vogel</text>
+        <text x="1255" y="180">Informatik</text>
+        <text class="d04-grey" x="1495" y="180">∅</text>
+        <text class="d04-grey" x="1690" y="180">∅</text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="1">
+        <rect
+          class="d04-highlight-red"
+          x="0"
+          y="90"
+          width="400"
+          height="150"
+        ></rect>
+        <rect
+          class="d04-highlight-red"
+          x="1390"
+          y="90"
+          width="210"
+          height="150"
+        ></rect>
+        <text class="d04-label d04-red" x="90" y="285" text-anchor="middle">
+          student_id
+        </text>
+        <text class="d04-label d04-red" x="290" y="285" text-anchor="middle">
+          student_name
+        </text>
+        <text class="d04-label d04-red" x="1495" y="285" text-anchor="middle">
+          enrolled_on
+        </text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="2">
+        <path
+          class="d04-line-red"
+          d="M20 105 L1760 225 M1760 105 L20 225"
+        ></path>
+      </g>
+    </g>
+    <text class="d04-label" x="960" y="225" text-anchor="middle">
+      Hypothetischer neuer Course, nicht in seed.sql
+    </text>
+  </svg>
+  <div class="slide-caption red">Course ohne Enrollment nicht speicherbar</div>
+  <aside class="notes">
+    Ein neuer Kurs existiert fachlich vor der ersten Belegung. Die flache
+    Tabelle zwingt uns zu erfundenen Studierendendaten oder verhindert das
+    Einfügen.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">Delete-Anomalie</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Beim Löschen einer Belegung verschwinden Course-Daten"
+  >
+    <text class="d04-label" x="960" y="190" text-anchor="middle">
+      Fortsetzung des hypothetischen Beispiels aus 04.6
+    </text>
+    <g transform="translate(100 295)">
+      <rect class="d04-table-head" width="1720" height="90" rx="8"></rect>
+      <g class="d04-table-header">
+        <text x="150" y="55">student_name</text>
+        <text x="380" y="55">course_code</text>
+        <text x="650" y="55">course_title</text>
+        <text x="940" y="55">lecturer_name</text>
+        <text x="1225" y="55">enrolled_on</text>
+        <text x="1495" y="55">grade</text>
+      </g>
+      <rect class="d04-box" y="90" width="1720" height="160"></rect>
+      <path
+        class="d04-line"
+        d="M300 0 V250 M470 0 V250 M820 0 V250 M1080 0 V250 M1370 0 V250 M1620 0 V250"
+      ></path>
+      <g class="d04-table-value">
+        <text x="150" y="185">Lena Hoffmann</text>
+        <text x="385" y="185">INF-260</text>
+        <text x="650" y="185">Datenvisualisierung</text>
+        <text x="945" y="185">Jana Vogel</text>
+        <text x="1225" y="185">2026-04-01</text>
+        <text x="1495" y="185">∅</text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="1">
+        <path class="d04-line-red" d="M20 170 H280 M1095 170 H1600"></path>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="2">
+        <rect
+          x="300"
+          y="90"
+          width="780"
+          height="160"
+          fill="var(--color-bg-deep)"
+          opacity="0.84"
+        ></rect>
+        <text class="d04-table-value d04-grey" x="385" y="185">INF-260</text>
+        <text class="d04-table-value d04-grey" x="650" y="185">
+          Datenvisualisierung
+        </text>
+        <text class="d04-table-value d04-grey" x="945" y="185">Jana Vogel</text>
+      </g>
+      <text
+        class="d04-text d04-red fragment fade-in"
+        data-fragment-index="3"
+        x="860"
+        y="390"
+        text-anchor="middle"
+      >
+        Course-Information unbeabsichtigt gelöscht
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Wir wollten eine Belegung löschen. In der flachen Tabelle verlieren wir
+    zugleich den einzigen Datensatz über diesen Course.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">Welche Spalte bestimmt welche?</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Funktionale Abhängigkeiten zwischen Spalten"
+  >
+    <defs>
+      <marker
+        id="d04-fd-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon class="d04-blue" points="0 0, 12 6, 0 12"></polygon>
+      </marker>
+    </defs>
+    <text class="d04-text" x="960" y="190" text-anchor="middle">
+      Funktionale Abhängigkeit: X → Y
+    </text>
+    <g transform="translate(90 270)">
+      <rect
+        class="d04-box-amber"
+        x="0"
+        y="185"
+        width="300"
+        height="110"
+        rx="10"
+      ></rect>
+      <text class="d04-text d04-amber" x="150" y="252" text-anchor="middle">
+        student_id
+      </text>
+      <g class="fragment fade-in" data-fragment-index="1">
+        <path
+          class="d04-line-blue"
+          d="M300 240 H430"
+          marker-end="url(#d04-fd-arrow)"
+        ></path>
+        <rect
+          class="d04-box-blue"
+          x="450"
+          y="0"
+          width="390"
+          height="110"
+          rx="10"
+        ></rect>
+        <text class="d04-text" x="645" y="67" text-anchor="middle">
+          student_number
+        </text>
+        <rect
+          class="d04-box-blue"
+          x="450"
+          y="130"
+          width="390"
+          height="110"
+          rx="10"
+        ></rect>
+        <text class="d04-text" x="645" y="197" text-anchor="middle">
+          first_name
+        </text>
+        <rect
+          class="d04-box-blue"
+          x="450"
+          y="260"
+          width="390"
+          height="110"
+          rx="10"
+        ></rect>
+        <text class="d04-text" x="645" y="327" text-anchor="middle">
+          last_name
+        </text>
+        <rect
+          class="d04-box-blue"
+          x="450"
+          y="390"
+          width="390"
+          height="110"
+          rx="10"
+        ></rect>
+        <text class="d04-text" x="645" y="457" text-anchor="middle">email</text>
+      </g>
+      <g
+        class="fragment fade-in"
+        data-fragment-index="2"
+        transform="translate(900 0)"
+      >
+        <rect
+          class="d04-box-amber"
+          x="0"
+          y="20"
+          width="280"
+          height="100"
+          rx="10"
+        ></rect>
+        <text class="d04-text d04-amber" x="140" y="82" text-anchor="middle">
+          course_id
+        </text>
+        <path
+          class="d04-line-blue"
+          d="M140 120 V165"
+          marker-end="url(#d04-fd-arrow)"
+        ></path>
+        <rect
+          class="d04-box-blue"
+          x="0"
+          y="180"
+          width="280"
+          height="320"
+          rx="10"
+        ></rect>
+        <text class="d04-text" x="140" y="235" text-anchor="middle">
+          course_code
+        </text>
+        <text class="d04-text" x="140" y="310" text-anchor="middle">title</text>
+        <text class="d04-text" x="140" y="385" text-anchor="middle">
+          credits
+        </text>
+        <text class="d04-text" x="140" y="460" text-anchor="middle">
+          lecturer_id
+        </text>
+      </g>
+      <g
+        class="fragment fade-in"
+        data-fragment-index="3"
+        transform="translate(1240 0)"
+      >
+        <rect
+          class="d04-box-amber"
+          x="0"
+          y="20"
+          width="340"
+          height="100"
+          rx="10"
+        ></rect>
+        <text class="d04-text d04-amber" x="170" y="82" text-anchor="middle">
+          lecturer_id
+        </text>
+        <path
+          class="d04-line-blue"
+          d="M170 120 V165"
+          marker-end="url(#d04-fd-arrow)"
+        ></path>
+        <rect
+          class="d04-box-blue"
+          x="0"
+          y="180"
+          width="340"
+          height="230"
+          rx="10"
+        ></rect>
+        <text class="d04-text" x="170" y="260" text-anchor="middle">
+          lecturer_name
+        </text>
+        <text class="d04-text" x="170" y="345" text-anchor="middle">
+          department_id
+        </text>
+      </g>
+    </g>
+  </svg>
+  <aside class="notes">
+    X bestimmt Y, wenn zu einem X-Wert genau ein Y-Wert gehört. Das ist eine
+    Fachregel, keine zufällige Beobachtung in sechs Zeilen.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">Der Schlüssel der Belegung</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Der zusammengesetzte Schlüssel bestimmt die Belegungsdaten"
+  >
+    <defs>
+      <marker
+        id="d04-key-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon class="d04-blue" points="0 0, 12 6, 0 12"></polygon>
+      </marker>
+    </defs>
+    <g transform="translate(230 245)">
+      <rect
+        class="d04-box-amber"
+        x="0"
+        y="0"
+        width="680"
+        height="190"
+        rx="14"
+      ></rect>
+      <line class="d04-line-amber" x1="340" y1="55" x2="340" y2="190"></line>
+      <text class="d04-label d04-amber" x="340" y="45" text-anchor="middle">
+        KANDIDATENSCHLÜSSEL
+      </text>
+      <text class="d04-text d04-amber" x="170" y="125" text-anchor="middle">
+        student_id
+      </text>
+      <text class="d04-text d04-amber" x="510" y="125" text-anchor="middle">
+        course_id
+      </text>
+      <g class="fragment fade-in" data-fragment-index="1">
+        <path
+          class="d04-line-blue"
+          d="M680 70 H900"
+          marker-end="url(#d04-key-arrow)"
+        ></path>
+        <rect
+          class="d04-box-blue"
+          x="930"
+          y="5"
+          width="410"
+          height="125"
+          rx="10"
+        ></rect>
+        <text class="d04-text" x="1135" y="82" text-anchor="middle">
+          enrolled_on
+        </text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="2">
+        <path
+          class="d04-line-blue"
+          d="M680 145 C790 145 820 300 900 300"
+          marker-end="url(#d04-key-arrow)"
+        ></path>
+        <rect
+          class="d04-box-blue"
+          x="930"
+          y="235"
+          width="410"
+          height="125"
+          rx="10"
+        ></rect>
+        <text class="d04-text" x="1135" y="312" text-anchor="middle">
+          grade
+        </text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="3">
+        <rect
+          class="d04-box"
+          x="30"
+          y="380"
+          width="280"
+          height="110"
+          rx="10"
+        ></rect>
+        <text class="d04-text" x="170" y="448" text-anchor="middle">
+          student_id
+        </text>
+        <path class="d04-line-red" d="M60 395 L280 475 M280 395 L60 475"></path>
+        <rect
+          class="d04-box"
+          x="370"
+          y="380"
+          width="280"
+          height="110"
+          rx="10"
+        ></rect>
+        <text class="d04-text" x="510" y="448" text-anchor="middle">
+          course_id
+        </text>
+        <path
+          class="d04-line-red"
+          d="M400 395 L620 475 M620 395 L400 475"
+        ></path>
+      </g>
+    </g>
+  </svg>
+  <aside class="notes">
+    Die Note gehört zur Paarung. Weder Student noch Course allein bestimmen sie.
+    Für die 2NF-Prüfung zählt dieser zusammengesetzte Kandidatenschlüssel, auch
+    wenn `enrollments.id` der Primärschlüssel ist.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">1NF, ein Wert pro Zelle</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Liste in einer Zelle gegenüber zwei atomaren Zeilen"
+  >
+    <g transform="translate(120 270)">
+      <rect
+        class="d04-box-red"
+        x="0"
+        y="0"
+        width="720"
+        height="280"
+        rx="14"
+      ></rect>
+      <text class="d04-label d04-red" x="360" y="60" text-anchor="middle">
+        course_codes
+      </text>
+      <text class="d04-text d04-red" x="360" y="155" text-anchor="middle">
+        course_codes="INF-201,INF-230"
+      </text>
+      <g transform="translate(900 0)">
+        <rect class="d04-box-blue" width="720" height="280" rx="14"></rect>
+        <text class="d04-label d04-green" x="360" y="55" text-anchor="middle">
+          ENROLLMENTS
+        </text>
+        <text class="d04-text" x="360" y="135" text-anchor="middle">
+          student_id=1, course_id=1
+        </text>
+        <line class="d04-line" x1="45" y1="175" x2="675" y2="175"></line>
+        <text class="d04-text" x="360" y="235" text-anchor="middle">
+          student_id=1, course_id=3
+        </text>
+      </g>
+      <text
+        class="d04-text d04-amber fragment fade-in"
+        data-fragment-index="1"
+        x="810"
+        y="400"
+        text-anchor="middle"
+      >
+        atomar für unseren Zweck
+      </text>
+      <text
+        class="d04-text d04-green fragment fade-in"
+        data-fragment-index="2"
+        x="810"
+        y="485"
+        text-anchor="middle"
+      >
+        keine Listen in Zellen
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    1NF verlangt Werte, die wir nicht als versteckte Liste behandeln. Atomar
+    hängt vom Zweck ab. Eine ISO-Datumszeichenkette ist für unsere Abfragen ein
+    Wert.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">2NF, der ganze Schlüssel zählt</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Partielle Abhängigkeiten verlassen Enrollment"
+  >
+    <defs>
+      <marker
+        id="d04-2nf-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon class="d04-red" points="0 0, 12 6, 0 12"></polygon>
+      </marker>
+    </defs>
+    <g transform="translate(170 215)">
+      <rect
+        class="d04-box-amber"
+        x="430"
+        y="0"
+        width="660"
+        height="130"
+        rx="12"
+      ></rect>
+      <text class="d04-text d04-amber" x="760" y="80" text-anchor="middle">
+        (student_id, course_id)
+      </text>
+      <g class="fragment fade-in" data-fragment-index="1">
+        <rect
+          class="d04-box-red"
+          x="0"
+          y="250"
+          width="430"
+          height="130"
+          rx="12"
+        ></rect>
+        <text class="d04-text d04-red" x="215" y="330" text-anchor="middle">
+          student_name
+        </text>
+        <path
+          class="d04-line-red"
+          d="M600 130 C520 190 360 175 250 240"
+          marker-end="url(#d04-2nf-arrow)"
+        ></path>
+        <text class="d04-label d04-red" x="300" y="195">nur student_id</text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="2">
+        <rect
+          class="d04-box-red"
+          x="1090"
+          y="250"
+          width="430"
+          height="130"
+          rx="12"
+        ></rect>
+        <text class="d04-text d04-red" x="1305" y="330" text-anchor="middle">
+          course_title
+        </text>
+        <path
+          class="d04-line-red"
+          d="M920 130 C1000 190 1160 175 1270 240"
+          marker-end="url(#d04-2nf-arrow)"
+        ></path>
+        <text class="d04-label d04-red" x="1060" y="195">nur course_id</text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="3">
+        <rect
+          class="d04-box-blue"
+          x="0"
+          y="500"
+          width="430"
+          height="150"
+          rx="12"
+        ></rect>
+        <text class="d04-label d04-blue" x="215" y="555" text-anchor="middle">
+          students
+        </text>
+        <text class="d04-text" x="215" y="615" text-anchor="middle">
+          student_name
+        </text>
+        <rect
+          class="d04-box-blue"
+          x="1090"
+          y="500"
+          width="430"
+          height="150"
+          rx="12"
+        ></rect>
+        <text class="d04-label d04-blue" x="1305" y="555" text-anchor="middle">
+          courses
+        </text>
+        <text class="d04-text" x="1305" y="615" text-anchor="middle">
+          course_title
+        </text>
+        <path class="d04-line-blue" d="M215 380 V485 M1305 380 V485"></path>
+      </g>
+    </g>
+  </svg>
+  <aside class="notes">
+    2NF entfernt partielle Abhängigkeiten von einem Teil des zusammengesetzten
+    Schlüssels. In enrollments bleiben nur Fakten über die Paarung.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">3NF, keine Umleitung</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Transitive Abhängigkeit über Lecturer und Department"
+  >
+    <defs>
+      <marker
+        id="d04-3nf-blue"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon class="d04-blue" points="0 0, 12 6, 0 12"></polygon>
+      </marker>
+      <marker
+        id="d04-3nf-red"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon class="d04-red" points="0 0, 12 6, 0 12"></polygon>
+      </marker>
+    </defs>
+    <g transform="translate(110 355)">
+      <rect
+        class="d04-box-amber"
+        x="0"
+        y="0"
+        width="330"
+        height="120"
+        rx="10"
+      ></rect>
+      <text class="d04-text d04-amber" x="165" y="75" text-anchor="middle">
+        course_id
+      </text>
+      <path
+        class="d04-line-blue"
+        d="M330 60 H455"
+        marker-end="url(#d04-3nf-blue)"
+      ></path>
+      <rect
+        class="d04-box-blue"
+        x="480"
+        y="0"
+        width="330"
+        height="120"
+        rx="10"
+      ></rect>
+      <text class="d04-text" x="645" y="75" text-anchor="middle">
+        lecturer_id
+      </text>
+      <path
+        class="d04-line-blue"
+        d="M810 60 H935"
+        marker-end="url(#d04-3nf-blue)"
+      ></path>
+      <rect
+        class="d04-box-blue"
+        x="960"
+        y="0"
+        width="330"
+        height="120"
+        rx="10"
+      ></rect>
+      <text class="d04-text" x="1125" y="75" text-anchor="middle">
+        department_id
+      </text>
+      <path
+        class="d04-line-blue"
+        d="M1290 60 H1415"
+        marker-end="url(#d04-3nf-blue)"
+      ></path>
+      <rect
+        class="d04-box-blue"
+        x="1440"
+        y="0"
+        width="330"
+        height="120"
+        rx="10"
+      ></rect>
+      <text class="d04-text" x="1605" y="75" text-anchor="middle">
+        department_name
+      </text>
+      <g class="fragment fade-in" data-fragment-index="1">
+        <path
+          class="d04-line-red"
+          d="M165 -20 C500 -210 1270 -210 1605 -20"
+          marker-end="url(#d04-3nf-red)"
+        ></path>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="2">
+        <rect
+          class="d04-box-blue"
+          x="410"
+          y="260"
+          width="460"
+          height="170"
+          rx="12"
+        ></rect>
+        <text class="d04-label d04-blue" x="640" y="315" text-anchor="middle">
+          lecturers
+        </text>
+        <text
+          class="d04-text d04-text-compact"
+          x="640"
+          y="385"
+          text-anchor="middle"
+        >
+          lecturer_id, department_id
+        </text>
+        <rect
+          class="d04-box-blue"
+          x="980"
+          y="260"
+          width="540"
+          height="170"
+          rx="12"
+        ></rect>
+        <text class="d04-label d04-blue" x="1250" y="315" text-anchor="middle">
+          departments
+        </text>
+        <text
+          class="d04-text d04-text-compact"
+          x="1250"
+          y="385"
+          text-anchor="middle"
+        >
+          department_id, department_name
+        </text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="3">
+        <path class="d04-line-green" d="M390 440 H1540"></path>
+        <text class="d04-text d04-green" x="965" y="500" text-anchor="middle">
+          keine transitive Abhängigkeit
+        </text>
+      </g>
+    </g>
+  </svg>
+  <aside class="notes">
+    3NF entfernt transitive Abhängigkeiten von Nichtschlüsselattributen. Der
+    Department-Name gehört zum Department, nicht zum Lecturer oder Course.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">Das Schema nach 3NF</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Fünf Tabellen des Universitätsschemas"
+  >
+    <defs>
+      <marker
+        id="d04-schema-arrow"
+        markerWidth="11"
+        markerHeight="11"
+        refX="9"
+        refY="5.5"
+        orient="auto"
+      >
+        <polygon class="d04-blue" points="0 0, 11 5.5, 0 11"></polygon>
+      </marker>
+    </defs>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <g transform="translate(80 180)">
+        <rect class="d04-box-blue" width="430" height="235" rx="10"></rect>
+        <text class="d04-label d04-blue" x="215" y="45" text-anchor="middle">
+          departments
+        </text>
+        <text class="d04-text d04-amber" x="35" y="95">id</text>
+        <line class="d04-line-amber" x1="35" y1="105" x2="75" y2="105"></line>
+        <text class="d04-text" x="35" y="150">name</text>
+        <text class="d04-text" x="35" y="205">code</text>
+      </g>
+      <g transform="translate(745 180)">
+        <rect class="d04-box-blue" width="430" height="345" rx="10"></rect>
+        <text class="d04-label d04-blue" x="215" y="45" text-anchor="middle">
+          lecturers
+        </text>
+        <text class="d04-text d04-amber" x="35" y="95">id</text>
+        <line class="d04-line-amber" x1="35" y1="105" x2="75" y2="105"></line>
+        <text class="d04-text" x="35" y="145">first_name</text>
+        <text class="d04-text" x="35" y="195">last_name</text>
+        <text class="d04-text" x="35" y="245">email</text>
+        <text class="d04-text d04-blue" x="35" y="300">department_id</text>
+      </g>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <g transform="translate(1410 180)">
+        <rect class="d04-box-blue" width="430" height="345" rx="10"></rect>
+        <text class="d04-label d04-blue" x="215" y="45" text-anchor="middle">
+          courses
+        </text>
+        <text class="d04-text d04-amber" x="35" y="95">id</text>
+        <line class="d04-line-amber" x1="35" y1="105" x2="75" y2="105"></line>
+        <text class="d04-text" x="35" y="145">course_code</text>
+        <text class="d04-text" x="35" y="195">title</text>
+        <text class="d04-text" x="35" y="245">credits</text>
+        <text class="d04-text d04-blue" x="35" y="300">lecturer_id</text>
+      </g>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <g transform="translate(250 585)">
+        <rect class="d04-box-blue" width="520" height="350" rx="10"></rect>
+        <text class="d04-label d04-blue" x="260" y="45" text-anchor="middle">
+          students
+        </text>
+        <text class="d04-text d04-amber" x="35" y="95">id</text>
+        <line class="d04-line-amber" x1="35" y1="105" x2="75" y2="105"></line>
+        <text class="d04-text" x="35" y="145">first_name</text>
+        <text class="d04-text" x="35" y="195">last_name</text>
+        <text class="d04-text" x="35" y="245">email</text>
+        <text
+          class="d04-text d04-text-compact"
+          x="485"
+          y="145"
+          text-anchor="end"
+        >
+          student_number
+        </text>
+        <text
+          class="d04-text d04-text-compact"
+          x="485"
+          y="195"
+          text-anchor="end"
+        >
+          enrollment_date
+        </text>
+      </g>
+      <g transform="translate(1110 585)">
+        <rect class="d04-box-blue" width="560" height="350" rx="10"></rect>
+        <text class="d04-label d04-blue" x="280" y="45" text-anchor="middle">
+          enrollments
+        </text>
+        <text class="d04-text d04-amber" x="35" y="95">id</text>
+        <line class="d04-line-amber" x1="35" y1="105" x2="75" y2="105"></line>
+        <text class="d04-text d04-blue" x="35" y="155">student_id</text>
+        <text class="d04-text d04-blue" x="35" y="215">course_id</text>
+        <text class="d04-text" x="35" y="275">grade</text>
+        <text class="d04-text" x="280" y="155">enrolled_on</text>
+      </g>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <path
+        class="d04-line-blue"
+        d="M780 480 C560 480 590 300 510 300"
+        marker-end="url(#d04-schema-arrow)"
+      ></path>
+      <path
+        class="d04-line-blue"
+        d="M1445 480 C1260 480 1270 300 1175 300"
+        marker-end="url(#d04-schema-arrow)"
+      ></path>
+      <path
+        class="d04-line-blue"
+        d="M1145 740 H785"
+        marker-end="url(#d04-schema-arrow)"
+      ></path>
+      <path
+        class="d04-line-blue"
+        d="M1390 585 C1390 540 1600 560 1600 525"
+        marker-end="url(#d04-schema-arrow)"
+      ></path>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="5">
+      <path
+        class="d04-line-green"
+        d="M55 145 H1865 M55 145 V955 M1865 145 V955 M55 955 H1865"
+      ></path>
+      <text class="d04-text d04-green" x="960" y="1010" text-anchor="middle">
+        jede Tatsache an einem Ort
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Das ist exakt das Schema aus `java/sql/university/schema.sql`. Enrollment
+    behält `enrolled_on` und `grade`. Das Einschreibedatum am Student heißt
+    `enrollment_date`.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">BCNF prüft jeden Determinanten</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="BCNF-Beispiel mit exklusiv reservierten Räumen"
+  >
+    <g transform="translate(135 210)">
+      <rect
+        class="d04-box-blue"
+        x="0"
+        y="0"
+        width="760"
+        height="170"
+        rx="12"
+      ></rect>
+      <text class="d04-label d04-blue" x="380" y="50" text-anchor="middle">
+        course_room_timeslot
+      </text>
+      <text class="d04-text" x="380" y="115" text-anchor="middle">
+        course_id, room_id, timeslot
+      </text>
+      <rect
+        class="d04-box"
+        x="0"
+        y="440"
+        width="760"
+        height="120"
+        rx="10"
+      ></rect>
+      <text class="d04-text" x="380" y="515" text-anchor="middle">
+        (course_id, timeslot) → room_id
+      </text>
+      <g class="fragment fade-in" data-fragment-index="1">
+        <rect
+          class="d04-box-amber"
+          x="925"
+          y="0"
+          width="720"
+          height="170"
+          rx="12"
+        ></rect>
+        <text class="d04-text d04-amber" x="1285" y="100" text-anchor="middle">
+          room_id → course_id
+        </text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="2">
+        <text class="d04-text d04-red" x="1285" y="300" text-anchor="middle">
+          Determinant room_id ist kein Kandidatenschlüssel
+        </text>
+        <path class="d04-line-red" d="M985 335 H1585"></path>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="3">
+        <text class="d04-label d04-blue" x="1285" y="440" text-anchor="middle">
+          ZERLEGUNG
+        </text>
+        <rect
+          class="d04-box-blue"
+          x="900"
+          y="480"
+          width="380"
+          height="125"
+          rx="10"
+        ></rect>
+        <text class="d04-text" x="1090" y="555" text-anchor="middle">
+          room_id, course_id
+        </text>
+        <rect
+          class="d04-box-blue"
+          x="1305"
+          y="480"
+          width="380"
+          height="125"
+          rx="10"
+        ></rect>
+        <text class="d04-text" x="1495" y="555" text-anchor="middle">
+          room_id, timeslot
+        </text>
+      </g>
+    </g>
+  </svg>
+  <aside class="notes">
+    BCNF verschärft 3NF: Jeder Determinant muss ein Kandidatenschlüssel sein.
+    Das Beispiel ist bewusst klein. Merkt euch die Prüffrage, nicht die
+    Abkürzung.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">3NF oder BCNF?</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Vergleich von 3NF und BCNF"
+  >
+    <g transform="translate(130 270)">
+      <rect class="d04-box-blue" width="760" height="360" rx="14"></rect>
+      <text class="d04-text d04-blue" x="380" y="120" text-anchor="middle">
+        3NF: praktische Standardprüfung
+      </text>
+      <rect
+        class="d04-box-amber"
+        x="900"
+        width="760"
+        height="360"
+        rx="14"
+      ></rect>
+      <text class="d04-text d04-amber" x="1280" y="120" text-anchor="middle">
+        BCNF: prüft restliche Determinanten
+      </text>
+      <text
+        class="d04-text d04-green fragment fade-in"
+        data-fragment-index="1"
+        x="380"
+        y="260"
+        text-anchor="middle"
+      >
+        Anomalien weg
+      </text>
+      <text
+        class="d04-text d04-amber fragment fade-in"
+        data-fragment-index="2"
+        x="1280"
+        y="260"
+        text-anchor="middle"
+      >
+        Abhängigkeitserhalt prüfen
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    BCNF wird manchmal 3.5NF genannt. Eine Zerlegung kann Abhängigkeiten
+    schwerer erzwingbar machen. Für eure Übung ist 3NF das Pflichtziel, BCNF die
+    Kontrollfrage.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">Wann reale Systeme stoppen</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Waage zwischen Korrektheit und gemessenen Lesewegen"
+  >
+    <g transform="translate(120 260)">
+      <path
+        class="d04-line"
+        d="M840 210 H960 M900 210 V535 M700 535 H1100"
+      ></path>
+      <path class="d04-line-blue" d="M210 210 H1590"></path>
+      <path class="d04-line-blue" d="M360 210 L250 410 H470 Z"></path>
+      <path class="d04-line-amber" d="M1440 210 L1330 410 H1550 Z"></path>
+      <text class="d04-text d04-blue" x="360" y="455" text-anchor="middle">
+        <tspan x="360">Korrektheit, klare Writes,</tspan>
+        <tspan x="360" dy="42">Constraints</tspan>
+      </text>
+      <text class="d04-text d04-amber" x="1440" y="455" text-anchor="middle">
+        <tspan x="1440">gemessene Read-Latenz,</tspan>
+        <tspan x="1440" dy="42">Bericht, Cache</tspan>
+      </text>
+      <g class="fragment fade-in" data-fragment-index="1">
+        <path class="d04-line-green" d="M720 575 H1080"></path>
+        <text class="d04-text d04-green" x="900" y="635" text-anchor="middle">
+          3NF
+        </text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="2">
+        <rect
+          class="d04-box-amber"
+          x="1170"
+          y="500"
+          width="500"
+          height="115"
+          rx="10"
+        ></rect>
+        <text class="d04-text d04-amber" x="1420" y="570" text-anchor="middle">
+          bewusste Denormalisierung
+        </text>
+        <text class="d04-label d04-amber" x="1420" y="640" text-anchor="middle">
+          KOPIE
+        </text>
+      </g>
+    </g>
+  </svg>
+  <aside class="notes">
+    Wir stoppen nicht bei einer Nummer, sondern bei einem begründeten Schema.
+    Denormalisierung folgt einer Messung und bekommt eine Aktualisierungsregel.
+    Zufällige Duplikate sind keine Optimierung.
+  </aside>
+</section>
+
+<section class="exercise-slide">
+  <div class="exercise-slide__tag">Übung 3</div>
+  <div class="exercise-slide__time">40 min</div>
+  <p class="exercise-slide__task">Die flache Tabelle zerlegen</p>
+  <div class="d04-exercise-steps">
+    <div class="d04-exercise-step">
+      <span>1</span
+      ><span
+        >Bestimmt einen Schlüssel und die funktionalen Abhängigkeiten.</span
+      >
+    </div>
+    <div class="d04-exercise-step">
+      <span>2</span><span>Zerlegt schrittweise bis 3NF.</span>
+    </div>
+    <div class="d04-exercise-step">
+      <span>3</span><span>Prüft die BCNF-Falle der Karte.</span>
+    </div>
+    <div class="d04-exercise-step">
+      <span>4</span><span>Gleicht das Ergebnis mit dem ER-Modell ab.</span>
+    </div>
+  </div>
+  <div class="exercise-slide__deliverable">
+    <strong>Abgabe:</strong> Tabellen mit Primär- und Fremdschlüsseln, FDs, ein
+    Satz zur BCNF-Falle
+  </div>
+  <div class="d04-exercise-path">exercises/library/02-normalization.md</div>
+  <aside class="notes">
+    Beginnt bei den konkreten Beobachtungen der Karte. Benennt Einfüge-,
+    Änderungs- und Löschanomalie im Gespräch. Ändert euer ER-Modell, wenn die
+    Zerlegung eine vergessene Entität zeigt.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">Debrief, kann die Tabelle lügen?</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Vier Prüffragen für normalisierte Tabellen"
+  >
+    <g transform="translate(120 230)">
+      <g class="fragment fade-in" data-fragment-index="1">
+        <rect
+          class="d04-box-blue"
+          x="0"
+          y="0"
+          width="760"
+          height="250"
+          rx="14"
+        ></rect>
+        <text class="d04-text" x="380" y="145" text-anchor="middle">
+          ein Fakt an einem Ort?
+        </text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="2">
+        <rect
+          class="d04-box-blue"
+          x="920"
+          y="0"
+          width="760"
+          height="250"
+          rx="14"
+        ></rect>
+        <text class="d04-text" x="1300" y="145" text-anchor="middle">
+          Insert ohne erfundene Daten?
+        </text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="3">
+        <rect
+          class="d04-box-blue"
+          x="0"
+          y="330"
+          width="760"
+          height="250"
+          rx="14"
+        ></rect>
+        <text class="d04-text" x="380" y="475" text-anchor="middle">
+          Update an einer Stelle?
+        </text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="4">
+        <rect
+          class="d04-box-amber"
+          x="920"
+          y="330"
+          width="760"
+          height="250"
+          rx="14"
+        ></rect>
+        <text class="d04-text d04-amber" x="1300" y="475" text-anchor="middle">
+          Delete ohne Nebenverlust?
+        </text>
+      </g>
+    </g>
+  </svg>
+  <aside class="notes">
+    Wir prüfen eine Gruppentabelle mit diesen vier Fragen. Normalformen helfen
+    beim Denken. Die Anomalien zeigen, ob das Ergebnis praktisch besser ist.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">Tag 1 endet mit einem Schema</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Fünf Tabellen werden zu schema.sql und morgen mit SQL befragt"
+  >
+    <defs>
+      <marker
+        id="d04-end-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon class="d04-blue" points="0 0, 12 6, 0 12"></polygon>
+      </marker>
+    </defs>
+    <g transform="translate(120 230)">
+      <g transform="translate(0 0)">
+        <rect
+          class="d04-box-blue"
+          x="0"
+          y="0"
+          width="240"
+          height="120"
+          rx="10"
+        ></rect>
+        <rect
+          class="d04-box-blue"
+          x="300"
+          y="0"
+          width="240"
+          height="120"
+          rx="10"
+        ></rect>
+        <rect
+          class="d04-box-blue"
+          x="150"
+          y="160"
+          width="240"
+          height="120"
+          rx="10"
+        ></rect>
+        <rect
+          class="d04-box-blue"
+          x="0"
+          y="320"
+          width="240"
+          height="120"
+          rx="10"
+        ></rect>
+        <rect
+          class="d04-box-blue"
+          x="300"
+          y="320"
+          width="240"
+          height="120"
+          rx="10"
+        ></rect>
+      </g>
+      <path
+        class="d04-line-blue"
+        d="M570 220 H740"
+        marker-end="url(#d04-end-arrow)"
+      ></path>
+      <g transform="translate(770 40)">
+        <path class="d04-box-blue" d="M0 0 H360 L450 90 V440 H0 Z"></path>
+        <path class="d04-line-blue" d="M360 0 V90 H450"></path>
+        <text class="d04-text d04-blue" x="225" y="235" text-anchor="middle">
+          schema.sql
+        </text>
+      </g>
+      <path
+        class="d04-line-blue"
+        d="M1250 220 H1390"
+        marker-end="url(#d04-end-arrow)"
+      ></path>
+      <path
+        class="d04-box"
+        stroke-dasharray="12 8"
+        d="M1420 80 H1660 V350 H1530 L1450 430 V350 H1420 Z"
+      ></path>
+      <g class="fragment fade-in" data-fragment-index="1">
+        <text class="d04-text d04-green" x="120" y="560">✓ Begriffe</text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="2">
+        <text class="d04-text d04-green" x="420" y="560">✓ Beziehungen</text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="3">
+        <text class="d04-text d04-green" x="790" y="560">✓ Constraints</text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="4">
+        <text class="d04-text d04-amber" x="1290" y="560">morgen: Fragen</text>
+      </g>
+    </g>
+  </svg>
+  <aside class="notes">
+    Heute hatten wir erst Sprache, dann Modell, dann Tabellen. Morgen führen wir
+    das Schema in SQLite aus. Danach stellen wir ihm Fragen, zunächst direkt,
+    später aus Java.
+  </aside>
+</section>
+
+<section class="citation-slide d04-citation">
+  <div class="citation-text">
+    BigQuery empfiehlt nested und repeated fields für passende Hierarchien.
+  </div>
+  <svg
+    class="d04-citation-visual"
+    viewBox="0 0 1820 610"
+    aria-label="Normalisierte Tabellen werden als verschachtelte BigQuery-Tabelle gespeichert"
+  >
+    <defs>
+      <marker
+        id="d04-bq-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon class="d04-amber" points="0 0, 12 6, 0 12"></polygon>
+      </marker>
+    </defs>
+    <g transform="translate(70 80)">
+      <rect
+        class="d04-box-blue"
+        x="0"
+        y="0"
+        width="300"
+        height="120"
+        rx="10"
+      ></rect>
+      <text class="d04-text" x="150" y="72" text-anchor="middle">
+        departments
+      </text>
+      <rect
+        class="d04-box-blue"
+        x="350"
+        y="0"
+        width="300"
+        height="120"
+        rx="10"
+      ></rect>
+      <text class="d04-text" x="500" y="72" text-anchor="middle">
+        lecturers
+      </text>
+      <rect
+        class="d04-box-blue"
+        x="175"
+        y="170"
+        width="300"
+        height="120"
+        rx="10"
+      ></rect>
+      <text class="d04-text" x="325" y="242" text-anchor="middle">courses</text>
+      <rect
+        class="d04-box-blue"
+        x="0"
+        y="340"
+        width="300"
+        height="120"
+        rx="10"
+      ></rect>
+      <text class="d04-text" x="150" y="412" text-anchor="middle">
+        students
+      </text>
+      <rect
+        class="d04-box-blue"
+        x="350"
+        y="340"
+        width="300"
+        height="120"
+        rx="10"
+      ></rect>
+      <text class="d04-text" x="500" y="412" text-anchor="middle">
+        enrollments
+      </text>
+      <path
+        class="d04-line-blue"
+        d="M300 60 H350 M325 120 V170 M175 230 H90 V340 M475 230 H560 V340"
+      ></path>
+      <path
+        class="d04-line-amber"
+        d="M700 230 H950"
+        marker-end="url(#d04-bq-arrow)"
+      ></path>
+      <text class="d04-label d04-amber" x="825" y="190" text-anchor="middle">
+        weniger wiederholte JOINs
+      </text>
+      <g transform="translate(1010 0)">
+        <rect class="d04-box-amber" width="560" height="460" rx="14"></rect>
+        <text class="d04-label d04-amber" x="280" y="55" text-anchor="middle">
+          BIGQUERY
+        </text>
+        <text class="d04-text" x="45" y="130">course_id</text>
+        <text class="d04-text" x="45" y="195">title</text>
+        <text class="d04-text d04-amber" x="45" y="270">
+          ARRAY&lt;STRUCT&lt;...
+        </text>
+        <text class="d04-text d04-amber" x="95" y="330">student_id, grade</text>
+        <text class="d04-text d04-amber" x="45" y="390">...&gt;&gt;</text>
+      </g>
+    </g>
+  </svg>
+  <div class="d04-source">
+    https://docs.cloud.google.com/bigquery/docs/best-practices-performance-nested<br />
+    Abruf: 2026-08-23
+  </div>
+  <aside class="notes">
+    BigQuery dokumentiert Denormalisierung als mögliche Leseoptimierung. Nested
+    und repeated fields halten hierarchische Daten zusammen. Das ist eine
+    bewusste Speicherform, keine zufällige flache Eingangstabelle.
+  </aside>
+</section>
