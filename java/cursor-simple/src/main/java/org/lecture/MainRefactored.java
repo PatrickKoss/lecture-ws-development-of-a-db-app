@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Scanner;
 
-public class Main {
+public class MainRefactored {
     private static final String DATABASE_URL = "jdbc:sqlite:students.db";
     private static final Scanner SCANNER = new Scanner(System.in);
 
@@ -112,15 +112,7 @@ public class Main {
             boolean foundStudent = false;
             while (resultSet.next()) {
                 foundStudent = true;
-                Student student = new Student(
-                        resultSet.getInt("id"),
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
-                        resultSet.getString("email"),
-                        resultSet.getString("student_number"),
-                        LocalDate.parse(resultSet.getString("enrollment_date"))
-                );
-                System.out.println(student);
+                System.out.println(rowToStudent(resultSet));
             }
 
             if (!foundStudent) {
@@ -146,16 +138,8 @@ public class Main {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    Student student = new Student(
-                            resultSet.getInt("id"),
-                            resultSet.getString("first_name"),
-                            resultSet.getString("last_name"),
-                            resultSet.getString("email"),
-                            resultSet.getString("student_number"),
-                            LocalDate.parse(resultSet.getString("enrollment_date"))
-                    );
                     System.out.println("Student found:");
-                    System.out.println(student);
+                    System.out.println(rowToStudent(resultSet));
                 } else {
                     System.out.println("No student found with ID: " + id);
                 }
@@ -163,6 +147,17 @@ public class Main {
         } catch (SQLException exception) {
             System.err.println("Error reading student: " + exception.getMessage());
         }
+    }
+
+    private static Student rowToStudent(ResultSet resultSet) throws SQLException {
+        return new Student(
+                resultSet.getInt("id"),
+                resultSet.getString("first_name"),
+                resultSet.getString("last_name"),
+                resultSet.getString("email"),
+                resultSet.getString("student_number"),
+                LocalDate.parse(resultSet.getString("enrollment_date"))
+        );
     }
 
     private static void updateStudent() {

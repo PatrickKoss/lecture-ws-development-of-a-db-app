@@ -34,9 +34,10 @@ tasks.named<JavaExec>("run") {
     standardInput = System.`in`
 }
 
-tasks.register<JavaExec>("test-crud") {
+tasks.register<JavaExec>("runRefactored") {
     group = "application"
-    description = "Run CRUD test"
+    description = "Run the version with a rowToStudent helper"
     classpath = sourceSets["main"].runtimeClasspath
-    mainClass.set("org.lecture.TestMain")
+    mainClass.set("org.lecture.MainRefactored")
+    standardInput = System.`in`
 }
