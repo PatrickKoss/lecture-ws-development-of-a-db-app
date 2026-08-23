@@ -1,0 +1,1312 @@
+:root {
+  --color-bg: #0d1117;
+  --color-blue: #00bfff;
+  --color-amber: #ffa500;
+  --color-red: #ff4444;
+  --color-white: #ffffff;
+  --color-grey: #3a3f47;
+  --color-grey-dim: #1a1f27;
+  --color-green: #4ade80;
+
+  /* "Terminal-Mono" redesign tokens (additive — old tokens stay). */
+  --color-bg-deep: #060a12;
+  --color-line: #1f2a3a;
+  --color-line-bright: #2a3a55;
+  --color-text-dim: #8a96a8;
+  --color-text-mid: #b8c1cf;
+  --font-mono:
+    "JetBrains Mono", "Fira Code", ui-monospace, "SF Mono", Menlo, monospace;
+  --frame-gutter: 2.4rem;
+  --frame-tick: 0.95rem;
+}
+
+html,
+body {
+  background: var(--color-bg);
+}
+
+.reveal {
+  background: var(--color-bg);
+  color: var(--color-white);
+  font-family: var(--font-mono);
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal section {
+  text-align: left;
+  height: 100%;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4 {
+  color: var(--color-white);
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+
+.reveal .slide-number {
+  color: var(--color-grey);
+}
+
+.slide-title {
+  position: absolute;
+  top: var(--frame-gutter);
+  left: var(--frame-gutter);
+  color: var(--color-white);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 2.4rem;
+  letter-spacing: -0.005em;
+  line-height: 1.15;
+  z-index: 5;
+}
+
+.slide-caption {
+  position: absolute;
+  bottom: 2.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color-white);
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.slide-caption.amber {
+  color: var(--color-amber);
+}
+.slide-caption.red {
+  color: var(--color-red);
+}
+.slide-caption.bold {
+  font-weight: 700;
+}
+
+/* Top-right context tag — mono uppercase phrase mirroring .section-tag. */
+.slide-context {
+  position: absolute;
+  top: var(--frame-gutter);
+  right: var(--frame-gutter);
+  font-family: var(--font-mono);
+  font-size: var(--frame-tick);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-amber);
+  z-index: 6;
+}
+.slide-context.blue {
+  color: var(--color-blue);
+}
+.slide-context.red {
+  color: var(--color-red);
+}
+.slide-context.green {
+  color: var(--color-green);
+}
+.slide-context.grey {
+  color: var(--color-text-dim);
+}
+
+.slide-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+
+.depth-1 {
+  opacity: 1;
+}
+.depth-2 {
+  opacity: 0.85;
+}
+.depth-3 {
+  opacity: 0.7;
+}
+.depth-4 {
+  opacity: 0.55;
+}
+.depth-5 {
+  opacity: 0.4;
+}
+.depth-6 {
+  opacity: 0.28;
+}
+
+.reveal .fragment.fade-in {
+  transition: opacity 600ms ease-in;
+}
+
+@keyframes sine-wave {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.wave {
+  stroke: var(--color-blue);
+  stroke-width: 3;
+  fill: none;
+  transform-origin: center;
+  animation: sine-wave 4s ease-in-out infinite;
+}
+
+.iceberg-tip {
+  fill: #cfd8dc;
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+
+.iceberg-submerged {
+  fill: #0a1218;
+  stroke: var(--color-blue);
+  stroke-width: 2;
+  stroke-opacity: 0.35;
+}
+
+.depth-label {
+  fill: var(--color-blue);
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.tip-label {
+  fill: var(--color-white);
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.svg-label {
+  fill: var(--color-white);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.svg-label.blue {
+  fill: var(--color-blue);
+}
+.svg-label.amber {
+  fill: var(--color-amber);
+}
+.svg-label.red {
+  fill: var(--color-red);
+}
+.svg-label.green {
+  fill: var(--color-green);
+}
+.svg-label.grey {
+  fill: var(--color-grey);
+}
+
+.service-box {
+  fill: var(--color-grey-dim);
+  stroke: var(--color-blue);
+  stroke-width: 2;
+  rx: 8;
+}
+.service-box.red {
+  stroke: var(--color-red);
+}
+.service-box.amber {
+  stroke: var(--color-amber);
+}
+.service-box.grey {
+  stroke: var(--color-grey);
+}
+.service-box.white {
+  stroke: var(--color-white);
+}
+
+.arrow-blue {
+  stroke: var(--color-blue);
+  stroke-width: 3;
+  fill: none;
+}
+.arrow-amber {
+  stroke: var(--color-amber);
+  stroke-width: 3;
+  fill: none;
+}
+.arrow-red {
+  stroke: var(--color-red);
+  stroke-width: 3;
+  fill: none;
+}
+.arrow-white {
+  stroke: var(--color-white);
+  stroke-width: 2;
+  fill: none;
+}
+
+.code-box {
+  fill: #050a10;
+  stroke: var(--color-grey);
+  stroke-width: 1;
+  rx: 6;
+}
+
+.code-text {
+  fill: var(--color-blue);
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 16px;
+}
+
+.draw-on-visible {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+}
+
+.fragment.visible .draw-on-visible {
+  animation: draw 900ms ease-out forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes amber-flash {
+  0% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  30% {
+    filter: drop-shadow(0 0 14px var(--color-amber));
+  }
+  100% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+}
+
+.glow-on-entry {
+  fill: var(--color-blue);
+}
+
+.fragment.visible .glow-on-entry {
+  animation: amber-flash 1200ms ease-out;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.pulse {
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-3px);
+  }
+  40% {
+    transform: translateX(3px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+}
+
+.fragment.visible .shake-on-entry {
+  animation: shake 500ms ease-in-out;
+}
+
+/* ---------------------------------------------------------------------------
+ * Chapter slide — large numbered title card that opens each chapter.
+ * Layout: centered, with a huge faded numeral and a punchy title.
+ * ------------------------------------------------------------------------- */
+
+.reveal section.chapter-slide {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 8rem;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.chapter-number {
+  position: absolute;
+  right: 6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 36rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-grey-dim);
+  letter-spacing: -0.04em;
+  user-select: none;
+  z-index: 0;
+}
+
+.chapter-eyebrow {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  color: var(--color-amber);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.chapter-eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 4rem;
+  height: 3px;
+  background: var(--color-amber);
+  vertical-align: middle;
+  margin-right: 1.2rem;
+  transform: translateY(-0.25rem);
+}
+
+.chapter-title-big {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 6rem;
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--color-white);
+  letter-spacing: -0.01em;
+  max-width: 80%;
+  margin: 0;
+}
+
+.chapter-subtitle {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.8rem;
+  font-family: var(--font-mono);
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: var(--color-blue);
+  letter-spacing: 0.01em;
+  max-width: 70%;
+}
+
+/* ---------------------------------------------------------------------------
+ * Citation slide — single punchy pull-quote, centered.
+ * ------------------------------------------------------------------------- */
+
+.reveal section.citation-slide {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 12rem;
+  height: 100%;
+  text-align: center;
+}
+
+.citation-mark {
+  font-family: var(--font-mono);
+  font-size: 10rem;
+  line-height: 0.6;
+  color: var(--color-amber);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.citation-text {
+  font-family: var(--font-mono);
+  font-size: 3.2rem;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.25;
+  color: var(--color-white);
+  max-width: 1400px;
+  letter-spacing: -0.005em;
+}
+
+.citation-source {
+  margin-top: 2.5rem;
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-grey);
+}
+
+/* ---------------------------------------------------------------------------
+ * Section tag — pill at top-left of problem/solution slides, replacing or
+ * complementing the existing .slide-title.
+ * ------------------------------------------------------------------------- */
+
+.section-tag {
+  position: absolute;
+  top: var(--frame-gutter);
+  left: var(--frame-gutter);
+  font-family: var(--font-mono);
+  font-size: var(--frame-tick);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  z-index: 6;
+  color: var(--color-amber);
+}
+.section-tag::before {
+  content: "● ";
+}
+
+.section-tag.problem {
+  color: var(--color-red);
+}
+
+.section-tag.pattern {
+  color: var(--color-green);
+}
+
+.section-tag.pointer {
+  color: var(--color-amber);
+}
+
+/* When a section-tag is present, push the slide-title down so they don't
+ * overlap with the now-inline label. */
+.section-tag + .slide-title,
+.section-tag ~ .slide-title {
+  top: calc(var(--frame-gutter) + 2.2rem);
+}
+
+/* ---------------------------------------------------------------------------
+ * Title slide — opening card for the talk. Centered block with a decorative
+ * SVG background layer.
+ * ------------------------------------------------------------------------- */
+
+.reveal section.title-slide.present {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 6rem;
+  height: 100%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.title-slide .title-bg {
+  z-index: 0;
+  pointer-events: none;
+}
+
+.title-eyebrow {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-amber);
+  margin-bottom: 2.4rem;
+}
+
+.title-main {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 6.4rem;
+  font-weight: 700;
+  line-height: 1.04;
+  color: var(--color-white);
+  letter-spacing: -0.01em;
+}
+
+.title-sub {
+  position: relative;
+  z-index: 1;
+  margin-top: 2.8rem;
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--color-blue);
+  letter-spacing: 0.02em;
+}
+
+/* ===========================================================================
+ * "Terminal-Mono" redesign (additive layer)
+ *
+ * The classes below give every slide a unified frame (top markers, footer
+ * row) and a reusable card aesthetic. They compose with the legacy
+ * .slide-title / .section-tag / .slide-caption rules above — existing slides
+ * keep working until they're swept.
+ * =========================================================================*/
+
+/* Force JetBrains Mono on SVG text too. Inline font-family declarations in
+ * deck files override this, but most SVG <text> elements rely on .reveal's
+ * inherited font and a few have hard-coded "Inter". This rule unifies the
+ * baseline — inline overrides still win where intentional. */
+.reveal svg text,
+.reveal svg tspan {
+  font-family: var(--font-mono);
+}
+
+/* ----- Constellation background ------------------------------------------ */
+/* A faint dot-and-line texture applied behind every slide as a unifying
+ * surface, matching the references. The SVG is in assets/frame.svg.
+ *
+ * Reveal already sets `position: absolute` on every <section>, so we just
+ * attach a ::before pseudo without changing position. Don't add
+ * `position: relative` here — it breaks Reveal's stacking. */
+.reveal .slides section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("frame.svg");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+}
+/* Slides can opt out by adding .no-frame-bg if they paint their own
+ * background art. The title slide is left in (its decorative SVG layers on
+ * top of the constellation at z-index 0). */
+.reveal .slides section.no-frame-bg::before {
+  display: none;
+}
+/* Make sure slide content sits above the background. We only raise z-index;
+ * we do NOT override `position`, because many existing elements (.chapter-number,
+ * .slide-title, .section-tag, .slide-caption, .slide-svg) rely on
+ * `position: absolute` and would collapse otherwise. */
+.reveal .slides section > * {
+  z-index: 1;
+}
+
+/* ----- Color helpers ----------------------------------------------------- */
+.t-white {
+  color: var(--color-white);
+}
+.t-blue {
+  color: var(--color-blue);
+}
+.t-amber {
+  color: var(--color-amber);
+}
+.t-red {
+  color: var(--color-red);
+}
+.t-green {
+  color: var(--color-green);
+}
+.t-grey {
+  color: var(--color-text-dim);
+}
+.t-mid {
+  color: var(--color-text-mid);
+}
+
+/* ----- Slide frame chrome ------------------------------------------------ */
+/* Used on every non-title content slide. Provides the top-left section
+ * marker, top-right context tag, and a footer row with section name + phrase
+ * + page count, matching the references. */
+.reveal section.slide-frame {
+  display: flex !important;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--frame-gutter);
+  box-sizing: border-box;
+}
+
+.slide-frame__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  font-family: var(--font-mono);
+  font-size: var(--frame-tick);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  margin-bottom: 0.4rem;
+}
+
+.slide-frame__marker {
+  color: var(--color-amber);
+}
+.slide-frame__marker::before {
+  content: "● ";
+  color: var(--color-amber);
+  margin-right: 0.4em;
+}
+.slide-frame__marker--red {
+  color: var(--color-red);
+}
+.slide-frame__marker--red::before {
+  color: var(--color-red);
+}
+.slide-frame__marker--green {
+  color: var(--color-green);
+}
+.slide-frame__marker--green::before {
+  color: var(--color-green);
+}
+.slide-frame__marker--blue {
+  color: var(--color-blue);
+}
+.slide-frame__marker--blue::before {
+  color: var(--color-blue);
+}
+.slide-frame__marker--amber {
+  color: var(--color-amber);
+}
+.slide-frame__marker--grey {
+  color: var(--color-text-dim);
+}
+.slide-frame__marker--grey::before {
+  color: var(--color-text-dim);
+}
+
+.slide-frame__context {
+  color: var(--color-amber);
+}
+.slide-frame__context--blue {
+  color: var(--color-blue);
+}
+.slide-frame__context--red {
+  color: var(--color-red);
+}
+.slide-frame__context--green {
+  color: var(--color-green);
+}
+.slide-frame__context--grey {
+  color: var(--color-text-dim);
+}
+
+.slide-frame__title {
+  font-family: var(--font-mono);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--color-white);
+  letter-spacing: -0.005em;
+  line-height: 1.1;
+  margin: 0.4rem 0 0.3rem 0;
+}
+
+.slide-frame__subtitle {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--color-text-mid);
+  letter-spacing: 0;
+  margin: 0 0 1.2rem 0;
+}
+
+.slide-frame__body {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+}
+
+.slide-frame__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  font-family: var(--font-mono);
+  font-size: var(--frame-tick);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  margin-top: 0.4rem;
+}
+.slide-frame__footer-left {
+  color: var(--color-text-dim);
+}
+.slide-frame__footer-mid {
+  color: var(--color-amber);
+  flex: 1;
+  text-align: center;
+}
+.slide-frame__footer-mid::before {
+  content: "── ";
+  color: var(--color-text-dim);
+  letter-spacing: 0;
+}
+.slide-frame__footer-mid::after {
+  content: " ──";
+  color: var(--color-text-dim);
+  letter-spacing: 0;
+}
+.slide-frame__footer-right {
+  color: var(--color-text-dim);
+}
+
+/* ----- Cards ------------------------------------------------------------- */
+/* HTML cards used for content boxes (replacing pure-SVG rect boxes where
+ * the box is *content*, not a diagram node). */
+.card {
+  position: relative;
+  padding: 1.4rem 1.6rem;
+  border: 1px solid var(--color-line-bright);
+  border-radius: 4px;
+  background: rgba(13, 17, 23, 0.55);
+  font-family: var(--font-mono);
+  color: var(--color-text-mid);
+}
+
+.card__eyebrow {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-amber);
+  text-align: center;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--color-line);
+}
+.card__eyebrow::before {
+  content: "● ";
+}
+
+.card__title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-white);
+  margin: 0 0 0.6rem 0;
+  line-height: 1.15;
+}
+
+.card__body {
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text-mid);
+}
+
+.card__list {
+  list-style: none;
+  padding: 0;
+  margin: 0.8rem 0 0 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--color-text-mid);
+}
+.card__list li {
+  padding: 0.05rem 0;
+}
+.card__list li.pro::before {
+  content: "+ ";
+  color: var(--color-green);
+}
+.card__list li.con::before {
+  content: "- ";
+  color: var(--color-red);
+}
+.card__list li.neu::before {
+  content: "· ";
+  color: var(--color-text-dim);
+}
+
+.card__footer {
+  margin-top: 0.9rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--color-line);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--color-text-dim);
+}
+
+/* Accent variants — border + eyebrow color. */
+.card--red {
+  border-color: rgba(255, 68, 68, 0.55);
+}
+.card--red .card__eyebrow {
+  color: var(--color-red);
+}
+.card--amber {
+  border-color: rgba(255, 165, 0, 0.55);
+}
+.card--amber .card__eyebrow {
+  color: var(--color-amber);
+}
+.card--blue {
+  border-color: rgba(0, 191, 255, 0.55);
+}
+.card--blue .card__eyebrow {
+  color: var(--color-blue);
+}
+.card--green {
+  border-color: rgba(74, 222, 128, 0.55);
+}
+.card--green .card__eyebrow {
+  color: var(--color-green);
+}
+.card--grey {
+  border-color: var(--color-line-bright);
+}
+.card--grey .card__eyebrow {
+  color: var(--color-text-dim);
+}
+
+/* Bracketed-corner variant — small L-shapes at TL/BR. */
+.card--bracketed::before,
+.card--bracketed::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: currentColor;
+  pointer-events: none;
+}
+.card--bracketed::before {
+  top: -2px;
+  left: -2px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+.card--bracketed::after {
+  bottom: -2px;
+  right: -2px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+.card--bracketed.card--red {
+  color: var(--color-red);
+}
+.card--bracketed.card--amber {
+  color: var(--color-amber);
+}
+.card--bracketed.card--blue {
+  color: var(--color-blue);
+}
+.card--bracketed.card--green {
+  color: var(--color-green);
+}
+.card--bracketed.card--grey {
+  color: var(--color-text-dim);
+}
+
+/* Dashed-corner variant — like bracketed but the *border* is dashed and the
+ * brackets are omitted. Useful as a secondary card style. */
+.card--dashed {
+  border-style: dashed;
+}
+
+/* ----- Bracketed chip (title-slide eyebrow, decision pills) -------------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid var(--color-amber);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-amber);
+  background: rgba(255, 165, 0, 0.04);
+}
+.chip--blue {
+  border-color: var(--color-blue);
+  color: var(--color-blue);
+  background: rgba(0, 191, 255, 0.05);
+}
+.chip--red {
+  border-color: var(--color-red);
+  color: var(--color-red);
+  background: rgba(255, 68, 68, 0.05);
+}
+.chip--green {
+  border-color: var(--color-green);
+  color: var(--color-green);
+  background: rgba(74, 222, 128, 0.05);
+}
+.chip--grey {
+  border-color: var(--color-line-bright);
+  color: var(--color-text-dim);
+  background: transparent;
+}
+
+/* ----- Title-slide overrides for the redesigned opening ----------------- */
+.title-slide.terminal {
+  align-items: flex-start !important;
+  text-align: left !important;
+  padding: var(--frame-gutter) !important;
+}
+.title-slide.terminal .title-main {
+  font-family: var(--font-mono);
+  font-size: 7rem;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  text-align: left;
+  margin: 0;
+}
+.title-slide.terminal .title-eyebrow,
+.title-slide.terminal .title-sub {
+  text-align: left;
+}
+.title-slide.terminal .title-sub::before {
+  content: "→ ";
+  color: var(--color-amber);
+}
+.title-slide.terminal .title-sub {
+  color: var(--color-text-mid);
+  font-weight: 400;
+  border-top: 1px solid var(--color-line-bright);
+  padding-top: 1rem;
+  margin-top: 1.4rem;
+  max-width: 70%;
+}
+
+/* ----- Chapter-slide redesign overrides --------------------------------- */
+/* The legacy .chapter-slide is preserved above. Add .chapter-slide.terminal
+ * (used in concert with .slide-frame) to opt into the hollow-numeral +
+ * bracketed-eyebrow look. */
+.reveal section.chapter-slide.terminal {
+  align-items: stretch;
+  padding: var(--frame-gutter);
+}
+.chapter-slide.terminal .slide-frame__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+.chapter-slide.terminal .chapter-number {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-line-bright);
+  font-family: var(--font-mono);
+  font-size: 30rem;
+  right: 4rem;
+  letter-spacing: -0.05em;
+}
+.chapter-slide.terminal .chapter-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1.1rem;
+  border: 1px solid var(--color-amber);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  letter-spacing: 0.22em;
+  background: transparent;
+  margin-bottom: 1.8rem;
+  width: fit-content;
+}
+.chapter-slide.terminal .chapter-eyebrow::before {
+  content: "● ";
+  background: none;
+  width: auto;
+  height: auto;
+  margin-right: 0.4em;
+  transform: none;
+  display: inline;
+}
+.chapter-slide.terminal .chapter-title-big {
+  font-family: var(--font-mono);
+  font-size: 5.5rem;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  max-width: 60%;
+}
+.chapter-slide.terminal .chapter-subtitle {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  color: var(--color-blue);
+  border-top: 1px solid var(--color-line-bright);
+  padding-top: 1rem;
+  margin-top: 1.4rem;
+  max-width: 60%;
+  font-weight: 400;
+}
+
+/* Course layouts */
+
+.external-load-error {
+  margin: 5rem;
+  padding: 2rem;
+  border: 2px solid var(--color-red);
+  color: var(--color-red);
+  background: var(--color-bg-deep);
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  line-height: 1.4;
+}
+
+.reveal section.code-slide {
+  height: 100%;
+  padding: var(--frame-gutter);
+  box-sizing: border-box;
+}
+
+.code-slide .slide-title {
+  top: var(--frame-gutter);
+  left: var(--frame-gutter);
+}
+
+.code-slide__content {
+  position: absolute;
+  top: 8.2rem;
+  right: var(--frame-gutter);
+  bottom: 3.8rem;
+  left: var(--frame-gutter);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 25rem);
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.code-slide__content--wide {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.reveal .code-slide pre {
+  width: 100%;
+  max-height: calc(22 * 1.4em);
+  margin: 0;
+  border: 1px solid var(--color-line-bright);
+  border-radius: 4px;
+  box-shadow: none;
+  background: var(--color-bg-deep);
+  font-size: 27px;
+  line-height: 1.4;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.reveal pre code,
+.reveal code {
+  font-variant-ligatures: none;
+}
+
+.reveal .code-slide pre code {
+  max-height: none;
+  padding: 1.25rem 1.4rem;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  line-height: inherit;
+}
+
+.reveal .code-slide table.hljs-ln {
+  width: 100%;
+  margin: 0;
+  border: 0;
+}
+
+.reveal .code-slide table.hljs-ln td {
+  border: 0;
+}
+
+.reveal .code-slide .hljs-ln-numbers {
+  width: 2.5rem;
+  padding-right: 1rem;
+  color: var(--color-text-dim);
+  text-align: right;
+}
+
+.code-slide__notes {
+  padding: 1.4rem 0 1.4rem 1.6rem;
+  border-left: 2px solid var(--color-amber);
+  color: var(--color-text-mid);
+  font-family: var(--font-mono);
+  font-size: 28px;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+.code-slide__notes h3 {
+  margin: 0 0 1rem;
+  color: var(--color-amber);
+  font-size: 24px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.code-slide__notes p {
+  margin: 0 0 1.2rem;
+}
+
+.reveal section.exercise-slide {
+  display: flex !important;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--frame-gutter);
+  box-sizing: border-box;
+}
+
+.exercise-slide__tag {
+  position: absolute;
+  top: var(--frame-gutter);
+  left: var(--frame-gutter);
+  color: var(--color-amber);
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.exercise-slide__tag::before {
+  content: "● ";
+}
+
+.exercise-slide__time {
+  position: absolute;
+  top: var(--frame-gutter);
+  right: var(--frame-gutter);
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--color-amber);
+  border-radius: 4px;
+  color: var(--color-amber);
+  background: var(--color-bg-deep);
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.exercise-slide__task {
+  max-width: 1500px;
+  margin: 10rem 5rem 2rem;
+  color: var(--color-white);
+  font-family: var(--font-mono);
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.exercise-slide__deliverable {
+  margin: auto 5rem 2rem;
+  padding: 1.5rem 1.8rem;
+  border: 1px solid var(--color-blue);
+  border-radius: 4px;
+  color: var(--color-text-mid);
+  background: var(--color-bg-deep);
+  font-family: var(--font-mono);
+  font-size: 1.35rem;
+  line-height: 1.4;
+}
+
+.exercise-slide__deliverable strong {
+  color: var(--color-blue);
+}
+
+.reveal section.lead-question {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 8rem 10rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.lead-question__mark {
+  position: absolute;
+  top: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color-amber);
+  font-family: var(--font-mono);
+  font-size: 7rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.lead-question__text {
+  max-width: 1450px;
+  margin: 0;
+  color: var(--color-white);
+  font-family: var(--font-mono);
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.redline {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.chapter-slide .redline {
+  position: absolute;
+  right: 8rem;
+  bottom: 3.5rem;
+  left: 8rem;
+  width: calc(100% - 16rem);
+  height: 18rem;
+}
+
+.redline__line {
+  fill: none;
+  stroke: var(--color-grey);
+  stroke-width: 4;
+}
+
+.redline__arrow {
+  fill: var(--color-grey);
+}
+
+.redline__step rect {
+  fill: var(--color-grey-dim);
+  stroke: var(--color-grey);
+  stroke-width: 2;
+}
+
+.redline__step text {
+  fill: var(--color-text-dim);
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+.redline__step--active rect {
+  fill: var(--color-bg-deep);
+  stroke: var(--color-amber);
+  stroke-width: 4;
+}
+
+.redline__step--active text {
+  fill: var(--color-amber);
+}

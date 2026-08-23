@@ -1,0 +1,5 @@
+node_modules/
+debug-screenshots/
+*.pdf
+.server*.pid
+.server*.log

@@ -1,0 +1,20 @@
+{
+  "name": "database-application-course-slides",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Reveal.js slides for Entwicklung einer Datenbankanwendung",
+  "scripts": {
+    "dev": "http-server -p 8000 -c-1 -o /index.html",
+    "start": "npm run dev",
+    "serve": "http-server -p 8000 -c-1 -s",
+    "lint": "prettier --check \"**/*.{html,css,js,mjs,json,md}\"",
+    "format": "prettier --write \"**/*.{html,css,js,mjs,json,md}\"",
+    "debug": "node scripts/debug-slides.mjs"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "playwright": "^1.49.0",
+    "prettier": "^3.4.2",
+    "reveal.js": "^5.1.0"
+  }
+}
