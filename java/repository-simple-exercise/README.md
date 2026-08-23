@@ -1,261 +1,75 @@
-# Student Management System - Repository Pattern Exercise
+# Ex 6: JDBC und Repository
 
-## Overview
+In Deck 07 greift ihr mit JDBC aus Java auf die Tabelle `students` zu. In Deck 08 bündelt ihr diesen Datenbankcode in einem Repository. Dieses Projekt ist das Skeleton für beide Schritte.
 
-This exercise demonstrates the Repository pattern in Java using SQLite database interactions. You will implement a complete CRUD (Create, Read, Update, Delete) system for managing student records with proper database operations using prepared statements.
+## Teil 1: StudentRepositoryImpl
 
-## Learning Objectives
+Zeitbox: 45 Minuten
 
-After completing this exercise, you will understand:
+Gegeben sind das Model `Student`, das Interface `StudentRepository`, eine CLI mit vorbereiteten CRUD-Menüpunkten und das unvollständige `StudentRepositoryImpl`. Die Datenbankverbindung ist als `jdbc:sqlite:students.db` vorgegeben.
 
-- **Repository Pattern**: Separation of business logic from data access logic
-- **Database Operations**: CRUD operations using JDBC and SQLite
-- **Prepared Statements**: Secure database interactions preventing SQL injection
-- **Resource Management**: Proper use of try-with-resources for database connections
-- **Error Handling**: Managing SQLExceptions and constraint violations
-- **CLI Development**: Building interactive command-line applications
-
-## Exercise Description
-
-You are provided with a skeleton Student Management System that includes:
-
-- ✅ **Student Model**: Complete entity class with all required fields
-- ✅ **CLI Interface**: Full command-line interface with menu system
-- ✅ **Repository Interface**: Complete interface defining all required operations
-- ❌ **Repository Implementation**: **THIS IS WHAT YOU NEED TO IMPLEMENT**
-
-### Student Entity
-
-The `Student` class contains the following fields:
-
-- `id` (int) - Auto-generated primary key
-- `firstName` (String) - Student's first name
-- `lastName` (String) - Student's last name
-- `email` (String) - Unique email address
-- `studentNumber` (String) - Unique student identifier
-- `enrollmentDate` (LocalDate) - Date of enrollment
-
-### Database Schema
-
-You need to create a SQLite table with the following structure:
+Die Tabelle muss genau diesem Schema aus `java/sql/university/schema.sql` entsprechen:
 
 ```sql
 CREATE TABLE IF NOT EXISTS students (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL,
-    student_number TEXT UNIQUE NOT NULL,
-    enrollment_date DATE NOT NULL
+    email TEXT NOT NULL UNIQUE,
+    student_number TEXT NOT NULL UNIQUE,
+    enrollment_date TEXT NOT NULL
+        CHECK (
+            date(enrollment_date) IS NOT NULL
+            AND enrollment_date = date(enrollment_date)
+        )
 );
 ```
 
-## Your Task
+### Was ihr implementiert
 
-### 1. Implement StudentRepositoryImpl
+- `initializeDatabase()` legt die Tabelle `students` an.
+- `createStudent(Student)` speichert einen Datensatz und übernimmt die erzeugte ID.
+- `findStudentById(int)` liefert den Datensatz oder `Optional.empty()`.
+- `findAllStudents()` liefert alle Datensätze nach ID sortiert.
+- `updateStudent(Student)` ändert einen vorhandenen Datensatz und meldet den Erfolg.
+- `deleteStudent(int)` löscht einen Datensatz und meldet den Erfolg.
+- `studentExists(int)` prüft, ob eine ID vorhanden ist.
 
-Complete the implementation of `StudentRepositoryImpl.java` by implementing all methods defined in the `StudentRepository` interface:
+Verwendet für alle Eingaben ein `PreparedStatement`. Schließt `Connection`, `PreparedStatement` und `ResultSet` mit `try-with-resources`. Behandelt `SQLException` sowie doppelte E-Mail-Adressen und Studierendennummern sinnvoll. Aktiviert danach in `Main.java` die Repository-Initialisierung und die vorbereiteten TODO-Blöcke.
 
-#### Required Methods
-
-1. **`initializeDatabase()`**
-
-   - Create database connection to `students.db`
-   - Create the students table if it doesn't exist
-   - Handle any SQLExceptions appropriately
-
-2. **`createStudent(Student student)`**
-
-   - Insert new student into database using prepared statement
-   - Return the student with generated ID
-   - Handle unique constraint violations (email, student number)
-
-3. **`findStudentById(int id)`**
-
-   - Query student by ID using prepared statement
-   - Return `Optional<Student>` (empty if not found)
-
-4. **`findAllStudents()`**
-
-   - Query all students ordered by ID
-   - Return `List<Student>` (empty list if none found)
-
-5. **`updateStudent(Student student)`**
-
-   - Update existing student using prepared statement
-   - Return boolean indicating success
-   - Handle unique constraint violations
-
-6. **`deleteStudent(int id)`**
-
-   - Delete student by ID using prepared statement
-   - Return boolean indicating success
-
-7. **`studentExists(int id)`**
-   - Check if student exists with given ID
-   - Return boolean result
-
-### 2. Enable CLI Functionality
-
-Once you've implemented the repository:
-
-1. **Uncomment the repository initialization** in `Main.java`:
-
-   ```java
-   studentRepository = new StudentRepositoryImpl();
-   studentRepository.initializeDatabase();
-   ```
-
-2. **Uncomment all the TODO blocks** in the CLI methods to enable full functionality
-
-## Implementation Requirements
-
-### ⚠️ Important Guidelines
-
-1. **Use Prepared Statements**: All database operations MUST use prepared statements for security
-2. **Resource Management**: Use try-with-resources for all database connections
-3. **Error Handling**: Catch and handle SQLExceptions appropriately
-4. **Constraint Handling**: Handle unique constraint violations gracefully
-5. **Null Safety**: Handle null inputs and edge cases
-6. **Database URL**: Use `"jdbc:sqlite:students.db"` as defined in the constant
-
-### Example Implementation Pattern
-
-```java
-@Override
-public Student createStudent(Student student) {
-    String insertSQL = "INSERT INTO students (first_name, last_name, email, student_number, enrollment_date) VALUES (?, ?, ?, ?, ?)";
-
-    try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-         PreparedStatement pstmt = conn.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS)) {
-
-        pstmt.setString(1, student.getFirstName());
-        pstmt.setString(2, student.getLastName());
-        pstmt.setString(3, student.getEmail());
-        pstmt.setString(4, student.getStudentNumber());
-        pstmt.setDate(5, Date.valueOf(student.getEnrollmentDate()));
-
-        int rowsAffected = pstmt.executeUpdate();
-        if (rowsAffected > 0) {
-            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    student.setId(generatedKeys.getInt(1));
-                    return student;
-                }
-            }
-        }
-        return null;
-
-    } catch (SQLException e) {
-        if (e.getMessage().contains("UNIQUE constraint failed")) {
-            // Handle unique constraint violation
-            System.err.println("Error: Student with this email or student number already exists.");
-        } else {
-            System.err.println("Error creating student: " + e.getMessage());
-        }
-        return null;
-    }
-}
-```
-
-## Project Setup
-
-### Prerequisites
-
-- Java 21 or higher
-- Gradle (wrapper included)
-
-### Getting Started
-
-1. **Clone/Navigate to the exercise directory**:
-
-   ```bash
-   cd repository-simple-exercise
-   ```
-
-2. **Build the project**:
-
-   ```bash
-   ./gradlew build
-   ```
-
-3. **Run the application**:
-
-   ```bash
-   ./gradlew run
-   ```
-
-### Testing Your Implementation
-
-1. **Manual Testing**: Use the CLI to test all CRUD operations
-2. **Database Verification**: Check that `students.db` is created and contains your data
-3. **Error Testing**: Test edge cases like duplicate emails/student numbers
-
-### Example Usage
+### Starten und prüfen
 
 ```bash
-=== Student Management System ===
-Initializing database...
-Database initialized successfully.
-
---- Student Management Menu ---
-1. Create Student
-2. List All Students
-3. Find Student by ID
-4. Update Student
-5. Delete Student
-6. Exit
-
-Enter your choice: 1
-
---- Create New Student ---
-Enter first name: John
-Enter last name: Doe
-Enter email: john.doe@university.edu
-Enter student number: STU001
-Enter enrollment date (YYYY-MM-DD): 2024-01-15
-Student created successfully!
-ID: 1 | Name: John Doe | Email: john.doe@university.edu | Student#: STU001 | Enrolled: 2024-01-15
+cd java/repository-simple-exercise
+./gradlew build
+./verify-exercise.sh
+./gradlew run
 ```
 
-## Success Criteria
+Prüft über die CLI Create, Read, Update und Delete. Legt außerdem zwei Datensätze mit derselben E-Mail-Adresse oder Studierendennummer an und kontrolliert die Fehlermeldung.
 
-Your implementation is complete when:
+## Teil 2: eure eigene Domäne
 
-- ✅ All repository methods are implemented without throwing `UnsupportedOperationException`
-- ✅ Database table is created successfully
-- ✅ All CRUD operations work through the CLI
-- ✅ Unique constraints are properly handled
-- ✅ Prepared statements are used for all database operations
-- ✅ Resources are properly managed (no connection leaks)
-- ✅ Error handling provides meaningful feedback to users
+Zeitbox: 30 Minuten
 
-## Common Pitfalls to Avoid
+Wählt eine Tabelle aus der Domäne eurer Gruppe. Die konkrete Entität und ihre Felder stehen in `exercises/<domain>/04-jdbc.md`.
 
-1. **SQL Injection**: Don't concatenate user input into SQL strings
-2. **Resource Leaks**: Always use try-with-resources for connections
-3. **Constraint Violations**: Handle unique constraint failures gracefully
-4. **Null Handling**: Check for null inputs and database results
-5. **Date Conversion**: Properly convert between `LocalDate` and `java.sql.Date`
+- Legt die Tabelle beim Start an.
+- Erstellt ein eigenes Model und ein Repository-Interface.
+- Implementiert das Repository mit `PreparedStatement` und `try-with-resources`.
+- Ergänzt zwei CLI-Menüpunkte, einen zum Anlegen und einen zum Anzeigen der Datensätze.
+- Testet beide Menüpunkte mit einer gültigen und einer fehlerhaften Eingabe.
 
-## Advanced Challenges (Optional)
+## Häufige Fehler
 
-Once you've completed the basic implementation, try these enhancements:
+- Eingaben werden in SQL-Strings eingesetzt, statt Parameter zu verwenden.
+- Eine JDBC-Ressource bleibt außerhalb von `try-with-resources` offen.
+- `LocalDate` wird nicht als ISO-Datum `YYYY-MM-DD` gespeichert oder gelesen.
+- Leere Abfragen und verletzte `UNIQUE`-Constraints führen zu unklaren Fehlern.
+- Die CLI-TODOs bleiben auskommentiert, obwohl das Repository fertig ist.
 
-1. **Search Functionality**: Add methods to search students by name or email
-2. **Data Validation**: Add input validation (email format, date ranges)
-3. **Batch Operations**: Implement methods to create/update multiple students
-4. **Connection Pooling**: Implement basic connection pooling
-5. **Transactions**: Add transaction support for multi-operation scenarios
+## Optionale Erweiterungen
 
-## Architecture Benefits
-
-This exercise demonstrates the Repository pattern benefits:
-
-- **Separation of Concerns**: Business logic separated from data access
-- **Testability**: Repository can be mocked for unit testing
-- **Maintainability**: Database changes isolated to repository layer
-- **Flexibility**: Easy to switch database implementations
-- **Reusability**: Repository can be used by multiple services
-
-Good luck with your implementation! 🚀
+- Ergänzt eine Suche nach Name oder E-Mail-Adresse.
+- Validiert E-Mail-Adressen und Datumswerte vor dem Speichern.
+- Fasst mehrere Schreiboperationen in einer Transaktion zusammen.
