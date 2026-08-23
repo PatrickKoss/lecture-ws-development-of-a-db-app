@@ -1,0 +1,1674 @@
+<style>
+  .d10-svg text,
+  .d10-svg tspan {
+    font-family: var(--font-mono);
+  }
+
+  .d10-svg .d10-body {
+    fill: var(--color-white);
+    font-size: 30px;
+  }
+
+  .d10-svg .d10-label {
+    fill: var(--color-text-mid);
+    font-size: 26px;
+  }
+
+  .d10-svg .d10-small {
+    fill: var(--color-text-dim);
+    font-size: 24px;
+  }
+
+  .d10-svg .d10-blue {
+    fill: var(--color-blue);
+  }
+
+  .d10-svg .d10-amber {
+    fill: var(--color-amber);
+  }
+
+  .d10-svg .d10-red {
+    fill: var(--color-red);
+  }
+
+  .d10-svg .d10-green {
+    fill: var(--color-green);
+  }
+
+  .d10-panel {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-line-bright);
+    stroke-width: 2;
+  }
+
+  .d10-panel-blue {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+  }
+
+  .d10-panel-amber {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-amber);
+    stroke-width: 3;
+  }
+
+  .d10-panel-red {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-red);
+    stroke-width: 3;
+  }
+
+  .d10-panel-green {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-green);
+    stroke-width: 3;
+  }
+
+  .d10-content-svg {
+    position: absolute;
+    inset: 8.5rem 2.4rem 4.8rem;
+    width: calc(100% - 4.8rem);
+    height: calc(100% - 13.3rem);
+  }
+
+  .d10-source {
+    color: var(--color-text-dim);
+    font-size: 0.82rem;
+  }
+
+  .d10-lead-answer {
+    position: absolute;
+    right: 8rem;
+    bottom: 7rem;
+    left: 8rem;
+    color: var(--color-amber);
+    font-family: var(--font-mono);
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.35;
+    text-align: center;
+  }
+
+  .d10-code pre,
+  .d10-code pre code {
+    background: var(--color-grey-dim);
+  }
+
+  .d10-code-compact pre {
+    font-size: 25px !important;
+  }
+
+  .d10-code-compact .code-slide__content {
+    align-items: center;
+  }
+
+  .d10-code-fields {
+    align-self: center;
+    padding: 1.2rem 0 1.2rem 1.5rem;
+    border-left: 2px solid var(--color-amber);
+    color: var(--color-text-mid);
+    font-family: var(--font-mono);
+    font-size: 26px;
+    line-height: 1.65;
+  }
+
+  .d10-code-fields strong {
+    display: block;
+    margin-bottom: 0.8rem;
+    color: var(--color-amber);
+    font-size: 24px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .d10-code-fields code {
+    color: var(--color-blue);
+    font-family: var(--font-mono);
+  }
+
+  .d10-terminal-wrap {
+    position: absolute;
+    inset: 9rem 5rem 5.5rem;
+    display: grid;
+    grid-template-columns: 1.1fr 1.4fr;
+    gap: 2rem;
+    align-items: stretch;
+  }
+
+  .d10-terminal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+    border: 1px solid var(--color-line-bright);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 31px;
+    line-height: 1.7;
+  }
+
+  .d10-terminal-label {
+    margin-bottom: 1.2rem;
+    color: var(--color-text-dim);
+    font-size: 24px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .d10-terminal-prompt {
+    color: var(--color-blue);
+  }
+
+  .d10-terminal-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.2rem;
+    min-width: 0;
+  }
+
+  .d10-terminal-result {
+    padding: 1.2rem 1.4rem;
+    border: 1px solid var(--color-green);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    color: var(--color-green);
+    font-family: var(--font-mono);
+    font-size: 27px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  .d10-terminal-result code {
+    color: inherit;
+    font-family: var(--font-mono);
+  }
+
+  .d10-terminal-json {
+    color: var(--color-white);
+    white-space: pre-wrap;
+  }
+
+  .d10-exercise-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 1.4rem;
+    margin: 0 5rem 1rem;
+  }
+
+  .d10-exercise-step {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    align-items: center;
+    min-height: 14rem;
+    padding: 0.8rem 1.1rem;
+    border: 1px solid var(--color-line-bright);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    color: var(--color-text-mid);
+    font-family: var(--font-mono);
+    font-size: 1.4rem;
+    line-height: 1.3;
+  }
+
+  .d10-exercise-step span {
+    color: var(--color-amber);
+    font-size: 1.7rem;
+    font-weight: 700;
+  }
+
+  .d10-exercise-path {
+    margin: -0.3rem 5rem 0.5rem;
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+
+  .d10-exercise-steps + .d10-exercise-path + .exercise-slide__deliverable {
+    font-size: 1.35rem;
+  }
+
+  .d10-redline .redline__step--done rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+  }
+
+  .d10-redline .redline__step--done text {
+    fill: var(--color-blue);
+  }
+
+  .d10-redline .redline__step--next rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+    stroke-dasharray: 12 9;
+  }
+
+  .d10-redline .redline__step--next text {
+    fill: var(--color-blue);
+  }
+
+  .d10-redline .redline__step text {
+    font-size: 24px;
+  }
+
+  .d10-chapter-art {
+    position: absolute;
+    right: 4.5rem;
+    bottom: 7rem;
+    width: 35rem;
+    height: 26rem;
+  }
+
+  .d10-citation {
+    padding: 4rem 7rem !important;
+  }
+
+  .d10-citation .citation-text {
+    font-size: 2.35rem;
+  }
+
+  .d10-citation .citation-source {
+    color: var(--color-blue);
+    font-size: 0.95rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+</style>
+
+<section class="chapter-slide terminal slide-frame">
+  <div class="slide-frame__top">
+    <span class="slide-frame__marker slide-frame__marker--amber"
+      >Kapitel 10</span
+    >
+    <span class="slide-frame__context">Tag 3 · Spring Boot</span>
+  </div>
+  <div class="slide-frame__body">
+    <div class="chapter-number">10</div>
+    <div class="chapter-eyebrow">Kapitel · 10</div>
+    <h1 class="chapter-title-big">Spring Boot</h1>
+    <div class="chapter-subtitle">Vom Vertrag zum laufenden Endpoint</div>
+    <svg
+      class="d10-chapter-art d10-svg"
+      viewBox="0 0 760 540"
+      aria-label="Spring verbindet HTTP, Java und Datenbank"
+    >
+      <defs>
+        <marker
+          id="d10-chapter-arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="9"
+          refY="5"
+          orient="auto"
+        >
+          <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+        </marker>
+      </defs>
+      <rect
+        class="d10-panel"
+        x="20"
+        y="200"
+        width="180"
+        height="120"
+        rx="10"
+      ></rect>
+      <text class="d10-body" x="110" y="272" text-anchor="middle">HTTP</text>
+      <path
+        d="M200 260 H280"
+        fill="none"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d10-chapter-arrow)"
+      ></path>
+      <rect
+        class="d10-panel-amber"
+        x="290"
+        y="135"
+        width="230"
+        height="250"
+        rx="12"
+      ></rect>
+      <text class="d10-body d10-amber" x="405" y="235" text-anchor="middle">
+        Spring
+      </text>
+      <text class="d10-label" x="405" y="285" text-anchor="middle">Boot</text>
+      <path
+        d="M520 260 H600"
+        fill="none"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d10-chapter-arrow)"
+      ></path>
+      <rect
+        class="d10-panel-blue"
+        x="610"
+        y="200"
+        width="130"
+        height="120"
+        rx="10"
+      ></rect>
+      <text class="d10-body d10-blue" x="675" y="272" text-anchor="middle">
+        Java
+      </text>
+      <path
+        d="M405 385 V455"
+        fill="none"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d10-chapter-arrow)"
+      ></path>
+      <ellipse
+        cx="405"
+        cy="472"
+        rx="115"
+        ry="34"
+        fill="var(--color-grey-dim)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></ellipse>
+      <path
+        d="M290 472 V510 C290 528 342 540 405 540 C468 540 520 528 520 510 V472"
+        fill="var(--color-grey-dim)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></path>
+      <text class="d10-label d10-blue" x="405" y="515" text-anchor="middle">
+        Datenbank
+      </text>
+    </svg>
+  </div>
+  <div class="slide-frame__footer">
+    <span class="slide-frame__footer-left">Spring Boot</span>
+    <span class="slide-frame__footer-mid"></span>
+    <span class="slide-frame__footer-right">10.1</span>
+  </div>
+  <aside class="notes">
+    Heute starten wir mit einem leeren Health-Endpoint und enden mit POST und
+    GET über Swagger UI.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">REST mit Spring</h2>
+  <div class="slide-context">Die rote Linie</div>
+  <svg
+    class="d10-content-svg d10-svg d10-redline"
+    viewBox="0 0 1600 410"
+    aria-label="Der rote Faden des Kurses mit REST API mit Spring als aktivem Schritt"
+  >
+    <defs>
+      <marker
+        id="d10-redline-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon class="redline__arrow" points="0 0, 10 5, 0 10"></polygon>
+      </marker>
+    </defs>
+    <path
+      class="redline__line"
+      d="M370 100 H415 M775 100 H820 M1180 100 H1225 M1585 100 H1592 V310 H1585 M1225 310 H1180 M820 310 H775 M415 310 H370"
+      marker-end="url(#d10-redline-arrow)"
+    ></path>
+    <g class="redline__step redline__step--done">
+      <rect x="10" y="35" width="360" height="130" rx="8"></rect>
+      <text x="190" y="110">1. Idee im Kopf</text>
+    </g>
+    <g class="redline__step redline__step--done">
+      <rect x="415" y="35" width="360" height="130" rx="8"></rect>
+      <text x="595" y="72">
+        <tspan x="595">2. Darüber sprechen:</tspan>
+        <tspan x="595" dy="30">Abstraktion und</tspan>
+        <tspan x="595" dy="30">ER-Modell</tspan>
+      </text>
+    </g>
+    <g class="redline__step redline__step--done">
+      <rect x="820" y="35" width="360" height="130" rx="8"></rect>
+      <text x="1000" y="72">
+        <tspan x="1000">3. Tabellen, die uns</tspan>
+        <tspan x="1000" dy="30">nicht anlügen:</tspan>
+        <tspan x="1000" dy="30">Normalisierung</tspan>
+      </text>
+    </g>
+    <g class="redline__step redline__step--done">
+      <rect x="1225" y="35" width="360" height="130" rx="8"></rect>
+      <text x="1405" y="72">
+        <tspan x="1405">4. Den Tabellen</tspan>
+        <tspan x="1405" dy="30">Fragen stellen:</tspan>
+        <tspan x="1405" dy="30">SQL</tspan>
+      </text>
+    </g>
+    <g class="redline__step redline__step--done">
+      <rect x="1225" y="245" width="360" height="130" rx="8"></rect>
+      <text x="1405" y="282">
+        <tspan x="1405">5. Aus Java fragen:</tspan>
+        <tspan x="1405" dy="30">JDBC, Cursor,</tspan>
+        <tspan x="1405" dy="30">Statements</tspan>
+      </text>
+    </g>
+    <g class="redline__step redline__step--done">
+      <rect x="820" y="245" width="360" height="130" rx="8"></rect>
+      <text x="1000" y="282">
+        <tspan x="1000">6. Wiederholungen</tspan>
+        <tspan x="1000" dy="30">beenden:</tspan>
+        <tspan x="1000" dy="30">Repository Pattern</tspan>
+      </text>
+    </g>
+    <g class="redline__step redline__step--active">
+      <rect x="415" y="245" width="360" height="130" rx="8"></rect>
+      <text x="595" y="282">
+        <tspan x="595">7. Andere zugreifen</tspan>
+        <tspan x="595" dy="30">lassen: REST API</tspan>
+        <tspan x="595" dy="30">mit Spring</tspan>
+      </text>
+    </g>
+    <g class="redline__step redline__step--next">
+      <rect x="10" y="245" width="360" height="130" rx="8"></rect>
+      <text x="190" y="270">
+        <tspan x="190">8. Solide machen:</tspan>
+        <tspan x="190" dy="27">Schichten, Validierung,</tspan>
+        <tspan x="190" dy="27">Fehler, OpenAPI, Tests,</tspan>
+        <tspan x="190" dy="27">Middleware</tspan>
+      </text>
+    </g>
+  </svg>
+  <div class="slide-caption">
+    Vorher: API auf Papier · Jetzt: Spring-Implementierung · Danach: klare
+    Schichten
+  </div>
+  <aside class="notes">
+    Der Vertrag aus Deck 09 führt. Spring liefert Server, Routing und
+    Integration. Danach prüfen wir, welche Klasse welche Verantwortung tragen
+    soll.
+  </aside>
+</section>
+
+<section class="lead-question">
+  <h2 class="lead-question__text">
+    Welche Arbeit soll Spring für uns wiederholen?
+  </h2>
+  <div class="d10-lead-answer fragment fade-in" data-fragment-index="1">
+    Server starten · Objekte bauen · Requests routen · JSON wandeln
+  </div>
+  <aside class="notes">
+    Erwartet ist Infrastrukturarbeit. Typisch falsch sind Fachregeln und
+    Datenmodell. Spring nimmt Mechanik ab, nicht Entscheidungen.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Ohne und mit Spring</h2>
+  <div class="slide-context">Framework</div>
+  <svg class="d10-content-svg d10-svg" viewBox="0 0 1700 700">
+    <line
+      x1="850"
+      y1="50"
+      x2="850"
+      y2="650"
+      stroke="var(--color-line-bright)"
+      stroke-width="2"
+    ></line>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d10-panel"
+        x="90"
+        y="60"
+        width="650"
+        height="88"
+        rx="8"
+      ></rect>
+      <text class="d10-body" x="415" y="115" text-anchor="middle">Socket</text>
+      <rect
+        class="d10-panel-blue"
+        x="960"
+        y="60"
+        width="650"
+        height="88"
+        rx="8"
+      ></rect>
+      <text class="d10-body d10-blue" x="1285" y="115" text-anchor="middle">
+        @RestController
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d10-panel"
+        x="90"
+        y="172"
+        width="650"
+        height="88"
+        rx="8"
+      ></rect>
+      <text class="d10-body" x="415" y="227" text-anchor="middle">
+        HTTP parser
+      </text>
+      <rect
+        class="d10-panel-blue"
+        x="960"
+        y="172"
+        width="650"
+        height="88"
+        rx="8"
+      ></rect>
+      <text class="d10-body d10-blue" x="1285" y="227" text-anchor="middle">
+        @GetMapping
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        class="d10-panel"
+        x="90"
+        y="284"
+        width="650"
+        height="88"
+        rx="8"
+      ></rect>
+      <text class="d10-body" x="415" y="339" text-anchor="middle">routing</text>
+      <rect
+        class="d10-panel-blue"
+        x="960"
+        y="284"
+        width="650"
+        height="88"
+        rx="8"
+      ></rect>
+      <text class="d10-body d10-blue" x="1285" y="339" text-anchor="middle">
+        Jackson
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <rect
+        class="d10-panel"
+        x="90"
+        y="396"
+        width="650"
+        height="88"
+        rx="8"
+      ></rect>
+      <text class="d10-body" x="415" y="451" text-anchor="middle">JSON</text>
+      <rect
+        class="d10-panel-blue"
+        x="960"
+        y="396"
+        width="650"
+        height="88"
+        rx="8"
+      ></rect>
+      <text class="d10-body d10-blue" x="1285" y="451" text-anchor="middle">
+        Bean lifecycle
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="5">
+      <rect
+        class="d10-panel"
+        x="90"
+        y="508"
+        width="650"
+        height="88"
+        rx="8"
+      ></rect>
+      <text class="d10-body" x="415" y="563" text-anchor="middle">
+        lifecycle
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Wir könnten alles selbst bauen. Das wäre für diesen Kurs nur Arbeit an der
+    falschen Stelle. Das Framework standardisiert die wiederkehrenden Teile.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Dependency Injection in einem Diagramm</h2>
+  <div class="slide-context">Abhängigkeitsinjektion</div>
+  <svg class="d10-content-svg d10-svg" viewBox="0 0 1700 700">
+    <defs>
+      <marker
+        id="d10-di-blue"
+        markerWidth="11"
+        markerHeight="11"
+        refX="10"
+        refY="5.5"
+        orient="auto"
+      >
+        <polygon points="0 0, 11 5.5, 0 11" fill="var(--color-blue)"></polygon>
+      </marker>
+      <marker
+        id="d10-di-amber"
+        markerWidth="11"
+        markerHeight="11"
+        refX="10"
+        refY="5.5"
+        orient="auto"
+      >
+        <polygon points="0 0, 11 5.5, 0 11" fill="var(--color-amber)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      class="d10-panel-amber"
+      x="510"
+      y="45"
+      width="680"
+      height="560"
+      rx="12"
+    ></rect>
+    <text class="d10-body d10-amber" x="850" y="105" text-anchor="middle">
+      Spring Container
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d10-panel-blue"
+        x="790"
+        y="380"
+        width="330"
+        height="130"
+        rx="10"
+      ></rect>
+      <text class="d10-body d10-blue" x="955" y="455" text-anchor="middle">
+        StudentController
+      </text>
+      <line
+        x1="790"
+        y1="445"
+        x2="680"
+        y2="445"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+        stroke-dasharray="10 8"
+      ></line>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d10-panel-blue"
+        x="570"
+        y="185"
+        width="400"
+        height="130"
+        rx="10"
+      ></rect>
+      <text class="d10-body d10-blue" x="770" y="260" text-anchor="middle">
+        StudentJpaRepository
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <path
+        d="M770 315 C770 355 790 380 850 405"
+        fill="none"
+        stroke="var(--color-amber)"
+        stroke-width="4"
+        marker-end="url(#d10-di-amber)"
+      ></path>
+      <text class="d10-label d10-amber" x="595" y="365">
+        Konstruktorparameter
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <rect
+        class="d10-panel"
+        x="70"
+        y="380"
+        width="280"
+        height="130"
+        rx="10"
+      ></rect>
+      <text class="d10-body" x="210" y="455" text-anchor="middle">Request</text>
+      <line
+        x1="350"
+        y1="445"
+        x2="780"
+        y2="445"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d10-di-blue)"
+      ></line>
+    </g>
+  </svg>
+  <aside class="notes">
+    Dependency Injection bedeutet hier: Der Controller erhält seine
+    Abhängigkeit. Er entscheidet nicht über deren Bau. Diese Trennung macht
+    Austausch und Tests möglich.
+  </aside>
+</section>
+
+<section class="code-slide d10-code d10-code-compact">
+  <h2 class="slide-title">Der Startpunkt</h2>
+  <div class="slide-context blue">SpringApplication</div>
+  <div class="code-slide__content code-slide__content--wide">
+    <pre><code class="language-java" data-trim data-line-numbers="1|2-5|4">@SpringBootApplication
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}</code></pre>
+  </div>
+  <div class="slide-caption d10-source">
+    java/rest-simple-exercise/src/main/java/com/example/restsimple/DemoApplication.java
+    · Zeilen 6 bis 13 · Leerzeilen gekürzt
+  </div>
+  <aside class="notes">
+    Diese Annotation bündelt Konfiguration und Component Scan. `run` baut den
+    Application Context und startet den Webserver. Der Package-Ort bestimmt, was
+    gefunden wird.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Annotationen auf gestern abbilden</h2>
+  <div class="slide-context">Bekannte Konzepte</div>
+  <svg class="d10-content-svg d10-svg" viewBox="0 0 1700 700">
+    <line
+      x1="850"
+      y1="35"
+      x2="850"
+      y2="665"
+      stroke="var(--color-line-bright)"
+      stroke-width="2"
+    ></line>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <text class="d10-body d10-blue" x="720" y="100" text-anchor="end">
+        @RestController
+      </text>
+      <text class="d10-body" x="980" y="100">HTTP-Rand</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <text class="d10-body d10-blue" x="720" y="205" text-anchor="end">
+        @GetMapping
+      </text>
+      <text class="d10-body" x="980" y="205">Methode+Pfad</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <text class="d10-body d10-blue" x="720" y="310" text-anchor="end">
+        @Service
+      </text>
+      <text class="d10-body" x="980" y="310">Use Case</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <text class="d10-body d10-blue" x="720" y="415" text-anchor="end">
+        @Repository
+      </text>
+      <text class="d10-body" x="980" y="415">Datenzugriff</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="5">
+      <text class="d10-body d10-blue" x="720" y="520" text-anchor="end">
+        @Entity
+      </text>
+      <text class="d10-body" x="980" y="520">Tabellenabbildung</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="6">
+      <text class="d10-body d10-blue" x="720" y="625" text-anchor="end">
+        JpaRepository
+      </text>
+      <text class="d10-body" x="980" y="625">AbstractRepository</text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Keine Annotation erfindet ein neues Fachkonzept. Wir hängen bekannte
+    Aufgaben an Springs Laufzeit. Diese Karte bleibt für Deck 11 sichtbar.
+  </aside>
+</section>
+
+<section class="code-slide d10-code d10-code-compact">
+  <h2 class="slide-title">Ein Health-Endpoint</h2>
+  <div class="slide-context blue">GET /health</div>
+  <div class="code-slide__content code-slide__content--wide">
+    <pre><code class="language-java" data-trim data-ln-start-from="17" data-line-numbers="17|18-22|23-29">@GetMapping("/health")
+@Operation(
+    summary = "Health check endpoint", 
+    description = "Returns the health status of the student service"
+)
+@ApiResponse(responseCode = "200", description = "Service is healthy")
+public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; health() {
+    return ResponseEntity.ok(Map.of(
+        "status", "UP",
+        "service", "student-service",
+        "timestamp", LocalDateTime.now()
+    ));
+}</code></pre>
+  </div>
+  <div class="slide-caption d10-source">
+    java/rest-simple-exercise/src/main/java/com/example/restsimple/controller/StudentController.java
+    · Zeilen 17 bis 29
+  </div>
+  <aside class="notes">
+    Der Endpoint braucht noch keine Datenbank. Wir prüfen Routing, JSON und
+    Port. Sein vollständiger Pfad ist `/api/students/health`, weil die Klasse in
+    Zeile 13 das Präfix setzt.
+  </aside>
+</section>
+
+<section class="code-slide d10-code d10-code-compact">
+  <h2 class="slide-title">application.properties</h2>
+  <div class="slide-context blue">Konfiguration</div>
+  <div class="code-slide__content">
+    <pre><code class="language-properties" data-trim data-line-numbers="1-4|5-7|9-12">spring.jpa.database-platform=org.hibernate.community.dialect.SQLiteDialect
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.url=jdbc:sqlite:students.db
+spring.datasource.driver-class-name=org.sqlite.JDBC
+spring.datasource.username=admin
+spring.datasource.password=admin
+server.port=${SERVER_PORT:8081}
+
+# SpringDoc/OpenAPI configuration
+springdoc.api-docs.path=/v3/api-docs
+springdoc.swagger-ui.path=/swagger-ui.html
+springdoc.swagger-ui.enabled=true</code></pre>
+    <div class="d10-code-fields">
+      <strong>Drei Bereiche</strong>
+      <p>SQLite + Hibernate</p>
+      <p>Port 8081 als Default</p>
+      <p>OpenAPI und Swagger UI</p>
+    </div>
+  </div>
+  <div class="slide-caption d10-source">
+    java/rest-simple-exercise/src/main/resources/application.properties · Zeilen
+    1 bis 12
+  </div>
+  <aside class="notes">
+    Die Datei setzt `server.port=${SERVER_PORT:8081}`, nicht einen starren Wert.
+    Ohne Umgebungsvariable läuft der Kurs auf 8081. Swagger UI liegt unter
+    `/swagger-ui.html`.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Starten und prüfen</h2>
+  <div class="slide-context">Terminal</div>
+  <div class="d10-terminal-wrap">
+    <div class="d10-terminal">
+      <div class="d10-terminal-label">Arbeitskontext</div>
+      <div>
+        <span class="d10-terminal-prompt">$</span> cd java/rest-simple-exercise
+      </div>
+      <div><span class="d10-terminal-prompt">$</span> make run</div>
+    </div>
+    <div class="d10-terminal-state">
+      <div class="d10-terminal-result fragment fade-in" data-fragment-index="1">
+        Server auf :8081
+      </div>
+      <div class="d10-terminal-result fragment fade-in" data-fragment-index="2">
+        http://localhost:8081/api/students/health
+      </div>
+      <div
+        class="d10-terminal-result d10-terminal-json fragment fade-in"
+        data-fragment-index="3"
+      >
+        <code
+          >{ "status": "UP", "service": "student-service", "timestamp": "..."
+          }</code
+        >
+      </div>
+    </div>
+  </div>
+  <div class="slide-caption d10-source">
+    java/rest-simple-exercise/README.md · Zeilen 14 bis 35
+  </div>
+  <aside class="notes">
+    Wir warten auf den gestarteten Server. Das README nennt `make run` und die
+    Health-URL. Erst nach der Health-Antwort öffnen wir Swagger UI.
+  </aside>
+</section>
+
+<section class="code-slide">
+  <h2 class="slide-title">Der erste GET</h2>
+  <div class="slide-context blue">Zielbild</div>
+  <svg class="d10-content-svg d10-svg" viewBox="0 0 1700 700">
+    <defs>
+      <marker
+        id="d10-get-arrow"
+        markerWidth="11"
+        markerHeight="11"
+        refX="10"
+        refY="5.5"
+        orient="auto"
+      >
+        <polygon points="0 0, 11 5.5, 0 11" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      class="d10-panel-blue"
+      x="80"
+      y="210"
+      width="420"
+      height="170"
+      rx="10"
+    ></rect>
+    <text class="d10-body d10-blue" x="290" y="305" text-anchor="middle">
+      @GetMapping
+    </text>
+    <line
+      x1="500"
+      y1="295"
+      x2="630"
+      y2="295"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+      marker-end="url(#d10-get-arrow)"
+    ></line>
+    <rect
+      class="d10-panel-blue"
+      x="640"
+      y="210"
+      width="420"
+      height="170"
+      rx="10"
+    ></rect>
+    <text class="d10-body d10-blue" x="850" y="305" text-anchor="middle">
+      repository.findAll()
+    </text>
+    <line
+      x1="1060"
+      y1="295"
+      x2="1190"
+      y2="295"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+      marker-end="url(#d10-get-arrow)"
+    ></line>
+    <rect
+      class="d10-panel-blue"
+      x="1200"
+      y="210"
+      width="420"
+      height="170"
+      rx="10"
+    ></rect>
+    <text class="d10-body d10-blue" x="1410" y="305" text-anchor="middle">
+      StudentResponse
+    </text>
+    <text class="d10-body" x="850" y="500" text-anchor="middle">
+      GET /api/students
+    </text>
+  </svg>
+  <div class="slide-caption d10-source">
+    Gekürztes Zielbild aus java/rest-simple-exercise/README.md, Zeilen 97 bis
+    147. Im Skeleton noch nicht vorhanden.
+  </div>
+  <aside class="notes">
+    Phase 1 verlangt zunächst zwei bis drei feste Students und ein Response-DTO.
+    Phase 2 ersetzt die feste Liste durch `repository.findAll()`. Der Controller
+    gibt im Kursstandard ein DTO zurück, nicht die Entity.
+  </aside>
+</section>
+
+<section class="code-slide d10-code d10-code-compact">
+  <h2 class="slide-title">JPA-Entity</h2>
+  <div class="slide-context blue">Zielbild</div>
+  <div class="code-slide__content">
+    <pre><code class="language-java" data-trim data-line-numbers="1-2|3-5|6-7">@Entity
+@Table(name = "students")
+class Student {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+}</code></pre>
+    <div class="d10-code-fields">
+      <strong>Felder im Kurs</strong>
+      <p>firstName</p>
+      <p>lastName</p>
+      <p>email</p>
+      <p>studentNumber</p>
+      <p>enrollmentDate</p>
+    </div>
+  </div>
+  <div class="slide-caption d10-source">
+    Gekürztes und auf Student angepasstes Zielbild aus
+    java/rest-simple-exercise/README.md, Zeilen 149 bis 208. Im Skeleton noch
+    nicht vorhanden.
+  </div>
+  <aside class="notes">
+    Das README zeigt das Muster an Book und nennt beim Student noch
+    `registrationDate`. Für die Decks gilt der Kursstandard `enrollmentDate`.
+    Das Snippet ist als Anpassung markiert und kein vorhandener Skeleton-Code.
+  </aside>
+</section>
+
+<section class="code-slide d10-code d10-code-compact">
+  <h2 class="slide-title">JpaRepository = AbstractRepository</h2>
+  <div class="slide-context blue">Zielbild</div>
+  <div class="code-slide__content">
+    <pre><code class="language-java" data-trim data-line-numbers="1-3">@Repository
+public interface StudentRepository extends JpaRepository&lt;Student, Long&gt; {
+}</code></pre>
+    <div class="d10-code-fields">
+      <div class="fragment fade-in" data-fragment-index="1">
+        <strong>Geerbte Methoden</strong>
+        <p><code>findAll</code></p>
+        <p><code>findById</code></p>
+        <p><code>save</code></p>
+        <p><code>deleteById</code></p>
+        <p><code>existsById</code></p>
+      </div>
+      <div class="fragment fade-in" data-fragment-index="2">
+        <p><code>AbstractRepository&lt;Student&gt;</code></p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-caption d10-source">
+    Auf Student angepasstes Zielbild aus java/rest-simple-exercise/README.md,
+    Zeilen 211 bis 221. Im Skeleton noch nicht vorhanden.
+  </div>
+  <aside class="notes">
+    Das README zeigt dieselbe Interface-Form an Book. Die Übung passt sie an
+    Student oder die eigene Domäne an. Spring Data stellt die Implementierung
+    bereit.
+  </aside>
+</section>
+
+<section class="code-slide d10-code d10-code-compact">
+  <h2 class="slide-title">Der erste POST</h2>
+  <div class="slide-context blue">Zielbild</div>
+  <div class="code-slide__content code-slide__content--wide">
+    <pre><code class="language-java" data-trim data-line-numbers="1|2|3|4">@PostMapping
+CreateStudentRequest
+repository.save(...)
+201 StudentResponse</code></pre>
+  </div>
+  <div class="slide-caption d10-source">
+    Auf Student angepasstes und gekürztes Zielbild aus
+    java/rest-simple-exercise/README.md, Zeilen 250 bis 318. Im Skeleton noch
+    nicht vorhanden.
+  </div>
+  <aside class="notes">
+    Das README zeigt den vollständigen Ablauf an Book. Für den Kurs nehmen
+    Request und Response die standardisierten Student-Felder. Der POST beweist
+    den Datenweg und gibt keine JPA-Entity zurück.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Request durch die Anwendung</h2>
+  <div class="slide-context">Datenweg</div>
+  <svg class="d10-content-svg d10-svg" viewBox="0 0 1700 700">
+    <defs>
+      <marker
+        id="d10-flow-blue"
+        markerWidth="11"
+        markerHeight="11"
+        refX="10"
+        refY="5.5"
+        orient="auto"
+      >
+        <polygon points="0 0, 11 5.5, 0 11" fill="var(--color-blue)"></polygon>
+      </marker>
+      <marker
+        id="d10-flow-green"
+        markerWidth="11"
+        markerHeight="11"
+        refX="10"
+        refY="5.5"
+        orient="auto"
+      >
+        <polygon points="0 0, 11 5.5, 0 11" fill="var(--color-green)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      class="d10-panel"
+      x="30"
+      y="230"
+      width="280"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d10-body" x="170" y="315" text-anchor="middle">
+      Swagger UI
+    </text>
+    <rect
+      class="d10-panel-blue"
+      x="370"
+      y="230"
+      width="280"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d10-body d10-blue" x="510" y="315" text-anchor="middle">
+      Controller
+    </text>
+    <rect
+      class="d10-panel-blue"
+      x="710"
+      y="230"
+      width="280"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d10-body d10-blue" x="850" y="315" text-anchor="middle">
+      JpaRepository
+    </text>
+    <rect
+      class="d10-panel-blue"
+      x="1050"
+      y="230"
+      width="280"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d10-body d10-blue" x="1190" y="300" text-anchor="middle">
+      Hibernate/
+    </text>
+    <text class="d10-body d10-blue" x="1190" y="340" text-anchor="middle">
+      JPA
+    </text>
+    <rect
+      class="d10-panel-blue"
+      x="1390"
+      y="230"
+      width="280"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d10-body d10-blue" x="1530" y="315" text-anchor="middle">
+      SQLite
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <line
+        x1="310"
+        y1="305"
+        x2="360"
+        y2="305"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d10-flow-blue)"
+      ></line>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <line
+        x1="650"
+        y1="305"
+        x2="700"
+        y2="305"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d10-flow-blue)"
+      ></line>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <line
+        x1="990"
+        y1="305"
+        x2="1040"
+        y2="305"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d10-flow-blue)"
+      ></line>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <line
+        x1="1330"
+        y1="305"
+        x2="1380"
+        y2="305"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d10-flow-blue)"
+      ></line>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="5">
+      <path
+        d="M1530 380 V535 H170 V380"
+        fill="none"
+        stroke="var(--color-green)"
+        stroke-width="4"
+        marker-end="url(#d10-flow-green)"
+      ></path>
+      <text class="d10-body d10-green" x="850" y="585" text-anchor="middle">
+        JSON
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Jeder Pfeil entspricht einem Begriff von gestern. Hibernate erzeugt SQL. Der
+    Controller sieht ein Repository, nicht die JDBC-Details.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Swagger UI ist ein Client</h2>
+  <div class="slide-context">Browser</div>
+  <svg class="d10-content-svg d10-svg" viewBox="0 0 1700 700">
+    <rect
+      class="d10-panel"
+      x="90"
+      y="35"
+      width="1520"
+      height="600"
+      rx="12"
+    ></rect>
+    <circle cx="135" cy="76" r="10" fill="var(--color-red)"></circle>
+    <circle cx="170" cy="76" r="10" fill="var(--color-amber)"></circle>
+    <circle cx="205" cy="76" r="10" fill="var(--color-green)"></circle>
+    <rect
+      class="d10-panel"
+      x="275"
+      y="55"
+      width="1170"
+      height="44"
+      rx="8"
+    ></rect>
+    <text class="d10-small" x="860" y="85" text-anchor="middle">
+      localhost:8081/swagger-ui.html
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d10-panel-blue"
+        x="150"
+        y="145"
+        width="1400"
+        height="78"
+        rx="8"
+      ></rect>
+      <text class="d10-body d10-blue" x="200" y="195">POST /api/students</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d10-panel"
+        x="150"
+        y="250"
+        width="860"
+        height="285"
+        rx="8"
+      ></rect>
+      <text class="d10-small" x="185" y="290">Request JSON</text>
+      <text class="d10-label" x="185" y="335">{</text>
+      <text class="d10-label" x="220" y="375">"firstName": "",</text>
+      <text class="d10-label" x="220" y="410">
+        "lastName": "", "email": "",
+      </text>
+      <text class="d10-label" x="220" y="445">"studentNumber": "",</text>
+      <text class="d10-label" x="220" y="480">"enrollmentDate": ""</text>
+      <text class="d10-label" x="185" y="515">}</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        class="d10-panel-amber"
+        x="1070"
+        y="270"
+        width="420"
+        height="100"
+        rx="8"
+      ></rect>
+      <text class="d10-body d10-amber" x="1280" y="330" text-anchor="middle">
+        Execute
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <rect
+        class="d10-panel-green"
+        x="1070"
+        y="410"
+        width="420"
+        height="125"
+        rx="8"
+      ></rect>
+      <text class="d10-body d10-green" x="1280" y="485" text-anchor="middle">
+        201 Response
+      </text>
+    </g>
+    <text class="d10-label d10-amber" x="850" y="600" text-anchor="middle">
+      Vertrag testen, nicht Datenbank ansehen
+    </text>
+  </svg>
+  <aside class="notes">
+    Swagger UI liest OpenAPI und sendet echte HTTP-Requests. Es ist unser erster
+    Client. Prüft Status und Body. Der grüne Response-Rahmen allein reicht
+    nicht.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Vier Live-Checkpoints</h2>
+  <div class="slide-context">Live-Coding</div>
+  <svg class="d10-content-svg d10-svg" viewBox="0 0 1700 700">
+    <defs>
+      <marker
+        id="d10-check-arrow"
+        markerWidth="11"
+        markerHeight="11"
+        refX="10"
+        refY="5.5"
+        orient="auto"
+      >
+        <polygon points="0 0, 11 5.5, 0 11" fill="var(--color-blue)"></polygon>
+      </marker>
+      <marker
+        id="d10-check-red"
+        markerWidth="11"
+        markerHeight="11"
+        refX="10"
+        refY="5.5"
+        orient="auto"
+      >
+        <polygon points="0 0, 11 5.5, 0 11" fill="var(--color-red)"></polygon>
+      </marker>
+    </defs>
+    <line
+      x1="275"
+      y1="300"
+      x2="475"
+      y2="300"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+      marker-end="url(#d10-check-arrow)"
+    ></line>
+    <line
+      x1="675"
+      y1="300"
+      x2="875"
+      y2="300"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+      marker-end="url(#d10-check-arrow)"
+    ></line>
+    <line
+      x1="1075"
+      y1="300"
+      x2="1275"
+      y2="300"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+      marker-end="url(#d10-check-arrow)"
+    ></line>
+    <rect
+      class="d10-panel-blue"
+      x="75"
+      y="225"
+      width="200"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d10-body d10-blue" x="175" y="310" text-anchor="middle">
+      health 200
+    </text>
+    <rect
+      class="d10-panel-blue"
+      x="475"
+      y="225"
+      width="200"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d10-body d10-blue" x="575" y="310" text-anchor="middle">
+      GET []
+    </text>
+    <rect
+      class="d10-panel-blue"
+      x="875"
+      y="225"
+      width="200"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d10-body d10-blue" x="975" y="310" text-anchor="middle">
+      POST 201
+    </text>
+    <rect
+      class="d10-panel-blue"
+      x="1275"
+      y="225"
+      width="300"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d10-body d10-blue" x="1425" y="310" text-anchor="middle">
+      GET [Student]
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <circle
+        cx="175"
+        cy="195"
+        r="28"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-green)"
+        stroke-width="3"
+      ></circle>
+      <text class="d10-body d10-green" x="175" y="206" text-anchor="middle">
+        ✓
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <circle
+        cx="575"
+        cy="195"
+        r="28"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-green)"
+        stroke-width="3"
+      ></circle>
+      <text class="d10-body d10-green" x="575" y="206" text-anchor="middle">
+        ✓
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <circle
+        cx="975"
+        cy="195"
+        r="28"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-green)"
+        stroke-width="3"
+      ></circle>
+      <text class="d10-body d10-green" x="975" y="206" text-anchor="middle">
+        ✓
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <circle
+        cx="1425"
+        cy="195"
+        r="28"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-green)"
+        stroke-width="3"
+      ></circle>
+      <text class="d10-body d10-green" x="1425" y="206" text-anchor="middle">
+        ✓
+      </text>
+    </g>
+    <path
+      d="M175 375 V500 H430"
+      fill="none"
+      stroke="var(--color-red)"
+      stroke-width="3"
+      stroke-dasharray="10 8"
+      marker-end="url(#d10-check-red)"
+    ></path>
+    <rect
+      class="d10-panel-red"
+      x="440"
+      y="445"
+      width="340"
+      height="110"
+      rx="10"
+    ></rect>
+    <text class="d10-body d10-red" x="610" y="510" text-anchor="middle">
+      Port belegt
+    </text>
+  </svg>
+  <aside class="notes">
+    Nach jedem kleinen Schritt gibt es ein sichtbares Ergebnis. Wenn POST
+    scheitert, wissen wir, dass Health und GET bereits funktionieren. Das
+    verkürzt Fehlersuche.
+  </aside>
+</section>
+
+<section class="exercise-slide">
+  <div class="exercise-slide__tag">Übung 9</div>
+  <div class="exercise-slide__time">45 min</div>
+  <p class="exercise-slide__task">Erste Ressource</p>
+  <div class="d10-exercise-steps">
+    <div class="d10-exercise-step">
+      <span>1</span>
+      <div>Startet auf Port 8081 und prüft Health.</div>
+    </div>
+    <div class="d10-exercise-step">
+      <span>2</span>
+      <div>Baut Model, Response-DTO und GET-Collection.</div>
+    </div>
+    <div class="d10-exercise-step">
+      <span>3</span>
+      <div>Ergänzt Migration, JPA-Entity und JpaRepository.</div>
+    </div>
+    <div class="d10-exercise-step">
+      <span>4</span>
+      <div>Baut POST und prüft GET 200 sowie POST 201 in Swagger UI.</div>
+    </div>
+  </div>
+  <div class="d10-exercise-path">
+    exercises/&lt;domain&gt;/06-rest.md · java/rest-simple-exercise/README.md,
+    Phasen 1 und 2
+  </div>
+  <div class="exercise-slide__deliverable">
+    <strong>Abgabe:</strong> laufendes Projekt, Swagger-Screenshot,
+    gespeicherter Datensatz
+  </div>
+  <aside class="notes">
+    Nutzt den API-Entwurf aus Übung 8. Für den Kursvertrag heißen die
+    Student-Felder firstName, lastName, email, studentNumber und enrollmentDate.
+    Validation und Fehlerfälle folgen in Übung 10.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Debrief, welche Annotation ersetzt was?</h2>
+  <div class="slide-context">Rückblick</div>
+  <svg class="d10-content-svg d10-svg" viewBox="0 0 1700 700">
+    <g transform="translate(60 55)">
+      <rect class="d10-panel-blue" width="490" height="150" rx="10"></rect>
+      <text class="d10-body d10-blue" x="245" y="62" text-anchor="middle">
+        @RestController
+      </text>
+      <text
+        class="d10-label fragment fade-in"
+        data-fragment-index="1"
+        x="245"
+        y="112"
+        text-anchor="middle"
+      >
+        HTTP-Rand
+      </text>
+    </g>
+    <g transform="translate(605 55)">
+      <rect class="d10-panel-blue" width="490" height="150" rx="10"></rect>
+      <text class="d10-body d10-blue" x="245" y="62" text-anchor="middle">
+        @GetMapping
+      </text>
+      <text
+        class="d10-label fragment fade-in"
+        data-fragment-index="2"
+        x="245"
+        y="112"
+        text-anchor="middle"
+      >
+        Methode+Pfad
+      </text>
+    </g>
+    <g transform="translate(1150 55)">
+      <rect class="d10-panel-blue" width="490" height="150" rx="10"></rect>
+      <text class="d10-body d10-blue" x="245" y="62" text-anchor="middle">
+        @Service
+      </text>
+      <text
+        class="d10-label fragment fade-in"
+        data-fragment-index="3"
+        x="245"
+        y="112"
+        text-anchor="middle"
+      >
+        Use Case
+      </text>
+    </g>
+    <g transform="translate(60 255)">
+      <rect class="d10-panel-blue" width="490" height="150" rx="10"></rect>
+      <text class="d10-body d10-blue" x="245" y="62" text-anchor="middle">
+        @Repository
+      </text>
+      <text
+        class="d10-label fragment fade-in"
+        data-fragment-index="4"
+        x="245"
+        y="112"
+        text-anchor="middle"
+      >
+        Datenzugriff
+      </text>
+    </g>
+    <g transform="translate(605 255)">
+      <rect class="d10-panel-blue" width="490" height="150" rx="10"></rect>
+      <text class="d10-body d10-blue" x="245" y="62" text-anchor="middle">
+        @Entity
+      </text>
+      <text
+        class="d10-label fragment fade-in"
+        data-fragment-index="5"
+        x="245"
+        y="112"
+        text-anchor="middle"
+      >
+        Tabellenabbildung
+      </text>
+    </g>
+    <g transform="translate(1150 255)">
+      <rect class="d10-panel-blue" width="490" height="150" rx="10"></rect>
+      <text class="d10-body d10-blue" x="245" y="62" text-anchor="middle">
+        JpaRepository
+      </text>
+      <text
+        class="d10-label fragment fade-in"
+        data-fragment-index="6"
+        x="245"
+        y="112"
+        text-anchor="middle"
+      >
+        AbstractRepository
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="7">
+      <rect
+        class="d10-panel-amber"
+        x="330"
+        y="500"
+        width="1040"
+        height="125"
+        rx="10"
+      ></rect>
+      <text class="d10-body d10-amber" x="850" y="575" text-anchor="middle">
+        Welche SQL-Query lief?
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Eine Gruppe verfolgt ihren POST vom Mapping bis SQLite. Wir nennen für jede
+    Annotation das bekannte Konzept. Wer kann, schaltet SQL-Logging ein und
+    zeigt das INSERT.
+  </aside>
+</section>
+
+<section class="citation-slide d10-citation">
+  <div class="citation-mark">&quot;</div>
+  <div class="citation-text">
+    <code class="t-blue">JpaRepository&lt;Student, Long&gt;</code>
+    <span class="t-amber">→</span>
+    <code class="t-blue">SimpleJpaRepository</code>
+  </div>
+  <div class="citation-text">
+    CRUD-Methoden kommen aus den Repository-Basisschnittstellen.
+  </div>
+  <div class="citation-source">
+    https://docs.spring.io/spring-data/jpa/reference/repositories/definition.html
+  </div>
+  <div class="citation-source">Abruf: 2026-08-23</div>
+  <aside class="notes">
+    Die Spring-Dokumentation beschreibt, wie passende Methoden an die
+    Basisimplementierung geroutet werden. Unser AbstractRepository war das
+    Modell in klein. Jetzt ordnen wir den Code in klare Verantwortungen.
+  </aside>
+</section>
