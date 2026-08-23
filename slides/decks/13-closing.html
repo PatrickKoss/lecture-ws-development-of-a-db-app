@@ -1,0 +1,1123 @@
+<style>
+  .d13-artifact-line,
+  .d13-map,
+  .d13-next-grid,
+  .d13-feedback {
+    position: absolute;
+    right: var(--frame-gutter);
+    left: var(--frame-gutter);
+  }
+
+  .d13-artifact-line {
+    right: auto;
+    bottom: 7.2rem;
+    left: 2.5rem;
+    width: calc(100% - 16rem);
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 1.1rem;
+    align-items: center;
+  }
+
+  .d13-artifact-line::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 3rem;
+    left: 3rem;
+    height: 4px;
+    background: var(--color-blue);
+    transform: translateY(-50%);
+  }
+
+  .d13-artifact {
+    position: relative;
+    width: 5.2rem;
+    height: 5.2rem;
+    margin: 0 auto;
+    border: 3px solid var(--color-blue);
+    border-radius: 0.6rem;
+    background: var(--color-bg-deep);
+  }
+
+  .d13-artifact::before,
+  .d13-artifact::after {
+    content: "";
+    position: absolute;
+  }
+
+  .d13-artifact::before {
+    top: 1.1rem;
+    right: 0.8rem;
+    left: 0.8rem;
+    height: 3px;
+    background: var(--color-blue);
+    box-shadow:
+      0 0.8rem 0 var(--color-blue),
+      0 1.6rem 0 var(--color-blue);
+  }
+
+  .d13-artifact--round {
+    border-radius: 50%;
+  }
+
+  .d13-artifact--database {
+    border-radius: 50% / 18%;
+  }
+
+  .d13-artifact--api::before {
+    top: 50%;
+    right: 0.7rem;
+    left: 0.7rem;
+    height: 3px;
+    box-shadow: none;
+    transform: translateY(-50%);
+  }
+
+  .d13-artifact--api::after {
+    top: 50%;
+    left: 50%;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-top: 3px solid var(--color-blue);
+    border-right: 3px solid var(--color-blue);
+    transform: translate(-25%, -50%) rotate(45deg);
+  }
+
+  .d13-artifact--done {
+    border-color: var(--color-green);
+  }
+
+  .d13-artifact--done::before {
+    top: 2.45rem;
+    left: 1.05rem;
+    width: 1.25rem;
+    height: 0.65rem;
+    border-bottom: 5px solid var(--color-green);
+    border-left: 5px solid var(--color-green);
+    background: transparent;
+    box-shadow: none;
+    transform: rotate(-45deg);
+  }
+
+  .d13-artifact--done::after {
+    display: none;
+  }
+
+  .d13-complete-slide .redline__line {
+    stroke: var(--color-blue);
+  }
+
+  .d13-complete-slide .redline__arrow {
+    fill: var(--color-blue);
+  }
+
+  .d13-complete-slide .redline__step rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+  }
+
+  .d13-complete-slide .redline__step text {
+    fill: var(--color-blue);
+    font-size: 24px;
+  }
+
+  .d13-complete-slide .d13-check {
+    fill: var(--color-green);
+    font-size: 38px;
+    font-weight: 700;
+  }
+
+  .d13-map {
+    top: 7rem;
+    bottom: 1.2rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(3, 10.6rem) minmax(0, 1fr);
+    gap: 0.65rem 1.2rem;
+  }
+
+  .d13-map__item {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    gap: 0.8rem;
+    min-height: 0;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--color-line-bright);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    box-sizing: border-box;
+  }
+
+  .d13-map__number {
+    color: var(--color-blue);
+    font-size: 2.1rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .d13-map__step {
+    margin: 0 0 0.2rem;
+    color: var(--color-white);
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.08;
+  }
+
+  .d13-map__paths {
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .d13-map__paths span {
+    display: block;
+  }
+
+  .d13-next-grid {
+    top: 9.6rem;
+    bottom: 5rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .d13-next-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    border: 2px solid var(--color-blue);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  .d13-question-answer {
+    position: absolute;
+    right: 10rem;
+    bottom: 7rem;
+    left: 10rem;
+    color: var(--color-amber);
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-align: center;
+  }
+
+  .d13-feedback {
+    top: 10rem;
+    bottom: 5rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 25rem;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .d13-feedback__questions {
+    display: grid;
+    gap: 1.4rem;
+  }
+
+  .d13-feedback__question {
+    padding: 1.4rem 1.7rem;
+    border-left: 4px solid var(--color-blue);
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 2.15rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .d13-feedback__qr {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    gap: 0.55rem;
+    aspect-ratio: 1;
+    padding: 1.3rem;
+    border: 4px solid var(--color-amber);
+    background: var(--color-bg-deep);
+  }
+
+  .d13-feedback__qr span {
+    background: var(--color-amber);
+  }
+
+  .d13-feedback__qr span:nth-child(3n),
+  .d13-feedback__qr span:nth-child(5n) {
+    background: transparent;
+  }
+
+  .reveal section.citation-slide.d13-citation {
+    display: block !important;
+    padding: 0;
+    text-align: left;
+  }
+
+  .d13-citation__statement {
+    position: absolute;
+    right: 8rem;
+    bottom: 12.5rem;
+    left: 8rem;
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 2.35rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .d13-citation__source {
+    position: absolute;
+    right: 5rem;
+    bottom: 5.2rem;
+    left: 5rem;
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 22px;
+    line-height: 1.35;
+    text-align: center;
+  }
+
+  .d13-citation__date {
+    position: absolute;
+    right: 5rem;
+    bottom: 2.7rem;
+    left: 5rem;
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 22px;
+    text-align: center;
+  }
+</style>
+
+<section class="chapter-slide">
+  <div class="chapter-number">13</div>
+  <div class="chapter-eyebrow">Kapitel 13 · Abschluss</div>
+  <h1 class="chapter-title-big">Was ihr gebaut habt</h1>
+  <p class="chapter-subtitle">Eine Idee, ein Schema, eine API</p>
+
+  <div class="d13-artifact-line" aria-label="Acht verbundene Artefakte">
+    <span class="d13-artifact d13-artifact--round"></span>
+    <span class="d13-artifact"></span>
+    <span class="d13-artifact d13-artifact--database"></span>
+    <span class="d13-artifact"></span>
+    <span class="d13-artifact d13-artifact--round"></span>
+    <span class="d13-artifact"></span>
+    <span class="d13-artifact d13-artifact--api"></span>
+    <span class="d13-artifact d13-artifact--done"></span>
+  </div>
+
+  <aside class="notes">
+    Wir schließen nicht mit neuen Begriffen. Wir verbinden die Arbeit der drei
+    Tage zu einem System.
+  </aside>
+</section>
+
+<section class="d13-complete-slide">
+  <h2 class="slide-title">Der Kursweg ist vollständig</h2>
+
+  <svg
+    class="slide-svg redline"
+    viewBox="0 0 1920 1080"
+    preserveAspectRatio="xMidYMid meet"
+    aria-label="Der vollständige Kursweg"
+  >
+    <defs>
+      <marker
+        id="d13-redline-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon class="redline__arrow" points="0 0, 10 5, 0 10"></polygon>
+      </marker>
+    </defs>
+
+    <path
+      class="redline__line"
+      d="M440 330 H510 M870 330 H940 M1300 330 H1370 M1730 330 H1780 V650 H1730 M1370 650 H1300 M940 650 H870 M510 650 H440"
+      marker-end="url(#d13-redline-arrow)"
+    ></path>
+
+    <g class="redline__step">
+      <rect x="80" y="245" width="360" height="170" rx="8"></rect>
+      <text x="260" y="338">Idee im Kopf</text>
+    </g>
+    <g class="redline__step">
+      <rect x="510" y="245" width="360" height="170" rx="8"></rect>
+      <text x="690" y="320">
+        <tspan x="690">Darüber sprechen:</tspan>
+        <tspan x="690" dy="34">Abstraktion und</tspan>
+        <tspan x="690" dy="34">ER-Modell</tspan>
+      </text>
+    </g>
+    <g class="redline__step">
+      <rect x="940" y="245" width="360" height="170" rx="8"></rect>
+      <text x="1120" y="300">
+        <tspan x="1120">Tabellen, die uns</tspan>
+        <tspan x="1120" dy="34">nicht anlügen:</tspan>
+        <tspan x="1120" dy="34">Normalisierung</tspan>
+      </text>
+    </g>
+    <g class="redline__step">
+      <rect x="1370" y="245" width="360" height="170" rx="8"></rect>
+      <text x="1550" y="300">
+        <tspan x="1550">Den Tabellen</tspan>
+        <tspan x="1550" dy="34">Fragen stellen:</tspan>
+        <tspan x="1550" dy="34">SQL</tspan>
+      </text>
+    </g>
+    <g class="redline__step">
+      <rect x="1370" y="565" width="360" height="170" rx="8"></rect>
+      <text x="1550" y="602">
+        <tspan x="1550">Aus Java fragen:</tspan>
+        <tspan x="1550" dy="34">JDBC, Cursor,</tspan>
+        <tspan x="1550" dy="34">Statements</tspan>
+      </text>
+    </g>
+    <g class="redline__step">
+      <rect x="940" y="565" width="360" height="170" rx="8"></rect>
+      <text x="1120" y="602">
+        <tspan x="1120">Wiederholungen</tspan>
+        <tspan x="1120" dy="34">beenden:</tspan>
+        <tspan x="1120" dy="34">Repository Pattern</tspan>
+      </text>
+    </g>
+    <g class="redline__step">
+      <rect x="510" y="565" width="360" height="170" rx="8"></rect>
+      <text x="690" y="602">
+        <tspan x="690">Andere zugreifen</tspan>
+        <tspan x="690" dy="34">lassen:</tspan>
+        <tspan x="690" dy="34">REST API mit Spring</tspan>
+      </text>
+    </g>
+    <g class="redline__step">
+      <rect x="80" y="565" width="360" height="170" rx="8"></rect>
+      <text x="260" y="610">
+        <tspan x="260">Solide machen:</tspan>
+        <tspan x="260" dy="32">Schichten, Validierung,</tspan>
+        <tspan x="260" dy="32">Fehler, OpenAPI, Tests,</tspan>
+        <tspan x="260" dy="32">Middleware</tspan>
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="1">
+      <text class="d13-check" x="405" y="275">✓</text>
+      <text class="d13-check" x="835" y="275">✓</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <text class="d13-check" x="1265" y="275">✓</text>
+      <text class="d13-check" x="1695" y="275">✓</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <text class="d13-check" x="1695" y="595">✓</text>
+      <text class="d13-check" x="1265" y="595">✓</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <text class="d13-check" x="835" y="595">✓</text>
+      <text class="d13-check" x="405" y="595">✓</text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="5">
+      <rect
+        x="360"
+        y="825"
+        width="1200"
+        height="105"
+        rx="8"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+        stroke-dasharray="12 8"
+      ></rect>
+      <text
+        x="960"
+        y="888"
+        fill="var(--color-blue)"
+        font-size="28"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        Als Nächstes außerhalb des Kurses: euren nächsten Engpass bearbeiten
+      </text>
+    </g>
+  </svg>
+
+  <aside class="notes">
+    Der Kursweg ist abgeschlossen. Jede Gruppe hat alle acht Probleme einmal
+    bearbeitet. Auf der nächsten Folie ordnen wir jedem Schritt die vorhandenen
+    Dateien zu.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Acht Schritte, vorhandene Dateien</h2>
+
+  <div class="d13-map">
+    <div class="d13-map__item fragment fade-in" data-fragment-index="1">
+      <div class="d13-map__number">1</div>
+      <div>
+        <p class="d13-map__step">Idee im Kopf</p>
+        <div class="d13-map__paths">
+          <span>exercises/&lt;domain&gt;/README.md</span>
+        </div>
+      </div>
+    </div>
+    <div class="d13-map__item fragment fade-in" data-fragment-index="5">
+      <div class="d13-map__number">5</div>
+      <div>
+        <p class="d13-map__step">Aus Java fragen: JDBC, Cursor, Statements</p>
+        <div class="d13-map__paths">
+          <span>java/cursor-simple/src/main/java/</span>
+          <span>org/lecture/Main.java</span>
+          <span>exercises/&lt;domain&gt;/04-jdbc.md</span>
+        </div>
+      </div>
+    </div>
+    <div class="d13-map__item fragment fade-in" data-fragment-index="2">
+      <div class="d13-map__number">2</div>
+      <div>
+        <p class="d13-map__step">Darüber sprechen: Abstraktion und ER-Modell</p>
+        <div class="d13-map__paths">
+          <span>exercises/&lt;domain&gt;/01-er.md</span>
+        </div>
+      </div>
+    </div>
+    <div class="d13-map__item fragment fade-in" data-fragment-index="6">
+      <div class="d13-map__number">6</div>
+      <div>
+        <p class="d13-map__step">Wiederholungen beenden: Repository Pattern</p>
+        <div class="d13-map__paths">
+          <span>java/repository-simple/src/main/java/</span>
+          <span>org/lecture/AbstractRepository.java</span>
+          <span>exercises/&lt;domain&gt;/05-repository.md</span>
+        </div>
+      </div>
+    </div>
+    <div class="d13-map__item fragment fade-in" data-fragment-index="3">
+      <div class="d13-map__number">3</div>
+      <div>
+        <p class="d13-map__step">
+          Tabellen, die uns nicht anlügen: Normalisierung
+        </p>
+        <div class="d13-map__paths">
+          <span>java/sql/university/schema.sql</span>
+          <span>exercises/&lt;domain&gt;/02-normalization.md</span>
+        </div>
+      </div>
+    </div>
+    <div class="d13-map__item fragment fade-in" data-fragment-index="7">
+      <div class="d13-map__number">7</div>
+      <div>
+        <p class="d13-map__step">
+          Andere zugreifen lassen: REST API mit Spring
+        </p>
+        <div class="d13-map__paths">
+          <span>java/rest-simple-exercise/README.md</span>
+          <span>exercises/&lt;domain&gt;/06-rest.md</span>
+        </div>
+      </div>
+    </div>
+    <div class="d13-map__item fragment fade-in" data-fragment-index="4">
+      <div class="d13-map__number">4</div>
+      <div>
+        <p class="d13-map__step">Den Tabellen Fragen stellen: SQL</p>
+        <div class="d13-map__paths">
+          <span>java/sql/university/queries.sql</span>
+          <span>exercises/&lt;domain&gt;/03-sql.md</span>
+        </div>
+      </div>
+    </div>
+    <div class="d13-map__item fragment fade-in" data-fragment-index="8">
+      <div class="d13-map__number">8</div>
+      <div>
+        <p class="d13-map__step">
+          Solide machen: Schichten, Validierung, Fehler, OpenAPI, Tests,
+          Middleware
+        </p>
+        <div class="d13-map__paths">
+          <span>java/rest-simple/src/main/java/com/example/restsimple/</span>
+          <span>adapter/in/web/StudentController.java</span>
+          <span>java/rest-simple/src/test/java/com/example/restsimple/</span>
+          <span>adapter/in/web/StudentControllerTest.java</span>
+          <span>java/rest-simple/src/main/java/com/example/restsimple/</span>
+          <span>config/LoggingFilter.java</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="notes">
+    Alle gezeigten Pfade existieren im Repository. Die Domänenkarten begleiten
+    das gemeinsame Java- und SQL-Beispiel. Schritt 8 zeigt Produktion, Test und
+    Middleware als getrennte Dateien.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Ein Request durch das ganze Backend</h2>
+
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    preserveAspectRatio="xMidYMid meet"
+    aria-label="Request durch alle Schichten des Backends"
+  >
+    <defs>
+      <marker
+        id="d13-request-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+      </marker>
+      <marker
+        id="d13-error-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-red)"></polygon>
+      </marker>
+    </defs>
+
+    <line
+      x1="100"
+      y1="235"
+      x2="1775"
+      y2="235"
+      stroke="var(--color-amber)"
+      stroke-width="4"
+      stroke-dasharray="12 8"
+    ></line>
+    <text
+      x="100"
+      y="210"
+      fill="var(--color-amber)"
+      font-size="28"
+      font-weight="700"
+    >
+      Correlation ID
+    </text>
+
+    <g>
+      <rect
+        x="70"
+        y="330"
+        width="240"
+        height="140"
+        rx="8"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="190"
+        y="410"
+        fill="var(--color-white)"
+        font-size="30"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        Client POST
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="1">
+      <line
+        x1="310"
+        y1="400"
+        x2="350"
+        y2="400"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d13-request-arrow)"
+      ></line>
+      <rect
+        x="360"
+        y="330"
+        width="240"
+        height="140"
+        rx="8"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="480"
+        y="390"
+        fill="var(--color-white)"
+        font-size="29"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        <tspan x="480">Controller/</tspan>
+        <tspan x="480" dy="38">@Valid</tspan>
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="2">
+      <line
+        x1="600"
+        y1="400"
+        x2="640"
+        y2="400"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d13-request-arrow)"
+      ></line>
+      <rect
+        x="650"
+        y="330"
+        width="240"
+        height="140"
+        rx="8"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-amber)"
+        stroke-width="3"
+        stroke-dasharray="10 7"
+      ></rect>
+      <text
+        x="770"
+        y="390"
+        fill="var(--color-amber)"
+        font-size="29"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        <tspan x="770">optionaler</tspan>
+        <tspan x="770" dy="38">Service</tspan>
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="3">
+      <line
+        x1="890"
+        y1="400"
+        x2="930"
+        y2="400"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d13-request-arrow)"
+      ></line>
+      <rect
+        x="940"
+        y="330"
+        width="240"
+        height="140"
+        rx="8"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="1060"
+        y="410"
+        fill="var(--color-white)"
+        font-size="28"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        JpaRepository
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="4">
+      <line
+        x1="1180"
+        y1="400"
+        x2="1220"
+        y2="400"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d13-request-arrow)"
+      ></line>
+      <rect
+        x="1230"
+        y="330"
+        width="240"
+        height="140"
+        rx="70"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="1350"
+        y="410"
+        fill="var(--color-white)"
+        font-size="30"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        SQLite
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="5">
+      <line
+        x1="1470"
+        y1="400"
+        x2="1510"
+        y2="400"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d13-request-arrow)"
+      ></line>
+      <rect
+        x="1520"
+        y="330"
+        width="300"
+        height="140"
+        rx="8"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-green)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="1670"
+        y="410"
+        fill="var(--color-green)"
+        font-size="30"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        Response 201
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="6">
+      <line
+        x1="480"
+        y1="470"
+        x2="480"
+        y2="625"
+        stroke="var(--color-red)"
+        stroke-width="3"
+        marker-end="url(#d13-error-arrow)"
+      ></line>
+      <rect
+        x="390"
+        y="640"
+        width="180"
+        height="100"
+        rx="8"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-red)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="480"
+        y="702"
+        fill="var(--color-red)"
+        font-size="34"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        400
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="7">
+      <line
+        x1="770"
+        y1="470"
+        x2="770"
+        y2="625"
+        stroke="var(--color-red)"
+        stroke-width="3"
+        marker-end="url(#d13-error-arrow)"
+      ></line>
+      <rect
+        x="680"
+        y="640"
+        width="180"
+        height="100"
+        rx="8"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-red)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="770"
+        y="702"
+        fill="var(--color-red)"
+        font-size="34"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        409
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="8">
+      <line
+        x1="1060"
+        y1="470"
+        x2="1060"
+        y2="625"
+        stroke="var(--color-red)"
+        stroke-width="3"
+        marker-end="url(#d13-error-arrow)"
+      ></line>
+      <rect
+        x="970"
+        y="640"
+        width="180"
+        height="100"
+        rx="8"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-red)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="1060"
+        y="702"
+        fill="var(--color-red)"
+        font-size="34"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        500
+      </text>
+    </g>
+  </svg>
+
+  <aside class="notes">
+    Das ist die Antwort auf "Wie funktioniert das Backend von X?". In realen
+    Systemen kommen mehr Dienste und Ausfälle hinzu. Die Grundgrenzen bleiben
+    erkennbar.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Was als Nächstes Sinn ergibt</h2>
+
+  <div class="d13-next-grid">
+    <div class="d13-next-card fragment fade-in" data-fragment-index="1">
+      mehr Datenbank: Indexe, Transaktionen
+    </div>
+    <div class="d13-next-card fragment fade-in" data-fragment-index="2">
+      mehr API: Pagination, Versionierung
+    </div>
+    <div class="d13-next-card fragment fade-in" data-fragment-index="3">
+      mehr Betrieb: Deployment, Metrics
+    </div>
+    <div class="d13-next-card fragment fade-in" data-fragment-index="4">
+      mehr Schutz: Auth, Threat Modeling
+    </div>
+  </div>
+
+  <aside class="notes">
+    Wählt nach dem Engpass eures Projekts. Ein langsamer Bericht braucht eher
+    Query-Plan und Index als Microservices. Eine öffentliche API braucht zuerst
+    Auth und saubere Rechte.
+  </aside>
+</section>
+
+<section class="lead-question">
+  <div class="lead-question__mark">?</div>
+  <h2 class="lead-question__text">
+    Welche Grenze eurer App würdet ihr morgen als Erste verbessern, und woran
+    merkt ihr das?
+  </h2>
+  <div class="d13-question-answer fragment fade-in" data-fragment-index="1">
+    Datei · Symptom · nächster Test
+  </div>
+  <aside class="notes">
+    Erwartet ist eine konkrete Grenze mit Beleg. Typisch falsch sind "mehr
+    Features" und "alles neu machen". Jede Gruppe nennt in einem Satz Datei,
+    Symptom und nächsten Test.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Rückblick und Feedback</h2>
+
+  <div class="d13-feedback">
+    <div class="d13-feedback__questions">
+      <div
+        class="d13-feedback__question fragment fade-in"
+        data-fragment-index="1"
+      >
+        Wo hat es geklickt?
+      </div>
+      <div
+        class="d13-feedback__question fragment fade-in"
+        data-fragment-index="2"
+      >
+        Wo fehlt ein Zwischenschritt?
+      </div>
+      <div
+        class="d13-feedback__question fragment fade-in"
+        data-fragment-index="3"
+      >
+        Welche Übung würdet ihr kürzen?
+      </div>
+    </div>
+
+    <div class="d13-feedback__qr" aria-label="QR-Platzhalter ohne URL">
+      <span></span><span></span><span></span><span></span><span></span
+      ><span></span><span></span><span></span><span></span><span></span
+      ><span></span><span></span><span></span><span></span><span></span
+      ><span></span><span></span><span></span><span></span><span></span
+      ><span></span><span></span><span></span><span></span><span></span
+      ><span></span><span></span><span></span><span></span><span></span
+      ><span></span><span></span><span></span><span></span><span></span
+      ><span></span><span></span><span></span><span></span><span></span
+      ><span></span><span></span><span></span><span></span><span></span
+      ><span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <aside class="notes">
+    Ich sammle zuerst still, dann mündlich. Die Fragen zielen auf konkrete
+    Kursstellen. Es gibt keine Bewertung der Studierenden.
+  </aside>
+</section>
+
+<section class="citation-slide d13-citation">
+  <h2 class="slide-title">GitHubs Backend beginnt mit denselben Verträgen</h2>
+
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    preserveAspectRatio="xMidYMid meet"
+    aria-label="Kurskette und größere GitHub-Kette"
+  >
+    <defs>
+      <marker
+        id="d13-citation-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+
+    <g transform="translate(90, 250)">
+      <g
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      >
+        <rect x="0" y="0" width="210" height="110" rx="8"></rect>
+        <rect x="260" y="0" width="210" height="110" rx="8"></rect>
+        <rect x="520" y="0" width="210" height="110" rx="8"></rect>
+        <rect x="780" y="0" width="210" height="110" rx="8"></rect>
+        <rect x="1040" y="0" width="210" height="110" rx="8"></rect>
+      </g>
+      <g
+        fill="var(--color-white)"
+        font-size="28"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        <text x="105" y="67">Ressource</text>
+        <text x="365" y="67">Schema</text>
+        <text x="625" y="67">Repository</text>
+        <text x="885" y="67">HTTP</text>
+        <text x="1145" y="67">OpenAPI</text>
+      </g>
+      <g
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d13-citation-arrow)"
+      >
+        <line x1="210" y1="55" x2="250" y2="55"></line>
+        <line x1="470" y1="55" x2="510" y2="55"></line>
+        <line x1="730" y1="55" x2="770" y2="55"></line>
+        <line x1="990" y1="55" x2="1030" y2="55"></line>
+      </g>
+    </g>
+
+    <g transform="translate(1460, 165)">
+      <path
+        d="M120 20 L170 65 L235 55 L290 105 L305 185 C310 270 260 335 175 350 C90 335 40 270 45 185 L60 105 L115 55 Z"
+        fill="var(--color-grey-dim)"
+        stroke="var(--color-blue)"
+        stroke-width="5"
+      ></path>
+      <circle cx="130" cy="178" r="12" fill="var(--color-blue)"></circle>
+      <circle cx="220" cy="178" r="12" fill="var(--color-blue)"></circle>
+      <path
+        d="M115 250 Q175 290 235 250"
+        fill="none"
+        stroke="var(--color-blue)"
+        stroke-width="5"
+      ></path>
+    </g>
+
+    <g transform="translate(180, 540)">
+      <g
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+      >
+        <rect x="0" y="0" width="250" height="120" rx="8"></rect>
+        <rect x="310" y="0" width="250" height="120" rx="8"></rect>
+        <rect x="620" y="0" width="250" height="120" rx="8"></rect>
+        <rect x="930" y="0" width="250" height="120" rx="8"></rect>
+        <rect x="1240" y="0" width="250" height="120" rx="8"></rect>
+      </g>
+      <g
+        fill="var(--color-blue)"
+        font-size="30"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        <text x="125" y="72">Ressource</text>
+        <text x="435" y="72">Schema</text>
+        <text x="745" y="72">Repository</text>
+        <text x="1055" y="72">HTTP</text>
+        <text x="1365" y="72">OpenAPI</text>
+      </g>
+      <g
+        stroke="var(--color-blue)"
+        stroke-width="5"
+        marker-end="url(#d13-citation-arrow)"
+      >
+        <line x1="250" y1="60" x2="300" y2="60"></line>
+        <line x1="560" y1="60" x2="610" y2="60"></line>
+        <line x1="870" y1="60" x2="920" y2="60"></line>
+        <line x1="1180" y1="60" x2="1230" y2="60"></line>
+      </g>
+    </g>
+  </svg>
+
+  <div class="d13-citation__statement">
+    Andere Größenordnung, dieselben Grundfragen.
+  </div>
+  <div class="d13-citation__source">
+    https://docs.github.com/en/rest/about-the-rest-api/about-the-openapi-description-for-the-rest-api
+  </div>
+  <div class="d13-citation__date">Abruf: 2026-08-23</div>
+
+  <aside class="notes">
+    GitHub beschreibt seine REST API vollständig mit OpenAPI und erzeugt daraus
+    Dokumentation und SDKs. Euer System ist kleiner, aber Ressourcen,
+    Datenregeln und Verträge sind dieselbe Art Arbeit. Das ist der konkrete
+    Abschluss der roten Linie.
+  </aside>
+</section>
