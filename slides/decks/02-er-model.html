@@ -1,0 +1,2376 @@
+<style>
+  .d02-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .d02-entity {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 4;
+  }
+
+  .d02-entity--amber {
+    stroke: var(--color-amber);
+  }
+
+  .d02-entity--green {
+    stroke: var(--color-green);
+  }
+
+  .d02-entity--red {
+    stroke: var(--color-red);
+  }
+
+  .d02-divider {
+    stroke: var(--color-line-bright);
+    stroke-width: 3;
+  }
+
+  .d02-relation {
+    fill: none;
+    stroke: var(--color-blue);
+    stroke-width: 4;
+  }
+
+  .d02-relation--amber {
+    stroke: var(--color-amber);
+  }
+
+  .d02-relation--green {
+    stroke: var(--color-green);
+  }
+
+  .d02-relation--red {
+    stroke: var(--color-red);
+  }
+
+  .d02-title-text {
+    fill: var(--color-white);
+    font-size: 34px;
+    font-weight: 700;
+  }
+
+  .d02-text {
+    fill: var(--color-white);
+    font-size: 30px;
+  }
+
+  .d02-label {
+    fill: var(--color-text-mid);
+    font-size: 28px;
+  }
+
+  .d02-label--blue {
+    fill: var(--color-blue);
+  }
+
+  .d02-label--amber {
+    fill: var(--color-amber);
+  }
+
+  .d02-label--green {
+    fill: var(--color-green);
+  }
+
+  .d02-label--red {
+    fill: var(--color-red);
+  }
+
+  .d02-label--grey {
+    fill: var(--color-text-dim);
+  }
+
+  .d02-key {
+    fill: var(--color-amber);
+    font-size: 30px;
+    font-weight: 700;
+  }
+
+  .d02-card {
+    fill: var(--color-grey-dim);
+    stroke: var(--color-line-bright);
+    stroke-width: 3;
+  }
+
+  .d02-card--blue {
+    stroke: var(--color-blue);
+  }
+
+  .d02-card--amber {
+    stroke: var(--color-amber);
+  }
+
+  .d02-card--green {
+    stroke: var(--color-green);
+  }
+
+  .d02-card--red {
+    stroke: var(--color-red);
+  }
+
+  .d02-caption-back {
+    fill: var(--color-bg);
+    stroke: var(--color-line-bright);
+    stroke-width: 2;
+  }
+
+  .d02-strike {
+    stroke: var(--color-red);
+    stroke-width: 6;
+  }
+
+  .d02-chapter-visual {
+    position: absolute;
+    right: 16rem;
+    bottom: 5rem;
+    width: 42rem;
+    height: 15rem;
+  }
+
+  .d02-redline .d02-redline-line {
+    fill: none;
+    stroke: var(--color-grey);
+    stroke-width: 4;
+  }
+
+  .d02-redline .d02-redline-arrow {
+    fill: var(--color-grey);
+  }
+
+  .d02-redline .d02-redline-step rect {
+    fill: var(--color-grey-dim);
+    stroke: var(--color-grey);
+    stroke-width: 3;
+  }
+
+  .d02-redline .d02-redline-step text {
+    fill: var(--color-text-dim);
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    text-anchor: middle;
+  }
+
+  .d02-redline .d02-redline-step--done rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+  }
+
+  .d02-redline .d02-redline-step--done text {
+    fill: var(--color-blue);
+  }
+
+  .d02-redline .d02-redline-step--active rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-amber);
+    stroke-width: 5;
+  }
+
+  .d02-redline .d02-redline-step--active text {
+    fill: var(--color-amber);
+  }
+
+  .d02-redline .d02-redline-step--next rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-dasharray: 12 9;
+  }
+
+  .d02-redline .d02-redline-step--next text {
+    fill: var(--color-blue);
+  }
+
+  .d02-answer {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--color-amber);
+    font-size: 1.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .d02-answer--first {
+    bottom: 10rem;
+  }
+
+  .d02-answer--second {
+    bottom: 6.5rem;
+    color: var(--color-blue);
+    font-size: 1.25rem;
+  }
+
+  .d02-exercise .exercise-slide__task {
+    margin: 6.8rem 5rem 1.2rem;
+    font-size: 2.5rem;
+  }
+
+  .d02-exercise-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 1.5rem;
+    margin: 0 5rem 1.2rem;
+  }
+
+  .d02-exercise-step {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 0.8rem;
+    align-items: start;
+    min-height: 8.5rem;
+    padding: 1.4rem 1.5rem;
+    border: 1px solid var(--color-line-bright);
+    border-radius: 4px;
+    background: var(--color-grey-dim);
+    color: var(--color-text-mid);
+    font-size: 28px;
+    line-height: 1.35;
+  }
+
+  .d02-exercise-step span:first-child {
+    color: var(--color-amber);
+    font-size: 1.35rem;
+    font-weight: 700;
+  }
+
+  .d02-exercise .exercise-slide__deliverable {
+    margin: auto 5rem 0.8rem;
+    font-size: 28px;
+  }
+
+  .d02-exercise-path {
+    margin: 0 5rem 0.2rem;
+    color: var(--color-text-dim);
+    font-size: 24px;
+  }
+
+  .reveal section.citation-slide.d02-citation {
+    display: block !important;
+    padding: 0;
+    text-align: left;
+  }
+</style>
+
+<section class="chapter-slide">
+  <div class="chapter-number">02</div>
+  <div class="chapter-eyebrow">Kapitel 02 · ER-Modell</div>
+  <h1 class="chapter-title-big">Das ER-Modell</h1>
+  <p class="chapter-subtitle">Dinge, Beziehungen, Mengen</p>
+  <svg
+    class="d02-chapter-visual"
+    viewBox="0 0 1160 360"
+    aria-label="Student und Course sind über Enrollment verbunden"
+  >
+    <path d="M340 180 H455 M705 180 H820" class="d02-relation" />
+    <rect x="20" y="105" width="320" height="150" rx="12" class="d02-entity" />
+    <text x="180" y="195" text-anchor="middle" class="d02-title-text">
+      Student
+    </text>
+    <rect
+      x="455"
+      y="90"
+      width="250"
+      height="180"
+      rx="12"
+      class="d02-entity d02-entity--amber"
+    />
+    <text x="580" y="165" text-anchor="middle" class="d02-title-text">
+      Enrollment
+    </text>
+    <text
+      x="580"
+      y="210"
+      text-anchor="middle"
+      class="d02-label d02-label--amber"
+    >
+      enrolled_on · grade
+    </text>
+    <rect x="820" y="105" width="320" height="150" rx="12" class="d02-entity" />
+    <text x="980" y="195" text-anchor="middle" class="d02-title-text">
+      Course
+    </text>
+  </svg>
+  <aside class="notes">
+    Jetzt geben wir unseren Wörtern eine Notation. Das Diagramm soll Fragen
+    beantworten, bevor SQL sie teuer macht.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Wir präzisieren das Gespräch</h2>
+  <div class="slide-context">Rote Linie</div>
+  <svg
+    class="d02-svg d02-redline"
+    viewBox="0 0 1920 1080"
+    aria-label="Der rote Faden des Kurses"
+  >
+    <defs>
+      <marker
+        id="d02-redline-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon class="d02-redline-arrow" points="0 0, 12 6, 0 12"></polygon>
+      </marker>
+    </defs>
+    <path
+      class="d02-redline-line"
+      d="M278 520 H286 M504 520 H512 M730 520 H738 M956 520 H964 M1182 520 H1190 M1408 520 H1416 M1634 520 H1642"
+      marker-end="url(#d02-redline-arrow)"
+    />
+    <g class="d02-redline-step d02-redline-step--done">
+      <rect x="60" y="385" width="218" height="270" rx="12" />
+      <text x="169" y="430">
+        <tspan x="169">1</tspan>
+        <tspan x="169" dy="48">Idee im</tspan>
+        <tspan x="169" dy="34">Kopf</tspan>
+      </text>
+    </g>
+    <g class="d02-redline-step d02-redline-step--active">
+      <rect x="286" y="385" width="218" height="270" rx="12" />
+      <text x="395" y="430">
+        <tspan x="395">2</tspan>
+        <tspan x="395" dy="42">Darüber</tspan>
+        <tspan x="395" dy="34">sprechen:</tspan>
+        <tspan x="395" dy="34">Abstraktion</tspan>
+        <tspan x="395" dy="34">und ER-Modell</tspan>
+      </text>
+    </g>
+    <g class="d02-redline-step d02-redline-step--next">
+      <rect x="512" y="385" width="218" height="270" rx="12" />
+      <text x="621" y="420">
+        <tspan x="621">3</tspan>
+        <tspan x="621" dy="40">Tabellen,</tspan>
+        <tspan x="621" dy="34">die uns nicht</tspan>
+        <tspan x="621" dy="34">anlügen:</tspan>
+        <tspan x="621" dy="34">Normali-</tspan>
+        <tspan x="621" dy="34">sierung</tspan>
+      </text>
+    </g>
+    <g class="d02-redline-step">
+      <rect x="738" y="385" width="218" height="270" rx="12" />
+      <text x="847" y="440">
+        <tspan x="847">4</tspan>
+        <tspan x="847" dy="45">Den Tabellen</tspan>
+        <tspan x="847" dy="34">Fragen</tspan>
+        <tspan x="847" dy="34">stellen: SQL</tspan>
+      </text>
+    </g>
+    <g class="d02-redline-step">
+      <rect x="964" y="385" width="218" height="270" rx="12" />
+      <text x="1073" y="420">
+        <tspan x="1073">5</tspan>
+        <tspan x="1073" dy="40">Aus Java</tspan>
+        <tspan x="1073" dy="34">fragen:</tspan>
+        <tspan x="1073" dy="34">JDBC,</tspan>
+        <tspan x="1073" dy="34">Cursor,</tspan>
+        <tspan x="1073" dy="34">Statements</tspan>
+      </text>
+    </g>
+    <g class="d02-redline-step">
+      <rect x="1190" y="385" width="218" height="270" rx="12" />
+      <text x="1299" y="420">
+        <tspan x="1299">6</tspan>
+        <tspan x="1299" dy="40">Wieder-</tspan>
+        <tspan x="1299" dy="34">holungen</tspan>
+        <tspan x="1299" dy="34">beenden:</tspan>
+        <tspan x="1299" dy="34">Repository</tspan>
+        <tspan x="1299" dy="34">Pattern</tspan>
+      </text>
+    </g>
+    <g class="d02-redline-step">
+      <rect x="1416" y="385" width="218" height="270" rx="12" />
+      <text x="1525" y="420">
+        <tspan x="1525">7</tspan>
+        <tspan x="1525" dy="38">Andere</tspan>
+        <tspan x="1525" dy="32">zugreifen</tspan>
+        <tspan x="1525" dy="32">lassen:</tspan>
+        <tspan x="1525" dy="32">REST API mit</tspan>
+        <tspan x="1525" dy="32">Spring</tspan>
+      </text>
+    </g>
+    <g class="d02-redline-step">
+      <rect x="1642" y="385" width="218" height="270" rx="12" />
+      <text x="1751" y="415">
+        <tspan x="1751">8</tspan>
+        <tspan x="1751" dy="32">Solide</tspan>
+        <tspan x="1751" dy="28">machen:</tspan>
+        <tspan x="1751" dy="28">Schichten,</tspan>
+        <tspan x="1751" dy="28">Validierung,</tspan>
+        <tspan x="1751" dy="28">Fehler,</tspan>
+        <tspan x="1751" dy="28">OpenAPI,</tspan>
+        <tspan x="1751" dy="28">Tests,</tspan>
+        <tspan x="1751" dy="28">Middleware</tspan>
+      </text>
+    </g>
+  </svg>
+  <div class="slide-caption">
+    Vorher: Idee im Kopf · Jetzt: ER-Modell · Danach: Normalisierung
+  </div>
+  <aside class="notes">
+    Wir bleiben im zweiten Schritt, aber werden genauer. Das Ergebnis ist noch
+    unabhängig von SQLite und Java. Im nächsten Deck wird jede
+    Modellentscheidung zu einer Tabellenentscheidung.
+  </aside>
+</section>
+
+<section class="lead-question">
+  <div class="lead-question__mark">?</div>
+  <h2 class="lead-question__text">
+    Ein Student belegt Kurse. Wie viele, und muss er?
+  </h2>
+  <div
+    class="d02-answer d02-answer--first fragment fade-in"
+    data-fragment-index="1"
+  >
+    0..n Courses
+  </div>
+  <div
+    class="d02-answer d02-answer--second fragment fade-in"
+    data-fragment-index="2"
+  >
+    jede Seite getrennt lesen
+  </div>
+  <aside class="notes">
+    Erwartet ist null bis viele, wenn die Fachregel das erlaubt. Typisch falsch
+    sind genau einer und mindestens einer, weil das Verb "belegt" so klingt. Die
+    Antwort kommt nicht aus der Grammatik, sondern aus der Fachregel.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Entity und Attribute</h2>
+  <div class="slide-context blue">Grundbegriffe</div>
+  <svg
+    class="d02-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Entity Student mit sechs Attributen"
+  >
+    <rect x="565" y="210" width="790" height="650" rx="16" class="d02-entity" />
+    <text x="960" y="280" text-anchor="middle" class="d02-title-text">
+      Student
+    </text>
+    <line x1="565" y1="315" x2="1355" y2="315" class="d02-divider" />
+    <g class="fragment fade-in" data-fragment-index="1">
+      <text x="625" y="390" class="d02-key">PK id</text>
+      <path d="M625 405 H775" class="d02-relation--amber" stroke-width="4" />
+    </g>
+    <text
+      x="625"
+      y="470"
+      class="d02-text fragment fade-in"
+      data-fragment-index="2"
+    >
+      student_number
+    </text>
+    <text
+      x="625"
+      y="550"
+      class="d02-text fragment fade-in"
+      data-fragment-index="3"
+    >
+      first_name
+    </text>
+    <text
+      x="625"
+      y="630"
+      class="d02-text fragment fade-in"
+      data-fragment-index="4"
+    >
+      last_name
+    </text>
+    <text
+      x="625"
+      y="710"
+      class="d02-text fragment fade-in"
+      data-fragment-index="5"
+    >
+      email
+    </text>
+    <text
+      x="625"
+      y="790"
+      class="d02-text fragment fade-in"
+      data-fragment-index="6"
+    >
+      enrollment_date
+    </text>
+  </svg>
+  <div class="slide-caption">
+    Entity: unterscheidbares Ding · Attribute: beschreibende Werte
+  </div>
+  <aside class="notes">
+    Eine Entity hat Identität. Zwei Studierende mit gleichem Namen bleiben zwei
+    Studierende. Attribute beschreiben sie, ersetzen aber nicht automatisch die
+    Identität.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Schlüssel beantworten "welcher?"</h2>
+  <div class="slide-context">Identität</div>
+  <svg
+    class="d02-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Primary Key und Candidate Keys im Vergleich"
+  >
+    <rect
+      x="100"
+      y="250"
+      width="760"
+      height="530"
+      rx="16"
+      class="d02-card d02-card--amber"
+    />
+    <text
+      x="480"
+      y="330"
+      text-anchor="middle"
+      class="d02-label d02-label--amber"
+    >
+      PRIMARY KEY
+    </text>
+    <text x="480" y="455" text-anchor="middle" class="d02-key" font-size="64">
+      id
+    </text>
+    <text x="480" y="540" text-anchor="middle" class="d02-text">
+      technische Identität
+    </text>
+    <text x="480" y="595" text-anchor="middle" class="d02-label">
+      genau ein Datensatz
+    </text>
+    <rect
+      x="1060"
+      y="250"
+      width="760"
+      height="530"
+      rx="16"
+      class="d02-card d02-card--blue"
+    />
+    <text
+      x="1440"
+      y="330"
+      text-anchor="middle"
+      class="d02-label d02-label--blue"
+    >
+      CANDIDATE KEYS
+    </text>
+    <text x="1440" y="435" text-anchor="middle" class="d02-title-text">
+      student_number
+    </text>
+    <text x="1440" y="500" text-anchor="middle" class="d02-title-text">
+      email
+    </text>
+    <text x="1440" y="595" text-anchor="middle" class="d02-label">
+      fachlich ebenfalls eindeutig
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        x="240"
+        y="665"
+        width="480"
+        height="130"
+        rx="10"
+        class="d02-card d02-card--red"
+      />
+      <text
+        x="480"
+        y="720"
+        text-anchor="middle"
+        class="d02-label d02-label--red"
+      >
+        Anna Müller
+      </text>
+      <text
+        x="480"
+        y="765"
+        text-anchor="middle"
+        class="d02-label d02-label--red"
+      >
+        Anna Müller
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="1200"
+        y="665"
+        width="480"
+        height="130"
+        rx="10"
+        class="d02-card d02-card--green"
+      />
+      <text
+        x="1440"
+        y="720"
+        text-anchor="middle"
+        class="d02-label d02-label--green"
+      >
+        S-1042
+      </text>
+      <text
+        x="1440"
+        y="765"
+        text-anchor="middle"
+        class="d02-label d02-label--green"
+      >
+        S-2187
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Der Primary Key identifiziert jeden Datensatz. Candidate Keys könnten
+    fachlich ebenfalls eindeutig sein. Namen sind dafür ungeeignet, weil
+    Menschen gleich heißen und Namen ändern.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Relationship</h2>
+  <div class="slide-context blue">Fachlicher Zusammenhang</div>
+  <svg
+    class="d02-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Beziehungen zwischen vier Entities"
+  >
+    <rect x="120" y="430" width="360" height="170" rx="14" class="d02-entity" />
+    <text x="300" y="530" text-anchor="middle" class="d02-title-text">
+      Student
+    </text>
+    <rect
+      x="1440"
+      y="430"
+      width="360"
+      height="170"
+      rx="14"
+      class="d02-entity"
+    />
+    <text x="1620" y="530" text-anchor="middle" class="d02-title-text">
+      Course
+    </text>
+    <path d="M480 515 H1440" class="d02-relation" />
+    <rect
+      x="785"
+      y="475"
+      width="350"
+      height="80"
+      rx="8"
+      class="d02-caption-back"
+    />
+    <text
+      x="960"
+      y="525"
+      text-anchor="middle"
+      class="d02-label d02-label--blue"
+    >
+      enrolls in
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        x="780"
+        y="180"
+        width="360"
+        height="150"
+        rx="14"
+        class="d02-entity"
+      />
+      <text x="960" y="270" text-anchor="middle" class="d02-title-text">
+        Lecturer
+      </text>
+      <path d="M960 330 V430" class="d02-relation" />
+      <rect
+        x="1010"
+        y="345"
+        width="220"
+        height="70"
+        rx="8"
+        class="d02-caption-back"
+      />
+      <text
+        x="1120"
+        y="390"
+        text-anchor="middle"
+        class="d02-label d02-label--blue"
+      >
+        teaches
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="780"
+        y="750"
+        width="360"
+        height="150"
+        rx="14"
+        class="d02-entity"
+      />
+      <text x="960" y="840" text-anchor="middle" class="d02-title-text">
+        Department
+      </text>
+      <path d="M960 750 V600" class="d02-relation" />
+      <rect
+        x="1010"
+        y="635"
+        width="220"
+        height="70"
+        rx="8"
+        class="d02-caption-back"
+      />
+      <text
+        x="1120"
+        y="680"
+        text-anchor="middle"
+        class="d02-label d02-label--blue"
+      >
+        offers
+      </text>
+    </g>
+    <g class="fragment fade-out" data-fragment-index="3">
+      <path d="M805 500 L845 515 L805 530 Z" fill="var(--color-red)" />
+      <path d="M1115 500 L1075 515 L1115 530 Z" fill="var(--color-red)" />
+    </g>
+  </svg>
+  <div class="slide-caption">Relationship: fachlicher Zusammenhang</div>
+  <aside class="notes">
+    Wir benennen Beziehungen mit einem Verb. Die Linie ist keine Java-Referenz.
+    Sie sagt, welche Datensätze fachlich zusammengehören.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">1:1, 1:n, n:m</h2>
+  <div class="slide-context">Cardinality</div>
+  <svg
+    class="d02-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Drei Kardinalitäten in Crow's-Foot-Notation"
+  >
+    <defs>
+      <marker
+        id="d02-s07-one"
+        markerWidth="18"
+        markerHeight="22"
+        refX="9"
+        refY="11"
+        orient="auto-start-reverse"
+        markerUnits="userSpaceOnUse"
+      >
+        <path d="M9 2 V20" stroke="var(--color-amber)" stroke-width="4" />
+      </marker>
+      <marker
+        id="d02-s07-many"
+        markerWidth="34"
+        markerHeight="30"
+        refX="31"
+        refY="15"
+        orient="auto-start-reverse"
+        markerUnits="userSpaceOnUse"
+      >
+        <path
+          d="M8 3 V27 M13 15 L31 3 M13 15 H31 M13 15 L31 27"
+          stroke="var(--color-amber)"
+          stroke-width="4"
+          fill="none"
+        />
+      </marker>
+    </defs>
+    <g>
+      <rect
+        x="180"
+        y="220"
+        width="420"
+        height="150"
+        rx="14"
+        class="d02-entity"
+      />
+      <text x="390" y="310" text-anchor="middle" class="d02-title-text">
+        Student
+      </text>
+      <rect
+        x="1320"
+        y="220"
+        width="420"
+        height="150"
+        rx="14"
+        class="d02-entity"
+      />
+      <text x="1530" y="310" text-anchor="middle" class="d02-title-text">
+        StudentCard
+      </text>
+      <path
+        d="M600 295 H1320"
+        class="d02-relation d02-relation--amber"
+        marker-start="url(#d02-s07-one)"
+        marker-end="url(#d02-s07-one)"
+      />
+      <text x="960" y="275" text-anchor="middle" class="d02-key">1:1</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        x="180"
+        y="465"
+        width="420"
+        height="150"
+        rx="14"
+        class="d02-entity"
+      />
+      <text x="390" y="555" text-anchor="middle" class="d02-title-text">
+        Department
+      </text>
+      <rect
+        x="1320"
+        y="465"
+        width="420"
+        height="150"
+        rx="14"
+        class="d02-entity"
+      />
+      <text x="1530" y="555" text-anchor="middle" class="d02-title-text">
+        Course
+      </text>
+      <path
+        d="M600 540 H1320"
+        class="d02-relation d02-relation--amber"
+        marker-start="url(#d02-s07-one)"
+        marker-end="url(#d02-s07-many)"
+      />
+      <text x="960" y="520" text-anchor="middle" class="d02-key">1:n</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="180"
+        y="710"
+        width="420"
+        height="150"
+        rx="14"
+        class="d02-entity"
+      />
+      <text x="390" y="800" text-anchor="middle" class="d02-title-text">
+        Student
+      </text>
+      <rect
+        x="1320"
+        y="710"
+        width="420"
+        height="150"
+        rx="14"
+        class="d02-entity"
+      />
+      <text x="1530" y="800" text-anchor="middle" class="d02-title-text">
+        Course
+      </text>
+      <path
+        d="M600 785 H1320"
+        class="d02-relation d02-relation--amber"
+        marker-start="url(#d02-s07-many)"
+        marker-end="url(#d02-s07-many)"
+      />
+      <text x="960" y="765" text-anchor="middle" class="d02-key">n:m</text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Cardinality (Kardinalität) zählt mögliche Partner. Wir lesen jede Beziehung
+    in beide Richtungen. n:m wird später eine eigene Tabelle brauchen.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Optionality ist eine eigene Frage</h2>
+  <div class="slide-context">0 oder 1?</div>
+  <svg
+    class="d02-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Optionalität an zwei Beziehungen"
+  >
+    <defs>
+      <marker
+        id="d02-s08-one"
+        markerWidth="20"
+        markerHeight="24"
+        refX="10"
+        refY="12"
+        orient="auto-start-reverse"
+        markerUnits="userSpaceOnUse"
+      >
+        <path d="M10 2 V22" stroke="var(--color-blue)" stroke-width="4" />
+      </marker>
+      <marker
+        id="d02-s08-zero-many"
+        markerWidth="42"
+        markerHeight="32"
+        refX="38"
+        refY="16"
+        orient="auto-start-reverse"
+        markerUnits="userSpaceOnUse"
+      >
+        <circle
+          cx="7"
+          cy="16"
+          r="6"
+          fill="var(--color-bg)"
+          stroke="var(--color-amber)"
+          stroke-width="4"
+        />
+        <path
+          d="M16 16 L38 3 M16 16 H38 M16 16 L38 29"
+          stroke="var(--color-amber)"
+          stroke-width="4"
+          fill="none"
+        />
+      </marker>
+    </defs>
+    <rect x="140" y="235" width="430" height="180" rx="14" class="d02-entity" />
+    <text x="355" y="315" text-anchor="middle" class="d02-title-text">
+      Department
+    </text>
+    <rect
+      x="1350"
+      y="235"
+      width="430"
+      height="180"
+      rx="14"
+      class="d02-entity"
+    />
+    <text x="1565" y="300" text-anchor="middle" class="d02-title-text">
+      Lecturer
+    </text>
+    <text
+      x="1565"
+      y="355"
+      text-anchor="middle"
+      class="d02-label d02-label--blue"
+    >
+      gehört genau einem
+    </text>
+    <path
+      d="M570 325 H1350"
+      class="d02-relation"
+      marker-start="url(#d02-s08-one)"
+      marker-end="url(#d02-s08-zero-many)"
+    />
+    <text x="620" y="285" class="d02-label">1</text>
+    <text x="1240" y="285" class="d02-label">0..n</text>
+    <rect x="140" y="625" width="430" height="180" rx="14" class="d02-entity" />
+    <text x="355" y="690" text-anchor="middle" class="d02-title-text">
+      Lecturer
+    </text>
+    <text
+      x="355"
+      y="745"
+      text-anchor="middle"
+      class="d02-label d02-label--blue"
+    >
+      gehört genau einem
+    </text>
+    <rect
+      x="1350"
+      y="625"
+      width="430"
+      height="180"
+      rx="14"
+      class="d02-entity"
+    />
+    <text x="1565" y="725" text-anchor="middle" class="d02-title-text">
+      Course
+    </text>
+    <path
+      d="M570 715 H1350"
+      class="d02-relation"
+      marker-start="url(#d02-s08-one)"
+      marker-end="url(#d02-s08-zero-many)"
+    />
+    <text x="620" y="675" class="d02-label">1</text>
+    <text x="1240" y="675" class="d02-label">0..n</text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <circle
+        cx="1307"
+        cy="325"
+        r="18"
+        fill="none"
+        stroke="var(--color-amber)"
+        stroke-width="5"
+      />
+      <circle
+        cx="1307"
+        cy="715"
+        r="18"
+        fill="none"
+        stroke="var(--color-amber)"
+        stroke-width="5"
+      />
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <path
+        d="M590 295 V355 M600 685 V745"
+        class="d02-relation"
+        stroke-width="7"
+      />
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        x="430"
+        y="875"
+        width="1060"
+        height="95"
+        rx="10"
+        class="d02-card d02-card--red"
+      />
+      <text
+        x="960"
+        y="935"
+        text-anchor="middle"
+        class="d02-label d02-label--red"
+      >
+        Darf ein Course ohne Lecturer existieren? Im Schema: nein.
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Optionality (Optionalität) sagt, ob null erlaubt ist. Im Universitäts-Schema
+    gehört jeder Lecturer genau einem Department und jeder Course genau einem
+    Lecturer. Ein Department oder Lecturer darf noch keine abhängigen Datensätze
+    haben.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Chen macht Rollen sichtbar</h2>
+  <div class="slide-context blue">Chen-Notation</div>
+  <svg
+    class="d02-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Chen-Diagramm mit Entity, Attribute und Relationship"
+  >
+    <rect x="170" y="430" width="390" height="190" rx="8" class="d02-entity" />
+    <text x="365" y="545" text-anchor="middle" class="d02-title-text">
+      Student
+    </text>
+    <ellipse
+      cx="780"
+      cy="300"
+      rx="245"
+      ry="95"
+      fill="var(--color-bg-deep)"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+    />
+    <text x="780" y="315" text-anchor="middle" class="d02-text">
+      student_number
+    </text>
+    <path d="M650 335 L470 430" class="d02-relation" />
+    <path
+      d="M790 525 L960 390 L1130 525 L960 660 Z"
+      fill="var(--color-bg-deep)"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+    />
+    <text x="960" y="535" text-anchor="middle" class="d02-title-text">
+      enrolls
+    </text>
+    <path d="M560 525 H790 M1130 525 H1360" class="d02-relation" />
+    <rect x="1360" y="430" width="390" height="190" rx="8" class="d02-entity" />
+    <text x="1555" y="545" text-anchor="middle" class="d02-title-text">
+      Course
+    </text>
+    <path d="M610 335 H950" class="d02-relation--amber" stroke-width="4" />
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        x="210"
+        y="690"
+        width="310"
+        height="90"
+        rx="8"
+        class="d02-card d02-card--blue"
+      />
+      <text
+        x="365"
+        y="748"
+        text-anchor="middle"
+        class="d02-label d02-label--blue"
+      >
+        Entity
+      </text>
+      <path d="M365 690 V620" class="d02-relation" />
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="625"
+        y="110"
+        width="310"
+        height="90"
+        rx="8"
+        class="d02-card d02-card--blue"
+      />
+      <text
+        x="780"
+        y="168"
+        text-anchor="middle"
+        class="d02-label d02-label--blue"
+      >
+        Attribute
+      </text>
+      <path d="M780 200 V205" class="d02-relation" />
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        x="805"
+        y="735"
+        width="310"
+        height="90"
+        rx="8"
+        class="d02-card d02-card--blue"
+      />
+      <text
+        x="960"
+        y="793"
+        text-anchor="middle"
+        class="d02-label d02-label--blue"
+      >
+        Relationship
+      </text>
+      <path d="M960 735 V660" class="d02-relation" />
+    </g>
+  </svg>
+  <aside class="notes">
+    Chen trennt die Bausteine deutlich. Das hilft beim ersten Lesen. Große
+    Modelle werden damit schnell breit, deshalb wechseln wir danach die
+    Schreibweise.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Dasselbe in Crow's Foot</h2>
+  <div class="slide-context blue">Notation wechseln</div>
+  <svg
+    class="d02-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Chen und Crow's Foot zeigen dasselbe Modell"
+  >
+    <defs>
+      <marker
+        id="d02-s10-one"
+        markerWidth="18"
+        markerHeight="22"
+        refX="9"
+        refY="11"
+        orient="auto-start-reverse"
+        markerUnits="userSpaceOnUse"
+      >
+        <path d="M9 2 V20" stroke="var(--color-blue)" stroke-width="4" />
+      </marker>
+      <marker
+        id="d02-s10-many"
+        markerWidth="38"
+        markerHeight="30"
+        refX="34"
+        refY="15"
+        orient="auto-start-reverse"
+        markerUnits="userSpaceOnUse"
+      >
+        <circle
+          cx="7"
+          cy="15"
+          r="5"
+          fill="var(--color-bg)"
+          stroke="var(--color-blue)"
+          stroke-width="3"
+        />
+        <path
+          d="M15 15 L34 3 M15 15 H34 M15 15 L34 27"
+          stroke="var(--color-blue)"
+          stroke-width="4"
+          fill="none"
+        />
+      </marker>
+    </defs>
+    <rect
+      x="90"
+      y="230"
+      width="780"
+      height="620"
+      rx="16"
+      class="d02-card d02-card--blue"
+    />
+    <text
+      x="480"
+      y="290"
+      text-anchor="middle"
+      class="d02-label d02-label--blue"
+    >
+      CHEN
+    </text>
+    <rect x="140" y="465" width="220" height="130" rx="8" class="d02-entity" />
+    <text x="250" y="545" text-anchor="middle" class="d02-text">Student</text>
+    <ellipse
+      cx="250"
+      cy="365"
+      rx="145"
+      ry="58"
+      fill="var(--color-bg-deep)"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+    />
+    <text x="250" y="375" text-anchor="middle" class="d02-label">
+      student_number
+    </text>
+    <path d="M250 423 V465 M360 530 H430" class="d02-relation" />
+    <path
+      d="M430 530 L535 450 L640 530 L535 610 Z"
+      fill="var(--color-bg-deep)"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+    />
+    <text x="535" y="540" text-anchor="middle" class="d02-label">enrolls</text>
+    <path d="M640 530 H680" class="d02-relation" />
+    <rect x="680" y="465" width="140" height="130" rx="8" class="d02-entity" />
+    <text x="750" y="545" text-anchor="middle" class="d02-text">Course</text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <path
+        d="M360 470 C680 320, 980 320, 1140 430"
+        class="d02-relation"
+        stroke-dasharray="12 10"
+      />
+      <path
+        d="M535 610 C760 780, 1120 780, 1320 650"
+        class="d02-relation"
+        stroke-dasharray="12 10"
+      />
+      <path
+        d="M750 465 C970 310, 1320 310, 1580 430"
+        class="d02-relation"
+        stroke-dasharray="12 10"
+      />
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="1010"
+        y="230"
+        width="820"
+        height="620"
+        rx="16"
+        class="d02-card d02-card--amber"
+      />
+      <text
+        x="1420"
+        y="290"
+        text-anchor="middle"
+        class="d02-label d02-label--amber"
+      >
+        CROW'S FOOT
+      </text>
+      <rect
+        x="1070"
+        y="420"
+        width="280"
+        height="210"
+        rx="10"
+        class="d02-entity d02-entity--amber"
+      />
+      <text x="1210" y="475" text-anchor="middle" class="d02-title-text">
+        Student
+      </text>
+      <line x1="1070" y1="500" x2="1350" y2="500" class="d02-divider" />
+      <text x="1100" y="550" class="d02-label">PK id</text>
+      <text x="1100" y="595" class="d02-label">student_number</text>
+      <rect
+        x="1410"
+        y="390"
+        width="300"
+        height="270"
+        rx="10"
+        class="d02-entity d02-entity--amber"
+      />
+      <text x="1560" y="445" text-anchor="middle" class="d02-title-text">
+        Enrollment
+      </text>
+      <line x1="1410" y1="470" x2="1710" y2="470" class="d02-divider" />
+      <text x="1440" y="520" class="d02-label">student_id</text>
+      <text x="1440" y="565" class="d02-label">course_id</text>
+      <text x="1440" y="610" class="d02-label">enrolled_on</text>
+      <path
+        d="M1350 525 H1410"
+        class="d02-relation d02-relation--amber"
+        marker-start="url(#d02-s10-one)"
+        marker-end="url(#d02-s10-many)"
+      />
+      <rect
+        x="1740"
+        y="420"
+        width="150"
+        height="210"
+        rx="10"
+        class="d02-entity d02-entity--amber"
+      />
+      <text x="1815" y="475" text-anchor="middle" class="d02-title-text">
+        Course
+      </text>
+      <path d="M1710 525 H1740" class="d02-relation d02-relation--amber" />
+    </g>
+  </svg>
+  <div class="slide-caption">Andere Notation, gleiches Modell</div>
+  <aside class="notes">
+    Die Notation ändert nicht die Fachregel. Ab jetzt zeichnen wir Crow's Foot.
+    Ihr sollt Chen weiterhin erkennen können.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Enrollment trägt eigene Daten</h2>
+  <div class="slide-context">Assoziative Entity</div>
+  <svg
+    class="d02-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Student und Course sind über Enrollment verbunden"
+  >
+    <defs>
+      <marker
+        id="d02-s11-one"
+        markerWidth="18"
+        markerHeight="22"
+        refX="9"
+        refY="11"
+        orient="auto-start-reverse"
+        markerUnits="userSpaceOnUse"
+      >
+        <path d="M9 2 V20" stroke="var(--color-blue)" stroke-width="4" />
+      </marker>
+      <marker
+        id="d02-s11-many"
+        markerWidth="38"
+        markerHeight="30"
+        refX="34"
+        refY="15"
+        orient="auto-start-reverse"
+        markerUnits="userSpaceOnUse"
+      >
+        <circle
+          cx="7"
+          cy="15"
+          r="5"
+          fill="var(--color-bg)"
+          stroke="var(--color-blue)"
+          stroke-width="3"
+        />
+        <path
+          d="M15 15 L34 3 M15 15 H34 M15 15 L34 27"
+          stroke="var(--color-blue)"
+          stroke-width="4"
+          fill="none"
+        />
+      </marker>
+    </defs>
+    <rect x="90" y="380" width="390" height="230" rx="14" class="d02-entity" />
+    <text x="285" y="455" text-anchor="middle" class="d02-title-text">
+      Student
+    </text>
+    <line x1="90" y1="485" x2="480" y2="485" class="d02-divider" />
+    <text x="135" y="545" class="d02-label">PK id</text>
+    <rect
+      x="650"
+      y="170"
+      width="620"
+      height="700"
+      rx="14"
+      class="d02-entity d02-entity--amber"
+    />
+    <text x="960" y="250" text-anchor="middle" class="d02-title-text">
+      Enrollment
+    </text>
+    <line x1="650" y1="295" x2="1270" y2="295" class="d02-divider" />
+    <text x="710" y="370" class="d02-label">id</text>
+    <text x="710" y="445" class="d02-label">student_id</text>
+    <text x="710" y="520" class="d02-label">course_id</text>
+    <text
+      x="710"
+      y="595"
+      class="d02-label fragment fade-in d02-label--amber"
+      data-fragment-index="1"
+    >
+      enrolled_on
+    </text>
+    <text
+      x="710"
+      y="670"
+      class="d02-label fragment fade-in d02-label--amber"
+      data-fragment-index="2"
+    >
+      grade
+    </text>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <text x="1030" y="370" class="d02-key">Primary Key</text>
+      <rect
+        x="690"
+        y="730"
+        width="540"
+        height="100"
+        rx="9"
+        class="d02-card d02-card--amber"
+      />
+      <text x="960" text-anchor="middle" class="d02-label d02-label--amber">
+        <tspan x="960" y="770">Candidate Key:</tspan>
+        <tspan x="960" dy="38">(student_id, course_id)</tspan>
+      </text>
+    </g>
+    <rect
+      x="1440"
+      y="380"
+      width="390"
+      height="230"
+      rx="14"
+      class="d02-entity"
+    />
+    <text x="1635" y="455" text-anchor="middle" class="d02-title-text">
+      Course
+    </text>
+    <line x1="1440" y1="485" x2="1830" y2="485" class="d02-divider" />
+    <text x="1485" y="545" class="d02-label">PK id</text>
+    <path
+      d="M480 495 H650"
+      class="d02-relation"
+      marker-start="url(#d02-s11-one)"
+      marker-end="url(#d02-s11-many)"
+    />
+    <path
+      d="M1270 495 H1440"
+      class="d02-relation"
+      marker-start="url(#d02-s11-many)"
+      marker-end="url(#d02-s11-one)"
+    />
+    <text x="565" y="455" text-anchor="middle" class="d02-label">1:n</text>
+    <text x="1355" y="455" text-anchor="middle" class="d02-label">n:1</text>
+  </svg>
+  <aside class="notes">
+    Enrollment löst die n:m-Beziehung auf und trägt eigene Attribute. Das Datum
+    gehört weder nur zum Student noch nur zum Course. Die Paarung bleibt mit
+    UNIQUE geschützt, obwohl die Tabelle eine eigene ID hat.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Weak Entity</h2>
+  <div class="slide-context">Abhängige Identität</div>
+  <svg
+    class="d02-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="CourseSession ist nur mit Course eindeutig"
+  >
+    <defs>
+      <marker
+        id="d02-s12-one"
+        markerWidth="18"
+        markerHeight="22"
+        refX="9"
+        refY="11"
+        orient="auto-start-reverse"
+        markerUnits="userSpaceOnUse"
+      >
+        <path d="M9 2 V20" stroke="var(--color-blue)" stroke-width="4" />
+      </marker>
+      <marker
+        id="d02-s12-many"
+        markerWidth="38"
+        markerHeight="30"
+        refX="34"
+        refY="15"
+        orient="auto-start-reverse"
+        markerUnits="userSpaceOnUse"
+      >
+        <path
+          d="M8 3 V27 M13 15 L34 3 M13 15 H34 M13 15 L34 27"
+          stroke="var(--color-blue)"
+          stroke-width="4"
+          fill="none"
+        />
+      </marker>
+    </defs>
+    <rect x="160" y="330" width="500" height="320" rx="14" class="d02-entity" />
+    <text x="410" y="410" text-anchor="middle" class="d02-title-text">
+      Course
+    </text>
+    <line x1="160" y1="445" x2="660" y2="445" class="d02-divider" />
+    <text x="220" y="520" class="d02-key">PK id</text>
+    <text x="220" y="590" class="d02-label">title</text>
+    <rect
+      x="1260"
+      y="300"
+      width="500"
+      height="380"
+      rx="14"
+      class="d02-entity d02-entity--amber"
+    />
+    <text x="1510" y="380" text-anchor="middle" class="d02-title-text">
+      CourseSession
+    </text>
+    <line x1="1260" y1="415" x2="1760" y2="415" class="d02-divider" />
+    <text x="1320" y="495" class="d02-label">course_id</text>
+    <text x="1320" y="565" class="d02-key">session_no</text>
+    <text x="1320" y="635" class="d02-label">starts_at</text>
+    <path
+      d="M660 490 H1260"
+      class="d02-relation"
+      marker-start="url(#d02-s12-one)"
+      marker-end="url(#d02-s12-many)"
+    />
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        x="650"
+        y="740"
+        width="620"
+        height="120"
+        rx="10"
+        class="d02-card d02-card--amber"
+      />
+      <text x="960" y="812" text-anchor="middle" class="d02-key">
+        {course_id, session_no}
+      </text>
+      <path
+        d="M960 740 V520"
+        class="d02-relation d02-relation--amber"
+        stroke-dasharray="12 10"
+      />
+    </g>
+  </svg>
+  <div class="slide-caption">
+    Weak Entity (schwache Entität): Identität braucht den Owner
+  </div>
+  <aside class="notes">
+    Eine Sitzung Nummer 3 ist nur innerhalb eines Kurses eindeutig. Ihr
+    Schlüssel enthält deshalb den Course. Weak heißt abhängig, nicht unwichtig.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Das Universitätsmodell</h2>
+  <div class="slide-context blue">Crow's Foot</div>
+  <svg
+    class="d02-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Fünf Entities des Universitätsmodells"
+  >
+    <defs>
+      <marker
+        id="d02-s13-one"
+        markerWidth="20"
+        markerHeight="24"
+        refX="10"
+        refY="12"
+        orient="auto-start-reverse"
+        markerUnits="userSpaceOnUse"
+      >
+        <path d="M10 2 V22" stroke="var(--color-blue)" stroke-width="4" />
+      </marker>
+      <marker
+        id="d02-s13-zero-many"
+        markerWidth="42"
+        markerHeight="32"
+        refX="38"
+        refY="16"
+        orient="auto-start-reverse"
+        markerUnits="userSpaceOnUse"
+      >
+        <circle
+          cx="7"
+          cy="16"
+          r="6"
+          fill="var(--color-bg)"
+          stroke="var(--color-blue)"
+          stroke-width="4"
+        />
+        <path
+          d="M16 16 L38 3 M16 16 H38 M16 16 L38 29"
+          stroke="var(--color-blue)"
+          stroke-width="4"
+          fill="none"
+        />
+      </marker>
+    </defs>
+    <g>
+      <rect
+        x="90"
+        y="405"
+        width="360"
+        height="220"
+        rx="12"
+        class="d02-entity"
+      />
+      <text x="270" y="470" text-anchor="middle" class="d02-title-text">
+        Student
+      </text>
+      <line x1="90" y1="500" x2="450" y2="500" class="d02-divider" />
+      <text x="130" y="555" class="d02-label">PK id</text>
+      <text x="130" y="600" class="d02-label">student_number</text>
+      <rect
+        x="700"
+        y="330"
+        width="520"
+        height="370"
+        rx="12"
+        class="d02-entity d02-entity--amber"
+      />
+      <text x="960" y="395" text-anchor="middle" class="d02-title-text">
+        Enrollment
+      </text>
+      <line x1="700" y1="425" x2="1220" y2="425" class="d02-divider" />
+      <text x="750" y="480" class="d02-label">PK id</text>
+      <text x="750" y="530" class="d02-label">student_id</text>
+      <text x="750" y="580" class="d02-label">course_id</text>
+      <text x="750" y="630" class="d02-label">enrolled_on · grade</text>
+      <rect
+        x="1470"
+        y="405"
+        width="360"
+        height="220"
+        rx="12"
+        class="d02-entity"
+      />
+      <text x="1650" y="470" text-anchor="middle" class="d02-title-text">
+        Course
+      </text>
+      <line x1="1470" y1="500" x2="1830" y2="500" class="d02-divider" />
+      <text x="1510" y="555" class="d02-label">PK id</text>
+      <text x="1510" y="600" class="d02-label">title</text>
+      <path
+        d="M450 515 H700"
+        class="d02-relation"
+        marker-start="url(#d02-s13-one)"
+        marker-end="url(#d02-s13-zero-many)"
+      />
+      <path
+        d="M1220 515 H1470"
+        class="d02-relation"
+        marker-start="url(#d02-s13-zero-many)"
+        marker-end="url(#d02-s13-one)"
+      />
+    </g>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        x="1470"
+        y="750"
+        width="360"
+        height="190"
+        rx="12"
+        class="d02-entity"
+      />
+      <text x="1650" y="815" text-anchor="middle" class="d02-title-text">
+        Lecturer
+      </text>
+      <line x1="1470" y1="845" x2="1830" y2="845" class="d02-divider" />
+      <text x="1510" y="900" class="d02-label">PK id</text>
+      <path
+        d="M1650 750 V625"
+        class="d02-relation"
+        marker-start="url(#d02-s13-one)"
+        marker-end="url(#d02-s13-zero-many)"
+      />
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="90"
+        y="750"
+        width="360"
+        height="190"
+        rx="12"
+        class="d02-entity"
+      />
+      <text x="270" y="815" text-anchor="middle" class="d02-title-text">
+        Department
+      </text>
+      <line x1="90" y1="845" x2="450" y2="845" class="d02-divider" />
+      <text x="130" y="900" class="d02-label">PK id</text>
+      <path
+        d="M450 845 H1470"
+        class="d02-relation"
+        marker-start="url(#d02-s13-one)"
+        marker-end="url(#d02-s13-zero-many)"
+      />
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        x="470"
+        y="450"
+        width="190"
+        height="70"
+        rx="8"
+        class="d02-card d02-card--amber"
+      />
+      <text
+        x="565"
+        y="495"
+        text-anchor="middle"
+        class="d02-label d02-label--amber"
+      >
+        1 zu 0..n
+      </text>
+      <rect
+        x="1260"
+        y="450"
+        width="190"
+        height="70"
+        rx="8"
+        class="d02-card d02-card--amber"
+      />
+      <text
+        x="1355"
+        y="495"
+        text-anchor="middle"
+        class="d02-label d02-label--amber"
+      >
+        0..n zu 1
+      </text>
+      <rect
+        x="1510"
+        y="655"
+        width="280"
+        height="70"
+        rx="8"
+        class="d02-card d02-card--amber"
+      />
+      <text
+        x="1650"
+        y="700"
+        text-anchor="middle"
+        class="d02-label d02-label--amber"
+      >
+        1 zu 0..n
+      </text>
+      <rect
+        x="820"
+        y="800"
+        width="280"
+        height="70"
+        rx="8"
+        class="d02-card d02-card--amber"
+      />
+      <text
+        x="960"
+        y="845"
+        text-anchor="middle"
+        class="d02-label d02-label--amber"
+      >
+        1 zu 0..n
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Dieses Modell bleibt unser Beispiel bis Freitag. Entity-Namen stehen hier im
+    Singular. Die späteren SQL-Tabellen heißen `students`, `courses`,
+    `lecturers`, `departments` und `enrollments`.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Was ER nicht ist</h2>
+  <div class="slide-context">Grenzen des Modells</div>
+  <svg
+    class="d02-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Fachliches Modell und technische Details im Vergleich"
+  >
+    <rect
+      x="100"
+      y="240"
+      width="790"
+      height="650"
+      rx="16"
+      class="d02-card d02-card--green"
+    />
+    <text
+      x="495"
+      y="320"
+      text-anchor="middle"
+      class="d02-label d02-label--green"
+    >
+      FACHLICH
+    </text>
+    <text x="180" y="420" class="d02-text">Entities</text>
+    <text x="180" y="525" class="d02-text">Beziehungen</text>
+    <text x="180" y="630" class="d02-text">Mengen</text>
+    <text x="180" y="735" class="d02-text">Identität</text>
+    <rect
+      x="1030"
+      y="240"
+      width="790"
+      height="650"
+      rx="16"
+      class="d02-card d02-card--red"
+    />
+    <text
+      x="1425"
+      y="320"
+      text-anchor="middle"
+      class="d02-label d02-label--red"
+    >
+      NICHT ER
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <text x="1110" y="420" class="d02-text">keine Tabellen</text>
+      <path d="M1100 395 H1580" class="d02-strike" />
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <text x="1110" y="525" class="d02-text">kein Klassendiagramm</text>
+      <path d="M1100 500 H1700" class="d02-strike" />
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <text x="1110" y="630" class="d02-text">keine SQL-Typen</text>
+      <path d="M1100 605 H1610" class="d02-strike" />
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <text x="1110" y="735" class="d02-text">keine Indexe</text>
+      <path d="M1100 710 H1510" class="d02-strike" />
+    </g>
+  </svg>
+  <aside class="notes">
+    Ein Rechteck kann später eine Tabelle werden, ist heute aber noch keine.
+    Methoden und Vererbung gehören nicht hierher. Auch die Frage nach
+    VARCHAR-Längen vertagen wir bewusst.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Häufiger Fehler, Beziehung als Attribut</h2>
+  <div class="slide-context red">Modellfehler</div>
+  <svg
+    class="d02-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Liste im Attribut und korrektes Enrollment-Modell"
+  >
+    <rect
+      x="130"
+      y="285"
+      width="650"
+      height="430"
+      rx="14"
+      class="d02-entity d02-entity--red"
+    />
+    <text x="455" y="360" text-anchor="middle" class="d02-title-text">
+      Student
+    </text>
+    <line x1="130" y1="400" x2="780" y2="400" class="d02-divider" />
+    <text x="190" y="485" class="d02-label">id = 42</text>
+    <text x="190" y="570" class="d02-label d02-label--red">
+      courses = "DB, Web"
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        x="170"
+        y="645"
+        width="570"
+        height="150"
+        rx="10"
+        class="d02-card d02-card--red"
+      />
+      <text
+        x="455"
+        y="705"
+        text-anchor="middle"
+        class="d02-label d02-label--red"
+      >
+        Duplikate · Parsing
+      </text>
+      <text
+        x="455"
+        y="755"
+        text-anchor="middle"
+        class="d02-label d02-label--red"
+      >
+        keine Note pro Belegung
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="1000"
+        y="330"
+        width="250"
+        height="220"
+        rx="12"
+        class="d02-entity d02-entity--green"
+      />
+      <text x="1125" y="455" text-anchor="middle" class="d02-title-text">
+        Student
+      </text>
+      <rect
+        x="1335"
+        y="265"
+        width="360"
+        height="350"
+        rx="12"
+        class="d02-entity d02-entity--green"
+      />
+      <text x="1515" y="335" text-anchor="middle" class="d02-title-text">
+        Enrollment
+      </text>
+      <line x1="1335" y1="375" x2="1695" y2="375" class="d02-divider" />
+      <text x="1380" y="445" class="d02-label">student_id</text>
+      <text x="1380" y="505" class="d02-label">course_id</text>
+      <text x="1380" y="565" class="d02-label">grade</text>
+      <rect
+        x="1770"
+        y="330"
+        width="120"
+        height="220"
+        rx="12"
+        class="d02-entity d02-entity--green"
+      />
+      <text
+        x="1830"
+        y="455"
+        text-anchor="middle"
+        class="d02-title-text"
+        font-size="27"
+      >
+        Course
+      </text>
+      <path
+        d="M1250 440 H1335 M1695 440 H1770"
+        class="d02-relation d02-relation--green"
+      />
+    </g>
+  </svg>
+  <div class="slide-caption">Listen im Attribut verstecken Beziehungen</div>
+  <aside class="notes">
+    Ein kommagetrennter String verliert Identität und Regeln. Wir könnten keinen
+    Kurs sauber umbenennen und keine Note zuordnen. Eine Beziehung bleibt eine
+    Beziehung.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Häufiger Fehler, falsche Seite</h2>
+  <div class="slide-context red">Leserichtung</div>
+  <svg
+    class="d02-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Falsche und korrigierte Crow's-Foot-Seite"
+  >
+    <defs>
+      <marker
+        id="d02-s16-one-red"
+        markerWidth="18"
+        markerHeight="22"
+        refX="9"
+        refY="11"
+        orient="auto-start-reverse"
+        markerUnits="userSpaceOnUse"
+      >
+        <path d="M9 2 V20" stroke="var(--color-red)" stroke-width="4" />
+      </marker>
+      <marker
+        id="d02-s16-many-red"
+        markerWidth="38"
+        markerHeight="30"
+        refX="34"
+        refY="15"
+        orient="auto-start-reverse"
+        markerUnits="userSpaceOnUse"
+      >
+        <path
+          d="M8 3 V27 M13 15 L34 3 M13 15 H34 M13 15 L34 27"
+          stroke="var(--color-red)"
+          stroke-width="4"
+          fill="none"
+        />
+      </marker>
+      <marker
+        id="d02-s16-one-green"
+        markerWidth="18"
+        markerHeight="22"
+        refX="9"
+        refY="11"
+        orient="auto-start-reverse"
+        markerUnits="userSpaceOnUse"
+      >
+        <path d="M9 2 V20" stroke="var(--color-green)" stroke-width="4" />
+      </marker>
+      <marker
+        id="d02-s16-many-green"
+        markerWidth="38"
+        markerHeight="30"
+        refX="34"
+        refY="15"
+        orient="auto-start-reverse"
+        markerUnits="userSpaceOnUse"
+      >
+        <path
+          d="M8 3 V27 M13 15 L34 3 M13 15 H34 M13 15 L34 27"
+          stroke="var(--color-green)"
+          stroke-width="4"
+          fill="none"
+        />
+      </marker>
+    </defs>
+    <rect x="170" y="350" width="480" height="240" rx="14" class="d02-entity" />
+    <text x="410" y="490" text-anchor="middle" class="d02-title-text">
+      Department
+    </text>
+    <rect
+      x="1270"
+      y="350"
+      width="480"
+      height="240"
+      rx="14"
+      class="d02-entity"
+    />
+    <text x="1510" y="490" text-anchor="middle" class="d02-title-text">
+      Course
+    </text>
+    <g class="fragment fade-out" data-fragment-index="2">
+      <path
+        d="M650 470 H1270"
+        class="d02-relation d02-relation--red"
+        marker-start="url(#d02-s16-many-red)"
+        marker-end="url(#d02-s16-one-red)"
+      />
+      <text
+        x="960"
+        y="420"
+        text-anchor="middle"
+        class="d02-label d02-label--red"
+      >
+        falsch
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        x="470"
+        y="690"
+        width="980"
+        height="105"
+        rx="10"
+        class="d02-card d02-card--amber"
+      />
+      <text
+        x="960"
+        y="757"
+        text-anchor="middle"
+        class="d02-label d02-label--amber"
+      >
+        Ein Department hat viele Courses
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect x="650" y="390" width="620" height="120" fill="var(--color-bg)" />
+      <path
+        d="M650 470 H1270"
+        class="d02-relation d02-relation--green"
+        marker-start="url(#d02-s16-one-green)"
+        marker-end="url(#d02-s16-many-green)"
+      />
+      <text
+        x="960"
+        y="420"
+        text-anchor="middle"
+        class="d02-label d02-label--green"
+      >
+        korrigiert
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Lest die Linie laut in beide Richtungen. Wenn der Satz und das Symbol nicht
+    passen, korrigiert das Symbol. Viele Fehler verschwinden durch diese
+    einfache Probe.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Häufiger Fehler, alles ist eine Entity</h2>
+  <div class="slide-context red">Auswahl prüfen</div>
+  <svg
+    class="d02-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Fünf Karten werden Entities, Attributen oder keinem Modellteil zugeordnet"
+  >
+    <g>
+      <rect x="120" y="280" width="300" height="150" rx="12" class="d02-card" />
+      <text x="270" y="370" text-anchor="middle" class="d02-title-text">
+        Email
+      </text>
+      <rect x="465" y="280" width="300" height="150" rx="12" class="d02-card" />
+      <text x="615" y="370" text-anchor="middle" class="d02-title-text">
+        Name
+      </text>
+      <rect x="810" y="280" width="300" height="150" rx="12" class="d02-card" />
+      <text x="960" y="370" text-anchor="middle" class="d02-title-text">
+        Student
+      </text>
+      <rect
+        x="1155"
+        y="280"
+        width="300"
+        height="150"
+        rx="12"
+        class="d02-card"
+      />
+      <text x="1305" y="370" text-anchor="middle" class="d02-title-text">
+        Course
+      </text>
+      <rect
+        x="1500"
+        y="280"
+        width="300"
+        height="150"
+        rx="12"
+        class="d02-card"
+      />
+      <text x="1650" y="370" text-anchor="middle" class="d02-title-text">
+        Farbe
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <path d="M960 430 V640 M1305 430 V640" class="d02-relation" />
+      <rect
+        x="790"
+        y="640"
+        width="535"
+        height="150"
+        rx="12"
+        class="d02-card d02-card--blue"
+      />
+      <text
+        x="1057.5"
+        y="730"
+        text-anchor="middle"
+        class="d02-label d02-label--blue"
+      >
+        Entities: Student · Course
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <path
+        d="M270 430 V530 H560 V640 M615 430 V530 H560"
+        class="d02-relation d02-relation--amber"
+      />
+      <rect
+        x="160"
+        y="640"
+        width="535"
+        height="150"
+        rx="12"
+        class="d02-card d02-card--amber"
+      />
+      <text
+        x="427.5"
+        y="730"
+        text-anchor="middle"
+        class="d02-label d02-label--amber"
+      >
+        Attribute: Email · Name
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <path d="M1510 300 L1790 420 M1510 420 L1790 300" class="d02-strike" />
+      <text
+        x="1650"
+        y="505"
+        text-anchor="middle"
+        class="d02-label d02-label--grey"
+      >
+        nicht im Fachmodell
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Nicht jedes Nomen wird eine Entity. Fragt nach eigener Identität,
+    Lebensdauer und Beziehungen. Eine Farbe der Oberfläche gehört gar nicht in
+    dieses Modell.
+  </aside>
+</section>
+
+<section class="exercise-slide d02-exercise">
+  <div class="exercise-slide__tag">Übung 1</div>
+  <div class="exercise-slide__time">40 min</div>
+  <p class="exercise-slide__task">Übung 1, euer ER-Modell</p>
+  <div class="d02-exercise-steps">
+    <div class="d02-exercise-step">
+      <span>1</span><span>Markiert Entitäten, Attribute und Beziehungen.</span>
+    </div>
+    <div class="d02-exercise-step">
+      <span>2</span><span>Klärt offene Punkte oder notiert Annahmen.</span>
+    </div>
+    <div class="d02-exercise-step">
+      <span>3</span
+      ><span
+        >Zeichnet Keys, Kardinalitäten und Optionalitäten in Crow's Foot.</span
+      >
+    </div>
+    <div class="d02-exercise-step">
+      <span>4</span
+      ><span>Prüft Beziehungsattribute und eine schwache Entität.</span>
+    </div>
+  </div>
+  <div class="exercise-slide__deliverable">
+    <strong>Abgabe:</strong> Foto oder SVG plus Annahmen; danach präsentieren
+    zwei Gruppen je 5 min
+  </div>
+  <div class="d02-exercise-path">exercises/&lt;domain&gt;/01-er.md</div>
+  <aside class="notes">
+    Beginnt mit den fünf Sätzen aus Übung 0. Ziel sind vier bis sechs gut
+    begründete Entities. Lest jede Beziehung in beide Richtungen laut.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Debrief, Linien laut lesen</h2>
+  <div class="slide-context">Prüfscript</div>
+  <svg
+    class="d02-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Präsentationsrahmen und Prüfscript"
+  >
+    <rect
+      x="100"
+      y="260"
+      width="790"
+      height="560"
+      rx="16"
+      class="d02-card d02-card--blue"
+    />
+    <text
+      x="495"
+      y="335"
+      text-anchor="middle"
+      class="d02-label d02-label--blue"
+    >
+      PRÄSENTATIONSRAHMEN
+    </text>
+    <text x="180" y="445" class="d02-text">Entity</text>
+    <text x="180" y="545" class="d02-text">Beziehung</text>
+    <text x="180" y="645" class="d02-text">Cardinality</text>
+    <text x="180" y="745" class="d02-text">offene Regel</text>
+    <rect
+      x="1030"
+      y="260"
+      width="790"
+      height="650"
+      rx="16"
+      class="d02-card d02-card--amber"
+    />
+    <text
+      x="1425"
+      y="335"
+      text-anchor="middle"
+      class="d02-label d02-label--amber"
+    >
+      PRÜFSCRIPT
+    </text>
+    <text x="1110" y="475" class="d02-text">Ein X hat ... Y</text>
+    <text x="1110" y="590" class="d02-text">Ein Y gehört zu ... X</text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        x="1070"
+        y="650"
+        width="710"
+        height="90"
+        rx="9"
+        class="d02-card d02-card--amber"
+      />
+      <text
+        x="1425"
+        y="707"
+        text-anchor="middle"
+        class="d02-label d02-label--amber"
+      >
+        Wo trägt die Beziehung Daten?
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="1070"
+        y="770"
+        width="710"
+        height="90"
+        rx="9"
+        class="d02-card d02-card--amber"
+      />
+      <text
+        x="1425"
+        y="827"
+        text-anchor="middle"
+        class="d02-label d02-label--amber"
+      >
+        Wo ist null erlaubt?
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Zwei Gruppen zeigen ihr Modell. Das Plenum prüft nicht den Zeichenstil,
+    sondern liest zwei Beziehungen laut. Wir halten eine offene Fachentscheidung
+    fest.
+  </aside>
+</section>
+
+<section class="citation-slide d02-citation">
+  <h2 class="slide-title">Moodle speichert die Einschreibung</h2>
+  <div class="slide-context blue">Reales System</div>
+  <svg
+    class="d02-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Moodle zeigt Daten der Einschreibung zwischen Person und Course"
+  >
+    <rect x="130" y="285" width="390" height="260" rx="14" class="d02-entity" />
+    <text x="325" y="360" text-anchor="middle" class="d02-title-text">
+      StudentCard
+    </text>
+    <line x1="130" y1="400" x2="520" y2="400" class="d02-divider" />
+    <text x="325" y="475" text-anchor="middle" class="d02-label">Person</text>
+    <rect
+      x="700"
+      y="215"
+      width="520"
+      height="400"
+      rx="14"
+      class="d02-entity d02-entity--amber"
+    />
+    <text x="960" y="290" text-anchor="middle" class="d02-title-text">
+      Enrollment
+    </text>
+    <line x1="700" y1="330" x2="1220" y2="330" class="d02-divider" />
+    <text x="760" y="400" class="d02-label">Rolle</text>
+    <text x="760" y="465" class="d02-label">Gruppe</text>
+    <text x="760" y="530" class="d02-label">Status</text>
+    <text x="760" y="595" class="d02-label">Methode</text>
+    <rect
+      x="1400"
+      y="285"
+      width="390"
+      height="260"
+      rx="14"
+      class="d02-entity"
+    />
+    <text x="1595" y="360" text-anchor="middle" class="d02-title-text">
+      CourseCard
+    </text>
+    <line x1="1400" y1="400" x2="1790" y2="400" class="d02-divider" />
+    <text x="1595" y="475" text-anchor="middle" class="d02-label">Course</text>
+    <path d="M520 415 H700 M1220 415 H1400" class="d02-relation" />
+    <text x="960" y="735" text-anchor="middle" class="d02-title-text">
+      Moodle zeigt Daten der Einschreibung zwischen Person und Course.
+    </text>
+    <text
+      x="960"
+      y="850"
+      text-anchor="middle"
+      class="d02-label d02-label--blue"
+    >
+      https://docs.moodle.org/en/Participants
+    </text>
+    <text
+      x="960"
+      y="905"
+      text-anchor="middle"
+      class="d02-label d02-label--grey"
+    >
+      Abruf: 2026-08-23
+    </text>
+  </svg>
+  <aside class="notes">
+    Moodles Participants-Ansicht kann nach Einschreibemethode, Gruppe, Rolle und
+    Status filtern. Diese Werte beschreiben die Verbindung von Person und
+    Course. Im nächsten Deck wird Enrollment zur Tabelle `enrollments`.
+  </aside>
+</section>
