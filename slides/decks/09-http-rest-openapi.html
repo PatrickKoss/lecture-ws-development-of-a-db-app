@@ -1,0 +1,1814 @@
+<style>
+  .d09-slide .slide-title {
+    max-width: 1450px;
+  }
+
+  .d09-content-svg {
+    position: absolute;
+    top: 8.2rem;
+    right: var(--frame-gutter);
+    bottom: 4.8rem;
+    left: var(--frame-gutter);
+    width: calc(100% - 4.8rem);
+    height: calc(100% - 13rem);
+  }
+
+  .d09-svg text,
+  .d09-svg tspan {
+    font-family: var(--font-mono);
+  }
+
+  .d09-panel {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-line-bright);
+    stroke-width: 2;
+  }
+
+  .d09-panel-blue {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+  }
+
+  .d09-panel-amber {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-amber);
+    stroke-width: 3;
+  }
+
+  .d09-panel-green {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-green);
+    stroke-width: 3;
+  }
+
+  .d09-panel-red {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-red);
+    stroke-width: 3;
+  }
+
+  .d09-body {
+    fill: var(--color-white);
+    font-size: 30px;
+  }
+
+  .d09-label {
+    fill: var(--color-text-mid);
+    font-size: 26px;
+  }
+
+  .d09-small {
+    fill: var(--color-text-dim);
+    font-size: 24px;
+  }
+
+  .d09-blue {
+    fill: var(--color-blue);
+  }
+
+  .d09-amber {
+    fill: var(--color-amber);
+  }
+
+  .d09-green {
+    fill: var(--color-green);
+  }
+
+  .d09-red {
+    fill: var(--color-red);
+  }
+
+  .d09-line-blue {
+    fill: none;
+    stroke: var(--color-blue);
+    stroke-width: 4;
+  }
+
+  .d09-line-amber {
+    fill: none;
+    stroke: var(--color-amber);
+    stroke-width: 4;
+  }
+
+  .d09-line-green {
+    fill: none;
+    stroke: var(--color-green);
+    stroke-width: 4;
+  }
+
+  .d09-line-red {
+    fill: none;
+    stroke: var(--color-red);
+    stroke-width: 4;
+  }
+
+  .d09-line-grey {
+    fill: none;
+    stroke: var(--color-line-bright);
+    stroke-width: 3;
+  }
+
+  .d09-answer {
+    position: absolute;
+    right: 8rem;
+    bottom: 8rem;
+    left: 8rem;
+    color: var(--color-amber);
+    font-family: var(--font-mono);
+    font-size: 3.1rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .d09-card-grid {
+    position: absolute;
+    top: 9.5rem;
+    right: 4.5rem;
+    bottom: 5.2rem;
+    left: 4.5rem;
+    display: grid;
+    gap: 1.2rem;
+    align-items: stretch;
+  }
+
+  .d09-card-grid--five {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .d09-card-grid--two {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3.5rem;
+  }
+
+  .d09-method-card,
+  .d09-world-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.4rem;
+    border: 2px solid var(--color-line-bright);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .d09-method-card strong {
+    color: var(--color-amber);
+    font-family: var(--font-mono);
+    font-size: 2.1rem;
+  }
+
+  .d09-method-card span {
+    margin-top: 1rem;
+    color: var(--color-blue);
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    line-height: 1.35;
+  }
+
+  .d09-resource-grid {
+    position: absolute;
+    top: 9.2rem;
+    right: 5rem;
+    bottom: 5.2rem;
+    left: 5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 1.1rem 5rem;
+  }
+
+  .d09-resource-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--color-line-bright);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .d09-resource-item--good {
+    border-color: var(--color-green);
+    color: var(--color-blue);
+  }
+
+  .d09-resource-item--bad {
+    border-color: var(--color-red);
+    color: var(--color-red);
+  }
+
+  .d09-status-grid {
+    position: absolute;
+    top: 9.5rem;
+    right: 5rem;
+    bottom: 5.5rem;
+    left: 5rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.3rem;
+  }
+
+  .d09-status-group {
+    display: grid;
+    gap: 1rem;
+    padding: 1.2rem;
+    border: 2px solid var(--color-line-bright);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+  }
+
+  .d09-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .d09-status-group--green {
+    border-color: var(--color-green);
+    color: var(--color-green);
+  }
+
+  .d09-status-group--amber {
+    border-color: var(--color-amber);
+    color: var(--color-amber);
+  }
+
+  .d09-status-group--red {
+    border-color: var(--color-red);
+    color: var(--color-red);
+  }
+
+  .d09-json-grid {
+    position: absolute;
+    top: 13rem;
+    right: 4.5rem;
+    bottom: auto;
+    left: 4.5rem;
+    height: 31rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  .d09-json-card {
+    position: relative;
+    padding: 1.5rem 1.8rem;
+    border: 2px solid var(--color-blue);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    box-sizing: border-box;
+  }
+
+  .d09-json-card h3 {
+    margin: 0 0 1.2rem;
+    color: var(--color-blue);
+    font-size: 1.4rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .d09-json-card pre {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+    color: var(--color-white);
+    font-size: 27px;
+    line-height: 1.55;
+  }
+
+  .d09-generated {
+    color: var(--color-amber);
+  }
+
+  .d09-crossed {
+    position: absolute;
+    right: 1.8rem;
+    bottom: 1.4rem;
+    left: 1.8rem;
+    padding: 0.7rem;
+    border: 2px solid var(--color-red);
+    color: var(--color-red);
+    font-size: 24px;
+    text-align: center;
+    text-decoration: line-through;
+  }
+
+  .d09-header-card {
+    position: absolute;
+    top: 13rem;
+    right: 10rem;
+    bottom: auto;
+    left: 10rem;
+    height: 24rem;
+    padding: 1.8rem 2.4rem;
+    border: 2px solid var(--color-blue);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    box-sizing: border-box;
+  }
+
+  .d09-header-card h3 {
+    margin: 0 0 1.1rem;
+    color: var(--color-blue);
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .d09-header-row {
+    display: grid;
+    grid-template-columns: 19rem 1fr;
+    align-items: center;
+    min-height: 4.5rem;
+    border-top: 1px solid var(--color-line-bright);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+  }
+
+  .d09-header-row strong {
+    color: var(--color-amber);
+  }
+
+  .d09-header-row--secret strong,
+  .d09-header-row--secret span {
+    color: var(--color-red);
+  }
+
+  .d09-code-source {
+    position: absolute;
+    right: var(--frame-gutter);
+    bottom: 1.7rem;
+    left: var(--frame-gutter);
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    text-align: center;
+  }
+
+  .d09-code .code-slide__content {
+    top: 50%;
+    bottom: auto;
+    height: auto;
+    align-items: start;
+    transform: translateY(-50%);
+  }
+
+  .d09-code pre,
+  .d09-code pre code {
+    background: var(--color-grey-dim);
+  }
+
+  .d09-world-card {
+    justify-content: center;
+    border-color: var(--color-blue);
+    text-align: left;
+  }
+
+  .d09-world-card h3 {
+    margin: 0 0 1.2rem;
+    color: var(--color-blue);
+    font-family: var(--font-mono);
+    font-size: 2rem;
+  }
+
+  .d09-world-card p {
+    margin: 0.5rem 0;
+    color: var(--color-text-mid);
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    line-height: 1.45;
+  }
+
+  .d09-world-card code {
+    color: var(--color-amber);
+  }
+
+  .d09-world-caption {
+    position: absolute;
+    right: 6rem;
+    bottom: 5.5rem;
+    left: 6rem;
+    color: var(--color-amber);
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .d09-world-grid {
+    top: 12rem;
+    bottom: auto;
+    height: 27rem;
+  }
+
+  .d09-exercise .exercise-slide__task {
+    margin-top: 6.8rem;
+    margin-bottom: 1.2rem;
+    font-size: 2.45rem;
+  }
+
+  .d09-exercise-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 1.4rem;
+    margin: 3rem 5rem 1.2rem;
+  }
+
+  .d09-exercise-step {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    align-items: center;
+    min-height: 8rem;
+    padding: 0.9rem 1.2rem;
+    border: 1px solid var(--color-line-bright);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    color: var(--color-text-mid);
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    line-height: 1.35;
+    box-sizing: border-box;
+  }
+
+  .d09-exercise-step span:first-child {
+    color: var(--color-amber);
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  .d09-exercise-path {
+    margin: auto 5rem 0.5rem;
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .d09-exercise .exercise-slide__deliverable {
+    margin: 0 5rem 2rem;
+    font-size: 1.25rem;
+  }
+
+  .d09-review-grid {
+    position: absolute;
+    top: 10rem;
+    right: 5rem;
+    bottom: 5.5rem;
+    left: 5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .d09-review-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    border: 2px solid var(--color-blue);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .d09-redline .redline__step--done rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+  }
+
+  .d09-redline .redline__step--done text {
+    fill: var(--color-blue);
+  }
+
+  .d09-redline .redline__step--next rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+    stroke-dasharray: 12 9;
+  }
+
+  .d09-redline .redline__step--next text {
+    fill: var(--color-blue);
+  }
+
+  .d09-redline .redline__step text {
+    font-size: 24px;
+  }
+
+  .d09-citation {
+    display: grid !important;
+    grid-template-rows: auto 1fr auto;
+    padding: 3rem 6rem !important;
+    box-sizing: border-box;
+  }
+
+  .d09-citation .citation-text {
+    font-size: 2.35rem;
+    font-style: normal;
+  }
+
+  .d09-citation-visual {
+    width: 100%;
+    height: 610px;
+  }
+
+  .d09-citation-source {
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    text-align: center;
+  }
+</style>
+
+<section class="chapter-slide terminal slide-frame">
+  <div class="slide-frame__top">
+    <span class="slide-frame__marker slide-frame__marker--amber"
+      >Kapitel 09</span
+    >
+    <span class="slide-frame__context">HTTP · REST · OpenAPI</span>
+  </div>
+  <div class="slide-frame__body">
+    <div class="chapter-number">09</div>
+    <div class="chapter-eyebrow">Kapitel · 09</div>
+    <h1 class="chapter-title-big">HTTP, REST und OpenAPI</h1>
+    <div class="chapter-subtitle">Andere Programme greifen zu</div>
+    <svg
+      class="d09-svg"
+      viewBox="0 0 860 390"
+      aria-label="Client sendet eine HTTP-Nachricht an eine API vor der Datenbank"
+      style="
+        position: absolute;
+        right: 0;
+        bottom: 1rem;
+        width: 48%;
+        height: 22rem;
+      "
+    >
+      <defs>
+        <marker
+          id="d09-chapter-arrow"
+          markerWidth="12"
+          markerHeight="12"
+          refX="10"
+          refY="6"
+          orient="auto"
+        >
+          <polygon points="0 0, 12 6, 0 12" fill="var(--color-amber)"></polygon>
+        </marker>
+        <marker
+          id="d09-chapter-arrow-blue"
+          markerWidth="12"
+          markerHeight="12"
+          refX="10"
+          refY="6"
+          orient="auto"
+        >
+          <polygon points="0 0, 12 6, 0 12" fill="var(--color-blue)"></polygon>
+        </marker>
+      </defs>
+      <rect
+        x="20"
+        y="130"
+        width="190"
+        height="120"
+        rx="10"
+        class="d09-panel-blue"
+      ></rect>
+      <text x="115" y="200" text-anchor="middle" class="d09-body d09-blue">
+        Client
+      </text>
+      <path
+        d="M210 190 H360"
+        class="d09-line-amber"
+        marker-end="url(#d09-chapter-arrow)"
+      ></path>
+      <rect
+        x="270"
+        y="120"
+        width="170"
+        height="140"
+        rx="8"
+        class="d09-panel-amber"
+      ></rect>
+      <text x="355" y="180" text-anchor="middle" class="d09-body d09-amber">
+        HTTP
+      </text>
+      <text x="355" y="218" text-anchor="middle" class="d09-small">
+        Umschlag
+      </text>
+      <path
+        d="M440 190 H540"
+        class="d09-line-blue"
+        marker-end="url(#d09-chapter-arrow-blue)"
+      ></path>
+      <rect
+        x="520"
+        y="130"
+        width="120"
+        height="120"
+        rx="10"
+        class="d09-panel-blue"
+      ></rect>
+      <text x="580" y="200" text-anchor="middle" class="d09-body d09-blue">
+        API
+      </text>
+      <path
+        d="M640 190 H700"
+        class="d09-line-blue"
+        marker-end="url(#d09-chapter-arrow-blue)"
+      ></path>
+      <ellipse
+        cx="775"
+        cy="145"
+        rx="75"
+        ry="18"
+        class="d09-panel-blue"
+      ></ellipse>
+      <path
+        d="M700 145 V235 C700 255 850 255 850 235 V145"
+        class="d09-panel-blue"
+      ></path>
+      <ellipse
+        cx="775"
+        cy="145"
+        rx="75"
+        ry="18"
+        class="d09-panel-blue"
+      ></ellipse>
+      <text x="775" y="207" text-anchor="middle" class="d09-small d09-blue">
+        Datenbank
+      </text>
+    </svg>
+  </div>
+  <div class="slide-frame__footer">
+    <span class="slide-frame__footer-left">HTTP, REST und OpenAPI</span>
+    <span class="slide-frame__footer-mid"></span>
+    <span class="slide-frame__footer-right">09</span>
+  </div>
+  <aside class="notes">
+    Heute verlässt unsere Anwendung den lokalen Prozess. Wir entwerfen erst den
+    Vertrag und implementieren ihn danach mit Spring.
+  </aside>
+</section>
+
+<section class="d09-slide d09-redline">
+  <h2 class="slide-title">Andere dürfen zugreifen</h2>
+  <span class="slide-context blue">Der rote Faden</span>
+  <svg
+    class="d09-svg d09-content-svg redline"
+    viewBox="0 0 1600 650"
+    aria-label="Der rote Faden des Kurses mit REST API als aktivem Schritt"
+  >
+    <defs>
+      <marker
+        id="d09-redline-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon class="redline__arrow" points="0 0, 10 5, 0 10"></polygon>
+      </marker>
+    </defs>
+    <path
+      class="redline__line"
+      d="M360 160 H410 M750 160 H800 M1140 160 H1190 M1530 160 H1560 V470 H1530 M1190 470 H1140 M800 470 H750 M410 470 H360"
+      marker-end="url(#d09-redline-arrow)"
+    ></path>
+    <g class="redline__step redline__step--done">
+      <rect x="20" y="85" width="340" height="150" rx="8"></rect>
+      <text x="190" y="145"><tspan x="190">1. Idee im Kopf</tspan></text>
+    </g>
+    <g class="redline__step redline__step--done">
+      <rect x="410" y="85" width="340" height="150" rx="8"></rect>
+      <text x="580" y="115">
+        <tspan x="580">2. Darüber sprechen:</tspan>
+        <tspan x="580" dy="34">Abstraktion und</tspan>
+        <tspan x="580" dy="34">ER-Modell</tspan>
+      </text>
+    </g>
+    <g class="redline__step redline__step--done">
+      <rect x="800" y="85" width="340" height="150" rx="8"></rect>
+      <text x="970" y="115">
+        <tspan x="970">3. Tabellen, die uns</tspan>
+        <tspan x="970" dy="34">nicht anlügen:</tspan>
+        <tspan x="970" dy="34">Normalisierung</tspan>
+      </text>
+    </g>
+    <g class="redline__step redline__step--done">
+      <rect x="1190" y="85" width="340" height="150" rx="8"></rect>
+      <text x="1360" y="132">
+        <tspan x="1360">4. Den Tabellen Fragen</tspan>
+        <tspan x="1360" dy="34">stellen: SQL</tspan>
+      </text>
+    </g>
+    <g class="redline__step redline__step--done">
+      <rect x="1190" y="395" width="340" height="150" rx="8"></rect>
+      <text x="1360" y="425">
+        <tspan x="1360">5. Aus Java fragen:</tspan>
+        <tspan x="1360" dy="34">JDBC, Cursor,</tspan>
+        <tspan x="1360" dy="34">Statements</tspan>
+      </text>
+    </g>
+    <g class="redline__step redline__step--done">
+      <rect x="800" y="395" width="340" height="150" rx="8"></rect>
+      <text x="970" y="425">
+        <tspan x="970">6. Wiederholungen</tspan>
+        <tspan x="970" dy="34">beenden:</tspan>
+        <tspan x="970" dy="34">Repository Pattern</tspan>
+      </text>
+    </g>
+    <g class="redline__step redline__step--active">
+      <rect x="410" y="395" width="340" height="150" rx="8"></rect>
+      <text x="580" y="425">
+        <tspan x="580">7. Andere zugreifen</tspan>
+        <tspan x="580" dy="34">lassen:</tspan>
+        <tspan x="580" dy="34">REST API mit Spring</tspan>
+      </text>
+    </g>
+    <g class="redline__step redline__step--next">
+      <rect x="20" y="395" width="340" height="150" rx="8"></rect>
+      <text x="190" y="430">
+        <tspan x="190">8. Solide machen:</tspan>
+        <tspan x="190" dy="31">Schichten, Validierung,</tspan>
+        <tspan x="190" dy="31">Fehler, OpenAPI, Tests,</tspan>
+        <tspan x="190" dy="31">Middleware</tspan>
+      </text>
+    </g>
+  </svg>
+  <p class="slide-caption">
+    Vorher: Repository Pattern · Jetzt: HTTP-Vertrag · Danach: solide API
+  </p>
+  <aside class="notes">
+    Das Repository bleibt hinter der API. HTTP bringt neue Fehlerfälle und eine
+    öffentliche Sprache. Danach sichern wir diese Grenze ab.
+  </aside>
+</section>
+
+<section class="lead-question">
+  <div class="lead-question__mark">?</div>
+  <h2 class="lead-question__text">
+    Welche vier Teile braucht ein HTTP-Request?
+  </h2>
+  <div class="d09-answer fragment fade-in" data-fragment-index="1">
+    Methode · URL · Header · Body
+  </div>
+  <aside class="notes">
+    Erwartet sind diese vier Teile. Typisch falsch sind Java-Methode und
+    Datenbanktabelle. Ein Client sieht unseren internen Code nicht.
+  </aside>
+</section>
+
+<section class="d09-slide">
+  <h2 class="slide-title">Request und Response</h2>
+  <span class="slide-context blue">Nachrichtenaustausch</span>
+  <svg
+    class="d09-svg d09-content-svg"
+    viewBox="0 0 1700 720"
+    aria-label="HTTP Request und Response"
+  >
+    <defs>
+      <marker
+        id="d09-message-blue"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon points="0 0, 12 6, 0 12" fill="var(--color-blue)"></polygon>
+      </marker>
+      <marker
+        id="d09-message-amber"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon points="0 0, 12 6, 0 12" fill="var(--color-amber)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      x="40"
+      y="80"
+      width="230"
+      height="590"
+      rx="10"
+      class="d09-panel-blue"
+    ></rect>
+    <text x="155" y="385" text-anchor="middle" class="d09-body d09-blue">
+      Client
+    </text>
+    <rect
+      x="1430"
+      y="80"
+      width="230"
+      height="590"
+      rx="10"
+      class="d09-panel-blue"
+    ></rect>
+    <text x="1545" y="335" text-anchor="middle" class="d09-body d09-blue">
+      Server
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <path
+        d="M270 165 H1430"
+        class="d09-line-amber"
+        marker-end="url(#d09-message-amber)"
+      ></path>
+      <rect
+        x="420"
+        y="65"
+        width="760"
+        height="220"
+        rx="10"
+        class="d09-panel-amber"
+      ></rect>
+      <text x="455" y="118" class="d09-body d09-amber">POST /students</text>
+      <text x="455" y="162" class="d09-label">
+        Content-Type: application/json
+      </text>
+      <text x="455" y="211" class="d09-body">
+        { "firstName": "Aylin", "lastName": "Kaya" }
+      </text>
+      <text x="800" y="260" text-anchor="middle" class="d09-small">
+        Request
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="1458"
+        y="390"
+        width="174"
+        height="150"
+        rx="8"
+        class="d09-panel-amber"
+      ></rect>
+      <text x="1545" y="447" text-anchor="middle" class="d09-small d09-amber">
+        verarbeiten
+      </text>
+      <text x="1545" y="489" text-anchor="middle" class="d09-small">
+        Datenbank
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <path
+        d="M1430 650 H270"
+        class="d09-line-blue"
+        marker-end="url(#d09-message-blue)"
+      ></path>
+      <rect
+        x="420"
+        y="400"
+        width="760"
+        height="220"
+        rx="10"
+        class="d09-panel-blue"
+      ></rect>
+      <text x="455" y="453" class="d09-body d09-green">201 Created</text>
+      <text x="455" y="497" class="d09-label">Location: /students/42</text>
+      <text x="455" y="546" class="d09-body">
+        { "id": 42, "firstName": "Aylin" }
+      </text>
+      <text x="800" y="595" text-anchor="middle" class="d09-small">
+        Response
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    HTTP ist ein Austausch klarer Nachrichten. Status und Header gehören genauso
+    zum Vertrag wie JSON. Die Datenbank bleibt hinter dem Server.
+  </aside>
+</section>
+
+<section class="d09-slide">
+  <h2 class="slide-title">Methoden tragen Absicht</h2>
+  <span class="slide-context amber">HTTP-Methoden</span>
+  <div class="d09-card-grid d09-card-grid--five">
+    <div class="d09-method-card"><strong>GET</strong><span>lesen</span></div>
+    <div class="d09-method-card fragment fade-up" data-fragment-index="1">
+      <strong>POST</strong><span>anlegen</span>
+    </div>
+    <div class="d09-method-card fragment fade-up" data-fragment-index="2">
+      <strong>PUT</strong><span>vollständig ersetzen</span>
+    </div>
+    <div class="d09-method-card fragment fade-up" data-fragment-index="3">
+      <strong>PATCH</strong><span>teilweise ändern</span>
+    </div>
+    <div class="d09-method-card fragment fade-up" data-fragment-index="4">
+      <strong>DELETE</strong><span>löschen</span>
+    </div>
+  </div>
+  <aside class="notes">
+    Die Methode ist Teil der Semantik. Unser Pflichtumfang nutzt GET, POST, PUT
+    und DELETE. PATCH bleibt für später.
+  </aside>
+</section>
+
+<section class="d09-slide">
+  <h2 class="slide-title">Ressourcen sind Nomen</h2>
+  <span class="slide-context blue">URL-Design</span>
+  <div class="d09-resource-grid">
+    <div class="d09-resource-item d09-resource-item--good">/students</div>
+    <div class="d09-resource-item d09-resource-item--bad">/getStudents</div>
+    <div
+      class="d09-resource-item d09-resource-item--good fragment fade-in"
+      data-fragment-index="1"
+    >
+      /students/42
+    </div>
+    <div
+      class="d09-resource-item d09-resource-item--bad fragment fade-in"
+      data-fragment-index="1"
+    >
+      /createStudent
+    </div>
+    <div
+      class="d09-resource-item d09-resource-item--good fragment fade-in"
+      data-fragment-index="2"
+    >
+      /courses/7/enrollments
+    </div>
+    <div
+      class="d09-resource-item d09-resource-item--bad fragment fade-in"
+      data-fragment-index="2"
+    >
+      /doDelete
+    </div>
+  </div>
+  <aside class="notes">
+    URLs benennen Ressourcen und Collections. Das Verb steht bereits in HTTP.
+    Verschachtelte URLs nutzen wir nur, wenn die Beziehung fachlich klar ist.
+  </aside>
+</section>
+
+<section class="d09-slide">
+  <h2 class="slide-title">Collection und Einzelressource</h2>
+  <span class="slide-context blue">Ressourcen</span>
+  <svg
+    class="d09-svg d09-content-svg"
+    viewBox="0 0 1700 720"
+    aria-label="Collection und Einzelressource"
+  >
+    <defs>
+      <marker
+        id="d09-resource-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon points="0 0, 12 6, 0 12" fill="var(--color-amber)"></polygon>
+      </marker>
+    </defs>
+    <text x="430" y="90" text-anchor="middle" class="d09-body d09-blue">
+      /students
+    </text>
+    <rect
+      x="180"
+      y="170"
+      width="500"
+      height="320"
+      rx="10"
+      class="d09-panel-blue"
+    ></rect>
+    <rect
+      x="250"
+      y="235"
+      width="360"
+      height="90"
+      rx="7"
+      class="d09-panel"
+    ></rect>
+    <rect
+      x="250"
+      y="345"
+      width="360"
+      height="90"
+      rx="7"
+      class="d09-panel"
+    ></rect>
+    <text x="430" y="291" text-anchor="middle" class="d09-label">
+      Student 17
+    </text>
+    <text x="430" y="401" text-anchor="middle" class="d09-label">
+      Student 42
+    </text>
+    <text x="1270" y="90" text-anchor="middle" class="d09-body d09-blue">
+      /students/42
+    </text>
+    <rect
+      x="1040"
+      y="170"
+      width="460"
+      height="320"
+      rx="10"
+      class="d09-panel-blue"
+    ></rect>
+    <rect
+      x="1100"
+      y="250"
+      width="340"
+      height="150"
+      rx="7"
+      class="d09-panel"
+    ></rect>
+    <text x="1270" y="318" text-anchor="middle" class="d09-label">
+      Student 42
+    </text>
+    <text x="1270" y="360" text-anchor="middle" class="d09-small">
+      Aylin Kaya
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        x="180"
+        y="535"
+        width="225"
+        height="90"
+        rx="8"
+        class="d09-panel-green"
+      ></rect>
+      <text x="292" y="591" text-anchor="middle" class="d09-body d09-green">
+        GET
+      </text>
+      <text x="292" y="660" text-anchor="middle" class="d09-small">
+        Collection lesen
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="455"
+        y="535"
+        width="225"
+        height="90"
+        rx="8"
+        class="d09-panel-amber"
+      ></rect>
+      <text x="567" y="591" text-anchor="middle" class="d09-body d09-amber">
+        POST
+      </text>
+      <text x="567" y="660" text-anchor="middle" class="d09-small">
+        an Collection
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        x="1040"
+        y="535"
+        width="460"
+        height="90"
+        rx="8"
+        class="d09-panel-amber"
+      ></rect>
+      <text x="1270" y="591" text-anchor="middle" class="d09-body d09-amber">
+        GET · PUT · DELETE
+      </text>
+      <text x="1270" y="660" text-anchor="middle" class="d09-small">
+        bekannte Einzelressource
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    POST geht an die Collection, weil der Server die neue Identität erzeugt.
+    Operationen an einer bekannten Identität gehen an die Einzelressource.
+  </aside>
+</section>
+
+<section class="d09-slide">
+  <h2 class="slide-title">Statuscodes sind Teil des Vertrags</h2>
+  <span class="slide-context amber">HTTP-Status</span>
+  <div class="d09-status-grid">
+    <div class="d09-status-group d09-status-group--green">
+      <div class="d09-status">200 OK</div>
+      <div class="d09-status">201 Created</div>
+      <div class="d09-status">204 No Content</div>
+    </div>
+    <div
+      class="d09-status-group d09-status-group--amber fragment fade-up"
+      data-fragment-index="1"
+    >
+      <div class="d09-status">400 Bad Request</div>
+      <div class="d09-status">404 Not Found</div>
+      <div class="d09-status">409 Conflict</div>
+    </div>
+    <div
+      class="d09-status-group d09-status-group--red fragment fade-up"
+      data-fragment-index="2"
+    >
+      <div class="d09-status">500 Internal Server Error</div>
+    </div>
+  </div>
+  <aside class="notes">
+    Statuscodes erlauben Clients eine Entscheidung ohne Textanalyse. 400 ist
+    ungültige Eingabe, 409 ein Konflikt mit dem aktuellen Zustand. 500 verrät
+    keinen internen Stacktrace.
+  </aside>
+</section>
+
+<section class="d09-slide">
+  <h2 class="slide-title">Ein POST von Anfang bis Ende</h2>
+  <span class="slide-context blue">Pipeline</span>
+  <svg
+    class="d09-svg d09-content-svg"
+    viewBox="0 0 1700 720"
+    aria-label="POST Pipeline mit Erfolgs- und Fehlerzweigen"
+  >
+    <defs>
+      <marker
+        id="d09-pipeline-blue"
+        markerWidth="11"
+        markerHeight="11"
+        refX="9"
+        refY="5.5"
+        orient="auto"
+      >
+        <polygon points="0 0, 11 5.5, 0 11" fill="var(--color-blue)"></polygon>
+      </marker>
+      <marker
+        id="d09-pipeline-red"
+        markerWidth="11"
+        markerHeight="11"
+        refX="9"
+        refY="5.5"
+        orient="auto"
+      >
+        <polygon points="0 0, 11 5.5, 0 11" fill="var(--color-red)"></polygon>
+      </marker>
+      <marker
+        id="d09-pipeline-amber"
+        markerWidth="11"
+        markerHeight="11"
+        refX="9"
+        refY="5.5"
+        orient="auto"
+      >
+        <polygon points="0 0, 11 5.5, 0 11" fill="var(--color-amber)"></polygon>
+      </marker>
+    </defs>
+    <g>
+      <rect
+        x="20"
+        y="190"
+        width="280"
+        height="150"
+        rx="8"
+        class="d09-panel-blue"
+      ></rect>
+      <text x="160" y="252" text-anchor="middle" class="d09-body d09-blue">
+        JSON Request
+      </text>
+      <text x="160" y="298" text-anchor="middle" class="d09-small">
+        POST /students
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <path
+        d="M300 265 H380"
+        class="d09-line-blue"
+        marker-end="url(#d09-pipeline-blue)"
+      ></path>
+      <rect
+        x="380"
+        y="190"
+        width="280"
+        height="150"
+        rx="8"
+        class="d09-panel-amber"
+      ></rect>
+      <text x="520" y="276" text-anchor="middle" class="d09-body d09-amber">
+        Validation
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <path
+        d="M660 265 H740"
+        class="d09-line-blue"
+        marker-end="url(#d09-pipeline-blue)"
+      ></path>
+      <rect
+        x="740"
+        y="190"
+        width="280"
+        height="150"
+        rx="8"
+        class="d09-panel-blue"
+      ></rect>
+      <text x="880" y="276" text-anchor="middle" class="d09-body d09-blue">
+        Repository
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <path
+        d="M1020 265 H1100"
+        class="d09-line-blue"
+        marker-end="url(#d09-pipeline-blue)"
+      ></path>
+      <rect
+        x="1100"
+        y="190"
+        width="280"
+        height="150"
+        rx="8"
+        class="d09-panel-blue"
+      ></rect>
+      <text x="1240" y="252" text-anchor="middle" class="d09-body d09-blue">
+        new Student
+      </text>
+      <text x="1240" y="298" text-anchor="middle" class="d09-small">
+        id = 42
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <path
+        d="M1380 265 H1460"
+        class="d09-line-blue"
+        marker-end="url(#d09-pipeline-blue)"
+      ></path>
+      <rect
+        x="1460"
+        y="190"
+        width="220"
+        height="150"
+        rx="8"
+        class="d09-panel-green"
+      ></rect>
+      <text x="1570" y="252" text-anchor="middle" class="d09-body d09-green">
+        201
+      </text>
+      <text x="1570" y="298" text-anchor="middle" class="d09-small">
+        Created
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="5">
+      <path
+        d="M520 340 V495 H680"
+        class="d09-line-red"
+        marker-end="url(#d09-pipeline-red)"
+      ></path>
+      <rect
+        x="680"
+        y="425"
+        width="280"
+        height="140"
+        rx="8"
+        class="d09-panel-red"
+      ></rect>
+      <text x="820" y="482" text-anchor="middle" class="d09-body d09-red">
+        400
+      </text>
+      <text x="820" y="528" text-anchor="middle" class="d09-small">
+        Bad Request
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="6">
+      <path
+        d="M880 340 V380 H1040 V630 H1110"
+        class="d09-line-amber"
+        marker-end="url(#d09-pipeline-amber)"
+      ></path>
+      <rect
+        x="1110"
+        y="560"
+        width="300"
+        height="140"
+        rx="8"
+        class="d09-panel-amber"
+      ></rect>
+      <text x="1260" y="617" text-anchor="middle" class="d09-body d09-amber">
+        409
+      </text>
+      <text x="1260" y="663" text-anchor="middle" class="d09-small">
+        Unique-Konflikt
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Ein Endpoint hat mehr als einen Ausgang. Der Vertrag nennt Erfolg und
+    erwartete Fehler. Genau diese Zweige testen wir später.
+  </aside>
+</section>
+
+<section class="d09-slide">
+  <h2 class="slide-title">JSON ist die Nachricht, nicht die Entity</h2>
+  <span class="slide-context blue">Request und Response</span>
+  <div class="d09-json-grid">
+    <div class="d09-json-card">
+      <h3>Request</h3>
+      <pre>
+{
+  "firstName": "Aylin",
+  "lastName": "Kaya",
+  "email": "aylin@example.org"
+}</pre>
+    </div>
+    <div class="d09-json-card">
+      <h3>Response</h3>
+      <pre>{
+  <span class="d09-generated fragment highlight-current-amber" data-fragment-index="1">"id": 42,</span>
+  "firstName": "Aylin",
+  "lastName": "Kaya",
+  <span class="d09-generated fragment highlight-current-amber" data-fragment-index="1">"studentNumber": "S-1042",</span>
+  <span class="d09-generated fragment highlight-current-amber" data-fragment-index="1">"enrollmentDate": "2026-08-23"</span>
+}</pre>
+      <div class="d09-crossed fragment fade-in" data-fragment-index="2">
+        "internalFlag": true
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Request und Response brauchen nicht dieselbe Form. Clients dürfen keine IDs
+    oder internen Flags setzen, nur weil die Entity sie hat.
+  </aside>
+</section>
+
+<section class="d09-slide">
+  <h2 class="slide-title">Idempotenz</h2>
+  <span class="slide-context amber">Wiederholung</span>
+  <svg
+    class="d09-svg d09-content-svg"
+    viewBox="0 0 1700 720"
+    aria-label="Idempotenz von PUT, DELETE und POST"
+  >
+    <defs>
+      <marker
+        id="d09-idem-green"
+        markerWidth="11"
+        markerHeight="11"
+        refX="9"
+        refY="5.5"
+        orient="auto"
+      >
+        <polygon points="0 0, 11 5.5, 0 11" fill="var(--color-green)"></polygon>
+      </marker>
+      <marker
+        id="d09-idem-red"
+        markerWidth="11"
+        markerHeight="11"
+        refX="9"
+        refY="5.5"
+        orient="auto"
+      >
+        <polygon points="0 0, 11 5.5, 0 11" fill="var(--color-red)"></polygon>
+      </marker>
+    </defs>
+    <g>
+      <rect
+        x="40"
+        y="75"
+        width="500"
+        height="520"
+        rx="10"
+        class="d09-panel-green"
+      ></rect>
+      <text x="290" y="135" text-anchor="middle" class="d09-body d09-green">
+        PUT zweimal
+      </text>
+      <rect
+        x="120"
+        y="205"
+        width="340"
+        height="90"
+        rx="7"
+        class="d09-panel"
+      ></rect>
+      <text x="290" y="261" text-anchor="middle" class="d09-label">
+        PUT /students/42
+      </text>
+      <rect
+        x="120"
+        y="325"
+        width="340"
+        height="90"
+        rx="7"
+        class="d09-panel"
+      ></rect>
+      <text x="290" y="381" text-anchor="middle" class="d09-label">
+        PUT /students/42
+      </text>
+      <path
+        d="M290 430 V500"
+        class="d09-line-green"
+        marker-end="url(#d09-idem-green)"
+      ></path>
+      <text x="290" y="555" text-anchor="middle" class="d09-body d09-green">
+        ein Zustand
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        x="600"
+        y="75"
+        width="500"
+        height="520"
+        rx="10"
+        class="d09-panel-green"
+      ></rect>
+      <text x="850" y="135" text-anchor="middle" class="d09-body d09-green">
+        DELETE zweimal
+      </text>
+      <text x="850" y="235" text-anchor="middle" class="d09-label">
+        204 No Content
+      </text>
+      <text x="850" y="315" text-anchor="middle" class="d09-label">
+        404 Not Found
+      </text>
+      <path
+        d="M850 350 V450"
+        class="d09-line-green"
+        marker-end="url(#d09-idem-green)"
+      ></path>
+      <text x="850" y="515" text-anchor="middle" class="d09-body d09-green">
+        bleibt gelöscht
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="1160"
+        y="75"
+        width="500"
+        height="520"
+        rx="10"
+        class="d09-panel-red"
+      ></rect>
+      <text x="1410" y="135" text-anchor="middle" class="d09-body d09-red">
+        POST zweimal
+      </text>
+      <text x="1410" y="235" text-anchor="middle" class="d09-label">
+        POST /students
+      </text>
+      <text x="1410" y="315" text-anchor="middle" class="d09-label">
+        POST /students
+      </text>
+      <path
+        d="M1410 350 V450"
+        class="d09-line-red"
+        marker-end="url(#d09-idem-red)"
+      ></path>
+      <text x="1410" y="515" text-anchor="middle" class="d09-body d09-red">
+        zwei Ressourcen
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Idempotent beschreibt die beabsichtigte Zustandswirkung, nicht identische
+    Antworten. GET, PUT und DELETE sind idempotent. POST ist es ohne Idempotency
+    Key meist nicht.
+  </aside>
+</section>
+
+<section class="d09-slide">
+  <h2 class="slide-title">Header tragen Metadaten</h2>
+  <span class="slide-context blue">HTTP-Header</span>
+  <div class="d09-header-card">
+    <h3>Request</h3>
+    <div class="d09-header-row">
+      <strong>Content-Type</strong><span>application/json</span>
+    </div>
+    <div class="d09-header-row fragment fade-in" data-fragment-index="1">
+      <strong>Accept</strong><span>application/json</span>
+    </div>
+    <div
+      class="d09-header-row d09-header-row--secret fragment fade-in"
+      data-fragment-index="2"
+    >
+      <strong>Authorization</strong><span>Bearer ••••••••••••</span>
+    </div>
+    <div class="d09-header-row fragment fade-in" data-fragment-index="3">
+      <strong>X-Correlation-ID</strong><span>2ef4c6a1</span>
+    </div>
+  </div>
+  <aside class="notes">
+    Header beschreiben Darstellung, Authentifizierung und Nachverfolgung. Sie
+    gehören nicht in jedes JSON-Fachobjekt. Correlation ID kommt in Deck 12
+    zurück.
+  </aside>
+</section>
+
+<section class="d09-slide">
+  <h2 class="slide-title">OpenAPI beschreibt den Vertrag</h2>
+  <span class="slide-context amber">OpenAPI</span>
+  <svg
+    class="d09-svg d09-content-svg"
+    viewBox="0 0 1700 720"
+    aria-label="OpenAPI-Datei und ihre Nutzer"
+  >
+    <defs>
+      <marker
+        id="d09-openapi-arrow"
+        markerWidth="11"
+        markerHeight="11"
+        refX="9"
+        refY="5.5"
+        orient="auto"
+      >
+        <polygon points="0 0, 11 5.5, 0 11" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      x="650"
+      y="210"
+      width="400"
+      height="270"
+      rx="10"
+      class="d09-panel-amber"
+    ></rect>
+    <text x="850" y="320" text-anchor="middle" class="d09-body d09-amber">
+      openapi.yaml
+    </text>
+    <text x="850" y="375" text-anchor="middle" class="d09-label">
+      Pfade · Methoden
+    </text>
+    <text x="850" y="420" text-anchor="middle" class="d09-label">
+      Schemas · Antworten
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <path
+        d="M650 280 H430"
+        class="d09-line-blue"
+        marker-end="url(#d09-openapi-arrow)"
+      ></path>
+      <rect
+        x="40"
+        y="205"
+        width="390"
+        height="150"
+        rx="8"
+        class="d09-panel-blue"
+      ></rect>
+      <text x="235" y="292" text-anchor="middle" class="d09-body d09-blue">
+        Swagger UI
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <path
+        d="M1050 280 H1270"
+        class="d09-line-blue"
+        marker-end="url(#d09-openapi-arrow)"
+      ></path>
+      <rect
+        x="1270"
+        y="205"
+        width="390"
+        height="150"
+        rx="8"
+        class="d09-panel-blue"
+      ></rect>
+      <text x="1465" y="292" text-anchor="middle" class="d09-body d09-blue">
+        Clientgenerator
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <path
+        d="M720 480 L500 570"
+        class="d09-line-blue"
+        marker-end="url(#d09-openapi-arrow)"
+      ></path>
+      <rect
+        x="190"
+        y="540"
+        width="310"
+        height="140"
+        rx="8"
+        class="d09-panel-blue"
+      ></rect>
+      <text x="345" y="625" text-anchor="middle" class="d09-body d09-blue">
+        Contract Test
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <path
+        d="M980 480 L1200 570"
+        class="d09-line-blue"
+        marker-end="url(#d09-openapi-arrow)"
+      ></path>
+      <rect
+        x="1200"
+        y="540"
+        width="310"
+        height="140"
+        rx="8"
+        class="d09-panel-blue"
+      ></rect>
+      <text x="1355" y="625" text-anchor="middle" class="d09-body d09-blue">
+        Mensch
+      </text>
+    </g>
+    <text x="850" y="100" text-anchor="middle" class="d09-body">
+      maschinenlesbar und menschenlesbar
+    </text>
+  </svg>
+  <aside class="notes">
+    OpenAPI nennt Pfade, Methoden, Schemas und Antworten. Swagger UI ist eine
+    Oberfläche dafür, nicht das Format selbst.
+  </aside>
+</section>
+
+<section class="code-slide d09-code">
+  <h2 class="slide-title">Ein kleiner OpenAPI-Ausschnitt</h2>
+  <div class="code-slide__content code-slide__content--wide">
+    <pre><code class="language-yaml" data-trim data-line-numbers="1-3|4-8">paths:
+  /students:
+    post:
+      responses:
+        '201':
+          description: Student created
+        '400':
+          description: Invalid request</code></pre>
+  </div>
+  <p class="d09-code-source">
+    Gekürztes Lehrbeispiel zum OpenAPI-Endpunkt aus
+    <code>java/rest-simple-exercise/README.md</code>, Zeilen 30 bis 35. Kein
+    gespeicherter Repo-Ausschnitt.
+  </p>
+  <aside class="notes">
+    Der Vertrag zeigt zwei Ausgänge. Das Skeleton liefert OpenAPI unter
+    `/v3/api-docs`. SpringDoc erzeugt die Beschreibung zur Laufzeit, deshalb
+    gibt es dafür keine YAML-Datei im Repository.
+  </aside>
+</section>
+
+<section class="d09-slide">
+  <h2 class="slide-title">GitHub und Stripe</h2>
+  <span class="slide-context blue">Echte APIs</span>
+  <div class="d09-card-grid d09-card-grid--two d09-world-grid">
+    <div class="d09-world-card">
+      <h3>GitHub</h3>
+      <p>OpenAPI → REST Docs</p>
+      <p>OpenAPI → Octokit</p>
+    </div>
+    <div class="d09-world-card fragment fade-up" data-fragment-index="1">
+      <h3>Stripe</h3>
+      <p>POST mit <code>Idempotency-Key</code></p>
+      <p>sicherer Retry</p>
+    </div>
+  </div>
+  <div class="d09-world-caption fragment fade-in" data-fragment-index="2">
+    Vertrag und Wiederholung sind Produktionsfragen
+  </div>
+  <aside class="notes">
+    GitHub veröffentlicht seine OpenAPI-Beschreibung und erzeugt daraus
+    Dokumentation und SDKs. Stripe speichert das erste Ergebnis pro Idempotency
+    Key, damit ein Retry kein Doppelobjekt anlegt.
+  </aside>
+</section>
+
+<section class="exercise-slide d09-exercise">
+  <div class="exercise-slide__tag">Übung 8</div>
+  <div class="exercise-slide__time">25 min</div>
+  <p class="exercise-slide__task">API auf Papier</p>
+  <div class="d09-exercise-steps">
+    <div class="d09-exercise-step">
+      <span>1</span
+      ><span
+        >Übernehmt Hauptressource und Beziehungsendpunkt aus der Karte.</span
+      >
+    </div>
+    <div class="d09-exercise-step">
+      <span>2</span><span>Plant die vorgegebenen Methoden und Pfade.</span>
+    </div>
+    <div class="d09-exercise-step">
+      <span>3</span><span>Schreibt Request- und Response-JSON.</span>
+    </div>
+    <div class="d09-exercise-step">
+      <span>4</span
+      ><span>Tragt alle Erfolgs- und Fehlerstatus aus der Karte ein.</span>
+    </div>
+  </div>
+  <div class="d09-exercise-path">exercises/&lt;domain&gt;/06-rest.md</div>
+  <div class="exercise-slide__deliverable">
+    <strong>Abgabe:</strong> Endpoint-Tabelle und JSON-Beispiele
+  </div>
+  <aside class="notes">
+    Schreibt noch keinen Controller. Die Karte ist verbindlich. Für die
+    Bibliothek sind `/loans` und `/loans/{id}/reservation` vorgegeben.
+  </aside>
+</section>
+
+<section class="d09-slide">
+  <h2 class="slide-title">Debrief, Vertrag ohne Java</h2>
+  <span class="slide-context blue">Review-Matrix</span>
+  <div class="d09-review-grid">
+    <div class="d09-review-item">Ressource als Nomen?</div>
+    <div class="d09-review-item fragment fade-up" data-fragment-index="1">
+      Methode passend?
+    </div>
+    <div class="d09-review-item fragment fade-up" data-fragment-index="2">
+      Status eindeutig?
+    </div>
+    <div class="d09-review-item fragment fade-up" data-fragment-index="3">
+      JSON ohne interne Felder?
+    </div>
+  </div>
+  <aside class="notes">
+    Eine andere Gruppe soll euren Vertrag ohne Erklärung lesen. Wo sie raten
+    muss, fehlt Information. Diese Tabelle wird morgen zur
+    Controller-Checkliste.
+  </aside>
+</section>
+
+<section class="citation-slide d09-citation">
+  <div class="citation-text">
+    GitHubs REST API ist vollständig als OpenAPI beschrieben.
+  </div>
+  <svg
+    class="d09-svg d09-citation-visual"
+    viewBox="0 0 1700 610"
+    aria-label="OpenAPI-Datei führt zu GitHub REST Docs und Octokit SDK"
+  >
+    <defs>
+      <marker
+        id="d09-cite-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon points="0 0, 12 6, 0 12" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      x="590"
+      y="175"
+      width="520"
+      height="220"
+      rx="10"
+      class="d09-panel-amber"
+    ></rect>
+    <text x="850" y="305" text-anchor="middle" class="d09-body d09-amber">
+      openapi.yaml
+    </text>
+    <path
+      d="M590 285 H390"
+      class="d09-line-blue"
+      marker-end="url(#d09-cite-arrow)"
+    ></path>
+    <path
+      d="M1110 285 H1310"
+      class="d09-line-blue"
+      marker-end="url(#d09-cite-arrow)"
+    ></path>
+    <rect
+      x="40"
+      y="195"
+      width="350"
+      height="180"
+      rx="10"
+      class="d09-panel-blue"
+    ></rect>
+    <text x="215" y="270" text-anchor="middle" class="d09-body d09-blue">
+      GitHub
+    </text>
+    <text x="215" y="320" text-anchor="middle" class="d09-label">
+      REST Docs
+    </text>
+    <rect
+      x="1310"
+      y="195"
+      width="350"
+      height="180"
+      rx="10"
+      class="d09-panel-blue"
+    ></rect>
+    <text x="1485" y="270" text-anchor="middle" class="d09-body d09-blue">
+      Octokit
+    </text>
+    <text x="1485" y="320" text-anchor="middle" class="d09-label">SDK</text>
+  </svg>
+  <div class="d09-citation-source">
+    https://docs.github.com/en/rest/about-the-rest-api/about-the-openapi-description-for-the-rest-api<br />
+    https://docs.stripe.com/api/idempotent_requests<br />
+    Abruf: 2026-08-23
+  </div>
+  <aside class="notes">
+    GitHub erzeugt aus OpenAPI Referenzdokumentation und SDKs. Stripe zeigt den
+    nächsten Randfall: sichere Wiederholung. Jetzt implementieren wir unseren
+    Vertrag mit Spring Boot.
+  </aside>
+</section>
