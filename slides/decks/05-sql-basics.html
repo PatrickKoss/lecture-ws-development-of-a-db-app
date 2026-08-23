@@ -1,0 +1,1365 @@
+<style>
+  .d05-svg text,
+  .d05-svg tspan {
+    font-family: var(--font-mono);
+  }
+
+  .d05-svg .d05-body {
+    fill: var(--color-white);
+    font-size: 30px;
+  }
+
+  .d05-svg .d05-label {
+    fill: var(--color-text-mid);
+    font-size: 26px;
+  }
+
+  .d05-svg .d05-small {
+    fill: var(--color-text-dim);
+    font-size: 24px;
+  }
+
+  .d05-svg .d05-blue {
+    fill: var(--color-blue);
+  }
+
+  .d05-svg .d05-amber {
+    fill: var(--color-amber);
+  }
+
+  .d05-svg .d05-red {
+    fill: var(--color-red);
+  }
+
+  .d05-svg .d05-green {
+    fill: var(--color-green);
+  }
+
+  .d05-panel {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-line-bright);
+    stroke-width: 2;
+  }
+
+  .d05-panel-blue {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+  }
+
+  .d05-panel-amber {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-amber);
+    stroke-width: 3;
+  }
+
+  .d05-panel-red {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-red);
+    stroke-width: 3;
+  }
+
+  .d05-panel-green {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-green);
+    stroke-width: 3;
+  }
+
+  .d05-content-svg {
+    position: absolute;
+    inset: 8.5rem 2.4rem 4.8rem;
+    width: calc(100% - 4.8rem);
+    height: calc(100% - 13.3rem);
+  }
+
+  .d05-source {
+    color: var(--color-text-dim);
+    font-size: 0.86rem;
+  }
+
+  .d05-answer {
+    position: absolute;
+    right: 10rem;
+    bottom: 8rem;
+    left: 10rem;
+    color: var(--color-amber);
+    font-family: var(--font-mono);
+    font-size: 3.2rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .d05-answer code {
+    color: var(--color-blue);
+    font-size: 2rem;
+  }
+
+  .d05-answer--sql {
+    bottom: 3.8rem;
+  }
+
+  .d05-terminal {
+    padding: 1.2rem 1.4rem;
+    border: 1px solid var(--color-line-bright);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    color: var(--color-text-mid);
+    font-family: var(--font-mono);
+    font-size: 25px;
+    line-height: 1.55;
+  }
+
+  .d05-terminal strong {
+    color: var(--color-blue);
+  }
+
+  .d05-terminal-result {
+    margin-top: 1.2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-line-bright);
+    color: var(--color-green);
+  }
+
+  .d05-code-result {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    padding: 1.2rem 0 1.2rem 1.5rem;
+    border-left: 2px solid var(--color-amber);
+    box-sizing: border-box;
+    color: var(--color-text-mid);
+    font-family: var(--font-mono);
+    font-size: 25px;
+    line-height: 1.5;
+  }
+
+  .d05-code-result .d05-result-title {
+    margin-bottom: 0.8rem;
+    color: var(--color-amber);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .d05-code-result .d05-result-box {
+    padding: 1rem;
+    border: 1px solid var(--color-blue);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+  }
+
+  .d05-code-result .d05-warning {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--color-red);
+    border-radius: 4px;
+    color: var(--color-red);
+  }
+
+  .d05-code-compact pre {
+    font-size: 24px !important;
+  }
+
+  .d05-code-compact .code-slide__content {
+    align-items: center;
+  }
+
+  .d05-code-compact pre,
+  .d05-code-compact pre code {
+    background: var(--color-grey-dim);
+  }
+
+  .d05-code-compact .d05-code-result,
+  .d05-code-compact .code-slide__notes {
+    height: auto;
+  }
+
+  .d05-exercise-steps {
+    display: grid;
+    flex: 1;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1rem 1.4rem;
+    margin: 0 5rem 1.4rem;
+    min-height: 0;
+  }
+
+  .d05-exercise-step {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    align-items: center;
+    min-height: 0;
+    padding: 0.9rem 1.2rem;
+    border: 1px solid var(--color-line-bright);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    color: var(--color-text-mid);
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    line-height: 1.35;
+  }
+
+  .d05-exercise-step span {
+    color: var(--color-amber);
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  .d05-exercise-step code {
+    color: var(--color-blue);
+    font-family: var(--font-mono);
+  }
+
+  .d05-exercise-path {
+    margin: -1.2rem 5rem 0.6rem;
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .d05-exercise-steps + .d05-exercise-path + .exercise-slide__deliverable {
+    font-size: 1.6rem;
+  }
+
+  .d05-redline .redline__step--done rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+  }
+
+  .d05-redline .redline__step--done text {
+    fill: var(--color-blue);
+  }
+
+  .d05-redline .redline__step--next rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+    stroke-dasharray: 12 9;
+  }
+
+  .d05-redline .redline__step--next text {
+    fill: var(--color-blue);
+  }
+
+  .d05-redline .redline__step text {
+    font-size: 24px;
+  }
+
+  .d05-chapter-art {
+    position: absolute;
+    right: 5rem;
+    bottom: 8rem;
+    width: 32rem;
+    height: 25rem;
+  }
+
+  .d05-citation {
+    padding: 5rem 8rem !important;
+  }
+
+  .d05-citation .citation-text {
+    font-size: 2.6rem;
+  }
+
+  .d05-citation .citation-source {
+    color: var(--color-blue);
+    font-size: 1rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+</style>
+
+<section class="chapter-slide terminal slide-frame">
+  <div class="slide-frame__top">
+    <span class="slide-frame__marker slide-frame__marker--amber"
+      >Kapitel 05</span
+    >
+    <span class="slide-frame__context">Tag 2 · SQL</span>
+  </div>
+  <div class="slide-frame__body">
+    <div class="chapter-number">05</div>
+    <div class="chapter-eyebrow">Kapitel · 05</div>
+    <h1 class="chapter-title-big">SQL-Grundlagen</h1>
+    <div class="chapter-subtitle">
+      Tabellen erstellen, Daten ändern, Fragen stellen
+    </div>
+    <svg
+      class="d05-chapter-art d05-svg"
+      viewBox="0 0 700 520"
+      aria-label="Terminalcursor vor einer Datenbank"
+    >
+      <rect class="d05-panel" x="20" y="55" width="390" height="310" rx="12" />
+      <circle cx="55" cy="88" r="8" fill="var(--color-red)" />
+      <circle cx="82" cy="88" r="8" fill="var(--color-amber)" />
+      <circle cx="109" cy="88" r="8" fill="var(--color-green)" />
+      <line
+        x1="20"
+        y1="116"
+        x2="410"
+        y2="116"
+        stroke="var(--color-line-bright)"
+        stroke-width="2"
+      />
+      <text class="d05-body d05-blue" x="54" y="180">sqlite&gt; SELECT</text>
+      <rect x="304" y="152" width="18" height="34" fill="var(--color-amber)" />
+      <g transform="translate(455 145)">
+        <ellipse
+          cx="105"
+          cy="35"
+          rx="105"
+          ry="34"
+          fill="var(--color-grey-dim)"
+          stroke="var(--color-blue)"
+          stroke-width="4"
+        />
+        <path
+          d="M0 35 V255 C0 274 47 289 105 289 C163 289 210 274 210 255 V35"
+          fill="var(--color-grey-dim)"
+          stroke="var(--color-blue)"
+          stroke-width="4"
+        />
+        <ellipse
+          cx="105"
+          cy="255"
+          rx="105"
+          ry="34"
+          fill="var(--color-grey-dim)"
+          stroke="var(--color-blue)"
+          stroke-width="4"
+        />
+        <text class="d05-body d05-blue" x="105" y="157" text-anchor="middle">
+          .db
+        </text>
+      </g>
+    </svg>
+  </div>
+  <div class="slide-frame__footer">
+    <span class="slide-frame__footer-left">SQL-Grundlagen</span>
+    <span class="slide-frame__footer-mid"></span>
+    <span class="slide-frame__footer-right">05.1</span>
+  </div>
+  <aside class="notes">
+    Heute wird das Schema ausführbar. Jede Abfrage läuft gegen dieselben fünf
+    Universitätstabellen.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Wir fragen die Tabellen</h2>
+  <div class="slide-context">Die rote Linie</div>
+  <svg
+    class="d05-content-svg d05-svg d05-redline"
+    viewBox="0 0 1600 410"
+    aria-label="Der rote Faden des Kurses mit SQL als aktivem Schritt"
+  >
+    <defs>
+      <marker
+        id="d05-redline-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon class="redline__arrow" points="0 0, 10 5, 0 10"></polygon>
+      </marker>
+    </defs>
+    <path
+      class="redline__line"
+      d="M370 100 H415 M775 100 H820 M1180 100 H1225 M1585 100 H1592 V310 H1585 M1225 310 H1180 M820 310 H775 M415 310 H370"
+      marker-end="url(#d05-redline-arrow)"
+    ></path>
+    <g class="redline__step redline__step--done">
+      <rect x="10" y="35" width="360" height="130" rx="8"></rect>
+      <text x="190" y="110">1. Idee im Kopf</text>
+    </g>
+    <g class="redline__step redline__step--done">
+      <rect x="415" y="35" width="360" height="130" rx="8"></rect>
+      <text x="595" y="72">
+        <tspan x="595">2. Darüber sprechen:</tspan>
+        <tspan x="595" dy="30">Abstraktion und</tspan>
+        <tspan x="595" dy="30">ER-Modell</tspan>
+      </text>
+    </g>
+    <g class="redline__step redline__step--done">
+      <rect x="820" y="35" width="360" height="130" rx="8"></rect>
+      <text x="1000" y="72">
+        <tspan x="1000">3. Tabellen, die uns</tspan>
+        <tspan x="1000" dy="30">nicht anlügen:</tspan>
+        <tspan x="1000" dy="30">Normalisierung</tspan>
+      </text>
+    </g>
+    <g class="redline__step redline__step--active">
+      <rect x="1225" y="35" width="360" height="130" rx="8"></rect>
+      <text x="1405" y="72">
+        <tspan x="1405">4. Den Tabellen</tspan>
+        <tspan x="1405" dy="30">Fragen stellen:</tspan>
+        <tspan x="1405" dy="30">SQL</tspan>
+      </text>
+    </g>
+    <g class="redline__step redline__step--next">
+      <rect x="1225" y="245" width="360" height="130" rx="8"></rect>
+      <text x="1405" y="282">
+        <tspan x="1405">5. Aus Java fragen:</tspan>
+        <tspan x="1405" dy="30">JDBC, Cursor,</tspan>
+        <tspan x="1405" dy="30">Statements</tspan>
+      </text>
+    </g>
+    <g class="redline__step">
+      <rect x="820" y="245" width="360" height="130" rx="8"></rect>
+      <text x="1000" y="282">
+        <tspan x="1000">6. Wiederholungen</tspan>
+        <tspan x="1000" dy="30">beenden:</tspan>
+        <tspan x="1000" dy="30">Repository Pattern</tspan>
+      </text>
+    </g>
+    <g class="redline__step">
+      <rect x="415" y="245" width="360" height="130" rx="8"></rect>
+      <text x="595" y="282">
+        <tspan x="595">7. Andere zugreifen</tspan>
+        <tspan x="595" dy="30">lassen: REST API</tspan>
+        <tspan x="595" dy="30">mit Spring</tspan>
+      </text>
+    </g>
+    <g class="redline__step">
+      <rect x="10" y="245" width="360" height="130" rx="8"></rect>
+      <text x="190" y="270">
+        <tspan x="190">8. Solide machen:</tspan>
+        <tspan x="190" dy="27">Schichten, Validierung,</tspan>
+        <tspan x="190" dy="27">Fehler, OpenAPI, Tests,</tspan>
+        <tspan x="190" dy="27">Middleware</tspan>
+      </text>
+    </g>
+  </svg>
+  <div class="slide-caption">
+    Vorher: schema.sql · Jetzt: SQL · Danach: JDBC
+  </div>
+  <aside class="notes">
+    Die Tabellen sind normalisiert. SQL liest und verändert sie direkt. Später
+    sendet Java genau solche Strings über JDBC.
+  </aside>
+</section>
+
+<section class="lead-question">
+  <div class="lead-question__mark">?</div>
+  <h2 class="lead-question__text">
+    Sage ich SQL <span class="t-blue">wie</span> oder
+    <span class="t-amber">was</span> es holen soll?
+  </h2>
+  <div class="d05-answer fragment fade-in" data-fragment-index="1">was</div>
+  <div
+    class="d05-answer d05-answer--sql fragment fade-in"
+    data-fragment-index="2"
+  >
+    <code>SELECT first_name FROM students;</code>
+  </div>
+  <aside class="notes">
+    Erwartet ist das gewünschte Ergebnis. Typisch falsch sind "die Schleife
+    steht in SELECT" und "SQL liest immer die ganze Datei". Der Query Planner
+    entscheidet über den Weg.
+  </aside>
+</section>
+
+<section class="code-slide d05-code-compact">
+  <h2 class="slide-title">Drei Befehle im Terminal</h2>
+  <div class="slide-context blue">SQLite CLI</div>
+  <div class="code-slide__content">
+    <pre><code class="language-bash" data-trim data-ln-start-from="10" data-line-numbers="10|11|12" data-fragment-index="1">sqlite3 students.db &lt; schema.sql
+sqlite3 students.db &lt; seed.sql
+sqlite3 -header -column students.db &lt; queries.sql</code></pre>
+    <div class="code-slide__notes">
+      <h3>Ablauf</h3>
+      <p>Schema laden</p>
+      <p>40 Enrollments laden</p>
+      <p>12 Queries ausführen</p>
+      <div class="d05-terminal-result fragment fade-in" data-fragment-index="3">
+        courses departments enrollments lecturers students
+      </div>
+    </div>
+  </div>
+  <div class="slide-caption d05-source">
+    java/sql/university/README.md, Zeilen 9 bis 13
+  </div>
+  <aside class="notes">
+    Ich führe die drei Befehle im Verzeichnis `java/sql/university` aus. Die
+    Dateien bauen eine neue Datenbank auf. `queries.sql` ändert Daten, deshalb
+    starten wir jedes Mal mit einer leeren Datei.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">DDL und DML</h2>
+  <div class="slide-context">Zwei Aufgaben</div>
+  <svg class="d05-content-svg d05-svg" viewBox="0 0 1700 700">
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d05-panel-blue"
+        x="70"
+        y="90"
+        width="720"
+        height="400"
+        rx="12"
+      />
+      <text class="d05-body d05-blue" x="430" y="165" text-anchor="middle">
+        DDL: CREATE, ALTER, DROP
+      </text>
+      <rect class="d05-panel" x="220" y="225" width="420" height="165" rx="8" />
+      <line
+        x1="220"
+        y1="280"
+        x2="640"
+        y2="280"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      />
+      <line
+        x1="360"
+        y1="225"
+        x2="360"
+        y2="390"
+        stroke="var(--color-line-bright)"
+        stroke-width="2"
+      />
+      <line
+        x1="500"
+        y1="225"
+        x2="500"
+        y2="390"
+        stroke="var(--color-line-bright)"
+        stroke-width="2"
+      />
+      <text class="d05-label" x="430" y="450" text-anchor="middle">
+        Tabellenrahmen
+      </text>
+      <rect
+        class="d05-panel-amber"
+        x="910"
+        y="90"
+        width="720"
+        height="400"
+        rx="12"
+      />
+      <text class="d05-body d05-amber" x="1270" y="165" text-anchor="middle">
+        DML: INSERT, SELECT, UPDATE, DELETE
+      </text>
+      <line
+        x1="1040"
+        y1="245"
+        x2="1500"
+        y2="245"
+        stroke="var(--color-text-mid)"
+        stroke-width="3"
+      />
+      <line
+        x1="1040"
+        y1="310"
+        x2="1500"
+        y2="310"
+        stroke="var(--color-text-mid)"
+        stroke-width="3"
+      />
+      <line
+        x1="1040"
+        y1="375"
+        x2="1500"
+        y2="375"
+        stroke="var(--color-text-mid)"
+        stroke-width="3"
+      />
+      <text class="d05-label" x="1270" y="450" text-anchor="middle">
+        Zeilen
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <text class="d05-body" x="850" y="620" text-anchor="middle">
+        <tspan class="d05-blue">Struktur</tspan>
+        <tspan>≠</tspan>
+        <tspan class="d05-amber">Inhalt</tspan>
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    DDL verändert das Schema. DML arbeitet mit Daten. Diese Trennung hilft beim
+    Lesen von Dateien und Fehlermeldungen.
+  </aside>
+</section>
+
+<section class="code-slide d05-code-compact">
+  <h2 class="slide-title">CREATE TABLE students</h2>
+  <div class="slide-context blue">DDL</div>
+  <div class="code-slide__content code-slide__content--wide">
+    <pre><code class="language-sql" data-trim data-ln-start-from="18" data-line-numbers="18-19|20-23|24-28" data-fragment-index="1">CREATE TABLE IF NOT EXISTS students (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    student_number TEXT NOT NULL UNIQUE,
+    enrollment_date TEXT NOT NULL
+        CHECK (
+            date(enrollment_date) IS NOT NULL
+            AND enrollment_date = date(enrollment_date)
+        )
+);</code></pre>
+  </div>
+  <div class="slide-caption d05-source">
+    java/sql/university/schema.sql, Zeilen 18 bis 29
+  </div>
+  <aside class="notes">
+    Der Primary Key gibt Identität. UNIQUE schützt fachliche Schlüssel. Der
+    CHECK erzwingt ein gültiges ISO-Datum.
+  </aside>
+</section>
+
+<section class="code-slide d05-code-compact">
+  <h2 class="slide-title">CREATE TABLE enrollments</h2>
+  <div class="slide-context blue">DDL</div>
+  <div class="code-slide__content code-slide__content--wide">
+    <pre><code class="language-sql" data-trim data-ln-start-from="40" data-line-numbers="40-43|44-49|50-52" data-fragment-index="1">CREATE TABLE IF NOT EXISTS enrollments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_id INTEGER NOT NULL,
+    course_id INTEGER NOT NULL,
+    grade REAL CHECK (grade BETWEEN 1.0 AND 5.0),
+    enrolled_on TEXT NOT NULL
+        CHECK (
+            date(enrolled_on) IS NOT NULL
+            AND enrolled_on = date(enrolled_on)
+        ),
+    UNIQUE (student_id, course_id),
+    FOREIGN KEY (student_id) REFERENCES students(id),
+    FOREIGN KEY (course_id) REFERENCES courses(id)
+);</code></pre>
+  </div>
+  <div class="slide-caption d05-source">
+    java/sql/university/schema.sql, Zeilen 40 bis 53
+  </div>
+  <aside class="notes">
+    Die Join Table trägt `enrolled_on` und die optionale Note. UNIQUE verhindert
+    doppelte Belegung. Zwei Fremdschlüssel bewahren die ER-Linien.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Constraints sind laufende Regeln</h2>
+  <div class="slide-context">Schutz beim Schreiben</div>
+  <svg class="d05-content-svg d05-svg" viewBox="0 0 1760 700">
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d05-panel-blue"
+        x="40"
+        y="105"
+        width="390"
+        height="380"
+        rx="10"
+      />
+      <text class="d05-body d05-blue" x="235" y="170" text-anchor="middle">
+        PRIMARY KEY
+      </text>
+      <text class="d05-label" x="235" y="245" text-anchor="middle">
+        id identifiziert
+      </text>
+      <text class="d05-label" x="235" y="280" text-anchor="middle">
+        eine Zeile
+      </text>
+      <text class="d05-body d05-red" x="235" y="400" text-anchor="middle">
+        id 7 zweimal
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d05-panel-blue"
+        x="470"
+        y="105"
+        width="390"
+        height="380"
+        rx="10"
+      />
+      <text class="d05-body d05-blue" x="665" y="170" text-anchor="middle">
+        NOT NULL
+      </text>
+      <text class="d05-label" x="665" y="245" text-anchor="middle">
+        Pflichtwert
+      </text>
+      <text class="d05-label" x="665" y="280" text-anchor="middle">
+        fehlt nicht
+      </text>
+      <text class="d05-body d05-red" x="665" y="400" text-anchor="middle">
+        last_name = NULL
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        class="d05-panel-blue"
+        x="900"
+        y="105"
+        width="390"
+        height="380"
+        rx="10"
+      />
+      <text class="d05-body d05-blue" x="1095" y="170" text-anchor="middle">
+        UNIQUE
+      </text>
+      <text class="d05-label" x="1095" y="245" text-anchor="middle">
+        Fachwert bleibt
+      </text>
+      <text class="d05-label" x="1095" y="280" text-anchor="middle">
+        eindeutig
+      </text>
+      <text class="d05-body d05-red" x="1095" y="382" text-anchor="middle">
+        student_number
+      </text>
+      <text class="d05-body d05-red" x="1095" y="420" text-anchor="middle">
+        M2023001 zweimal
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <rect
+        class="d05-panel-blue"
+        x="1330"
+        y="105"
+        width="390"
+        height="380"
+        rx="10"
+      />
+      <text class="d05-body d05-blue" x="1525" y="170" text-anchor="middle">
+        FOREIGN KEY
+      </text>
+      <text class="d05-label" x="1525" y="245" text-anchor="middle">
+        Verweis braucht
+      </text>
+      <text class="d05-label" x="1525" y="280" text-anchor="middle">
+        ein Ziel
+      </text>
+      <text class="d05-body d05-red" x="1525" y="382" text-anchor="middle">
+        course_id = 99
+      </text>
+      <text class="d05-body d05-red" x="1525" y="420" text-anchor="middle">
+        ohne Course
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="5">
+      <rect
+        class="d05-panel-green"
+        x="585"
+        y="525"
+        width="590"
+        height="90"
+        rx="10"
+      />
+      <text class="d05-body d05-green" x="880" y="582" text-anchor="middle">
+        Fehler beim Schreiben
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Constraints prüfen jede passende Schreiboperation. Die vier Gegenbeispiele
+    nennen genau die Regel, die sie verletzt.
+  </aside>
+</section>
+
+<section class="code-slide d05-code-compact">
+  <h2 class="slide-title">INSERT setzt Seed-Zeilen ein</h2>
+  <div class="slide-context blue">DML</div>
+  <div class="code-slide__content">
+    <pre><code class="language-sql" data-trim data-ln-start-from="46" data-line-numbers="46|47-49|50-53" data-fragment-index="1">INSERT INTO courses (id, course_code, title, credits, lecturer_id) VALUES
+    (1, 'INF-201', 'Datenbanken', 6, 1),
+    (2, 'INF-202', 'Programmierung II', 6, 2),
+    (3, 'INF-230', 'Webentwicklung', 5, 5),
+    (4, 'MAT-110', 'Diskrete Mathematik', 5, 3),
+    (5, 'MAT-210', 'Statistik', 5, 3),
+    (6, 'WI-101', 'Grundlagen der Betriebswirtschaft', 5, 4),
+    (7, 'INF-250', 'Software Engineering', 6, 1);</code></pre>
+    <div class="d05-code-result">
+      <div class="d05-result-title">7 Courses</div>
+      <div class="d05-result-box">
+        INF-201<br />INF-202<br />INF-230<br />MAT-110<br />MAT-210<br />WI-101<br />INF-250
+      </div>
+    </div>
+  </div>
+  <div class="slide-caption d05-source">
+    java/sql/university/seed.sql, Zeilen 46 bis 53
+  </div>
+  <aside class="notes">
+    Der Seed nennt Spalten explizit und setzt sieben feste IDs. Die Lecturer-IDs
+    1 bis 5 existieren bereits, weil `seed.sql` Eltern vor Kindern lädt.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Constraint-Fehler lesen</h2>
+  <div class="slide-context red">Fehlversuch</div>
+  <svg class="d05-content-svg d05-svg" viewBox="0 0 1760 700">
+    <rect class="d05-panel" x="55" y="80" width="1650" height="480" rx="12" />
+    <circle cx="100" cy="120" r="8" fill="var(--color-red)" />
+    <circle cx="128" cy="120" r="8" fill="var(--color-amber)" />
+    <circle cx="156" cy="120" r="8" fill="var(--color-green)" />
+    <text class="d05-body" x="95" y="210">
+      INSERT INTO students (first_name, last_name, email,
+    </text>
+    <text class="d05-body" x="95" y="255">
+      student_number, enrollment_date) VALUES ('Lea', 'Test',
+    </text>
+    <text class="d05-body" x="95" y="300">
+      'lea.test@stud.example', 'M2023001', '2025-10-01');
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <text class="d05-body d05-red" x="95" y="415">
+        UNIQUE constraint failed: students.student_number
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="525"
+        y="267"
+        width="210"
+        height="44"
+        fill="none"
+        stroke="var(--color-amber)"
+        stroke-width="4"
+        rx="5"
+      />
+      <rect
+        x="525"
+        y="380"
+        width="520"
+        height="48"
+        fill="none"
+        stroke="var(--color-amber)"
+        stroke-width="4"
+        rx="5"
+      />
+    </g>
+  </svg>
+  <div class="slide-caption d05-source">
+    Didaktischer Fehlversuch gegen `java/sql/university/schema.sql`, Zeilen 18
+    bis 29; `M2023001` stammt aus `seed.sql`, Zeile 25.
+  </div>
+  <aside class="notes">
+    Der Seed belegt M2023001 bereits für Lena Hoffmann. SQLite nennt verletzte
+    Tabelle und Spalte. Der Fehlversuch steht nicht in einer Repository-Datei.
+  </aside>
+</section>
+
+<section class="code-slide d05-code-compact">
+  <h2 class="slide-title">SELECT wählt Spalten</h2>
+  <div class="slide-context blue">Query 1</div>
+  <div class="code-slide__content">
+    <pre><code class="language-sql" data-trim data-ln-start-from="3" data-line-numbers="3-4|5-6" data-fragment-index="1">-- Welche Studierenden sind gespeichert?
+-- erwartet: 20 Zeilen
+SELECT id, first_name, last_name, student_number
+FROM students;</code></pre>
+    <div class="d05-code-result">
+      <div class="fragment fade-in" data-fragment-index="2">
+        <div class="d05-result-title">20 Zeilen</div>
+        <div class="d05-result-box">
+          1 · Lena · Hoffmann · M2023001<br /><br />20 · Samir · Saleh ·
+          M2025005
+        </div>
+      </div>
+      <div class="d05-warning fragment fade-in" data-fragment-index="3">
+        <span class="t-red">×</span> SELECT *
+      </div>
+    </div>
+  </div>
+  <div class="slide-caption d05-source">
+    java/sql/university/queries.sql, Zeilen 3 bis 6
+  </div>
+  <aside class="notes">
+    Query 1 nennt vier Spalten und liefert vor den Writes genau 20 Zeilen. Die
+    erste und letzte sichtbare Zeile stammen aus `seed.sql`.
+  </aside>
+</section>
+
+<section class="code-slide d05-code-compact">
+  <h2 class="slide-title">WHERE filtert Zeilen</h2>
+  <div class="slide-context blue">Query 2</div>
+  <div class="code-slide__content">
+    <pre><code class="language-sql" data-trim data-ln-start-from="8" data-line-numbers="8-9|10-12|13-14" data-fragment-index="1">-- Welche fünf zuletzt eingeschriebenen Studierenden kommen alphabetisch zuerst?
+-- erwartet: 5 Zeilen
+SELECT id, first_name, last_name, enrollment_date
+FROM students
+WHERE enrollment_date &gt;= '2024-10-01'
+ORDER BY last_name, first_name
+LIMIT 5;</code></pre>
+    <div class="d05-code-result fragment fade-in" data-fragment-index="3">
+      <div class="d05-result-title">5 Zeilen</div>
+      <div class="d05-result-box">
+        Elif Aydin<br />Zeynep Demir<br />Nele Hartmann<br />Amira Hassan<br />Finn
+        Krüger
+      </div>
+    </div>
+  </div>
+  <div class="slide-caption d05-source">
+    java/sql/university/queries.sql, Zeilen 8 bis 14
+  </div>
+  <aside class="notes">
+    WHERE behält Studierende ab `2024-10-01`. ISO-Daten lassen sich in diesem
+    Format vergleichen. ORDER BY und LIMIT bestimmen, welche fünf Namen sichtbar
+    werden.
+  </aside>
+</section>
+
+<section class="code-slide d05-code-compact">
+  <h2 class="slide-title">ORDER BY und LIMIT</h2>
+  <div class="slide-context blue">gekürzt aus Query 2</div>
+  <div class="code-slide__content">
+    <pre><code class="language-sql" data-trim data-ln-start-from="10" data-line-numbers="10-12|13|14" data-fragment-index="1">SELECT id, first_name, last_name, enrollment_date
+FROM students
+WHERE enrollment_date &gt;= '2024-10-01'
+ORDER BY last_name, first_name
+LIMIT 5;</code></pre>
+    <div class="d05-code-result fragment fade-in" data-fragment-index="3">
+      <div class="d05-result-title">5 Zeilen</div>
+      <div class="d05-result-box">
+        Aydin<br />Demir<br />Hartmann<br />Hassan<br />Krüger
+      </div>
+    </div>
+  </div>
+  <div class="slide-caption d05-source">
+    java/sql/university/queries.sql, Zeilen 10 bis 14
+  </div>
+  <aside class="notes">
+    Sortierung ist ohne ORDER BY nicht zugesichert. LIMIT greift nach Filter und
+    Sortierung. Der Ausschnitt ist Query 2 ohne Kommentarzeilen.
+  </aside>
+</section>
+
+<section class="code-slide d05-code-compact">
+  <h2 class="slide-title">UPDATE braucht ein WHERE</h2>
+  <div class="slide-context blue">Query 3</div>
+  <div class="code-slide__content">
+    <pre><code class="language-sql" data-trim data-ln-start-from="16" data-line-numbers="16-17|18-20|21" data-fragment-index="1">-- Welche Zeile wurde beim Ändern von Lenas E-Mail-Adresse aktualisiert?
+-- erwartet: 1 Zeile
+UPDATE students
+SET email = 'lena.hoffmann@campus.example'
+WHERE student_number = 'M2023001'
+RETURNING id, email;</code></pre>
+    <div class="d05-code-result">
+      <div class="fragment fade-in" data-fragment-index="3">
+        <div class="d05-result-title t-amber">WHERE</div>
+      </div>
+      <div class="d05-result-box fragment fade-in" data-fragment-index="4">
+        1 · lena.hoffmann@<br />campus.example<br /><span class="t-grey"
+          >1 Zeile</span
+        >
+      </div>
+      <div class="d05-warning fragment fade-in" data-fragment-index="5">
+        Ohne WHERE: alle Students
+      </div>
+    </div>
+  </div>
+  <div class="slide-caption d05-source">
+    java/sql/university/queries.sql, Zeilen 16 bis 21
+  </div>
+  <aside class="notes">
+    Query 3 ändert Lenas E-Mail-Adresse und liefert mit RETURNING genau eine
+    Zeile. Die nächsten Queries sehen bereits den neuen Wert.
+  </aside>
+</section>
+
+<section class="code-slide d05-code-compact">
+  <h2 class="slide-title">DELETE braucht dieselbe Sorgfalt</h2>
+  <div class="slide-context blue">Query 4</div>
+  <div class="code-slide__content">
+    <pre><code class="language-sql" data-trim data-ln-start-from="23" data-line-numbers="23-24|25-26|27" data-fragment-index="1">-- Welche Zeile wurde beim Löschen der noch kurslosen Testperson entfernt?
+-- erwartet: 1 Zeile
+DELETE FROM students
+WHERE student_number = 'M2025005'
+RETURNING id, first_name, last_name;</code></pre>
+    <div class="d05-code-result">
+      <div class="fragment fade-in" data-fragment-index="3">
+        <div class="d05-result-title">student_number = 'M2025005'</div>
+      </div>
+      <div class="d05-result-box fragment fade-in" data-fragment-index="4">
+        20 · Samir · Saleh
+      </div>
+      <div class="fragment fade-in" data-fragment-index="5">
+        1 Zeile gelöscht
+      </div>
+      <div class="d05-warning fragment fade-in" data-fragment-index="6">
+        students: 20 → 19
+      </div>
+    </div>
+  </div>
+  <div class="slide-caption d05-source">
+    java/sql/university/queries.sql, Zeilen 23 bis 27
+  </div>
+  <aside class="notes">
+    Query 4 löscht die kurslose Testperson Samir Saleh und liefert genau eine
+    Zeile mit RETURNING. Die Queries 5 bis 12 laufen danach mit 19 Students.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">CRUD und SQL</h2>
+  <div class="slide-context">Vier Operationen</div>
+  <svg class="d05-content-svg d05-svg" viewBox="0 0 1600 700">
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect class="d05-panel" x="220" y="55" width="1160" height="110" rx="8" />
+      <text class="d05-body d05-amber" x="500" y="125" text-anchor="middle">
+        Create
+      </text>
+      <text class="d05-body" x="800" y="125" text-anchor="middle">→</text>
+      <text class="d05-body d05-blue" x="1100" y="125" text-anchor="middle">
+        INSERT
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d05-panel"
+        x="220"
+        y="200"
+        width="1160"
+        height="110"
+        rx="8"
+      />
+      <text class="d05-body d05-amber" x="500" y="270" text-anchor="middle">
+        Read
+      </text>
+      <text class="d05-body" x="800" y="270" text-anchor="middle">→</text>
+      <text class="d05-body d05-blue" x="1100" y="270" text-anchor="middle">
+        SELECT
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        class="d05-panel"
+        x="220"
+        y="345"
+        width="1160"
+        height="110"
+        rx="8"
+      />
+      <text class="d05-body d05-amber" x="500" y="415" text-anchor="middle">
+        Update
+      </text>
+      <text class="d05-body" x="800" y="415" text-anchor="middle">→</text>
+      <text class="d05-body d05-blue" x="1100" y="415" text-anchor="middle">
+        UPDATE
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <rect
+        class="d05-panel"
+        x="220"
+        y="490"
+        width="1160"
+        height="110"
+        rx="8"
+      />
+      <text class="d05-body d05-amber" x="500" y="560" text-anchor="middle">
+        Delete
+      </text>
+      <text class="d05-body" x="800" y="560" text-anchor="middle">→</text>
+      <text class="d05-body d05-blue" x="1100" y="560" text-anchor="middle">
+        DELETE
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    CRUD ist eine Gruppe von Operationen, keine Architektur. Diese vier
+    Zuordnungen kehren in JDBC, Repository und REST wieder.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Ein sicherer Arbeitsrhythmus</h2>
+  <div class="slide-context">Vor und nach dem Schreiben</div>
+  <svg class="d05-content-svg d05-svg" viewBox="0 0 1700 700">
+    <defs>
+      <marker
+        id="d05-cycle-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)" />
+      </marker>
+      <marker
+        id="d05-cycle-arrow-amber"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-amber)" />
+      </marker>
+    </defs>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d05-panel-blue"
+        x="680"
+        y="30"
+        width="340"
+        height="100"
+        rx="10"
+      />
+      <text class="d05-body d05-blue" x="850" y="92" text-anchor="middle">
+        .schema
+      </text>
+      <path
+        d="M1020 90 Q1250 105 1370 245"
+        fill="none"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d05-cycle-arrow)"
+      />
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d05-panel-blue"
+        x="1290"
+        y="245"
+        width="340"
+        height="100"
+        rx="10"
+      />
+      <text class="d05-body d05-blue" x="1460" y="307" text-anchor="middle">
+        SELECT
+      </text>
+      <path
+        d="M1450 345 Q1390 525 1125 600"
+        fill="none"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d05-cycle-arrow)"
+      />
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        class="d05-panel-amber"
+        x="955"
+        y="555"
+        width="430"
+        height="100"
+        rx="10"
+      />
+      <text class="d05-body d05-amber" x="1170" y="617" text-anchor="middle">
+        Schreibbefehl
+      </text>
+      <path
+        d="M955 620 Q730 680 540 565"
+        fill="none"
+        stroke="var(--color-amber)"
+        stroke-width="4"
+        marker-end="url(#d05-cycle-arrow-amber)"
+      />
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <rect
+        class="d05-panel-blue"
+        x="210"
+        y="465"
+        width="340"
+        height="100"
+        rx="10"
+      />
+      <text class="d05-body d05-blue" x="380" y="527" text-anchor="middle">
+        changes()
+      </text>
+      <path
+        d="M260 465 Q145 325 270 205"
+        fill="none"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d05-cycle-arrow)"
+      />
+    </g>
+    <g class="fragment fade-in" data-fragment-index="5">
+      <rect
+        class="d05-panel-blue"
+        x="270"
+        y="145"
+        width="340"
+        height="100"
+        rx="10"
+      />
+      <text class="d05-body d05-blue" x="440" y="207" text-anchor="middle">
+        SELECT
+      </text>
+      <path
+        d="M610 175 Q650 105 680 90"
+        fill="none"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d05-cycle-arrow)"
+      />
+    </g>
+  </svg>
+  <aside class="notes">
+    Wir schauen vor und nach einem Schreibbefehl auf die Daten. Das ist
+    langsamer als blindes Tippen und schneller als Datenrettung. Speichert eure
+    Befehle in Dateien. Der Verlauf reicht dafür nicht.
+  </aside>
+</section>
+
+<section class="exercise-slide">
+  <div class="exercise-slide__tag">Übung 4</div>
+  <div class="exercise-slide__time">40 min</div>
+  <p class="exercise-slide__task">Schema und Seed</p>
+  <div class="d05-exercise-steps">
+    <div class="d05-exercise-step">
+      <span>1</span>
+      <div>Schreibt <code>sql/schema.sql</code>.</div>
+    </div>
+    <div class="d05-exercise-step">
+      <span>2</span>
+      <div>Setzt Keys, NOT NULL, UNIQUE und weitere Fach-Constraints.</div>
+    </div>
+    <div class="d05-exercise-step">
+      <span>3</span>
+      <div>
+        Schreibt <code>sql/seed.sql</code> mit 10 bis 20 Zeilen pro Tabelle.
+      </div>
+    </div>
+    <div class="d05-exercise-step">
+      <span>4</span>
+      <div>Ladet beide Dateien in eine leere SQLite-Datenbank.</div>
+    </div>
+  </div>
+  <div class="d05-exercise-path">exercises/&lt;domain&gt;/03-sql.md</div>
+  <div class="exercise-slide__deliverable">
+    <strong>Abgabe:</strong> sql/schema.sql, sql/seed.sql, erfolgreiche
+    .tables-Ausgabe
+  </div>
+  <aside class="notes">
+    Beginnt immer mit einer leeren Datei. Ladet Eltern vor Kindern. Ein Seed
+    muss beim ersten Lauf vollständig durchlaufen.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Debrief, bricht das Schema richtig?</h2>
+  <div class="slide-context">Drei Gegenproben</div>
+  <svg class="d05-content-svg d05-svg" viewBox="0 0 1740 700">
+    <rect class="d05-panel" x="50" y="105" width="510" height="440" rx="10" />
+    <rect class="d05-panel" x="615" y="105" width="510" height="440" rx="10" />
+    <rect class="d05-panel" x="1180" y="105" width="510" height="440" rx="10" />
+    <text class="d05-body" x="305" y="175" text-anchor="middle">
+      doppelter Schlüssel
+    </text>
+    <text class="d05-body" x="870" y="175" text-anchor="middle">
+      fehlendes Pflichtfeld
+    </text>
+    <text class="d05-body" x="1435" y="175" text-anchor="middle">
+      unbekannter Fremdschlüssel
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <text class="d05-body d05-red" x="305" y="310" text-anchor="middle">
+        id = 7 zweimal
+      </text>
+      <text class="d05-body d05-red" x="870" y="310" text-anchor="middle">
+        name = NULL
+      </text>
+      <text class="d05-body d05-red" x="1435" y="310" text-anchor="middle">
+        parent_id = 99
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <text class="d05-body d05-green" x="305" y="455" text-anchor="middle">
+        Fehler erwartet
+      </text>
+      <text class="d05-body d05-green" x="870" y="455" text-anchor="middle">
+        Fehler erwartet
+      </text>
+      <text class="d05-body d05-green" x="1435" y="455" text-anchor="middle">
+        Fehler erwartet
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Ein gutes Schema akzeptiert gültige Daten und weist drei gezielte Fehler ab.
+    Der Erfolgsfall allein reicht nicht. Jede Gruppe zeigt eine nützliche
+    Fehlermeldung.
+  </aside>
+</section>
+
+<section class="citation-slide d05-citation">
+  <div class="slide-context blue">Realitätsbezug</div>
+  <svg
+    class="d05-svg"
+    viewBox="0 0 1500 350"
+    width="1500"
+    height="350"
+    aria-label="SQLite-Datenbankdatei verbindet Android und Browserprofile"
+  >
+    <defs>
+      <marker
+        id="d05-cite-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)" />
+      </marker>
+    </defs>
+    <rect
+      class="d05-panel-blue"
+      x="60"
+      y="90"
+      width="360"
+      height="170"
+      rx="12"
+    />
+    <text class="d05-body" x="240" y="165" text-anchor="middle">
+      Android-Gerät
+    </text>
+    <text class="d05-label" x="240" y="210" text-anchor="middle">SQLite</text>
+    <path
+      d="M420 175 H610"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+      marker-end="url(#d05-cite-arrow)"
+    />
+    <rect
+      class="d05-panel-blue"
+      x="620"
+      y="70"
+      width="260"
+      height="210"
+      rx="12"
+    />
+    <text class="d05-body d05-blue" x="750" y="190" text-anchor="middle">
+      .db
+    </text>
+    <path
+      d="M880 175 H1070"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+      marker-end="url(#d05-cite-arrow)"
+    />
+    <rect
+      class="d05-panel-blue"
+      x="1080"
+      y="90"
+      width="360"
+      height="170"
+      rx="12"
+    />
+    <text class="d05-body" x="1260" y="155" text-anchor="middle">
+      Browserprofile
+    </text>
+    <text class="d05-label" x="1260" y="195" text-anchor="middle">
+      <tspan x="1260">Firefox · Chrome</tspan>
+      <tspan x="1260" dy="35">· Safari</tspan>
+    </text>
+  </svg>
+  <div class="citation-text">
+    SQLite nennt jedes Android-Gerät sowie Firefox, Chrome und Safari.
+  </div>
+  <div class="citation-source">https://sqlite.org/mostdeployed.html</div>
+  <div class="d05-small">Abruf: 2026-08-23</div>
+  <aside class="notes">
+    Eingebettet bedeutet, dass SQLite im Programm läuft und eine Datei
+    bearbeitet. Unser Aufbau ist klein, die Technik weit verbreitet. Im nächsten
+    Kapitel kombinieren wir mehrere Tabellen.
+  </aside>
+</section>
