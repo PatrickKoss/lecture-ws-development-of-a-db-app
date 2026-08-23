@@ -1,5 +1,7 @@
 # Introduction
 
+Dies ist die vollständige hexagonale Version, die in den Decks 11 und 12 das größere Bild zeigt. Sie enthält unter anderem Ports und Adapter, JWT, Metriken und Flyway. Die Studierenden bauen in `rest-simple-exercise` die einfachere Version mit Schichten.
+
 This is the java implementation of the simple rest api. It was created using the spring cli.
 
 ```bash
