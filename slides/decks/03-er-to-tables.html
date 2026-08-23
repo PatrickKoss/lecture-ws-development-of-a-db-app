@@ -1,0 +1,1134 @@
+<style>
+  .d03-content .slide-svg {
+    inset: 7.4rem 2.4rem 4.5rem;
+    width: calc(100% - 4.8rem);
+    height: calc(100% - 11.9rem);
+  }
+
+  .d03-card {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-line-bright);
+    stroke-width: 3;
+  }
+
+  .d03-card--blue {
+    stroke: var(--color-blue);
+  }
+
+  .d03-card--amber {
+    stroke: var(--color-amber);
+  }
+
+  .d03-card--green {
+    stroke: var(--color-green);
+  }
+
+  .d03-rule {
+    stroke: var(--color-line-bright);
+    stroke-width: 2;
+  }
+
+  .d03-text {
+    fill: var(--color-white);
+    font-size: 32px;
+  }
+
+  .d03-label {
+    fill: var(--color-text-mid);
+    font-size: 28px;
+  }
+
+  .d03-small-label {
+    fill: var(--color-text-dim);
+    font-size: 24px;
+  }
+
+  .d03-blue {
+    fill: var(--color-blue);
+  }
+
+  .d03-amber {
+    fill: var(--color-amber);
+  }
+
+  .d03-green {
+    fill: var(--color-green);
+  }
+
+  .d03-red {
+    fill: var(--color-red);
+  }
+
+  .d03-line-blue {
+    fill: none;
+    stroke: var(--color-blue);
+    stroke-width: 4;
+  }
+
+  .d03-line-amber {
+    fill: none;
+    stroke: var(--color-amber);
+    stroke-width: 5;
+  }
+
+  .d03-line-green {
+    fill: none;
+    stroke: var(--color-green);
+    stroke-width: 4;
+  }
+
+  .d03-line-grey {
+    fill: none;
+    stroke: var(--color-grey);
+    stroke-width: 4;
+  }
+
+  .d03-chapter .chapter-title-big {
+    max-width: 66%;
+    font-size: 5.4rem;
+  }
+
+  .d03-chapter .chapter-subtitle {
+    max-width: 64%;
+  }
+
+  .d03-chapter-visual {
+    position: absolute;
+    right: 17%;
+    bottom: 8%;
+    width: 36%;
+    height: 62%;
+  }
+
+  .d03-chapter-visual .d03-label {
+    font-size: 30px;
+  }
+
+  .d03-question-answer {
+    position: absolute;
+    top: 68%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--color-amber);
+    font-family: var(--font-mono);
+    font-size: 2.1rem;
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .d03-context-sentence {
+    letter-spacing: 0.05em;
+    text-transform: none;
+  }
+
+  .d03-redline-stage {
+    position: absolute;
+    inset: 8.5rem 4rem 6rem;
+  }
+
+  .d03-redline-stage .redline__step text {
+    fill: var(--color-text-mid);
+    font-size: 28px;
+  }
+
+  .d03-redline-stage .d03-redline-number {
+    font-size: 30px;
+    font-weight: 700;
+  }
+
+  .d03-redline-stage .d03-redline__done rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 4;
+  }
+
+  .d03-redline-stage .d03-redline__done .d03-redline-number {
+    fill: var(--color-blue);
+  }
+
+  .d03-redline-stage .d03-redline__active rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-amber);
+    stroke-width: 4;
+  }
+
+  .d03-redline-stage .d03-redline__active .d03-redline-number {
+    fill: var(--color-amber);
+  }
+
+  .d03-redline-stage .d03-redline__next rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 4;
+    stroke-dasharray: 14 10;
+  }
+
+  .d03-redline-stage .d03-redline__next .d03-redline-number {
+    fill: var(--color-blue);
+  }
+
+  .d03-exercise-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 0 5rem 1.5rem;
+  }
+
+  .d03-exercise-step {
+    display: grid;
+    grid-template-columns: 3.2rem 1fr;
+    gap: 1rem;
+    align-items: center;
+    min-height: 6.2rem;
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--color-line-bright);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    line-height: 1.3;
+  }
+
+  .d03-exercise-step span {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border: 2px solid var(--color-amber);
+    border-radius: 50%;
+    color: var(--color-amber);
+    font-weight: 700;
+  }
+
+  .d03-exercise-path {
+    position: absolute;
+    right: 5rem;
+    bottom: 2rem;
+    left: 5rem;
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+
+  .d03-exercise .exercise-slide__task {
+    margin-top: 7.4rem;
+    margin-bottom: 1.3rem;
+    font-size: 2.7rem;
+  }
+
+  .d03-exercise .exercise-slide__deliverable {
+    margin: auto 5rem 4.3rem;
+  }
+
+  .d03-code .code-slide__content {
+    top: 12rem;
+    bottom: auto;
+    height: 30rem;
+  }
+
+  .d03-citation {
+    position: relative;
+    padding: 0 6rem !important;
+  }
+
+  .d03-citation .slide-title {
+    text-align: left;
+  }
+
+  .d03-citation__visual {
+    position: absolute;
+    top: 10rem;
+    left: 50%;
+    width: 88rem;
+    height: 17rem;
+    transform: translateX(-50%);
+  }
+
+  .d03-citation .citation-text {
+    margin-top: 18rem;
+    font-size: 2.55rem;
+    font-style: normal;
+    line-height: 1.28;
+  }
+
+  .d03-citation .citation-source {
+    max-width: 1500px;
+    color: var(--color-blue);
+    font-size: 1rem;
+    line-height: 1.5;
+    text-transform: none;
+    overflow-wrap: anywhere;
+  }
+</style>
+
+<section class="chapter-slide d03-chapter">
+  <div class="chapter-number">03</div>
+  <div class="chapter-eyebrow">Kapitel 03</div>
+  <h1 class="chapter-title-big">Vom ER-Modell <br />zu Tabellen</h1>
+  <p class="chapter-subtitle">Jede Box und jede Linie bekommt einen Platz</p>
+
+  <svg
+    class="d03-chapter-visual"
+    viewBox="0 0 900 620"
+    aria-label="Übersetzung eines ER-Modells in Tabellen"
+  >
+    <defs>
+      <marker
+        id="d03-chapter-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon points="0 0, 12 6, 0 12" fill="var(--color-amber)"></polygon>
+      </marker>
+    </defs>
+
+    <rect
+      class="d03-card d03-card--blue"
+      x="20"
+      y="100"
+      width="250"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d03-text d03-blue" x="145" y="155" text-anchor="middle">
+      Student
+    </text>
+    <text class="d03-label" x="145" y="205" text-anchor="middle">
+      id · name
+    </text>
+    <rect
+      class="d03-card d03-card--blue"
+      x="20"
+      y="370"
+      width="250"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d03-text d03-blue" x="145" y="425" text-anchor="middle">
+      Course
+    </text>
+    <text class="d03-label" x="145" y="475" text-anchor="middle">
+      id · title
+    </text>
+    <path class="d03-line-blue" d="M145 250 V370"></path>
+    <text class="d03-label d03-blue" x="165" y="320">n:m</text>
+
+    <path
+      class="d03-line-amber"
+      d="M315 310 H475"
+      marker-end="url(#d03-chapter-arrow)"
+    ></path>
+
+    <rect
+      class="d03-card"
+      x="500"
+      y="40"
+      width="380"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d03-text d03-blue" x="525" y="90">students</text>
+    <text class="d03-label" x="525" y="140">id · first_name · …</text>
+    <rect
+      class="d03-card d03-card--amber"
+      x="500"
+      y="235"
+      width="380"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d03-text d03-amber" x="525" y="285">enrollments</text>
+    <text class="d03-label" x="525" y="330">
+      <tspan x="525">student_id</tspan>
+      <tspan x="525" dy="38">course_id</tspan>
+    </text>
+    <rect
+      class="d03-card"
+      x="500"
+      y="430"
+      width="380"
+      height="150"
+      rx="10"
+    ></rect>
+    <text class="d03-text d03-blue" x="525" y="480">courses</text>
+    <text class="d03-label" x="525" y="530">id · title · …</text>
+    <path class="d03-line-blue" d="M695 190 V235"></path>
+    <path class="d03-line-blue" d="M695 385 V430"></path>
+  </svg>
+
+  <aside class="notes">
+    Heute wird das Modell technisch. Wir übersetzen systematisch, statt Tabellen
+    nach Gefühl zu erfinden.
+  </aside>
+</section>
+
+<section class="d03-content">
+  <h2 class="slide-title">Der erste Schemaentwurf</h2>
+  <div class="d03-redline-stage">
+    <svg
+      class="redline"
+      viewBox="0 0 1760 760"
+      aria-label="Der rote Faden des Kurses"
+    >
+      <defs>
+        <marker
+          id="d03-redline-arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="9"
+          refY="5"
+          orient="auto"
+        >
+          <polygon class="redline__arrow" points="0 0, 10 5, 0 10"></polygon>
+        </marker>
+      </defs>
+      <path
+        class="redline__line"
+        d="M410 150 H460 M840 150 H890 M1270 150 H1320 M1700 150 H1730 V560 H1700 M1320 560 H1270 M890 560 H840 M460 560 H410"
+        marker-end="url(#d03-redline-arrow)"
+      ></path>
+
+      <g class="redline__step d03-redline__done">
+        <rect x="30" y="55" width="380" height="190" rx="12"></rect>
+        <text class="d03-redline-number" x="70" y="105">1</text>
+        <text x="220" y="165">Idee im Kopf</text>
+      </g>
+      <g class="redline__step d03-redline__done">
+        <rect x="460" y="55" width="380" height="190" rx="12"></rect>
+        <text class="d03-redline-number" x="500" y="105">2</text>
+        <text x="650" y="125">
+          <tspan x="650" dy="0">Darüber sprechen:</tspan>
+          <tspan x="650" dy="36">Abstraktion und</tspan>
+          <tspan x="650" dy="36">ER-Modell</tspan>
+        </text>
+      </g>
+      <g class="redline__step d03-redline__active">
+        <rect x="890" y="55" width="380" height="190" rx="12"></rect>
+        <text class="d03-redline-number" x="930" y="105">3</text>
+        <text x="1080" y="120">
+          <tspan x="1080" dy="0">Tabellen, die uns</tspan>
+          <tspan x="1080" dy="36">nicht anlügen:</tspan>
+          <tspan x="1080" dy="36">Normalisierung</tspan>
+        </text>
+      </g>
+      <g class="redline__step d03-redline__next">
+        <rect x="1320" y="55" width="380" height="190" rx="12"></rect>
+        <text class="d03-redline-number" x="1360" y="105">4</text>
+        <text x="1510" y="140">
+          <tspan x="1510" dy="0">Den Tabellen Fragen</tspan>
+          <tspan x="1510" dy="36">stellen: SQL</tspan>
+        </text>
+      </g>
+      <g class="redline__step">
+        <rect x="1320" y="465" width="380" height="190" rx="12"></rect>
+        <text class="d03-redline-number" x="1360" y="500">5</text>
+        <text x="1510" y="540">
+          <tspan x="1510" dy="0">Aus Java fragen:</tspan>
+          <tspan x="1510" dy="36">JDBC, Cursor,</tspan>
+          <tspan x="1510" dy="36">Statements</tspan>
+        </text>
+      </g>
+      <g class="redline__step">
+        <rect x="890" y="465" width="380" height="190" rx="12"></rect>
+        <text class="d03-redline-number" x="930" y="500">6</text>
+        <text x="1080" y="540">
+          <tspan x="1080" dy="0">Wiederholungen</tspan>
+          <tspan x="1080" dy="34">beenden:</tspan>
+          <tspan x="1080" dy="34">Repository Pattern</tspan>
+        </text>
+      </g>
+      <g class="redline__step">
+        <rect x="460" y="465" width="380" height="190" rx="12"></rect>
+        <text class="d03-redline-number" x="500" y="500">7</text>
+        <text x="650" y="540">
+          <tspan x="650" dy="0">Andere zugreifen</tspan>
+          <tspan x="650" dy="34">lassen:</tspan>
+          <tspan x="650" dy="34">REST API mit Spring</tspan>
+        </text>
+      </g>
+      <g class="redline__step">
+        <rect x="30" y="465" width="380" height="190" rx="12"></rect>
+        <text class="d03-redline-number" x="70" y="500">8</text>
+        <text x="220" y="510">
+          <tspan x="220" dy="0">Solide machen:</tspan>
+          <tspan x="220" dy="32">Schichten,</tspan>
+          <tspan x="220" dy="32">Validierung, Fehler,</tspan>
+          <tspan x="220" dy="32">OpenAPI, Tests,</tspan>
+          <tspan x="220" dy="32">Middleware</tspan>
+        </text>
+      </g>
+    </svg>
+  </div>
+  <p class="slide-caption">
+    Vorher: ER-Modell · Jetzt: Tabellenentwurf · Danach: SQL
+  </p>
+  <aside class="notes">
+    Wir betreten Schritt drei mit einem ersten Entwurf. Normalisierung prüft ihn
+    gleich. Morgen stellt SQL diesen Tabellen Fragen.
+  </aside>
+</section>
+
+<section class="lead-question">
+  <div class="lead-question__mark">?</div>
+  <h2 class="lead-question__text">
+    Department 1:n Lecturer, wo liegt <code>department_id</code>?
+  </h2>
+  <div class="d03-question-answer fragment fade-in" data-fragment-index="1">
+    auf der n-Seite: lecturers
+  </div>
+  <aside class="notes">
+    Erwartet ist `lecturers.department_id`. Typisch falsch sind eine
+    Lecturer-Liste in departments und zwei gegenseitige Foreign Keys. Ein
+    Lecturer gehört genau einem Department, deshalb trägt er dessen Key.
+  </aside>
+</section>
+
+<section class="d03-content">
+  <h2 class="slide-title">Entity wird Tabelle</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 780"
+    aria-label="Eine Student-Entity wird zur Tabelle students"
+  >
+    <defs>
+      <marker
+        id="d03-entity-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon points="0 0, 12 6, 0 12" fill="var(--color-amber)"></polygon>
+      </marker>
+    </defs>
+
+    <rect
+      class="d03-card d03-card--blue"
+      x="120"
+      y="115"
+      width="560"
+      height="540"
+      rx="12"
+    ></rect>
+    <rect
+      x="120"
+      y="115"
+      width="560"
+      height="92"
+      rx="12"
+      fill="var(--color-blue)"
+    ></rect>
+    <text
+      x="400"
+      y="173"
+      text-anchor="middle"
+      fill="var(--color-bg-deep)"
+      font-size="38"
+      font-weight="700"
+    >
+      Student
+    </text>
+    <text class="d03-label" x="175" y="265">id</text>
+    <text class="d03-label" x="175" y="325">studentNumber</text>
+    <text class="d03-label" x="175" y="385">firstName</text>
+    <text class="d03-label" x="175" y="445">lastName</text>
+    <text class="d03-label" x="175" y="505">email</text>
+    <text class="d03-label" x="175" y="565">enrollmentDate</text>
+
+    <path
+      class="d03-line-amber"
+      d="M745 385 H1010"
+      marker-end="url(#d03-entity-arrow)"
+    ></path>
+
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d03-card"
+        x="1080"
+        y="115"
+        width="720"
+        height="540"
+        rx="12"
+      ></rect>
+      <rect
+        x="1080"
+        y="115"
+        width="720"
+        height="92"
+        rx="12"
+        fill="var(--color-blue)"
+      ></rect>
+      <text
+        x="1440"
+        y="173"
+        text-anchor="middle"
+        fill="var(--color-bg-deep)"
+        font-size="38"
+        font-weight="700"
+      >
+        students
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="2">
+      <text class="d03-label" x="1140" y="265">id</text>
+      <text class="d03-label" x="1140" y="325">student_number</text>
+      <text class="d03-label" x="1140" y="385">first_name</text>
+      <text class="d03-label" x="1140" y="445">last_name</text>
+      <text class="d03-label" x="1140" y="505">email</text>
+      <text class="d03-label" x="1140" y="565">enrollment_date</text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        x="1118"
+        y="226"
+        width="635"
+        height="58"
+        rx="8"
+        fill="none"
+        stroke="var(--color-amber)"
+        stroke-width="4"
+      ></rect>
+      <text class="d03-amber" x="1690" y="265" font-size="26" font-weight="700">
+        PK
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Die Regel ist ein Startpunkt, kein Automatismus. Namen werden plural und
+    snake_case. Identität und Attribute bleiben erhalten.
+  </aside>
+</section>
+
+<section class="d03-content">
+  <h2 class="slide-title">1:n wird Foreign Key</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 780"
+    aria-label="department_id liegt als Foreign Key in lecturers"
+  >
+    <defs>
+      <marker
+        id="d03-fk-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon points="0 0, 12 6, 0 12" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+
+    <rect
+      class="d03-card"
+      x="440"
+      y="40"
+      width="1040"
+      height="230"
+      rx="12"
+    ></rect>
+    <text class="d03-text d03-blue" x="490" y="100">departments</text>
+    <line class="d03-rule" x1="480" y1="130" x2="1440" y2="130"></line>
+    <text class="d03-label" x="510" y="195">id</text>
+    <text class="d03-label" x="780" y="195">name</text>
+    <text class="d03-label" x="1110" y="195">code</text>
+
+    <rect
+      class="d03-card"
+      x="240"
+      y="410"
+      width="1440"
+      height="250"
+      rx="12"
+    ></rect>
+    <text class="d03-text d03-blue" x="290" y="470">lecturers</text>
+    <line class="d03-rule" x1="280" y1="500" x2="1640" y2="500"></line>
+    <text class="d03-label" x="310" y="575">id</text>
+    <text class="d03-label" x="490" y="575">first_name</text>
+    <text class="d03-label" x="780" y="575">last_name</text>
+    <text class="d03-label" x="1060" y="575">email</text>
+    <text class="d03-label d03-amber" x="1280" y="575">department_id</text>
+
+    <g class="fragment fade-in" data-fragment-index="1">
+      <path
+        class="d03-line-blue"
+        d="M1435 540 C1595 445 1580 195 1495 195 H575"
+        marker-end="url(#d03-fk-arrow)"
+      ></path>
+      <text class="d03-label d03-blue" x="1560" y="360">Foreign Key</text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="1260"
+        y="530"
+        width="370"
+        height="70"
+        rx="8"
+        fill="none"
+        stroke="var(--color-amber)"
+        stroke-width="4"
+      ></rect>
+      <text
+        class="d03-amber"
+        x="1445"
+        y="640"
+        text-anchor="middle"
+        font-size="30"
+        font-weight="700"
+      >
+        NOT NULL
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Der Foreign Key liegt auf der n-Seite. `NOT NULL` setzt die Regel um, dass
+    jeder Lecturer einem Department gehört. Ohne Constraint wäre die Linie nur
+    Dokumentation.
+  </aside>
+</section>
+
+<section class="d03-content">
+  <h2 class="slide-title">n:m wird Join Table</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 780"
+    aria-label="Die Join Table enrollments verbindet students und courses"
+  >
+    <defs>
+      <marker
+        id="d03-join-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon points="0 0, 12 6, 0 12" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+
+    <rect
+      class="d03-card d03-card--blue"
+      x="80"
+      y="220"
+      width="440"
+      height="270"
+      rx="12"
+    ></rect>
+    <text class="d03-text d03-blue" x="300" y="290" text-anchor="middle">
+      students
+    </text>
+    <line class="d03-rule" x1="120" y1="320" x2="480" y2="320"></line>
+    <text class="d03-label" x="150" y="390">id</text>
+
+    <rect
+      class="d03-card d03-card--blue"
+      x="1400"
+      y="220"
+      width="440"
+      height="270"
+      rx="12"
+    ></rect>
+    <text class="d03-text d03-blue" x="1620" y="290" text-anchor="middle">
+      courses
+    </text>
+    <line class="d03-rule" x1="1440" y1="320" x2="1800" y2="320"></line>
+    <text class="d03-label" x="1470" y="390">id</text>
+
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d03-card d03-card--amber"
+        x="650"
+        y="100"
+        width="620"
+        height="540"
+        rx="12"
+      ></rect>
+      <text class="d03-text d03-amber" x="960" y="170" text-anchor="middle">
+        enrollments
+      </text>
+      <line class="d03-rule" x1="700" y1="205" x2="1220" y2="205"></line>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="2">
+      <text class="d03-label" x="720" y="330">student_id</text>
+      <text class="d03-label" x="720" y="390">course_id</text>
+      <path
+        class="d03-line-blue"
+        d="M720 320 H610 Q570 320 570 380 H220"
+        marker-end="url(#d03-join-arrow)"
+      ></path>
+      <path
+        class="d03-line-blue"
+        d="M1200 380 H1400"
+        marker-end="url(#d03-join-arrow)"
+      ></path>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="3">
+      <text class="d03-label" x="720" y="450">enrolled_on</text>
+      <text class="d03-label" x="720" y="510">grade</text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="4">
+      <text class="d03-label d03-amber" x="720" y="270">id</text>
+      <rect
+        x="700"
+        y="535"
+        width="520"
+        height="72"
+        rx="8"
+        fill="none"
+        stroke="var(--color-amber)"
+        stroke-width="4"
+      ></rect>
+      <text
+        class="d03-amber"
+        x="960"
+        y="580"
+        text-anchor="middle"
+        font-size="27"
+        font-weight="700"
+      >
+        UNIQUE(student_id, course_id)
+      </text>
+    </g>
+  </svg>
+  <p class="slide-caption">Join Table (Verknüpfungstabelle) mit Fachlichkeit</p>
+  <aside class="notes">
+    Die Join Table zerlegt n:m in zwei 1:n-Beziehungen. Eigene Attribute landen
+    dort. Die eigene ID und der UNIQUE-Constraint schützen zwei verschiedene
+    Formen von Identität.
+  </aside>
+</section>
+
+<section class="d03-content">
+  <h2 class="slide-title">Weak Entity wird zusammengesetzter Key</h2>
+  <div class="slide-context grey d03-context-sentence">
+    Didaktisches Beispiel, nicht im Universitäts-Schema
+  </div>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 780"
+    aria-label="course_sessions mit zusammengesetztem Primary Key"
+  >
+    <defs>
+      <marker
+        id="d03-weak-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon points="0 0, 12 6, 0 12" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+
+    <rect
+      class="d03-card"
+      x="250"
+      y="145"
+      width="1040"
+      height="500"
+      rx="12"
+    ></rect>
+    <text class="d03-text d03-blue" x="300" y="215">course_sessions</text>
+    <line class="d03-rule" x1="290" y1="250" x2="1250" y2="250"></line>
+    <text class="d03-label" x="340" y="335">course_id</text>
+    <text class="d03-label" x="340" y="415">session_no</text>
+    <text class="d03-label" x="340" y="495">starts_at</text>
+    <text class="d03-label" x="340" y="575">room</text>
+
+    <g class="fragment fade-in" data-fragment-index="1">
+      <path class="d03-line-amber" d="M300 290 H780 V450 H300"></path>
+      <text class="d03-amber" x="830" y="380" font-size="28" font-weight="700">
+        PRIMARY KEY
+      </text>
+      <text class="d03-amber" x="830" y="420" font-size="28">
+        (course_id, session_no)
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d03-card d03-card--blue"
+        x="1450"
+        y="270"
+        width="330"
+        height="160"
+        rx="12"
+      ></rect>
+      <text
+        class="d03-small-label d03-blue"
+        x="1615"
+        y="325"
+        text-anchor="middle"
+      >
+        courses
+      </text>
+      <text class="d03-text" x="1615" y="385" text-anchor="middle">id</text>
+      <path
+        class="d03-line-blue"
+        d="M570 325 C1040 70 1320 120 1450 320"
+        marker-end="url(#d03-weak-arrow)"
+      ></path>
+    </g>
+  </svg>
+  <aside class="notes">
+    Die Sitzungsnummer ist nur im Course eindeutig. Der zusammengesetzte Primary
+    Key bewahrt diese Fachregel. Das Repository enthält keine Tabelle
+    `course_sessions`.
+  </aside>
+</section>
+
+<section class="d03-content">
+  <h2 class="slide-title">Typen und NULL sind Fachentscheidungen</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 780"
+    aria-label="Datentypen und Fragen zu NULL und Eindeutigkeit"
+  >
+    <rect
+      class="d03-card d03-card--blue"
+      x="100"
+      y="70"
+      width="770"
+      height="590"
+      rx="12"
+    ></rect>
+    <text class="d03-text d03-blue" x="485" y="140" text-anchor="middle">
+      Datentypen
+    </text>
+    <line class="d03-rule" x1="150" y1="180" x2="820" y2="180"></line>
+    <text class="d03-text" x="190" y="275">TEXT</text>
+    <text class="d03-label" x="410" y="275">Namen, Codes, E-Mail</text>
+    <text class="d03-text" x="190" y="365">INTEGER</text>
+    <text class="d03-label" x="410" y="365">Keys, Credits</text>
+    <text class="d03-text" x="190" y="455">TEXT</text>
+    <text class="d03-label" x="410" y="455">ISO-Datum</text>
+    <text class="d03-small-label d03-blue" x="410" y="505">YYYY-MM-DD</text>
+
+    <rect
+      class="d03-card d03-card--amber"
+      x="1050"
+      y="70"
+      width="770"
+      height="590"
+      rx="12"
+    ></rect>
+    <text class="d03-text d03-amber" x="1435" y="140" text-anchor="middle">
+      Fachfragen
+    </text>
+    <line class="d03-rule" x1="1100" y1="180" x2="1770" y2="180"></line>
+    <text class="d03-text" x="1150" y="285">kann fehlen?</text>
+    <text class="d03-text" x="1150" y="395">muss eindeutig sein?</text>
+
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        x="1130"
+        y="425"
+        width="630"
+        height="110"
+        rx="8"
+        fill="none"
+        stroke="var(--color-amber)"
+        stroke-width="4"
+      ></rect>
+      <text
+        class="d03-amber"
+        x="1445"
+        y="465"
+        text-anchor="middle"
+        font-size="28"
+        font-weight="700"
+      >
+        <tspan x="1445">grade REAL NULL</tspan>
+        <tspan x="1445" dy="38">CHECK (grade BETWEEN 1.0 AND 5.0)</tspan>
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="1130"
+        y="545"
+        width="630"
+        height="70"
+        rx="8"
+        fill="none"
+        stroke="var(--color-green)"
+        stroke-width="4"
+      ></rect>
+      <text
+        class="d03-green"
+        x="1445"
+        y="591"
+        text-anchor="middle"
+        font-size="31"
+        font-weight="700"
+      >
+        email TEXT NOT NULL UNIQUE
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    SQLite speichert Datumswerte oft als Text. Wir legen das Format fest. NULL
+    erlauben wir bei einer noch nicht vergebenen Note, nicht aus Bequemlichkeit.
+  </aside>
+</section>
+
+<section class="code-slide d03-code">
+  <h2 class="slide-title">Erster Blick auf CREATE TABLE</h2>
+  <div class="code-slide__content code-slide__content--wide">
+    <pre><code class="language-sql" data-trim data-line-numbers="1|2-5|6-7">CREATE TABLE IF NOT EXISTS courses (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    course_code TEXT NOT NULL UNIQUE,
+    title TEXT NOT NULL,
+    credits INTEGER NOT NULL CHECK (credits > 0),
+    lecturer_id INTEGER NOT NULL,
+    FOREIGN KEY (lecturer_id) REFERENCES lecturers(id)
+);</code></pre>
+  </div>
+  <p class="slide-caption">java/sql/university/schema.sql</p>
+  <aside class="notes">
+    Der Tabellenkopf stammt aus der Entity. Constraints setzen Keys und
+    Pflichtfelder um. Der Foreign Key ist die frühere 1:n-Linie.
+  </aside>
+</section>
+
+<section class="exercise-slide d03-exercise">
+  <div class="exercise-slide__tag">Übung 2</div>
+  <div class="exercise-slide__time">20 min</div>
+  <p class="exercise-slide__task">Modell auf Papier abbilden</p>
+  <div class="d03-exercise-steps">
+    <div class="d03-exercise-step">
+      <span>1</span>
+      <div>Schreibt zu jeder Entity eine Tabelle.</div>
+    </div>
+    <div class="d03-exercise-step">
+      <span>2</span>
+      <div>Setzt Primary Keys und Foreign Keys.</div>
+    </div>
+    <div class="d03-exercise-step">
+      <span>3</span>
+      <div>Löst n:m mit einer Join Table auf.</div>
+    </div>
+    <div class="d03-exercise-step">
+      <span>4</span>
+      <div>Begründet jede NULL-Spalte.</div>
+    </div>
+  </div>
+  <div class="exercise-slide__deliverable">
+    <strong>Abgabe:</strong> Tabellenliste oder Foto als Ergänzung zu 01-er.md
+  </div>
+  <div class="d03-exercise-path">
+    Arbeitsstand: exercises/&lt;domain&gt;/01-er.md
+  </div>
+  <aside class="notes">
+    Dafür gibt es keine eigene Karte. Arbeitet direkt am ER-Modell aus
+    `01-er.md`. Noch ist kein SQL nötig. Prüft jede Linie gegen einen Foreign
+    Key.
+  </aside>
+</section>
+
+<section class="citation-slide d03-citation">
+  <h2 class="slide-title">SQLite braucht den Schalter</h2>
+  <svg
+    class="d03-citation__visual"
+    viewBox="0 0 1500 300"
+    aria-label="PRAGMA foreign_keys aktiviert die Prüfung von Foreign Keys"
+  >
+    <defs>
+      <marker
+        id="d03-citation-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon points="0 0, 12 6, 0 12" fill="var(--color-grey)"></polygon>
+      </marker>
+    </defs>
+
+    <rect
+      class="d03-card"
+      x="30"
+      y="85"
+      width="330"
+      height="130"
+      rx="12"
+    ></rect>
+    <text class="d03-text" x="195" y="165" text-anchor="middle">
+      Foreign Key
+    </text>
+    <path
+      class="d03-line-grey"
+      d="M380 150 H500"
+      marker-end="url(#d03-citation-arrow)"
+    ></path>
+    <rect
+      class="d03-card d03-card--amber"
+      x="540"
+      y="65"
+      width="500"
+      height="170"
+      rx="85"
+    ></rect>
+    <circle cx="940" cy="150" r="62" fill="var(--color-amber)"></circle>
+    <text
+      class="d03-amber"
+      x="790"
+      y="45"
+      text-anchor="middle"
+      font-size="28"
+      font-weight="700"
+    >
+      PRAGMA foreign_keys = ON
+    </text>
+    <path class="d03-line-green" d="M1080 150 H1190"></path>
+    <rect
+      x="1240"
+      y="125"
+      width="170"
+      height="120"
+      rx="16"
+      fill="var(--color-bg-deep)"
+      stroke="var(--color-green)"
+      stroke-width="5"
+    ></rect>
+    <path
+      class="d03-line-green"
+      d="M1280 125 V90 A45 45 0 0 1 1370 90 V125"
+    ></path>
+    <circle cx="1325" cy="175" r="14" fill="var(--color-green)"></circle>
+    <rect
+      x="1319"
+      y="175"
+      width="12"
+      height="35"
+      fill="var(--color-green)"
+    ></rect>
+  </svg>
+  <div class="citation-text">
+    SQLite prüft Foreign Keys pro Verbindung nur bei aktivierter Option.
+  </div>
+  <div class="citation-source">
+    https://sqlite.org/foreignkeys.html<br />Abruf: 2026-08-23
+  </div>
+  <aside class="notes">
+    Ein Constraint im Schema reicht bei SQLite nicht ohne die Verbindungsoption.
+    Das ist ein gutes Beispiel für den Abstand zwischen Diagramm und laufendem
+    System. Als Nächstes prüfen wir, ob unser Schema Wiederholungen und
+    Anomalien enthält.
+  </aside>
+</section>
