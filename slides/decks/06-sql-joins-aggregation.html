@@ -1,0 +1,2063 @@
+<style>
+  .d06-content {
+    position: absolute;
+    inset: 8.5rem var(--frame-gutter) 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .d06-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .d06-svg text {
+    fill: var(--color-white);
+    font-size: 30px;
+  }
+
+  .d06-svg .d06-label {
+    fill: var(--color-text-dim);
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .d06-svg .d06-small {
+    font-size: 24px;
+  }
+
+  .d06-svg .d06-blue-text {
+    fill: var(--color-blue);
+  }
+
+  .d06-svg .d06-amber-text {
+    fill: var(--color-amber);
+  }
+
+  .d06-svg .d06-red-text {
+    fill: var(--color-red);
+  }
+
+  .d06-svg .d06-green-text {
+    fill: var(--color-green);
+  }
+
+  .d06-svg .d06-box {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-line-bright);
+    stroke-width: 3;
+  }
+
+  .d06-svg .d06-box-blue {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 4;
+  }
+
+  .d06-svg .d06-box-amber {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-amber);
+    stroke-width: 4;
+  }
+
+  .d06-svg .d06-box-red {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-red);
+    stroke-width: 4;
+  }
+
+  .d06-svg .d06-box-green {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-green);
+    stroke-width: 4;
+  }
+
+  .d06-svg .d06-grid-line {
+    stroke: var(--color-line-bright);
+    stroke-width: 2;
+  }
+
+  .d06-svg .d06-blue-line {
+    fill: none;
+    stroke: var(--color-blue);
+    stroke-width: 5;
+  }
+
+  .d06-svg .d06-amber-line {
+    fill: none;
+    stroke: var(--color-amber);
+    stroke-width: 5;
+  }
+
+  .d06-svg .d06-red-line {
+    fill: none;
+    stroke: var(--color-red);
+    stroke-width: 5;
+  }
+
+  .d06-svg .d06-green-line {
+    fill: none;
+    stroke: var(--color-green);
+    stroke-width: 5;
+  }
+
+  .d06-question-answer {
+    position: absolute;
+    top: 68%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--color-amber);
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .d06-caption {
+    position: absolute;
+    right: var(--frame-gutter);
+    bottom: 2.25rem;
+    left: var(--frame-gutter);
+    color: var(--color-text-mid);
+    font-family: var(--font-mono);
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .d06-cards {
+    display: grid;
+    width: 100%;
+    gap: 1.4rem;
+  }
+
+  .d06-cards--five {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .d06-aggregate-card {
+    display: flex;
+    min-height: 16rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--color-blue);
+    border-radius: 8px;
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    text-align: center;
+  }
+
+  .d06-aggregate-card code {
+    color: var(--color-blue);
+    font-size: 24px;
+  }
+
+  .d06-aggregate-card strong {
+    margin-top: 1.4rem;
+    color: var(--color-amber);
+    font-size: 34px;
+  }
+
+  .d06-aggregate-card div {
+    font-size: 24px;
+  }
+
+  .d06-code .code-slide__content {
+    bottom: 5.6rem;
+    grid-template-columns: minmax(0, 1.35fr) minmax(32rem, 0.65fr);
+  }
+
+  .reveal .d06-code pre {
+    font-size: 24px;
+  }
+
+  .d06-code--wide-result .code-slide__content {
+    grid-template-columns: minmax(0, 1.27fr) minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .d06-code--join-result .code-slide__content {
+    grid-template-columns: minmax(0, 1.27fr) minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .d06-code--join-result pre code {
+    white-space: pre-wrap;
+  }
+
+  .d06-code--join-result .hljs-ln-code {
+    overflow-wrap: anywhere;
+    white-space: pre-wrap !important;
+  }
+
+  .d06-code--centered .code-slide__content {
+    align-items: center;
+  }
+
+  .d06-code--narrow-result .code-slide__content {
+    grid-template-columns: minmax(0, 1fr) 25rem;
+  }
+
+  .d06-source {
+    position: absolute;
+    right: var(--frame-gutter);
+    bottom: 2.2rem;
+    left: var(--frame-gutter);
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 20px;
+    text-align: left;
+  }
+
+  .d06-result {
+    min-width: 0;
+    padding: 1.25rem 1.35rem;
+    border-left: 2px solid var(--color-amber);
+    color: var(--color-text-mid);
+    font-family: var(--font-mono);
+    font-size: 28px;
+    line-height: 1.35;
+  }
+
+  .d06-result__label {
+    margin-bottom: 1rem;
+    color: var(--color-amber);
+    font-size: 30px;
+    font-weight: 700;
+  }
+
+  .d06-result table {
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+    font-size: 28px;
+  }
+
+  .d06-result th,
+  .d06-result td {
+    padding: 0.18rem 0.32rem;
+    border: 1px solid var(--color-line-bright);
+    text-align: left;
+  }
+
+  .d06-result th {
+    color: var(--color-blue);
+    white-space: nowrap;
+  }
+
+  .d06-result--compact table {
+    font-size: 28px;
+  }
+
+  .d06-result--compact th,
+  .d06-result--compact td {
+    padding: 0.2rem 0.35rem;
+  }
+
+  .d06-two-column {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 46% 46%;
+    gap: 8%;
+  }
+
+  .d06-panel {
+    padding: 1.5rem;
+    border: 2px solid var(--color-line-bright);
+    border-radius: 8px;
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+  }
+
+  .d06-panel--red {
+    border-color: var(--color-red);
+  }
+
+  .d06-panel--green {
+    border-color: var(--color-green);
+  }
+
+  .d06-panel h3 {
+    margin: 0 0 1.2rem;
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .d06-hint {
+    position: absolute;
+    top: 7.8rem;
+    right: var(--frame-gutter);
+    left: var(--frame-gutter);
+    color: var(--color-text-mid);
+    font-family: var(--font-mono);
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .d06-expression-grid {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .d06-expression {
+    padding: 2.6rem 1.5rem;
+    border: 2px solid var(--color-line-bright);
+    border-radius: 8px;
+    background: var(--color-bg-deep);
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .d06-expression--red {
+    border-color: var(--color-red);
+    color: var(--color-red);
+  }
+
+  .d06-expression--green {
+    border-color: var(--color-green);
+    color: var(--color-green);
+  }
+
+  .d06-expression--amber {
+    border-color: var(--color-amber);
+    color: var(--color-amber);
+  }
+
+  .d06-exercise-steps {
+    display: grid;
+    flex: 1;
+    margin: 0 5rem 1.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    min-height: 0;
+  }
+
+  .d06-exercise-step {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+    justify-content: center;
+    padding: 24px;
+    border: 1px solid var(--color-line-bright);
+    border-radius: 8px;
+    background: var(--color-bg-deep);
+    color: var(--color-text-mid);
+    font-family: var(--font-mono);
+    font-size: 28px;
+    line-height: 1.35;
+  }
+
+  .d06-exercise-step strong {
+    display: block;
+    margin-bottom: 0.7rem;
+    color: var(--color-amber);
+    font-size: 1.5rem;
+  }
+
+  .d06-exercise-path {
+    position: absolute;
+    right: var(--frame-gutter);
+    bottom: 1rem;
+    left: var(--frame-gutter);
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    text-align: center;
+  }
+
+  .exercise-slide .exercise-slide__deliverable {
+    font-size: 28px;
+  }
+
+  .d06-reserve-tag {
+    color: var(--color-text-dim);
+  }
+
+  .d06-window-results {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .d06-window-card {
+    padding: 1rem 1.2rem;
+    border: 2px solid var(--color-blue);
+    border-radius: 8px;
+    background: var(--color-bg-deep);
+    color: var(--color-text-mid);
+    font-family: var(--font-mono);
+    font-size: 28px;
+    line-height: 1.4;
+  }
+
+  .d06-window-card--green {
+    border-color: var(--color-green);
+  }
+
+  .d06-citation {
+    padding: 5rem 7rem !important;
+  }
+
+  .d06-citation .citation-text {
+    font-size: 2.7rem;
+    font-style: normal;
+  }
+
+  .d06-citation-visual {
+    width: 100%;
+    max-width: 1450px;
+    height: 21rem;
+    margin: 1.8rem 0;
+  }
+
+  .d06-citation-url {
+    color: var(--color-blue);
+    font-family: var(--font-mono);
+    font-size: 22px;
+  }
+
+  .d06-citation-date {
+    margin-top: 0.5rem;
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 22px;
+  }
+
+  .d06-redline .d06-label,
+  .d06-redline .d06-step-copy {
+    font-size: 28px !important;
+  }
+</style>
+
+<section class="chapter-slide">
+  <div class="chapter-number">06</div>
+  <div class="chapter-eyebrow">Kapitel 06</div>
+  <h1 class="chapter-title-big">JOINs und Aggregation</h1>
+  <p class="chapter-subtitle">
+    Beziehungen abfragen, viele Zeilen zusammenfassen
+  </p>
+  <svg
+    class="d06-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Zwei Tabellen werden verbunden und zusammengefasst"
+    style="position: absolute; inset: 0; z-index: 0"
+  >
+    <g opacity="0.75">
+      <rect
+        class="d06-box-blue"
+        x="1140"
+        y="260"
+        width="240"
+        height="310"
+        rx="12"
+      ></rect>
+      <line class="d06-grid-line" x1="1140" y1="340" x2="1380" y2="340"></line>
+      <line class="d06-grid-line" x1="1140" y1="415" x2="1380" y2="415"></line>
+      <line class="d06-grid-line" x1="1140" y1="490" x2="1380" y2="490"></line>
+      <rect
+        class="d06-box-blue"
+        x="1530"
+        y="260"
+        width="240"
+        height="310"
+        rx="12"
+      ></rect>
+      <line class="d06-grid-line" x1="1530" y1="340" x2="1770" y2="340"></line>
+      <line class="d06-grid-line" x1="1530" y1="415" x2="1770" y2="415"></line>
+      <line class="d06-grid-line" x1="1530" y1="490" x2="1770" y2="490"></line>
+      <path
+        class="d06-blue-line"
+        d="M1380 378 C1440 378 1470 378 1530 378"
+      ></path>
+      <path
+        class="d06-blue-line"
+        d="M1380 378 C1440 378 1470 453 1530 453"
+      ></path>
+      <path
+        class="d06-blue-line"
+        d="M1380 528 C1440 528 1470 528 1530 528"
+      ></path>
+      <text
+        class="d06-amber-text"
+        x="1455"
+        y="700"
+        text-anchor="middle"
+        style="font-size: 150px"
+      >
+        Σ
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Heute lesen wir die Linien aus dem ER-Modell rückwärts. Fremdschlüssel
+    werden zu Abgleichbedingungen.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Beziehungen werden Abfragen</h2>
+  <div class="d06-content">
+    <svg
+      class="d06-svg redline"
+      viewBox="0 0 1920 820"
+      aria-label="Der rote Faden des Kurses mit SQL als aktuellem Schritt"
+    >
+      <defs>
+        <marker
+          id="d06-redline-arrow-blue"
+          markerWidth="20"
+          markerHeight="20"
+          refX="18"
+          refY="10"
+          markerUnits="userSpaceOnUse"
+          orient="auto"
+        >
+          <polygon points="0 0, 20 10, 0 20" fill="var(--color-blue)"></polygon>
+        </marker>
+        <marker
+          id="d06-redline-arrow-grey"
+          markerWidth="20"
+          markerHeight="20"
+          refX="18"
+          refY="10"
+          markerUnits="userSpaceOnUse"
+          orient="auto"
+        >
+          <polygon points="0 0, 20 10, 0 20" fill="var(--color-grey)"></polygon>
+        </marker>
+      </defs>
+      <path
+        d="M445 190 H505 M890 190 H950 M1335 190 H1395 M1780 190 H1830 V565 H1780"
+        fill="none"
+        stroke="var(--color-blue)"
+        stroke-width="5"
+        marker-end="url(#d06-redline-arrow-blue)"
+      ></path>
+      <path
+        d="M1395 565 H1335 M950 565 H890 M505 565 H445"
+        fill="none"
+        stroke="var(--color-grey)"
+        stroke-width="5"
+        marker-end="url(#d06-redline-arrow-grey)"
+      ></path>
+
+      <g>
+        <rect
+          class="d06-box-blue"
+          x="60"
+          y="95"
+          width="385"
+          height="190"
+          rx="12"
+        ></rect>
+        <text class="d06-blue-text" x="90" y="145">1</text>
+        <text x="252" y="205" text-anchor="middle">Idee im Kopf</text>
+      </g>
+      <g>
+        <rect
+          class="d06-box-blue"
+          x="505"
+          y="95"
+          width="385"
+          height="190"
+          rx="12"
+        ></rect>
+        <text class="d06-blue-text" x="535" y="145">2</text>
+        <text class="d06-step-copy" x="697" y="165" text-anchor="middle">
+          <tspan x="697" dy="0">Darüber sprechen:</tspan>
+          <tspan x="697" dy="34">Abstraktion und</tspan>
+          <tspan x="697" dy="34">ER-Modell</tspan>
+        </text>
+      </g>
+      <g>
+        <rect
+          class="d06-box-blue"
+          x="950"
+          y="95"
+          width="385"
+          height="190"
+          rx="12"
+        ></rect>
+        <text class="d06-blue-text" x="980" y="145">3</text>
+        <text class="d06-step-copy" x="1142" y="165" text-anchor="middle">
+          <tspan x="1142" dy="0">Tabellen, die uns</tspan>
+          <tspan x="1142" dy="34">nicht anlügen:</tspan>
+          <tspan x="1142" dy="34">Normalisierung</tspan>
+        </text>
+      </g>
+      <g>
+        <rect
+          class="d06-box-amber"
+          x="1395"
+          y="95"
+          width="385"
+          height="190"
+          rx="12"
+        ></rect>
+        <text class="d06-amber-text" x="1425" y="145">4</text>
+        <text
+          class="d06-amber-text d06-step-copy"
+          x="1587"
+          y="180"
+          text-anchor="middle"
+        >
+          <tspan x="1587" dy="0">Den Tabellen Fragen</tspan>
+          <tspan x="1587" dy="40">stellen: SQL</tspan>
+        </text>
+      </g>
+      <g>
+        <rect
+          class="d06-box-blue"
+          x="1395"
+          y="470"
+          width="385"
+          height="190"
+          rx="12"
+          stroke-dasharray="14 10"
+        ></rect>
+        <text class="d06-blue-text" x="1425" y="510">5</text>
+        <text
+          class="d06-blue-text d06-step-copy"
+          x="1605"
+          y="550"
+          text-anchor="middle"
+        >
+          <tspan x="1605" dy="0">Aus Java fragen:</tspan>
+          <tspan x="1605" dy="34">JDBC, Cursor,</tspan>
+          <tspan x="1605" dy="34">Statements</tspan>
+        </text>
+      </g>
+      <g>
+        <rect
+          class="d06-box"
+          x="950"
+          y="470"
+          width="385"
+          height="190"
+          rx="12"
+        ></rect>
+        <text class="d06-label" x="980" y="510">6</text>
+        <text
+          class="d06-label d06-step-copy"
+          x="1160"
+          y="550"
+          text-anchor="middle"
+        >
+          <tspan x="1160" dy="0">Wiederholungen</tspan>
+          <tspan x="1160" dy="34">beenden:</tspan>
+          <tspan x="1160" dy="34">Repository Pattern</tspan>
+        </text>
+      </g>
+      <g>
+        <rect
+          class="d06-box"
+          x="505"
+          y="470"
+          width="385"
+          height="190"
+          rx="12"
+        ></rect>
+        <text class="d06-label" x="535" y="510">7</text>
+        <text
+          class="d06-label d06-step-copy"
+          x="715"
+          y="550"
+          text-anchor="middle"
+        >
+          <tspan x="715" dy="0">Andere zugreifen</tspan>
+          <tspan x="715" dy="34">lassen:</tspan>
+          <tspan x="715" dy="34">REST API mit Spring</tspan>
+        </text>
+      </g>
+      <g>
+        <rect
+          class="d06-box"
+          x="60"
+          y="470"
+          width="385"
+          height="190"
+          rx="12"
+        ></rect>
+        <text class="d06-label" x="90" y="510">8</text>
+        <text
+          class="d06-label d06-step-copy"
+          x="270"
+          y="500"
+          text-anchor="middle"
+        >
+          <tspan x="270" dy="0">Solide machen:</tspan>
+          <tspan x="270" dy="30">Schichten,</tspan>
+          <tspan x="270" dy="30">Validierung, Fehler,</tspan>
+          <tspan x="270" dy="30">OpenAPI, Tests,</tspan>
+          <tspan x="270" dy="30">Middleware</tspan>
+        </text>
+      </g>
+      <text x="960" y="775" text-anchor="middle" style="font-size: 31px">
+        Vorher: einzelne Tabelle · Jetzt: Beziehungen und Gruppen · Danach: JDBC
+      </text>
+    </svg>
+  </div>
+  <aside class="notes">
+    Wir bleiben bei SQL, aber gehen über eine Tabelle hinaus. Diese Queries
+    kopieren wir später fast unverändert in Java.
+  </aside>
+</section>
+
+<section class="lead-question">
+  <div class="lead-question__mark">?</div>
+  <h2 class="lead-question__text">
+    Welche Enrollment-Zeilen gehören zu Student 3?
+  </h2>
+  <div class="d06-question-answer fragment fade-in" data-fragment-index="1">
+    students.id = enrollments.student_id
+  </div>
+  <aside class="notes">
+    Erwartet ist der Vergleich der Key-Spalten. Typisch falsch sind gleiche
+    Zeilennummer und gleicher Name. IDs verbinden Zeilen, nicht ihre Position.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">JOIN als Zeilenabgleich</h2>
+  <div class="d06-content">
+    <svg
+      class="d06-svg"
+      viewBox="0 0 1920 820"
+      aria-label="Zeilen aus students und enrollments werden über IDs verbunden"
+    >
+      <text class="d06-label d06-blue-text" x="120" y="55">students</text>
+      <rect
+        class="d06-box-blue"
+        x="100"
+        y="80"
+        width="460"
+        height="360"
+        rx="12"
+      ></rect>
+      <text class="d06-label" x="155" y="135">id</text>
+      <line class="d06-grid-line" x1="100" y1="160" x2="560" y2="160"></line>
+      <line class="d06-grid-line" x1="100" y1="250" x2="560" y2="250"></line>
+      <line class="d06-grid-line" x1="100" y1="340" x2="560" y2="340"></line>
+      <text x="155" y="220">1</text>
+      <text x="155" y="310">2</text>
+      <text x="155" y="400">3</text>
+
+      <text class="d06-label d06-blue-text" x="760" y="55">enrollments</text>
+      <rect
+        class="d06-box-blue"
+        x="740"
+        y="80"
+        width="500"
+        height="360"
+        rx="12"
+      ></rect>
+      <text class="d06-label" x="795" y="135">student_id</text>
+      <line class="d06-grid-line" x1="740" y1="160" x2="1240" y2="160"></line>
+      <line class="d06-grid-line" x1="740" y1="250" x2="1240" y2="250"></line>
+      <line class="d06-grid-line" x1="740" y1="340" x2="1240" y2="340"></line>
+      <text x="795" y="220">1</text>
+      <text x="795" y="310">1</text>
+      <text x="795" y="400">3</text>
+
+      <text class="d06-label d06-blue-text" x="1460" y="55">Ergebnis</text>
+      <rect
+        class="d06-box"
+        x="1440"
+        y="80"
+        width="380"
+        height="360"
+        rx="12"
+      ></rect>
+      <text class="d06-label" x="1495" y="135">id</text>
+      <text class="d06-label" x="1635" y="135">student_id</text>
+      <line class="d06-grid-line" x1="1440" y1="160" x2="1820" y2="160"></line>
+      <line class="d06-grid-line" x1="1440" y1="250" x2="1820" y2="250"></line>
+      <line class="d06-grid-line" x1="1440" y1="340" x2="1820" y2="340"></line>
+
+      <g class="fragment fade-in" data-fragment-index="1">
+        <rect
+          x="105"
+          y="165"
+          width="450"
+          height="80"
+          rx="8"
+          fill="none"
+          stroke="var(--color-amber)"
+          stroke-width="6"
+        ></rect>
+        <rect
+          x="745"
+          y="165"
+          width="490"
+          height="80"
+          rx="8"
+          fill="none"
+          stroke="var(--color-amber)"
+          stroke-width="6"
+        ></rect>
+        <rect
+          x="745"
+          y="255"
+          width="490"
+          height="80"
+          rx="8"
+          fill="none"
+          stroke="var(--color-amber)"
+          stroke-width="6"
+        ></rect>
+        <path
+          class="d06-amber-line"
+          d="M560 205 C640 205 660 205 740 205"
+        ></path>
+        <path
+          class="d06-amber-line"
+          d="M560 205 C640 205 660 295 740 295"
+        ></path>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="2">
+        <rect
+          x="1445"
+          y="165"
+          width="370"
+          height="80"
+          rx="8"
+          fill="none"
+          stroke="var(--color-blue)"
+          stroke-width="6"
+        ></rect>
+        <rect
+          x="1445"
+          y="255"
+          width="370"
+          height="80"
+          rx="8"
+          fill="none"
+          stroke="var(--color-blue)"
+          stroke-width="6"
+        ></rect>
+        <text class="d06-blue-text" x="1495" y="220">1</text>
+        <text class="d06-blue-text" x="1635" y="220">1</text>
+        <text class="d06-blue-text" x="1495" y="310">1</text>
+        <text class="d06-blue-text" x="1635" y="310">1</text>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="3">
+        <rect
+          x="105"
+          y="255"
+          width="450"
+          height="80"
+          rx="8"
+          fill="none"
+          stroke="var(--color-red)"
+          stroke-width="6"
+        ></rect>
+        <text class="d06-red-text" x="330" y="525" text-anchor="middle">
+          kein Treffer, keine Ergebniszeile
+        </text>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="4">
+        <rect
+          x="105"
+          y="345"
+          width="450"
+          height="80"
+          rx="8"
+          fill="none"
+          stroke="var(--color-amber)"
+          stroke-width="6"
+        ></rect>
+        <rect
+          x="745"
+          y="345"
+          width="490"
+          height="80"
+          rx="8"
+          fill="none"
+          stroke="var(--color-amber)"
+          stroke-width="6"
+        ></rect>
+        <path
+          class="d06-amber-line"
+          d="M560 385 C640 385 660 385 740 385"
+        ></path>
+        <rect
+          x="1445"
+          y="345"
+          width="370"
+          height="80"
+          rx="8"
+          fill="none"
+          stroke="var(--color-blue)"
+          stroke-width="6"
+        ></rect>
+        <text class="d06-blue-text" x="1495" y="400">3</text>
+        <text class="d06-blue-text" x="1635" y="400">3</text>
+      </g>
+    </svg>
+  </div>
+  <aside class="notes">
+    Wir gehen linke Zeile für linke Zeile. Ein Treffer kann mehrere
+    Ergebniszeilen erzeugen. Ohne Treffer liefert INNER JOIN nichts.
+  </aside>
+</section>
+
+<section class="code-slide d06-code d06-code--join-result">
+  <h2 class="slide-title">INNER JOIN in SQL</h2>
+  <div class="code-slide__content">
+    <pre><code class="language-sql" data-trim data-line-numbers="1-2|3-7|8-10|11-12">-- Welche Studierenden haben in welchem Kurs eine Note von 1,7 oder besser?
+-- erwartet: 16 Zeilen
+SELECT
+    s.first_name,
+    s.last_name,
+    c.title AS course,
+    e.grade
+FROM enrollments AS e
+INNER JOIN students AS s ON s.id = e.student_id
+INNER JOIN courses AS c ON c.id = e.course_id
+WHERE e.grade &lt;= 1.7
+ORDER BY e.grade, s.last_name, c.title;</code></pre>
+    <div class="d06-result">
+      <div class="d06-result__label fragment fade-in" data-fragment-index="4">
+        16 Zeilen
+      </div>
+      <table class="fragment fade-in" data-fragment-index="5">
+        <thead>
+          <tr>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>course</th>
+            <th>grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Finn</td>
+            <td>Krüger</td>
+            <td>Diskrete Mathematik</td>
+            <td>1.0</td>
+          </tr>
+          <tr>
+            <td>David</td>
+            <td>Wolf</td>
+            <td>Software Engineering</td>
+            <td>1.7</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="d06-source">
+    java/sql/university/queries.sql, Zeilen 29 bis 40
+  </div>
+  <aside class="notes">
+    Jede ON-Bedingung folgt einem Fremdschlüssel. Der Filter behält Noten bis
+    1,7. Gegen den Seed liefert die Abfrage genau 16 Zeilen.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">LEFT JOIN behält links alles</h2>
+  <div class="d06-content">
+    <svg
+      class="d06-svg"
+      viewBox="0 0 1920 820"
+      aria-label="LEFT JOIN bewahrt eine linke Zeile ohne rechten Partner"
+    >
+      <text class="d06-label d06-blue-text" x="160" y="75">students</text>
+      <rect
+        class="d06-box-blue"
+        x="140"
+        y="100"
+        width="520"
+        height="300"
+        rx="12"
+      ></rect>
+      <text class="d06-label" x="195" y="155">id</text>
+      <line class="d06-grid-line" x1="140" y1="185" x2="660" y2="185"></line>
+      <text x="195" y="260">1</text>
+      <text x="195" y="350">2</text>
+
+      <text class="d06-label d06-blue-text" x="800" y="75">enrollments</text>
+      <rect
+        class="d06-box-blue"
+        x="780"
+        y="100"
+        width="520"
+        height="300"
+        rx="12"
+      ></rect>
+      <text class="d06-label" x="835" y="155">student_id</text>
+      <line class="d06-grid-line" x1="780" y1="185" x2="1300" y2="185"></line>
+      <text x="835" y="260">1</text>
+
+      <text class="d06-label d06-blue-text" x="1440" y="75">Ergebnis</text>
+      <rect
+        class="d06-box"
+        x="1420"
+        y="100"
+        width="360"
+        height="300"
+        rx="12"
+      ></rect>
+      <text class="d06-label" x="1475" y="155">id</text>
+      <text class="d06-label" x="1600" y="155">student_id</text>
+      <line class="d06-grid-line" x1="1420" y1="185" x2="1780" y2="185"></line>
+      <text x="1475" y="260">1</text>
+      <text x="1600" y="260">1</text>
+
+      <g class="fragment fade-in" data-fragment-index="1">
+        <rect
+          x="145"
+          y="280"
+          width="510"
+          height="105"
+          rx="8"
+          fill="none"
+          stroke="var(--color-blue)"
+          stroke-width="6"
+        ></rect>
+        <path
+          class="d06-blue-line"
+          d="M660 332 C980 332 1100 332 1420 332"
+        ></path>
+        <text class="d06-blue-text" x="1475" y="350">2</text>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="2">
+        <text class="d06-amber-text" x="1600" y="350">NULL</text>
+        <rect
+          x="1560"
+          y="280"
+          width="205"
+          height="105"
+          rx="8"
+          fill="none"
+          stroke="var(--color-amber)"
+          stroke-width="6"
+        ></rect>
+      </g>
+
+      <text
+        class="d06-green-text fragment fade-in"
+        data-fragment-index="3"
+        x="960"
+        y="590"
+        text-anchor="middle"
+        style="font-size: 54px; font-weight: 700"
+      >
+        auch ohne Enrollment
+      </text>
+    </svg>
+  </div>
+  <aside class="notes">
+    LEFT JOIN bewahrt jede linke Zeile. Fehlende rechte Partner werden NULL. Das
+    ist die Form für "alle Courses, auch leere".
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">JOIN ist kein Venn-Diagramm</h2>
+  <div class="d06-content">
+    <div class="d06-two-column">
+      <div class="d06-panel d06-panel--red">
+        <svg
+          class="d06-svg"
+          viewBox="0 0 760 420"
+          aria-label="Durchgestrichenes Venn-Diagramm"
+        >
+          <circle
+            cx="300"
+            cy="190"
+            r="150"
+            fill="none"
+            stroke="var(--color-red)"
+            stroke-width="8"
+          ></circle>
+          <circle
+            cx="460"
+            cy="190"
+            r="150"
+            fill="none"
+            stroke="var(--color-red)"
+            stroke-width="8"
+          ></circle>
+          <line class="d06-red-line" x1="150" y1="350" x2="610" y2="30"></line>
+        </svg>
+      </div>
+      <div class="d06-panel d06-panel--green">
+        <svg
+          class="d06-svg"
+          viewBox="0 0 760 420"
+          aria-label="Eine Zeile trifft mehrere Zeilen"
+        >
+          <rect
+            class="d06-box-green"
+            x="40"
+            y="120"
+            width="190"
+            height="110"
+            rx="10"
+          ></rect>
+          <text x="135" y="185" text-anchor="middle">1</text>
+          <rect
+            class="d06-box-green"
+            x="500"
+            y="40"
+            width="190"
+            height="110"
+            rx="10"
+          ></rect>
+          <rect
+            class="d06-box-green"
+            x="500"
+            y="200"
+            width="190"
+            height="110"
+            rx="10"
+          ></rect>
+          <text x="595" y="105" text-anchor="middle">1</text>
+          <text x="595" y="265" text-anchor="middle">1</text>
+          <path
+            class="d06-green-line"
+            d="M230 175 C350 175 380 95 500 95"
+          ></path>
+          <path
+            class="d06-green-line"
+            d="M230 175 C350 175 380 255 500 255"
+          ></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="d06-caption">Mengenbild versteckt Duplikate und Zeilenform</div>
+  <aside class="notes">
+    Venn-Bilder können Mengenoperationen erklären, aber JOINs schlecht. Ein
+    Student mit zwei Enrollments erzeugt zwei Zeilen. Unser Zeilenabgleich zeigt
+    das direkt.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">GROUP BY faltet Zeilen</h2>
+  <div class="d06-content">
+    <svg
+      class="d06-svg"
+      viewBox="0 0 1920 820"
+      aria-label="Sechs Enrollment-Zeilen werden nach course_id gruppiert"
+    >
+      <text class="d06-label d06-blue-text" x="120" y="70">enrollments</text>
+      <text class="d06-label" x="180" y="130">id</text>
+      <text class="d06-label" x="350" y="130">course_id</text>
+      <g>
+        <rect
+          class="d06-box"
+          x="110"
+          y="155"
+          width="500"
+          height="75"
+          rx="8"
+        ></rect>
+        <rect
+          class="d06-box"
+          x="110"
+          y="240"
+          width="500"
+          height="75"
+          rx="8"
+        ></rect>
+        <rect
+          class="d06-box"
+          x="110"
+          y="325"
+          width="500"
+          height="75"
+          rx="8"
+        ></rect>
+        <rect
+          class="d06-box"
+          x="110"
+          y="410"
+          width="500"
+          height="75"
+          rx="8"
+        ></rect>
+        <rect
+          class="d06-box"
+          x="110"
+          y="495"
+          width="500"
+          height="75"
+          rx="8"
+        ></rect>
+        <rect
+          class="d06-box"
+          x="110"
+          y="580"
+          width="500"
+          height="75"
+          rx="8"
+        ></rect>
+        <text x="180" y="205">1</text>
+        <text x="350" y="205">1</text>
+        <text x="180" y="290">2</text>
+        <text x="350" y="290">1</text>
+        <text x="180" y="375">3</text>
+        <text x="350" y="375">2</text>
+        <text x="180" y="460">4</text>
+        <text x="350" y="460">2</text>
+        <text x="180" y="545">5</text>
+        <text x="350" y="545">2</text>
+        <text x="180" y="630">6</text>
+        <text x="350" y="630">3</text>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="1">
+        <path class="d06-blue-line" d="M650 155 H690 V315 H650"></path>
+        <path class="d06-blue-line" d="M650 325 H690 V570 H650"></path>
+        <path class="d06-blue-line" d="M650 580 H690 V655 H650"></path>
+        <text class="d06-blue-text" x="720" y="245">course_id = 1</text>
+        <text class="d06-blue-text" x="720" y="460">course_id = 2</text>
+        <text class="d06-blue-text" x="720" y="630">course_id = 3</text>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="2">
+        <text class="d06-label d06-blue-text" x="1240" y="130">Ergebnis</text>
+        <rect
+          class="d06-box-blue"
+          x="1220"
+          y="155"
+          width="540"
+          height="330"
+          rx="12"
+        ></rect>
+        <text class="d06-label" x="1280" y="215">course_id</text>
+        <text class="d06-label" x="1530" y="215">count</text>
+        <line
+          class="d06-grid-line"
+          x1="1220"
+          y1="240"
+          x2="1760"
+          y2="240"
+        ></line>
+        <line
+          class="d06-grid-line"
+          x1="1220"
+          y1="320"
+          x2="1760"
+          y2="320"
+        ></line>
+        <line
+          class="d06-grid-line"
+          x1="1220"
+          y1="400"
+          x2="1760"
+          y2="400"
+        ></line>
+        <text x="1280" y="295">1</text>
+        <text x="1280" y="375">2</text>
+        <text x="1280" y="455">3</text>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="3">
+        <text class="d06-amber-text" x="1530" y="295">2</text>
+        <text class="d06-amber-text" x="1530" y="375">3</text>
+        <text class="d06-amber-text" x="1530" y="455">1</text>
+      </g>
+    </svg>
+  </div>
+  <aside class="notes">
+    GROUP BY bestimmt die Körnung des Ergebnisses. Alle nicht aggregierten
+    SELECT-Spalten müssen zu dieser Körnung passen.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">COUNT, SUM, AVG, MIN, MAX</h2>
+  <div class="d06-content">
+    <div class="d06-cards d06-cards--five">
+      <div class="d06-aggregate-card">
+        <div class="fragment fade-in" data-fragment-index="1">
+          <code>COUNT(e.id)</code>
+          <strong>= 8</strong>
+          <div>INF-201</div>
+        </div>
+      </div>
+      <div class="d06-aggregate-card">
+        <div class="fragment fade-in" data-fragment-index="2">
+          <code>AVG(e.grade)</code>
+          <strong>= 2.00</strong>
+          <div>INF-201</div>
+        </div>
+      </div>
+      <div class="d06-aggregate-card">
+        <div class="fragment fade-in" data-fragment-index="3">
+          <code>MIN(e.grade)</code>
+          <strong>= 1.0</strong>
+        </div>
+      </div>
+      <div class="d06-aggregate-card">
+        <div class="fragment fade-in" data-fragment-index="4">
+          <code>MAX(e.grade)</code>
+          <strong>= 3.0</strong>
+        </div>
+      </div>
+      <div class="d06-aggregate-card">
+        <div class="fragment fade-in" data-fragment-index="5">
+          <code>SUM(credits)</code>
+          <strong>= 38</strong>
+          <div>alle sieben Courses</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d06-caption">Viele Zeilen → ein Wert pro Gruppe</div>
+  <aside class="notes">
+    COUNT und AVG stammen aus den verifizierten Queries 7 und 8. MIN, MAX und
+    SUM lassen sich direkt aus `seed.sql` prüfen. Aggregatfunktionen fassen eine
+    Gruppe zu einem Wert zusammen.
+  </aside>
+</section>
+
+<section class="code-slide d06-code d06-code--wide-result">
+  <h2 class="slide-title">Courses mit Zahl der Belegungen</h2>
+  <div class="code-slide__content">
+    <pre><code class="language-sql" data-trim data-line-numbers="1-2|3-5|6|7">-- Wie viele Einschreibungen hat jeder Kurs?
+-- erwartet: 7 Zeilen
+SELECT c.course_code, c.title, COUNT(e.id) AS enrollment_count
+FROM courses AS c
+LEFT JOIN enrollments AS e ON e.course_id = c.id
+GROUP BY c.id, c.course_code, c.title
+ORDER BY enrollment_count DESC, c.course_code;</code></pre>
+    <div
+      class="d06-result d06-result--compact fragment fade-in"
+      data-fragment-index="4"
+    >
+      <table>
+        <thead>
+          <tr>
+            <th>course_code</th>
+            <th>title</th>
+            <th>enrollment_count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>INF-201</td>
+            <td>Datenbanken</td>
+            <td>8</td>
+          </tr>
+          <tr>
+            <td>INF-230</td>
+            <td>Webentwicklung</td>
+            <td>7</td>
+          </tr>
+          <tr>
+            <td>INF-202</td>
+            <td>Programmierung II</td>
+            <td>6</td>
+          </tr>
+          <tr>
+            <td>INF-250</td>
+            <td>Software Engineering</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>MAT-110</td>
+            <td>Diskrete Mathematik</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>MAT-210</td>
+            <td>Statistik</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>WI-101</td>
+            <td>Grundlagen der Betriebswirtschaft</td>
+            <td>4</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="d06-source">
+    java/sql/university/queries.sql, Zeilen 50 bis 56
+  </div>
+  <aside class="notes">
+    LEFT JOIN hält jeden Course. `COUNT(e.id)` zählt nur echte Enrollments. Der
+    Seed hat keinen leeren Course, die sieben Zähler sind 8, 7, 6, 5, 5, 5 und
+    4.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">COUNT(*) gegen COUNT(column)</h2>
+  <div class="d06-hint">
+    Hypothetischer achter Course ohne Enrollment, im Seed sind alle sieben
+    belegt
+  </div>
+  <div class="d06-content" style="inset: 11rem var(--frame-gutter) 5rem">
+    <div class="d06-two-column">
+      <div class="d06-panel d06-panel--red">
+        <h3>COUNT(*) = 1</h3>
+        <div
+          class="fragment fade-in"
+          data-fragment-index="1"
+          style="font-size: 28px; text-align: center"
+        >
+          e.student_id = NULL
+        </div>
+        <div
+          class="fragment fade-in"
+          data-fragment-index="2"
+          style="
+            margin-top: 2.3rem;
+            color: var(--color-red);
+            font-size: 48px;
+            font-weight: 700;
+            text-align: center;
+          "
+        >
+          1
+        </div>
+      </div>
+      <div class="d06-panel d06-panel--green">
+        <h3>COUNT(e.student_id) = 0</h3>
+        <div
+          class="fragment fade-in"
+          data-fragment-index="1"
+          style="font-size: 28px; text-align: center"
+        >
+          e.student_id = NULL
+        </div>
+        <div
+          class="fragment fade-in"
+          data-fragment-index="2"
+          style="
+            margin-top: 2.3rem;
+            color: var(--color-green);
+            font-size: 48px;
+            font-weight: 700;
+            text-align: center;
+          "
+        >
+          0
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    COUNT(*) zählt die erhaltene linke Ergebniszeile. COUNT(column) ignoriert
+    NULL in dieser Spalte. Das Beispiel ergänzt den Seed ausdrücklich um einen
+    leeren Course.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">WHERE vor, HAVING nach der Gruppe</h2>
+  <div class="d06-content">
+    <svg
+      class="d06-svg"
+      viewBox="0 0 1920 700"
+      aria-label="Gedankliche Ausführungsreihenfolge einer SQL-Abfrage"
+    >
+      <defs>
+        <marker
+          id="d06-pipe-arrow"
+          markerWidth="20"
+          markerHeight="20"
+          refX="18"
+          refY="10"
+          markerUnits="userSpaceOnUse"
+          orient="auto"
+        >
+          <polygon points="0 0, 20 10, 0 20" fill="var(--color-blue)"></polygon>
+        </marker>
+      </defs>
+      <g>
+        <rect
+          class="d06-box-blue"
+          x="35"
+          y="250"
+          width="260"
+          height="130"
+          rx="12"
+        ></rect>
+        <text class="d06-blue-text" x="165" y="325" text-anchor="middle">
+          FROM/JOIN
+        </text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="1">
+        <line
+          class="d06-blue-line"
+          x1="295"
+          y1="315"
+          x2="345"
+          y2="315"
+          marker-end="url(#d06-pipe-arrow)"
+        ></line>
+        <rect
+          class="d06-box-blue"
+          x="355"
+          y="250"
+          width="260"
+          height="130"
+          rx="12"
+        ></rect>
+        <text class="d06-blue-text" x="485" y="325" text-anchor="middle">
+          WHERE
+        </text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="2">
+        <line
+          class="d06-blue-line"
+          x1="615"
+          y1="315"
+          x2="665"
+          y2="315"
+          marker-end="url(#d06-pipe-arrow)"
+        ></line>
+        <rect
+          class="d06-box"
+          x="675"
+          y="250"
+          width="260"
+          height="130"
+          rx="12"
+        ></rect>
+        <text x="805" y="325" text-anchor="middle">GROUP BY</text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="3">
+        <line
+          class="d06-blue-line"
+          x1="935"
+          y1="315"
+          x2="985"
+          y2="315"
+          marker-end="url(#d06-pipe-arrow)"
+        ></line>
+        <rect
+          class="d06-box-amber"
+          x="995"
+          y="250"
+          width="260"
+          height="130"
+          rx="12"
+        ></rect>
+        <text class="d06-amber-text" x="1125" y="325" text-anchor="middle">
+          HAVING
+        </text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="4">
+        <line
+          class="d06-blue-line"
+          x1="1255"
+          y1="315"
+          x2="1305"
+          y2="315"
+          marker-end="url(#d06-pipe-arrow)"
+        ></line>
+        <rect
+          class="d06-box"
+          x="1315"
+          y="250"
+          width="260"
+          height="130"
+          rx="12"
+        ></rect>
+        <text x="1445" y="325" text-anchor="middle">SELECT</text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="5">
+        <line
+          class="d06-blue-line"
+          x1="1575"
+          y1="315"
+          x2="1625"
+          y2="315"
+          marker-end="url(#d06-pipe-arrow)"
+        ></line>
+        <rect
+          class="d06-box"
+          x="1635"
+          y="250"
+          width="250"
+          height="130"
+          rx="12"
+        ></rect>
+        <text x="1760" y="325" text-anchor="middle">ORDER BY</text>
+      </g>
+      <text class="d06-blue-text" x="485" y="455" text-anchor="middle">
+        Zeilen filtern
+      </text>
+      <text class="d06-amber-text" x="1125" y="455" text-anchor="middle">
+        Gruppen filtern
+      </text>
+    </svg>
+  </div>
+  <aside class="notes">
+    Die Schreibreihenfolge von SQL ist nicht die gedankliche
+    Ausführungsreihenfolge. WHERE sieht noch einzelne Zeilen. HAVING sieht
+    Aggregatwerte.
+  </aside>
+</section>
+
+<section class="code-slide d06-code d06-code--wide-result">
+  <h2 class="slide-title">HAVING</h2>
+  <div class="code-slide__content">
+    <pre><code class="language-sql" data-trim data-line-numbers="1-2|3-5|6-7|8">-- Welche Kurse haben mindestens sechs Einschreibungen?
+-- erwartet: 3 Zeilen
+SELECT c.course_code, c.title, COUNT(e.id) AS enrollment_count
+FROM courses AS c
+INNER JOIN enrollments AS e ON e.course_id = c.id
+GROUP BY c.id, c.course_code, c.title
+HAVING COUNT(e.id) >= 6
+ORDER BY enrollment_count DESC, c.course_code;</code></pre>
+    <div class="d06-result fragment fade-in" data-fragment-index="4">
+      <table>
+        <thead>
+          <tr>
+            <th>course_code</th>
+            <th>title</th>
+            <th>enrollment_count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>INF-201</td>
+            <td>Datenbanken</td>
+            <td>8</td>
+          </tr>
+          <tr>
+            <td>INF-230</td>
+            <td>Webentwicklung</td>
+            <td>7</td>
+          </tr>
+          <tr>
+            <td>INF-202</td>
+            <td>Programmierung II</td>
+            <td>6</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="d06-source">
+    java/sql/university/queries.sql, Zeilen 66 bis 73
+  </div>
+  <aside class="notes">
+    Query 9 filtert Gruppen mit `HAVING COUNT(e.id) >= 6`. Gegen den Seed
+    bleiben genau drei Courses. `WHERE COUNT(...)` wäre zu früh.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">NULL ist unbekannt, nicht falsch</h2>
+  <div class="d06-content">
+    <div class="d06-expression-grid">
+      <div
+        class="d06-expression d06-expression--red fragment fade-in"
+        data-fragment-index="1"
+      >
+        grade = NULL
+      </div>
+      <div
+        class="d06-expression d06-expression--green fragment fade-in"
+        data-fragment-index="2"
+      >
+        grade IS NULL
+      </div>
+      <div
+        class="d06-expression d06-expression--amber fragment fade-in"
+        data-fragment-index="3"
+      >
+        NULL = NULL<br />UNKNOWN
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    NULL wird nicht mit Gleichheit geprüft. SQL arbeitet hier mit TRUE, FALSE
+    und UNKNOWN. WHERE behält nur TRUE.
+  </aside>
+</section>
+
+<section class="code-slide d06-code d06-code--centered">
+  <h2 class="slide-title">LEFT JOIN sucht fehlende Partner</h2>
+  <div class="code-slide__content">
+    <pre><code class="language-sql" data-trim data-line-numbers="1-2|3-5|6-7">-- Welche Studierenden sind in keinem Kurs eingeschrieben?
+-- erwartet: 1 Zeile
+SELECT s.id, s.first_name, s.last_name
+FROM students AS s
+LEFT JOIN enrollments AS e ON e.student_id = s.id
+WHERE e.id IS NULL
+ORDER BY s.last_name;</code></pre>
+    <div class="d06-result">
+      <svg
+        class="d06-svg"
+        viewBox="0 0 700 500"
+        aria-label="Student 19 hat keinen passenden Enrollment-Datensatz"
+      >
+        <rect
+          class="d06-box-blue"
+          x="30"
+          y="90"
+          width="250"
+          height="110"
+          rx="10"
+        ></rect>
+        <text class="d06-blue-text" x="155" y="155" text-anchor="middle">
+          Student 19
+        </text>
+        <rect
+          class="d06-box"
+          x="420"
+          y="90"
+          width="250"
+          height="110"
+          rx="10"
+        ></rect>
+        <text class="d06-amber-text" x="545" y="155" text-anchor="middle">
+          NULL
+        </text>
+        <line
+          class="d06-grid-line"
+          x1="280"
+          y1="145"
+          x2="420"
+          y2="145"
+          stroke-dasharray="10 8"
+        ></line>
+        <g class="fragment fade-in" data-fragment-index="3">
+          <rect
+            class="d06-box-green"
+            x="90"
+            y="310"
+            width="520"
+            height="130"
+            rx="10"
+          ></rect>
+          <text class="d06-green-text" x="350" y="365" text-anchor="middle">
+            19 · Hannah · Maier
+          </text>
+          <text class="d06-green-text" x="350" y="410" text-anchor="middle">
+            1 Zeile
+          </text>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <div class="d06-source">
+    java/sql/university/queries.sql, Zeilen 42 bis 48
+  </div>
+  <aside class="notes">
+    Query 4 hat Samir Saleh bereits gelöscht. Danach bleibt Hannah Maier als
+    einzige Studentin ohne Course. Der NULL-Test sucht den fehlenden rechten
+    Partner.
+  </aside>
+</section>
+
+<section class="code-slide d06-code d06-code--narrow-result">
+  <h2 class="slide-title">Subquery beantwortet eine Teilfrage</h2>
+  <div class="code-slide__content">
+    <pre><code class="language-sql" data-trim data-line-numbers="1-2|5-14|3-4|15-16">-- Welche Studierenden haben eine bessere Durchschnittsnote als der Gesamtdurchschnitt?
+-- erwartet: 7 Zeilen
+SELECT s.id, s.first_name, s.last_name
+FROM students AS s
+WHERE s.id IN (
+    SELECT e.student_id
+    FROM enrollments AS e
+    WHERE e.grade IS NOT NULL
+    GROUP BY e.student_id
+    HAVING AVG(e.grade) &lt; (
+        SELECT AVG(grade)
+        FROM enrollments
+        WHERE grade IS NOT NULL
+    )
+)
+ORDER BY s.last_name, s.first_name;</code></pre>
+    <div class="d06-result">
+      <div class="d06-result__label fragment fade-in" data-fragment-index="4">
+        7 Zeilen
+      </div>
+      <div class="fragment fade-in" data-fragment-index="5">
+        Zeynep Demir<br />
+        Nele Hartmann<br />
+        Lena Hoffmann<br />
+        Aylin Kaya<br />
+        Finn Krüger<br />
+        Noah Schulz<br />
+        Mia Wagner
+      </div>
+    </div>
+  </div>
+  <div class="d06-source">
+    java/sql/university/queries.sql, Zeilen 75 bis 90
+  </div>
+  <aside class="notes">
+    Die innere Subquery berechnet den Gesamtdurchschnitt. Die gruppierte
+    mittlere Query vergleicht jeden Student-Durchschnitt damit. Kleinere Noten
+    sind besser, deshalb nutzt HAVING das Kleinerzeichen.
+  </aside>
+</section>
+
+<section class="code-slide d06-code d06-code--centered">
+  <h2 class="slide-title">DISTINCT entfernt Duplikate</h2>
+  <div class="code-slide__content">
+    <pre><code class="language-sql" data-trim data-line-numbers="1-2|3|4-7|8">-- Welche Fachbereiche sind über belegte Kurse vertreten?
+-- erwartet: 3 Zeilen
+SELECT DISTINCT d.code, d.name
+FROM departments AS d
+INNER JOIN lecturers AS l ON l.department_id = d.id
+INNER JOIN courses AS c ON c.lecturer_id = l.id
+INNER JOIN enrollments AS e ON e.course_id = c.id
+ORDER BY d.code;</code></pre>
+    <div class="d06-result">
+      <div
+        class="fragment fade-in"
+        data-fragment-index="4"
+        style="color: var(--color-text-dim)"
+      >
+        INF · INF · INF<br />MAT · MAT<br />WI · WI
+      </div>
+      <table
+        class="fragment fade-in"
+        data-fragment-index="5"
+        style="margin-top: 1.2rem"
+      >
+        <tbody>
+          <tr>
+            <td>INF</td>
+            <td>Informatik</td>
+          </tr>
+          <tr>
+            <td>MAT</td>
+            <td>Mathematik</td>
+          </tr>
+          <tr>
+            <td>WI</td>
+            <td>Wirtschaftswissenschaften</td>
+          </tr>
+        </tbody>
+      </table>
+      <div
+        class="fragment fade-in"
+        data-fragment-index="6"
+        style="margin-top: 1.2rem; color: var(--color-amber)"
+      >
+        DISTINCT entfernt Ergebnisduplikate, keinen falschen JOIN
+      </div>
+    </div>
+  </div>
+  <div class="d06-source">
+    java/sql/university/queries.sql, Zeilen 101 bis 108
+  </div>
+  <aside class="notes">
+    Query 12 verbindet alle fünf Tabellen und liefert genau drei Fachbereiche.
+    DISTINCT ist hier fachlich gewollt, weil jeder Department-Code einmal
+    erscheinen soll.
+  </aside>
+</section>
+
+<section class="exercise-slide">
+  <div class="exercise-slide__tag">Übung 5</div>
+  <div class="exercise-slide__time">50 min</div>
+  <p class="exercise-slide__task">Acht Fragen an eure Datenbank beantworten</p>
+  <div class="d06-exercise-steps">
+    <div class="d06-exercise-step">
+      <strong>1</strong>
+      Schreibt die acht vorgegebenen Fragen in `sql/queries.sql`.
+    </div>
+    <div class="d06-exercise-step">
+      <strong>2</strong>
+      Nutzt JOIN, LEFT JOIN und den Datumsvergleich der Karte.
+    </div>
+    <div class="d06-exercise-step">
+      <strong>3</strong>
+      Nutzt in Query 7 GROUP BY plus HAVING.
+    </div>
+    <div class="d06-exercise-step">
+      <strong>4</strong>
+      Nutzt in Query 8 eine Subquery mit GROUP BY plus HAVING.
+    </div>
+  </div>
+  <div class="exercise-slide__deliverable">
+    <strong>Abgabe:</strong> sql/queries.sql mit Nummer und erwartetem Ergebnis
+    über jeder Query
+  </div>
+  <div class="d06-exercise-path">exercises/&lt;domain&gt;/03-sql.md</div>
+  <aside class="notes">
+    Führt jede Query einzeln aus. Die Karte gibt die fachlichen Fragen vor.
+    Prüft einen Fall ohne passenden rechten Datensatz.
+  </aside>
+</section>
+
+<section class="code-slide d06-code d06-code--centered">
+  <h2 class="slide-title">Ein Fenster behält jede Zeile</h2>
+  <div class="slide-context grey d06-reserve-tag">Reserve</div>
+  <div class="code-slide__content">
+    <pre><code class="language-sql" data-trim data-line-numbers>SELECT course_id, student_id,
+       COUNT(*) OVER (PARTITION BY course_id) AS course_count
+FROM enrollments;</code></pre>
+    <div class="d06-window-results">
+      <div class="d06-window-card fragment fade-in" data-fragment-index="1">
+        GROUP-BY-Ergebnis<br />eine Zeile pro Course
+      </div>
+      <div
+        class="d06-window-card d06-window-card--green fragment fade-in"
+        data-fragment-index="2"
+      >
+        Fensterergebnis<br />alle 40 Enrollment-Zeilen
+      </div>
+    </div>
+  </div>
+  <div class="d06-source">
+    Didaktische Erweiterung, nicht in `queries.sql`. Verwendet die Spalten aus
+    `java/sql/university/schema.sql`, Zeilen 40 bis 53.
+  </div>
+  <aside class="notes">
+    Fensterfunktionen aggregieren, ohne die Detailzeilen zu falten. Der Seed hat
+    40 Enrollments, deshalb liefert der Ausschnitt 40 Zeilen. Diese Folie
+    entfällt zuerst.
+  </aside>
+</section>
+
+<section class="citation-slide d06-citation">
+  <div class="citation-text">GitHub: List repository contributors</div>
+  <svg
+    class="d06-citation-visual d06-svg"
+    viewBox="0 0 1500 360"
+    aria-label="Viele Commit-Karten werden zu einer Contributor-Liste zusammengefasst"
+  >
+    <defs>
+      <marker
+        id="d06-github-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon points="0 0, 12 6, 0 12" fill="var(--color-amber)"></polygon>
+      </marker>
+    </defs>
+    <g>
+      <rect
+        class="d06-box-blue"
+        x="40"
+        y="35"
+        width="300"
+        height="75"
+        rx="10"
+      ></rect>
+      <rect
+        class="d06-box-blue"
+        x="40"
+        y="140"
+        width="300"
+        height="75"
+        rx="10"
+      ></rect>
+      <rect
+        class="d06-box-blue"
+        x="40"
+        y="245"
+        width="300"
+        height="75"
+        rx="10"
+      ></rect>
+      <text x="190" y="83" text-anchor="middle">Commit · Ada</text>
+      <text x="190" y="188" text-anchor="middle">Commit · Ada</text>
+      <text x="190" y="293" text-anchor="middle">Commit · Linus</text>
+
+      <rect
+        class="d06-box-blue"
+        x="410"
+        y="35"
+        width="300"
+        height="75"
+        rx="10"
+      ></rect>
+      <rect
+        class="d06-box-blue"
+        x="410"
+        y="140"
+        width="300"
+        height="75"
+        rx="10"
+      ></rect>
+      <rect
+        class="d06-box-blue"
+        x="410"
+        y="245"
+        width="300"
+        height="75"
+        rx="10"
+      ></rect>
+      <text x="560" y="83" text-anchor="middle">Commit · Grace</text>
+      <text x="560" y="188" text-anchor="middle">Commit · Linus</text>
+      <text x="560" y="293" text-anchor="middle">Commit · Ada</text>
+    </g>
+    <line
+      class="d06-amber-line"
+      x1="760"
+      y1="180"
+      x2="930"
+      y2="180"
+      marker-end="url(#d06-github-arrow)"
+    ></line>
+    <g>
+      <rect
+        class="d06-box-green"
+        x="980"
+        y="35"
+        width="470"
+        height="285"
+        rx="12"
+      ></rect>
+      <text
+        class="d06-label d06-green-text"
+        x="1215"
+        y="90"
+        text-anchor="middle"
+      >
+        Contributor
+      </text>
+      <line class="d06-grid-line" x1="980" y1="115" x2="1450" y2="115"></line>
+      <text x="1040" y="165">Ada</text>
+      <text class="d06-amber-text" x="1370" y="165">3</text>
+      <text x="1040" y="225">Grace</text>
+      <text class="d06-amber-text" x="1370" y="225">1</text>
+      <text x="1040" y="285">Linus</text>
+      <text class="d06-amber-text" x="1370" y="285">2</text>
+    </g>
+  </svg>
+  <div
+    style="
+      color: var(--color-amber);
+      font-family: var(--font-mono);
+      font-size: 28px;
+    "
+  >
+    viele Beiträge → Sicht pro Contributor
+  </div>
+  <div class="d06-citation-url">
+    https://docs.github.com/en/rest/repos/repos#list-repository-contributors
+  </div>
+  <div class="d06-citation-date">Abruf: 2026-08-23</div>
+  <aside class="notes">
+    GitHub bietet eine Ergebnisliste pro Contributor statt einer ungefilterten
+    Commit-Liste. Wir behaupten damit nichts über GitHubs interne Query. Das
+    sichtbare Ergebnis hat aber dieselbe Gruppenkörnung wie unsere Aggregation.
+  </aside>
+</section>
