@@ -1,0 +1,2135 @@
+<style>
+  .d11-slide .d11-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .d11-svg text {
+    fill: var(--color-white);
+    font-family: var(--font-mono);
+  }
+
+  .d11-svg .d11-label {
+    font-size: 30px;
+    font-weight: 700;
+  }
+
+  .d11-svg .d11-body {
+    font-size: 28px;
+  }
+
+  .d11-svg .d11-small {
+    font-size: 24px;
+  }
+
+  .d11-svg .d11-code {
+    font-size: 26px;
+  }
+
+  .d11-svg .d11-blue {
+    fill: var(--color-blue);
+  }
+
+  .d11-svg .d11-amber {
+    fill: var(--color-amber);
+  }
+
+  .d11-svg .d11-red {
+    fill: var(--color-red);
+  }
+
+  .d11-svg .d11-green {
+    fill: var(--color-green);
+  }
+
+  .d11-svg .d11-grey {
+    fill: var(--color-text-dim);
+  }
+
+  .d11-svg .d11-box {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-line-bright);
+    stroke-width: 2;
+  }
+
+  .d11-svg .d11-box-blue {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 3;
+  }
+
+  .d11-svg .d11-box-amber {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-amber);
+    stroke-width: 3;
+  }
+
+  .d11-svg .d11-box-red {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-red);
+    stroke-width: 3;
+  }
+
+  .d11-svg .d11-box-green {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-green);
+    stroke-width: 3;
+  }
+
+  .d11-svg .d11-line-blue {
+    fill: none;
+    stroke: var(--color-blue);
+    stroke-width: 4;
+  }
+
+  .d11-svg .d11-line-amber {
+    fill: none;
+    stroke: var(--color-amber);
+    stroke-width: 4;
+  }
+
+  .d11-svg .d11-line-red {
+    fill: none;
+    stroke: var(--color-red);
+    stroke-width: 4;
+  }
+
+  .d11-svg .d11-line-green {
+    fill: none;
+    stroke: var(--color-green);
+    stroke-width: 4;
+  }
+
+  .d11-svg .d11-line-grey {
+    fill: none;
+    stroke: var(--color-grey);
+    stroke-width: 3;
+  }
+
+  .d11-svg .d11-dashed {
+    stroke-dasharray: 14 10;
+  }
+
+  .d11-source {
+    position: absolute;
+    right: var(--frame-gutter);
+    bottom: 1.2rem;
+    left: var(--frame-gutter);
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 20px;
+    text-align: center;
+    z-index: 5;
+  }
+
+  .d11-answer {
+    position: absolute;
+    right: 10rem;
+    bottom: 8rem;
+    left: 10rem;
+    color: var(--color-amber);
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .d11-code-short .code-slide__content {
+    align-items: center;
+  }
+
+  .d11-exercise-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 1fr;
+    gap: 1rem 2rem;
+    min-height: 500px;
+    margin: 0 5rem 1.5rem;
+  }
+
+  .d11-exercise-step {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 0.8rem;
+    align-items: center;
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--color-line-bright);
+    border-radius: 4px;
+    color: var(--color-text-mid);
+    background: var(--color-bg-deep);
+    font-family: var(--font-mono);
+    font-size: 24px;
+    line-height: 1.35;
+  }
+
+  .d11-exercise-step span:first-child {
+    color: var(--color-amber);
+    font-weight: 700;
+  }
+
+  .d11-exercise-path {
+    margin: 0 5rem 0.5rem;
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .d11-citation {
+    justify-content: flex-start !important;
+    padding: 6rem 7rem 4rem !important;
+  }
+
+  .d11-citation .citation-text {
+    margin-top: 1.2rem;
+    font-size: 2.5rem;
+    font-style: normal;
+  }
+
+  .d11-citation-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    width: 100%;
+    margin-top: 2.5rem;
+  }
+
+  .d11-citation-card {
+    padding: 1.4rem 1.6rem;
+    border: 2px solid var(--color-blue);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 28px;
+    text-align: left;
+  }
+
+  .d11-citation-card strong {
+    display: block;
+    margin-bottom: 0.8rem;
+    color: var(--color-blue);
+    font-size: 32px;
+  }
+
+  .d11-citation-db {
+    margin: 1.4rem auto 0;
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 24px;
+  }
+
+  .d11-citation-sources {
+    margin-top: 1.2rem;
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: center;
+  }
+</style>
+
+<section class="chapter-slide d11-slide">
+  <div class="chapter-number">11</div>
+  <div class="chapter-eyebrow">Kapitel 11</div>
+  <h1 class="chapter-title-big">Gutes Anwendungsdesign</h1>
+  <p class="chapter-subtitle">Klare Grenzen statt mehr Klassen</p>
+  <svg
+    class="d11-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Drei Schichten zwischen HTTP und Datenbank"
+  >
+    <g transform="translate(1160, 205)">
+      <rect class="d11-box-blue" width="540" height="130" rx="12"></rect>
+      <text class="d11-label d11-blue" x="270" y="78" text-anchor="middle">
+        HTTP
+      </text>
+      <rect
+        class="d11-box-blue"
+        y="185"
+        width="540"
+        height="130"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-blue" x="270" y="263" text-anchor="middle">
+        Service
+      </text>
+      <rect
+        class="d11-box-blue"
+        y="370"
+        width="540"
+        height="130"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-blue" x="270" y="448" text-anchor="middle">
+        Datenbank
+      </text>
+      <line class="d11-line-blue" x1="270" y1="130" x2="270" y2="185"></line>
+      <line class="d11-line-blue" x1="270" y1="315" x2="270" y2="370"></line>
+    </g>
+  </svg>
+  <aside class="notes">
+    Wir verbessern eine laufende API. Jede neue Klasse braucht eine konkrete
+    Verantwortung.
+  </aside>
+</section>
+
+<section class="d11-slide">
+  <h2 class="slide-title">Die API solide machen</h2>
+  <svg
+    class="slide-svg d11-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Rote Linie des Kurses"
+  >
+    <defs>
+      <marker
+        id="d11-redline-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+    <path
+      class="d11-line-blue"
+      d="M455 315 H495 M895 315 H935 M1335 315 H1375 M1775 315 V685 H1335 M935 685 H895 M495 685 H455"
+      marker-end="url(#d11-redline-arrow)"
+    ></path>
+
+    <g>
+      <rect
+        class="d11-box-blue"
+        x="55"
+        y="230"
+        width="400"
+        height="170"
+        rx="12"
+      ></rect>
+      <text class="d11-small d11-blue" x="255" y="305" text-anchor="middle">
+        <tspan x="255">1. Idee</tspan>
+        <tspan x="255" dy="34">im Kopf</tspan>
+      </text>
+    </g>
+    <g>
+      <rect
+        class="d11-box-blue"
+        x="495"
+        y="230"
+        width="400"
+        height="170"
+        rx="12"
+      ></rect>
+      <text class="d11-small d11-blue" x="695" y="285" text-anchor="middle">
+        <tspan x="695">2. Darüber sprechen:</tspan>
+        <tspan x="695" dy="34">Abstraktion und</tspan>
+        <tspan x="695" dy="34">ER-Modell</tspan>
+      </text>
+    </g>
+    <g>
+      <rect
+        class="d11-box-blue"
+        x="935"
+        y="230"
+        width="400"
+        height="170"
+        rx="12"
+      ></rect>
+      <text class="d11-small d11-blue" x="1135" y="285" text-anchor="middle">
+        <tspan x="1135">3. Tabellen, die uns</tspan>
+        <tspan x="1135" dy="34">nicht anlügen:</tspan>
+        <tspan x="1135" dy="34">Normalisierung</tspan>
+      </text>
+    </g>
+    <g>
+      <rect
+        class="d11-box-blue"
+        x="1375"
+        y="230"
+        width="400"
+        height="170"
+        rx="12"
+      ></rect>
+      <text class="d11-small d11-blue" x="1575" y="305" text-anchor="middle">
+        <tspan x="1575">4. Den Tabellen</tspan>
+        <tspan x="1575" dy="34">Fragen stellen: SQL</tspan>
+      </text>
+    </g>
+    <g>
+      <rect
+        class="d11-box-blue"
+        x="1375"
+        y="600"
+        width="400"
+        height="170"
+        rx="12"
+      ></rect>
+      <text class="d11-small d11-blue" x="1575" y="655" text-anchor="middle">
+        <tspan x="1575">5. Aus Java fragen:</tspan>
+        <tspan x="1575" dy="34">JDBC, Cursor,</tspan>
+        <tspan x="1575" dy="34">Statements</tspan>
+      </text>
+    </g>
+    <g>
+      <rect
+        class="d11-box-blue"
+        x="935"
+        y="600"
+        width="400"
+        height="170"
+        rx="12"
+      ></rect>
+      <text class="d11-small d11-blue" x="1135" y="655" text-anchor="middle">
+        <tspan x="1135">6. Wiederholungen</tspan>
+        <tspan x="1135" dy="34">beenden:</tspan>
+        <tspan x="1135" dy="34">Repository Pattern</tspan>
+      </text>
+    </g>
+    <g>
+      <rect
+        class="d11-box-blue"
+        x="495"
+        y="600"
+        width="400"
+        height="170"
+        rx="12"
+      ></rect>
+      <text class="d11-small d11-blue" x="695" y="655" text-anchor="middle">
+        <tspan x="695">7. Andere zugreifen</tspan>
+        <tspan x="695" dy="34">lassen: REST API</tspan>
+        <tspan x="695" dy="34">mit Spring</tspan>
+      </text>
+    </g>
+    <g>
+      <rect
+        class="d11-box-amber"
+        x="55"
+        y="570"
+        width="400"
+        height="230"
+        rx="12"
+      ></rect>
+      <text class="d11-small d11-amber" x="255" y="625" text-anchor="middle">
+        <tspan x="255">8. Solide machen:</tspan>
+        <tspan x="255" dy="34">Schichten, Validierung,</tspan>
+        <tspan x="255" dy="34">Fehler, OpenAPI, Tests,</tspan>
+        <tspan x="255" dy="34">Middleware</tspan>
+      </text>
+      <rect
+        x="95"
+        y="748"
+        width="320"
+        height="38"
+        rx="8"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="2"
+        stroke-dasharray="10 7"
+      ></rect>
+      <text class="d11-small d11-blue" x="255" y="776" text-anchor="middle">
+        Tests und Middleware
+      </text>
+    </g>
+    <text class="d11-body" x="960" y="930" text-anchor="middle">
+      Vorher: REST API mit Spring · Jetzt: Schichten, Validierung, Fehler ·
+      Danach: Tests und Middleware
+    </text>
+  </svg>
+  <aside class="notes">
+    Der Kursweg erreicht den letzten Schritt. Heute sichern wir zuerst den
+    Vertrag im Design. Deck 12 prüft und beobachtet ihn.
+  </aside>
+</section>
+
+<section class="lead-question d11-slide">
+  <div class="lead-question__mark">?</div>
+  <h2 class="lead-question__text">
+    Ist <code>return repository.save(dto.toEntity())</code> schon ein Service?
+  </h2>
+  <div class="d11-answer fragment fade-in" data-fragment-index="1">
+    Nein, eine Klasse ohne eigene Entscheidung hilft nicht
+  </div>
+  <aside class="notes">
+    Erwartet ist eine abgewogene Antwort. Typisch falsch sind "jede Architektur
+    braucht drei Klassen" und "Services sind immer unnötig". Wir entscheiden
+    nach Verantwortung.
+  </aside>
+</section>
+
+<section class="d11-slide">
+  <h2 class="slide-title">Drei Schichten</h2>
+  <svg
+    class="slide-svg d11-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Drei Schichten"
+  >
+    <defs>
+      <marker
+        id="d11-layer-down"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+      </marker>
+      <marker
+        id="d11-layer-up"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-white)"></polygon>
+      </marker>
+    </defs>
+    <g class="fragment fade-up" data-fragment-index="1">
+      <rect
+        class="d11-box-blue"
+        x="460"
+        y="180"
+        width="1000"
+        height="180"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-blue" x="960" y="245" text-anchor="middle">
+        Presentation
+      </text>
+      <text class="d11-body" x="960" y="305" text-anchor="middle">
+        Controller · DTO
+      </text>
+    </g>
+    <g class="fragment fade-up" data-fragment-index="2">
+      <line
+        class="d11-line-blue"
+        x1="920"
+        y1="360"
+        x2="920"
+        y2="440"
+        marker-end="url(#d11-layer-down)"
+      ></line>
+      <line
+        class="arrow-white"
+        x1="1000"
+        y1="440"
+        x2="1000"
+        y2="365"
+        marker-end="url(#d11-layer-up)"
+      ></line>
+      <rect
+        class="d11-box-blue"
+        x="460"
+        y="440"
+        width="1000"
+        height="180"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-blue" x="960" y="505" text-anchor="middle">
+        Service
+      </text>
+      <text class="d11-body" x="960" y="565" text-anchor="middle">
+        Regeln · Transaktion
+      </text>
+    </g>
+    <g class="fragment fade-up" data-fragment-index="3">
+      <line
+        class="d11-line-blue"
+        x1="920"
+        y1="620"
+        x2="920"
+        y2="700"
+        marker-end="url(#d11-layer-down)"
+      ></line>
+      <line
+        class="arrow-white"
+        x1="1000"
+        y1="700"
+        x2="1000"
+        y2="625"
+        marker-end="url(#d11-layer-up)"
+      ></line>
+      <rect
+        class="d11-box-blue"
+        x="460"
+        y="700"
+        width="1000"
+        height="180"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-blue" x="960" y="765" text-anchor="middle">
+        Repository
+      </text>
+      <text class="d11-body" x="960" y="825" text-anchor="middle">
+        JPA · SQLite
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Presentation kennt HTTP. Repository kennt Speicherung. Service koordiniert
+    einen Use Case, wenn mehr als Weiterreichen passiert.
+  </aside>
+</section>
+
+<section class="d11-slide">
+  <h2 class="slide-title">Wann der Service lohnt</h2>
+  <svg
+    class="slide-svg d11-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Service oder direkter Weg"
+  >
+    <defs>
+      <marker
+        id="d11-save-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-grey)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      class="d11-box-green"
+      x="100"
+      y="190"
+      width="790"
+      height="650"
+      rx="12"
+    ></rect>
+    <rect
+      class="d11-box"
+      x="1030"
+      y="190"
+      width="790"
+      height="650"
+      rx="12"
+    ></rect>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <text class="d11-label d11-green" x="495" y="300" text-anchor="middle">
+        mehrere Repositories
+      </text>
+      <text class="d11-label d11-green" x="495" y="430" text-anchor="middle">
+        Fachregel
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <text class="d11-label d11-green" x="495" y="560" text-anchor="middle">
+        Transaktion
+      </text>
+      <text class="d11-label d11-green" x="495" y="690" text-anchor="middle">
+        wiederverwendbarer Use Case
+      </text>
+    </g>
+    <text class="d11-label d11-grey" x="1425" y="300" text-anchor="middle">
+      einfaches validate + save
+    </text>
+    <rect
+      class="d11-box"
+      x="1130"
+      y="430"
+      width="230"
+      height="110"
+      rx="10"
+    ></rect>
+    <text class="d11-body d11-grey" x="1245" y="495" text-anchor="middle">
+      Controller
+    </text>
+    <line
+      class="d11-line-grey"
+      x1="1360"
+      y1="485"
+      x2="1490"
+      y2="485"
+      marker-end="url(#d11-save-arrow)"
+    ></line>
+    <rect
+      class="d11-box"
+      x="1490"
+      y="430"
+      width="230"
+      height="110"
+      rx="10"
+    ></rect>
+    <text class="d11-body d11-grey" x="1605" y="495" text-anchor="middle">
+      Repository
+    </text>
+  </svg>
+  <aside class="notes">
+    Für unsere kleinste CRUD-Ressource kann direktes Speichern lesbar sein. Bei
+    Enrollment mit Kapazitätsprüfung und zwei Schreibvorgängen gehört die
+    Koordination in einen Service.
+  </aside>
+</section>
+
+<section class="d11-slide">
+  <h2 class="slide-title">Entity nach außen ist eine Kopplung</h2>
+  <svg
+    class="slide-svg d11-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Entity und DTO-Filter"
+  >
+    <defs>
+      <marker
+        id="d11-coupling-red"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-red)"></polygon>
+      </marker>
+      <marker
+        id="d11-coupling-green"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-green)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      class="d11-box-red"
+      x="100"
+      y="180"
+      width="560"
+      height="720"
+      rx="12"
+    ></rect>
+    <text class="d11-label d11-red" x="380" y="240" text-anchor="middle">
+      JPA Entity
+    </text>
+    <text class="d11-body" x="160" y="325">id</text>
+    <text class="d11-body" x="160" y="400">firstName</text>
+    <text class="d11-body" x="160" y="475">lastName</text>
+    <text class="d11-body" x="160" y="550">email</text>
+    <text class="d11-body" x="160" y="625">studentNumber</text>
+    <text class="d11-body" x="160" y="700">enrollmentDate</text>
+    <text class="d11-body" x="160" y="775">internalNote</text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        x="135"
+        y="730"
+        width="490"
+        height="72"
+        rx="8"
+        fill="none"
+        stroke="var(--color-red)"
+        stroke-width="5"
+      ></rect>
+      <text class="d11-label d11-red" x="380" y="860" text-anchor="middle">
+        internalNote
+      </text>
+    </g>
+    <rect
+      class="d11-box"
+      x="1500"
+      y="420"
+      width="300"
+      height="180"
+      rx="12"
+    ></rect>
+    <text class="d11-label" x="1650" y="525" text-anchor="middle">Client</text>
+    <g class="d11-line-red">
+      <path d="M660 315 H720"></path>
+      <path d="M660 390 H720"></path>
+      <path d="M660 465 H720"></path>
+      <path d="M660 540 H720"></path>
+      <path d="M660 615 H720"></path>
+      <path d="M660 690 H720"></path>
+      <path d="M660 765 H720"></path>
+      <path d="M720 315 V765"></path>
+      <path d="M720 465 H1495" marker-end="url(#d11-coupling-red)"></path>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d11-box-blue"
+        x="810"
+        y="260"
+        width="430"
+        height="570"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-blue" x="1025" y="325" text-anchor="middle">
+        DTO-Filter
+      </text>
+      <text class="d11-small d11-green" x="870" y="400">id</text>
+      <text class="d11-small d11-green" x="870" y="465">firstName</text>
+      <text class="d11-small d11-green" x="870" y="530">lastName</text>
+      <text class="d11-small d11-green" x="870" y="595">email</text>
+      <text class="d11-small d11-green" x="870" y="660">studentNumber</text>
+      <text class="d11-small d11-green" x="870" y="725">enrollmentDate</text>
+      <line
+        class="d11-line-green"
+        x1="1240"
+        y1="545"
+        x2="1495"
+        y2="520"
+        marker-end="url(#d11-coupling-green)"
+      ></line>
+    </g>
+  </svg>
+  <aside class="notes">
+    Eine Entity ändert sich für Datenbankgründe. Ein API-Vertrag ändert sich für
+    Clientgründe. Dasselbe Objekt koppelt beide Änderungsgründe.
+  </aside>
+</section>
+
+<section class="d11-slide">
+  <h2 class="slide-title">Request DTO und Response DTO</h2>
+  <svg
+    class="slide-svg d11-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Request und Response DTO"
+  >
+    <defs>
+      <marker
+        id="d11-dto-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      class="d11-box-blue"
+      x="100"
+      y="260"
+      width="760"
+      height="460"
+      rx="12"
+    ></rect>
+    <text class="d11-label d11-blue" x="480" y="350" text-anchor="middle">
+      CreateStudentRequest
+    </text>
+    <text class="d11-body" x="480" y="450" text-anchor="middle">firstName</text>
+    <text class="d11-body" x="480" y="515" text-anchor="middle">lastName</text>
+    <text class="d11-body" x="480" y="580" text-anchor="middle">email</text>
+    <rect
+      class="d11-box-blue"
+      x="1060"
+      y="200"
+      width="760"
+      height="580"
+      rx="12"
+    ></rect>
+    <text class="d11-label d11-blue" x="1440" y="290" text-anchor="middle">
+      StudentResponse
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <text class="d11-body d11-amber" x="1440" y="380" text-anchor="middle">
+        id
+      </text>
+      <text class="d11-body d11-amber" x="1440" y="445" text-anchor="middle">
+        studentNumber
+      </text>
+      <text class="d11-body d11-amber" x="1440" y="705" text-anchor="middle">
+        enrollmentDate
+      </text>
+    </g>
+    <text class="d11-body" x="1440" y="510" text-anchor="middle">
+      firstName
+    </text>
+    <text class="d11-body" x="1440" y="575" text-anchor="middle">lastName</text>
+    <text class="d11-body" x="1440" y="640" text-anchor="middle">email</text>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <line
+        class="d11-line-blue"
+        x1="860"
+        y1="445"
+        x2="1055"
+        y2="510"
+        marker-end="url(#d11-dto-arrow)"
+      ></line>
+      <line
+        class="d11-line-blue"
+        x1="860"
+        y1="515"
+        x2="1055"
+        y2="575"
+        marker-end="url(#d11-dto-arrow)"
+      ></line>
+      <line
+        class="d11-line-blue"
+        x1="860"
+        y1="580"
+        x2="1055"
+        y2="640"
+        marker-end="url(#d11-dto-arrow)"
+      ></line>
+    </g>
+  </svg>
+  <aside class="notes">
+    Der Request erlaubt nur Eingaben. Der Response verspricht nur Ausgaben.
+    Unterschiedliche DTOs machen Besitz sichtbar.
+  </aside>
+</section>
+
+<section class="code-slide d11-slide d11-code-short">
+  <h2 class="slide-title">@Valid stoppt am Rand</h2>
+  <div class="code-slide__content">
+    <pre><code class="language-java" data-trim data-line-numbers="1-4|6-7|9-11">public record CreateStudentRequest(
+        @NotBlank(message = "Vorname fehlt")
+        @Size(max = 200, message = "Vorname darf höchstens 200 Zeichen haben")
+        String firstName,
+        
+        @NotBlank(message = "Nachname fehlt")
+        String lastName
+) {
+    public CreateStudentUseCase.CreateStudentCommand toCommand() {
+        return new CreateStudentUseCase.CreateStudentCommand(firstName, lastName);
+    }
+}</code></pre>
+    <div class="code-slide__notes">
+      <h3>Hinweis</h3>
+      <p>
+        Der Ausschnitt ist auf den Kursvertrag mit
+        <code>firstName</code> angepasst.
+      </p>
+    </div>
+  </div>
+  <div class="d11-source">
+    Für den Kursvertrag angepasster Ausschnitt aus
+    java/rest-simple/src/main/java/com/example/restsimple/adapter/in/dto/CreateStudentRequest.java
+  </div>
+  <aside class="notes">
+    Bean Validation prüft Form und einfache Grenzen vor dem Use Case. Der
+    Ausschnitt ist auf `firstName` angepasst. Die Übungsimplementierung
+    verwendet außerdem `lastName`, `email`, `studentNumber` und
+    `enrollmentDate`.
+  </aside>
+</section>
+
+<section class="d11-slide">
+  <h2 class="slide-title">Validierung hat zwei Orte</h2>
+  <svg
+    class="slide-svg d11-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Randregeln und Fachregeln"
+  >
+    <rect
+      class="d11-box-blue"
+      x="100"
+      y="210"
+      width="760"
+      height="560"
+      rx="12"
+    ></rect>
+    <text class="d11-label d11-blue" x="480" y="300" text-anchor="middle">
+      Randregeln
+    </text>
+    <text class="d11-body" x="480" y="410" text-anchor="middle">leer</text>
+    <text class="d11-body" x="480" y="500" text-anchor="middle">Länge</text>
+    <text class="d11-body" x="480" y="590" text-anchor="middle">Format</text>
+    <rect
+      class="d11-box-amber"
+      x="1060"
+      y="210"
+      width="760"
+      height="560"
+      rx="12"
+    ></rect>
+    <text class="d11-label d11-amber" x="1440" y="300" text-anchor="middle">
+      Fachregeln
+    </text>
+    <text class="d11-body" x="1440" y="410" text-anchor="middle">
+      Course voll
+    </text>
+    <text class="d11-body" x="1440" y="500" text-anchor="middle">
+      Nummer eindeutig
+    </text>
+    <text class="d11-body" x="1440" y="590" text-anchor="middle">
+      Enrollment offen
+    </text>
+    <g class="fragment fade-up" data-fragment-index="1">
+      <rect
+        class="d11-box-blue"
+        x="300"
+        y="700"
+        width="360"
+        height="100"
+        rx="10"
+      ></rect>
+      <text class="d11-label d11-blue" x="480" y="762" text-anchor="middle">
+        @Valid
+      </text>
+    </g>
+    <g class="fragment fade-up" data-fragment-index="2">
+      <rect
+        class="d11-box-amber"
+        x="1200"
+        y="700"
+        width="480"
+        height="100"
+        rx="10"
+      ></rect>
+      <text class="d11-label d11-amber" x="1440" y="762" text-anchor="middle">
+        Service / DB-Constraint
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        class="d11-box-green"
+        x="760"
+        y="840"
+        width="400"
+        height="100"
+        rx="10"
+      ></rect>
+      <text class="d11-label d11-green" x="960" y="902" text-anchor="middle">
+        beide
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Syntaxnahe Regeln liegen am Request. Fachliche und konkurrierende Regeln
+    brauchen Service oder Datenbank. Ein Unique Constraint bleibt nötig, auch
+    wenn Java vorher prüft.
+  </aside>
+</section>
+
+<section class="d11-slide">
+  <h2 class="slide-title">Statuscode aus einer Exception</h2>
+  <svg
+    class="slide-svg d11-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Exception wird zu HTTP-Status"
+  >
+    <defs>
+      <marker
+        id="d11-exception-blue"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+      </marker>
+      <marker
+        id="d11-exception-red"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-red)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      class="d11-box-amber"
+      x="100"
+      y="350"
+      width="500"
+      height="180"
+      rx="12"
+    ></rect>
+    <text class="d11-label d11-amber" x="350" y="455" text-anchor="middle">
+      StudentNotFoundException
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <line
+        class="d11-line-blue"
+        x1="600"
+        y1="440"
+        x2="770"
+        y2="440"
+        marker-end="url(#d11-exception-blue)"
+      ></line>
+      <rect
+        class="d11-box-blue"
+        x="780"
+        y="350"
+        width="430"
+        height="180"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-blue" x="995" y="455" text-anchor="middle">
+        @ControllerAdvice
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <line
+        class="d11-line-blue"
+        x1="1210"
+        y1="440"
+        x2="1380"
+        y2="440"
+        marker-end="url(#d11-exception-blue)"
+      ></line>
+      <rect
+        class="d11-box-green"
+        x="1390"
+        y="350"
+        width="430"
+        height="180"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-green" x="1605" y="420" text-anchor="middle">
+        404
+      </text>
+      <text class="d11-body" x="1605" y="475" text-anchor="middle">
+        ErrorResponse
+      </text>
+    </g>
+    <g class="fragment fade-up" data-fragment-index="3">
+      <rect
+        class="d11-box-red"
+        x="540"
+        y="700"
+        width="500"
+        height="150"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-red" x="790" y="790" text-anchor="middle">
+        unerwartete Exception
+      </text>
+      <line
+        class="d11-line-red"
+        x1="1040"
+        y1="775"
+        x2="1260"
+        y2="775"
+        marker-end="url(#d11-exception-red)"
+      ></line>
+      <rect
+        class="d11-box-red"
+        x="1270"
+        y="700"
+        width="300"
+        height="150"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-red" x="1420" y="790" text-anchor="middle">
+        500
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Der Controller muss nicht jeden Fehler lokal fangen. Ein zentraler Handler
+    übersetzt bekannte Exceptions konsistent. Unbekannte Fehler werden geloggt
+    und als knappe 500-Antwort ausgegeben.
+  </aside>
+</section>
+
+<section class="code-slide d11-slide d11-code-short">
+  <h2 class="slide-title">@ControllerAdvice</h2>
+  <div class="code-slide__content code-slide__content--wide">
+    <pre><code class="language-java" data-trim data-line-numbers="33|34|35-36">@ExceptionHandler(ResourceNotFoundException.class)
+public ResponseEntity&lt;ErrorResponse&gt; handleResourceNotFoundException(ResourceNotFoundException ex) {
+    ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
+    return new ResponseEntity&lt;&gt;(errorResponse, HttpStatus.NOT_FOUND);
+}</code></pre>
+  </div>
+  <div class="d11-source">
+    java/rest-simple-exercise/src/main/java/com/example/restsimple/exception/GlobalExceptionHandler.java,
+    Zeilen 33 bis 37
+  </div>
+  <aside class="notes">
+    Die Handler-Methode verbindet Exception-Typ, Body und Status. Alle
+    Controller erhalten dasselbe Verhalten. Das vorhandene ErrorResponse hat
+    message und optional details.
+  </aside>
+</section>
+
+<section class="d11-slide">
+  <h2 class="slide-title">Das vorhandene ErrorResponse hat zwei Felder</h2>
+  <svg
+    class="slide-svg d11-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Vorhandenes und gewünschtes Fehlerformat"
+  >
+    <rect
+      class="d11-box-blue"
+      x="100"
+      y="220"
+      width="800"
+      height="560"
+      rx="12"
+    ></rect>
+    <text class="d11-label d11-blue" x="500" y="305" text-anchor="middle">
+      vorhandener Typ
+    </text>
+    <text class="d11-code" x="155" y="430">{</text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <text class="d11-code d11-blue" x="205" y="500">
+        "message":"Student 42 not found",
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <text class="d11-code d11-blue" x="205" y="570">"details":null</text>
+    </g>
+    <text class="d11-code" x="155" y="640">}</text>
+    <rect
+      class="d11-box-amber"
+      x="1020"
+      y="220"
+      width="800"
+      height="560"
+      rx="12"
+    ></rect>
+    <text class="d11-label d11-amber" x="1420" y="305" text-anchor="middle">
+      Kursziel
+    </text>
+    <text class="d11-code" x="1075" y="430">{</text>
+    <text class="d11-code d11-amber" x="1125" y="500">
+      "message":"Student 42 not found",
+    </text>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <text class="d11-code d11-amber" x="1125" y="570">
+        "code":"STUDENT_NOT_FOUND"
+      </text>
+    </g>
+    <text class="d11-code" x="1075" y="640">}</text>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <text class="d11-label d11-red" x="960" y="885" text-anchor="middle">
+        Stacktrace
+      </text>
+      <line class="d11-line-red" x1="830" y1="820" x2="1090" y2="930"></line>
+      <line class="d11-line-red" x1="1090" y1="820" x2="830" y2="930"></line>
+    </g>
+  </svg>
+  <div class="d11-source">
+    java/rest-simple/src/main/java/com/example/restsimple/response/ErrorResponse.java,
+    Zeilen 5 bis 34
+  </div>
+  <aside class="notes">
+    Der Repo-Typ hat nur `message` und `details`. Die Domänenkarte für Ex 11
+    verlangt einen Fehlercode im 409-Response. Die Gruppen dürfen den Typ
+    deshalb um `code` erweitern. Wir behaupten nicht, dass das Feld schon
+    existiert.
+  </aside>
+</section>
+
+<section class="d11-slide">
+  <h2 class="slide-title">Statuscodes aus Fachfällen</h2>
+  <svg
+    class="slide-svg d11-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Fachfälle und Statuscodes"
+  >
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d11-box-blue"
+        x="100"
+        y="200"
+        width="520"
+        height="190"
+        rx="12"
+      ></rect>
+      <text class="d11-body" x="360" y="275" text-anchor="middle">
+        ungültiges DTO
+      </text>
+      <text class="d11-label d11-amber" x="360" y="340" text-anchor="middle">
+        400
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d11-box-blue"
+        x="700"
+        y="200"
+        width="520"
+        height="190"
+        rx="12"
+      ></rect>
+      <text class="d11-body" x="960" y="275" text-anchor="middle">
+        Student fehlt
+      </text>
+      <text class="d11-label d11-amber" x="960" y="340" text-anchor="middle">
+        404
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        class="d11-box-blue"
+        x="1300"
+        y="200"
+        width="520"
+        height="190"
+        rx="12"
+      ></rect>
+      <text class="d11-body" x="1560" y="275" text-anchor="middle">
+        E-Mail doppelt
+      </text>
+      <text class="d11-label d11-amber" x="1560" y="340" text-anchor="middle">
+        409
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <rect
+        class="d11-box-green"
+        x="100"
+        y="550"
+        width="520"
+        height="190"
+        rx="12"
+      ></rect>
+      <text class="d11-body" x="360" y="625" text-anchor="middle">
+        erstellt
+      </text>
+      <text class="d11-label d11-green" x="360" y="690" text-anchor="middle">
+        201
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="5">
+      <rect
+        class="d11-box-green"
+        x="700"
+        y="550"
+        width="520"
+        height="190"
+        rx="12"
+      ></rect>
+      <text class="d11-body" x="960" y="625" text-anchor="middle">
+        gelöscht
+      </text>
+      <text class="d11-label d11-green" x="960" y="690" text-anchor="middle">
+        204
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="6">
+      <rect
+        class="d11-box-red"
+        x="1300"
+        y="550"
+        width="520"
+        height="190"
+        rx="12"
+      ></rect>
+      <text class="d11-body" x="1560" y="625" text-anchor="middle">
+        unbekannter Fehler
+      </text>
+      <text class="d11-label d11-red" x="1560" y="690" text-anchor="middle">
+        500
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Wir wählen Status aus dem Fall, nicht aus der Exception-Hierarchie. 409
+    passt, wenn die Eingabe formal gültig ist, aber mit vorhandenem Zustand
+    kollidiert.
+  </aside>
+</section>
+
+<section class="d11-slide">
+  <h2 class="slide-title">Naming hält Ebenen lesbar</h2>
+  <svg
+    class="slide-svg d11-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Namen über alle Ebenen"
+  >
+    <defs>
+      <marker
+        id="d11-name-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      class="d11-box-blue"
+      x="50"
+      y="200"
+      width="330"
+      height="130"
+      rx="10"
+    ></rect>
+    <text class="d11-small d11-blue" x="215" y="278" text-anchor="middle">
+      CreateStudentRequest
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <line
+        class="d11-line-blue"
+        x1="380"
+        y1="265"
+        x2="430"
+        y2="265"
+        marker-end="url(#d11-name-arrow)"
+      ></line>
+      <rect
+        class="d11-box-blue"
+        x="440"
+        y="200"
+        width="300"
+        height="130"
+        rx="10"
+      ></rect>
+      <text class="d11-small d11-blue" x="590" y="278" text-anchor="middle">
+        createStudent
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <line
+        class="d11-line-blue"
+        x1="740"
+        y1="265"
+        x2="790"
+        y2="265"
+        marker-end="url(#d11-name-arrow)"
+      ></line>
+      <rect
+        class="d11-box-blue"
+        x="800"
+        y="200"
+        width="260"
+        height="130"
+        rx="10"
+      ></rect>
+      <text class="d11-small d11-blue" x="930" y="278" text-anchor="middle">
+        Student
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <line
+        class="d11-line-blue"
+        x1="1060"
+        y1="265"
+        x2="1110"
+        y2="265"
+        marker-end="url(#d11-name-arrow)"
+      ></line>
+      <rect
+        class="d11-box-blue"
+        x="1120"
+        y="200"
+        width="360"
+        height="130"
+        rx="10"
+      ></rect>
+      <text class="d11-small d11-blue" x="1300" y="278" text-anchor="middle">
+        StudentJpaEntity
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <line
+        class="d11-line-blue"
+        x1="1480"
+        y1="265"
+        x2="1530"
+        y2="265"
+        marker-end="url(#d11-name-arrow)"
+      ></line>
+      <rect
+        class="d11-box-blue"
+        x="1540"
+        y="200"
+        width="330"
+        height="130"
+        rx="10"
+      ></rect>
+      <text class="d11-small d11-blue" x="1705" y="278" text-anchor="middle">
+        students
+      </text>
+    </g>
+    <g class="fragment fade-up" data-fragment-index="5">
+      <rect
+        class="d11-box-amber"
+        x="100"
+        y="450"
+        width="1720"
+        height="130"
+        rx="10"
+      ></rect>
+      <text class="d11-label d11-amber" x="960" y="530" text-anchor="middle">
+        name · lastName · mnr · createdOn
+      </text>
+    </g>
+    <g class="fragment fade-up" data-fragment-index="6">
+      <rect
+        class="d11-box-blue"
+        x="100"
+        y="630"
+        width="1720"
+        height="130"
+        rx="10"
+      ></rect>
+      <text class="d11-label d11-blue" x="960" y="710" text-anchor="middle">
+        firstName · lastName · email · studentNumber · enrollmentDate
+      </text>
+    </g>
+    <g class="fragment fade-up" data-fragment-index="7">
+      <rect
+        class="d11-box-green"
+        x="250"
+        y="830"
+        width="600"
+        height="110"
+        rx="10"
+      ></rect>
+      <text class="d11-body d11-green" x="550" y="897" text-anchor="middle">
+        studentNumber → student_number
+      </text>
+      <rect
+        class="d11-box-green"
+        x="1070"
+        y="830"
+        width="600"
+        height="110"
+        rx="10"
+      ></rect>
+      <text class="d11-body d11-green" x="1370" y="897" text-anchor="middle">
+        enrollmentDate → enrollment_date
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Ein Begriff pro Ding reduziert Übersetzungsfehler. Das größere Repo-Beispiel
+    hat andere Namen und bleibt im Code unverändert. Die Übungsdecks verwenden
+    den Kursstandard.
+  </aside>
+</section>
+
+<section class="d11-slide">
+  <h2 class="slide-title">Hexagonal als größeres Bild</h2>
+  <svg
+    class="slide-svg d11-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Hexagonale Architektur"
+  >
+    <defs>
+      <marker
+        id="d11-inward-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      x="260"
+      y="160"
+      width="1400"
+      height="760"
+      rx="28"
+      fill="none"
+      stroke="var(--color-grey)"
+      stroke-width="3"
+    ></rect>
+    <text class="d11-label d11-grey" x="960" y="210" text-anchor="middle">
+      Spring
+    </text>
+    <text class="d11-label d11-amber" x="960" y="975" text-anchor="middle">
+      gezeigt, nicht gefordert
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <polygon
+        points="720,320 1200,320 1390,540 1200,760 720,760 530,540"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-green)"
+        stroke-width="4"
+      ></polygon>
+      <text class="d11-label d11-green" x="960" y="500" text-anchor="middle">
+        Domain
+      </text>
+      <text class="d11-label d11-green" x="960" y="590" text-anchor="middle">
+        Application
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <circle
+        cx="560"
+        cy="540"
+        r="34"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="5"
+      ></circle>
+      <circle
+        cx="1360"
+        cy="540"
+        r="34"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="5"
+      ></circle>
+      <text class="d11-small d11-blue" x="560" y="840" text-anchor="middle">
+        Port
+      </text>
+      <text class="d11-small d11-blue" x="1360" y="840" text-anchor="middle">
+        Port
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        class="d11-box-blue"
+        x="300"
+        y="430"
+        width="260"
+        height="220"
+        rx="12"
+      ></rect>
+      <text class="d11-body d11-blue" x="430" y="520" text-anchor="middle">
+        REST-Adapter
+      </text>
+      <rect
+        class="d11-box-blue"
+        x="1360"
+        y="430"
+        width="260"
+        height="220"
+        rx="12"
+      ></rect>
+      <text class="d11-body d11-blue" x="1490" y="520" text-anchor="middle">
+        JPA-Adapter
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <line
+        class="d11-line-blue"
+        x1="430"
+        y1="540"
+        x2="520"
+        y2="540"
+        marker-end="url(#d11-inward-arrow)"
+      ></line>
+      <line
+        class="d11-line-blue"
+        x1="1490"
+        y1="540"
+        x2="1400"
+        y2="540"
+        marker-end="url(#d11-inward-arrow)"
+      ></line>
+    </g>
+  </svg>
+  <aside class="notes">
+    Das vollständige rest-simple trennt Use Cases von Adaptern. Der Kern kennt
+    HTTP und JPA nicht. Eure Übung darf bei drei Schichten bleiben.
+  </aside>
+</section>
+
+<section class="d11-slide">
+  <h2 class="slide-title">Derselbe POST in drei Schichten</h2>
+  <svg
+    class="slide-svg d11-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="POST-Sequenz durch drei Schichten"
+  >
+    <defs>
+      <marker
+        id="d11-post-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+      </marker>
+      <marker
+        id="d11-post-error"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-red)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      class="d11-box"
+      x="70"
+      y="300"
+      width="260"
+      height="160"
+      rx="12"
+    ></rect>
+    <text class="d11-label" x="200" y="395" text-anchor="middle">Client</text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <line
+        class="d11-line-blue"
+        x1="330"
+        y1="380"
+        x2="400"
+        y2="380"
+        marker-end="url(#d11-post-arrow)"
+      ></line>
+      <rect
+        class="d11-box-blue"
+        x="410"
+        y="270"
+        width="340"
+        height="220"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-blue" x="580" y="350" text-anchor="middle">
+        Controller
+      </text>
+      <text class="d11-small" x="580" y="415" text-anchor="middle">
+        prüft / wandelt um
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <line
+        class="d11-line-blue"
+        x1="750"
+        y1="380"
+        x2="820"
+        y2="380"
+        marker-end="url(#d11-post-arrow)"
+      ></line>
+      <rect
+        class="d11-box-amber"
+        x="830"
+        y="270"
+        width="340"
+        height="220"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-amber" x="1000" y="350" text-anchor="middle">
+        Service
+      </text>
+      <text class="d11-small" x="1000" y="415" text-anchor="middle">
+        prüft / koordiniert
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <line
+        class="d11-line-blue"
+        x1="1170"
+        y1="380"
+        x2="1240"
+        y2="380"
+        marker-end="url(#d11-post-arrow)"
+      ></line>
+      <rect
+        class="d11-box-blue"
+        x="1250"
+        y="270"
+        width="300"
+        height="220"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-blue" x="1400" y="350" text-anchor="middle">
+        Repository
+      </text>
+      <text class="d11-small" x="1400" y="415" text-anchor="middle">
+        speichert
+      </text>
+      <rect
+        class="d11-box"
+        x="1270"
+        y="600"
+        width="260"
+        height="130"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-grey" x="1400" y="680" text-anchor="middle">
+        DB
+      </text>
+      <line
+        class="d11-line-blue"
+        x1="1400"
+        y1="490"
+        x2="1400"
+        y2="595"
+        marker-end="url(#d11-post-arrow)"
+      ></line>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <line
+        class="d11-line-blue"
+        x1="1550"
+        y1="380"
+        x2="1610"
+        y2="380"
+        marker-end="url(#d11-post-arrow)"
+      ></line>
+      <rect
+        class="d11-box-green"
+        x="1620"
+        y="300"
+        width="250"
+        height="160"
+        rx="12"
+      ></rect>
+      <text class="d11-small d11-green" x="1745" y="370" text-anchor="middle">
+        Response
+      </text>
+      <text class="d11-small d11-green" x="1745" y="415" text-anchor="middle">
+        DTO
+      </text>
+    </g>
+    <g class="fragment fade-up" data-fragment-index="5">
+      <line
+        class="d11-line-red"
+        x1="580"
+        y1="490"
+        x2="580"
+        y2="790"
+        marker-end="url(#d11-post-error)"
+      ></line>
+      <line
+        class="d11-line-red"
+        x1="1000"
+        y1="490"
+        x2="1000"
+        y2="790"
+        marker-end="url(#d11-post-error)"
+      ></line>
+      <line
+        class="d11-line-red"
+        x1="1400"
+        y1="730"
+        x2="1400"
+        y2="790"
+        marker-end="url(#d11-post-error)"
+      ></line>
+      <rect
+        class="d11-box-red"
+        x="410"
+        y="810"
+        width="340"
+        height="110"
+        rx="10"
+      ></rect>
+      <text class="d11-label d11-red" x="580" y="880" text-anchor="middle">
+        400
+      </text>
+      <rect
+        class="d11-box-red"
+        x="830"
+        y="810"
+        width="340"
+        height="110"
+        rx="10"
+      ></rect>
+      <text class="d11-label d11-red" x="1000" y="880" text-anchor="middle">
+        409
+      </text>
+      <rect
+        class="d11-box-red"
+        x="1230"
+        y="810"
+        width="340"
+        height="110"
+        rx="10"
+      ></rect>
+      <text class="d11-label d11-red" x="1400" y="880" text-anchor="middle">
+        500
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Jede Schicht übersetzt eine andere Grenze. Der Controller spricht HTTP, der
+    Service Fachfall, das Repository Persistenz. Bei trivialem CRUD kann der
+    mittlere Hop entfallen.
+  </aside>
+</section>
+
+<section class="exercise-slide d11-slide">
+  <div class="exercise-slide__tag">Übung 10</div>
+  <div class="exercise-slide__time">55 min</div>
+  <p class="exercise-slide__task">Übung 10, vollständiges CRUD</p>
+  <div class="d11-exercise-steps">
+    <div class="d11-exercise-step">
+      <span>1</span
+      ><span>Vervollständigt CRUD mit Request- und Response-DTOs.</span>
+    </div>
+    <div class="d11-exercise-step">
+      <span>2</span><span>Ergänzt Bean Validation und @Valid.</span>
+    </div>
+    <div class="d11-exercise-step">
+      <span>3</span><span>Setzt die Fachregeln und 400, 404, 409 um.</span>
+    </div>
+    <div class="d11-exercise-step">
+      <span>4</span><span>Verschiebt die Fachlogik in einen @Service.</span>
+    </div>
+  </div>
+  <div class="d11-exercise-path">
+    exercises/&lt;domain&gt;/06-rest.md · java/rest-simple-exercise/README.md,
+    Phase 3
+  </div>
+  <div class="exercise-slide__deliverable">
+    <strong>Abgabe:</strong> laufendes Projekt, Endpoint-Liste,
+    Swagger-Screenshot
+  </div>
+  <aside class="notes">
+    Beginnt mit der Hauptressource. Der Beziehungsendpunkt aus der Karte ist
+    freiwillige Zusatzarbeit. Die Karte nennt die konkrete Konfliktregel.
+  </aside>
+</section>
+
+<section class="d11-slide">
+  <h2 class="slide-title">Debrief, ein Request durch alle Schichten</h2>
+  <svg
+    class="slide-svg d11-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Sequenzkarten für das Debrief"
+  >
+    <defs>
+      <marker
+        id="d11-debrief-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      class="d11-box-blue"
+      x="80"
+      y="280"
+      width="380"
+      height="280"
+      rx="12"
+    ></rect>
+    <text class="d11-label d11-blue" x="270" y="365" text-anchor="middle">
+      Controller
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <text class="d11-small" x="270" y="455" text-anchor="middle">
+        Klassenname + Status
+      </text>
+    </g>
+    <line
+      class="d11-line-blue"
+      x1="460"
+      y1="420"
+      x2="520"
+      y2="420"
+      marker-end="url(#d11-debrief-arrow)"
+    ></line>
+    <rect
+      class="d11-box-amber d11-dashed"
+      x="530"
+      y="280"
+      width="380"
+      height="280"
+      rx="12"
+    ></rect>
+    <text class="d11-label d11-amber" x="720" y="365" text-anchor="middle">
+      Service optional
+    </text>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <text class="d11-small" x="720" y="455" text-anchor="middle">
+        Klassenname + Status
+      </text>
+    </g>
+    <line
+      class="d11-line-blue"
+      x1="910"
+      y1="420"
+      x2="970"
+      y2="420"
+      marker-end="url(#d11-debrief-arrow)"
+    ></line>
+    <rect
+      class="d11-box-blue"
+      x="980"
+      y="280"
+      width="380"
+      height="280"
+      rx="12"
+    ></rect>
+    <text class="d11-label d11-blue" x="1170" y="365" text-anchor="middle">
+      Repository
+    </text>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <text class="d11-small" x="1170" y="455" text-anchor="middle">
+        Klassenname + Status
+      </text>
+    </g>
+    <line
+      class="d11-line-blue"
+      x1="1360"
+      y1="420"
+      x2="1420"
+      y2="420"
+      marker-end="url(#d11-debrief-arrow)"
+    ></line>
+    <rect
+      class="d11-box-blue"
+      x="1430"
+      y="280"
+      width="380"
+      height="280"
+      rx="12"
+    ></rect>
+    <text class="d11-label d11-blue" x="1620" y="365" text-anchor="middle">
+      DB
+    </text>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <text class="d11-small" x="1620" y="455" text-anchor="middle">
+        Klassenname + Status
+      </text>
+    </g>
+    <g class="fragment fade-up" data-fragment-index="5">
+      <rect
+        class="d11-box-amber"
+        x="420"
+        y="720"
+        width="1080"
+        height="150"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-amber" x="960" y="812" text-anchor="middle">
+        Wo validiert? Wo übersetzt?
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Eine Gruppe verfolgt ihren schwierigsten Fehlerfall. Wir prüfen, ob der
+    Response DTO und ErrorResponse stabil bleiben. Wir zählen keine Klassen,
+    sondern Verantwortungen.
+  </aside>
+</section>
+
+<section class="d11-slide">
+  <h2 class="slide-title">Vertragstest gegen Entity-Änderung</h2>
+  <svg
+    class="slide-svg d11-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="DTO schützt vor Entity-Änderung"
+  >
+    <defs>
+      <marker
+        id="d11-contract-green"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-green)"></polygon>
+      </marker>
+      <marker
+        id="d11-contract-red"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon points="0 0, 10 5, 0 10" fill="var(--color-red)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      class="d11-box-blue"
+      x="100"
+      y="260"
+      width="500"
+      height="420"
+      rx="12"
+    ></rect>
+    <text class="d11-label d11-blue" x="350" y="350" text-anchor="middle">
+      Entity
+    </text>
+    <text class="d11-body" x="350" y="450" text-anchor="middle">
+      bestehende Felder
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <text class="d11-label d11-amber" x="350" y="570" text-anchor="middle">
+        createdBy
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <line
+        class="d11-line-green"
+        x1="600"
+        y1="400"
+        x2="730"
+        y2="400"
+        marker-end="url(#d11-contract-green)"
+      ></line>
+      <rect
+        class="d11-box-green"
+        x="740"
+        y="260"
+        width="440"
+        height="300"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-green" x="960" y="380" text-anchor="middle">
+        DTO
+      </text>
+      <text class="d11-body d11-green" x="960" y="470" text-anchor="middle">
+        unverändert
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <line
+        class="d11-line-red"
+        x1="600"
+        y1="610"
+        x2="1320"
+        y2="610"
+        marker-end="url(#d11-contract-red)"
+      ></line>
+      <rect
+        class="d11-box-red"
+        x="1330"
+        y="430"
+        width="490"
+        height="360"
+        rx="12"
+      ></rect>
+      <text class="d11-label d11-red" x="1575" y="520" text-anchor="middle">
+        direkte Entity-Response
+      </text>
+      <text class="d11-body" x="1575" y="620" text-anchor="middle">
+        createdBy
+      </text>
+      <text class="d11-label d11-red" x="1575" y="710" text-anchor="middle">
+        neues Feld
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Das ist der konkrete Gewinn der DTO-Grenze. Eine Persistenzänderung wird
+    nicht versehentlich API-Änderung. Tests können den Response-Vertrag
+    festhalten.
+  </aside>
+</section>
+
+<section class="citation-slide d11-citation d11-slide">
+  <div class="citation-text">
+    Clients programmieren gegen den Vertrag, nicht gegen Tabellen.
+  </div>
+  <div class="d11-citation-cards">
+    <div class="d11-citation-card">
+      <strong>GitHub</strong>
+      Client<br />Request/Response-Schema
+    </div>
+    <div class="d11-citation-card">
+      <strong>Stripe</strong>
+      Client<br />Request/Response-Schema
+    </div>
+  </div>
+  <div class="d11-citation-db">interne DB verborgen</div>
+  <div class="d11-citation-sources">
+    https://docs.github.com/en/rest/about-the-rest-api/about-the-openapi-description-for-the-rest-api<br />
+    https://docs.stripe.com/api<br />
+    Abruf: 2026-08-23
+  </div>
+  <aside class="notes">
+    GitHub veröffentlicht eine OpenAPI-Beschreibung. Stripe dokumentiert
+    Request- und Response-Felder seiner Ressourcen. Beide Verträge bleiben von
+    internen Datenbankobjekten getrennt. Als Nächstes testen und beobachten wir
+    unseren Vertrag.
+  </aside>
+</section>
