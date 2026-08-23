@@ -7,127 +7,130 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 public interface AbstractRepository<T> {
 
     Connection getConnection();
 
+    Class<T> getClassType();
+
     default List<T> all() throws Exception {
         List<T> results = new ArrayList<>();
-        String sql = "SELECT * FROM " + getClassType().getSimpleName();
-        try (Statement stmt = getConnection().createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                results.add(fromResultSet(rs, getClassType()));
+        String sql = "SELECT * FROM " + getTableName() + " ORDER BY id";
+
+        try (Statement statement = getConnection().createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            while (resultSet.next()) {
+                results.add(fromResultSet(resultSet));
             }
         }
 
         return results;
     }
 
-    Class<T> getClassType();
-
-    default T get(String id) throws Exception {
+    default T get(int id) throws Exception {
         String sql = "SELECT * FROM " + getTableName() + " WHERE id = ?";
-        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
-            pstmt.setString(1, id);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    return fromResultSet(rs, getClassType());
-                } else {
-                    return null;
-                }
+
+        try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                return resultSet.next() ? fromResultSet(resultSet) : null;
             }
         }
     }
 
     default void create(T entity) throws Exception {
-        StringBuilder sql = new StringBuilder("INSERT INTO ");
-        sql.append(entity.getClass().getSimpleName());  // Assuming table name is class name
-        sql.append(" (");
+        List<Field> fields = mappedFieldsWithoutId();
+        StringJoiner columns = new StringJoiner(", ");
+        StringJoiner placeholders = new StringJoiner(", ");
 
-        Field[] fields = entity.getClass().getDeclaredFields();
-
-        for (int i = 0; i < fields.length; i++) {
-            fields[i].setAccessible(true);  // If the field is private
-            sql.append(fields[i].getName());
-            if (i < fields.length - 1) {
-                sql.append(", ");
-            }
+        for (Field field : fields) {
+            columns.add(field.getAnnotation(Column.class).name());
+            placeholders.add("?");
         }
-        sql.append(") VALUES (");
 
-        for (int i = 0; i < fields.length; i++) {
-            sql.append("?");
-            if (i < fields.length - 1) {
-                sql.append(", ");
-            }
-        }
-        sql.append(")");
+        String sql = "INSERT INTO " + getTableName() +
+                " (" + columns + ") VALUES (" + placeholders + ")";
 
-        try (PreparedStatement pstmt = getConnection().prepareStatement(sql.toString())) {
-            for (int i = 0; i < fields.length; i++) {
-                pstmt.setObject(i + 1, fields[i].get(entity));
+        try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
+            for (int index = 0; index < fields.size(); index++) {
+                Field field = fields.get(index);
+                field.setAccessible(true);
+                statement.setObject(index + 1, field.get(entity));
             }
-            pstmt.executeUpdate();
+            statement.executeUpdate();
         }
     }
 
     default void update(T entity) throws Exception {
-        Field[] fields = entity.getClass().getDeclaredFields();
-        StringBuilder sql = new StringBuilder("UPDATE " + entity.getClass().getSimpleName() + " SET ");
-        for (int i = 0; i < fields.length; i++) {
-            if (!fields[i].getName().equalsIgnoreCase("id")) { // Assuming "id" is primary key and shouldn't be updated
-                fields[i].setAccessible(true);
-                sql.append(fields[i].getName()).append(" = ?");
-                if (i < fields.length - 1) {
-                    sql.append(", ");
-                }
-            }
-        }
-        sql.append(" WHERE id = ?"); // Using "id" as primary key for WHERE condition
+        List<Field> fields = mappedFieldsWithoutId();
+        StringJoiner assignments = new StringJoiner(", ");
 
-        try (PreparedStatement pstmt = getConnection().prepareStatement(sql.toString())) {
+        for (Field field : fields) {
+            assignments.add(field.getAnnotation(Column.class).name() + " = ?");
+        }
+
+        String sql = "UPDATE " + getTableName() + " SET " + assignments + " WHERE id = ?";
+
+        try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
             int index = 1;
             for (Field field : fields) {
-                if (!field.getName().equalsIgnoreCase("id")) {
-                    pstmt.setObject(index++, field.get(entity));
-                }
+                field.setAccessible(true);
+                statement.setObject(index++, field.get(entity));
             }
-            pstmt.setString(index, (String) entity.getClass().getDeclaredField("id").get(entity));  // Adding WHERE condition value
-            pstmt.executeUpdate();
+            statement.setInt(index, idOf(entity));
+            statement.executeUpdate();
         }
     }
 
-    default void delete(String id) throws Exception {
+    default void delete(int id) throws Exception {
         String sql = "DELETE FROM " + getTableName() + " WHERE id = ?";
-        try (PreparedStatement pstmt = getConnection().prepareStatement(sql)) {
-            pstmt.setString(1, id);
-            pstmt.executeUpdate();
+
+        try (PreparedStatement statement = getConnection().prepareStatement(sql)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
         }
     }
 
     default String getTableName() {
-        // Assuming the generic type (T) is always the entity
-        Entity entityAnnotation = getClassType().getAnnotation(Entity.class);
-        if (entityAnnotation != null) {
-            return entityAnnotation.tableName();
-        } else {
-            throw new RuntimeException("Entity annotation missing on the domain class.");
+        Entity entity = getClassType().getAnnotation(Entity.class);
+        if (entity == null) {
+            throw new IllegalStateException("Entity annotation missing on " + getClassType().getName());
         }
+        return entity.tableName();
     }
 
+    private List<Field> mappedFieldsWithoutId() {
+        List<Field> fields = new ArrayList<>();
+        for (Field field : getClassType().getDeclaredFields()) {
+            Column column = field.getAnnotation(Column.class);
+            if (column != null && !column.name().equalsIgnoreCase("id")) {
+                fields.add(field);
+            }
+        }
+        return fields;
+    }
 
-    default T fromResultSet(ResultSet rs, Class<T> clazz) throws Exception {
-        T instance = clazz.newInstance();  // Create a new instance of T
+    private int idOf(T entity) throws IllegalAccessException {
+        for (Field field : getClassType().getDeclaredFields()) {
+            Column column = field.getAnnotation(Column.class);
+            if (column != null && column.name().equalsIgnoreCase("id")) {
+                field.setAccessible(true);
+                return field.getInt(entity);
+            }
+        }
+        throw new IllegalStateException("Column annotation for id missing on " + getClassType().getName());
+    }
 
-        Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            if (field.isAnnotationPresent(Column.class)) {
-                Column column = field.getAnnotation(Column.class);
-                Object value = rs.getObject(column.name());
-                field.setAccessible(true); // If field is private
-                field.set(instance, value);
+    private T fromResultSet(ResultSet resultSet) throws Exception {
+        T instance = getClassType().getDeclaredConstructor().newInstance();
+
+        for (Field field : getClassType().getDeclaredFields()) {
+            Column column = field.getAnnotation(Column.class);
+            if (column != null) {
+                field.setAccessible(true);
+                field.set(instance, resultSet.getObject(column.name()));
             }
         }
 

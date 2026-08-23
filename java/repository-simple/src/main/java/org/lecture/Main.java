@@ -1,38 +1,31 @@
 package org.lecture;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 public class Main {
-    public static void main(String[] args) {
-        try {
-            AccountRepository repo = new AccountRepository();
+    public static void main(String[] args) throws Exception {
+        try (StudentRepository repository = new StudentRepository()) {
+            Student anna = new Student(
+                    "Anna",
+                    "Muster",
+                    "anna@uni.de",
+                    "S1001",
+                    "2024-10-01"
+            );
+            repository.create(anna);
 
-            String newId = UUID.randomUUID().toString();
-            Account newAccount = new Account(
-                    newId, "test2", "test2", "test2@test.com", new Timestamp(Instant.now().toEpochMilli()).toString());
-            repo.create(newAccount);
+            List<Student> students = repository.all();
+            System.out.println("After create: " + students);
 
-            List<Account> accounts = repo.all();
-            System.out.println("all accounts: " + accounts);
+            Student storedAnna = repository.get(students.get(0).getId());
+            System.out.println("Get by id: " + storedAnna);
 
-            Account account = repo.get(accounts.get(0).id);
-            System.out.println("single account: " + account);
+            storedAnna.setFirstName("Anne");
+            repository.update(storedAnna);
+            System.out.println("After update: " + repository.get(storedAnna.getId()));
 
-            newAccount.username = "test3";
-            repo.update(newAccount);
-
-            Account updatedAccount = repo.get(newId);
-            System.out.println("new account after update: " + updatedAccount);
-
-            repo.delete(newId);
-
-            accounts = repo.all();
-            System.out.println("all accounts at the end: " + accounts);
-        } catch (Exception e) {
-            e.printStackTrace();
+            repository.delete(storedAnna.getId());
+            System.out.println("After delete: " + repository.all());
         }
     }
 }
