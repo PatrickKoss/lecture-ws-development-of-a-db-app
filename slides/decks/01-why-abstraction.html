@@ -1,0 +1,1460 @@
+<style>
+  .d01-opening-art {
+    position: absolute;
+    right: 5.5rem;
+    bottom: 7.5rem;
+    width: 44rem;
+    height: 18rem;
+  }
+
+  .d01-redline {
+    position: absolute;
+    top: 8.5rem;
+    left: 5rem;
+    width: calc(100% - 10rem);
+    height: 43rem;
+  }
+
+  .d01-redline .redline__step text {
+    font-size: 28px;
+  }
+
+  .d01-redline__done rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 4;
+  }
+
+  .d01-redline__done text {
+    fill: var(--color-blue);
+  }
+
+  .d01-redline__next rect {
+    fill: var(--color-bg-deep);
+    stroke: var(--color-blue);
+    stroke-width: 4;
+    stroke-dasharray: 12 8;
+  }
+
+  .d01-redline__next text {
+    fill: var(--color-blue);
+  }
+
+  .d01-lead-answer {
+    position: absolute;
+    right: 8rem;
+    bottom: 8rem;
+    left: 8rem;
+    color: var(--color-amber);
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.35;
+    text-align: center;
+  }
+
+  .d01-exercise-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    flex: 1;
+    gap: 1.5rem;
+    margin: 0.5rem 5rem 1.5rem;
+  }
+
+  .d01-exercise-step {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 11rem;
+    padding: 1.3rem 1.4rem;
+    border: 1px solid var(--color-line-bright);
+    border-radius: 4px;
+    background: var(--color-bg-deep);
+    color: var(--color-text-mid);
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    line-height: 1.45;
+  }
+
+  .d01-exercise-step strong {
+    display: block;
+    margin-bottom: 0.55rem;
+    color: var(--color-amber);
+    font-size: 1.75rem;
+  }
+
+  .d01-exercise-path {
+    margin: -0.8rem 5rem 0.7rem;
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+  }
+
+  .d01-exercise .d01-exercise-task {
+    margin: 5.5rem 5rem 1rem;
+    font-size: 2.6rem;
+  }
+
+  .d01-exercise .exercise-slide__deliverable {
+    margin: 0 5rem 1rem;
+  }
+
+  .d01-citation {
+    padding: 3.5rem 6rem !important;
+  }
+
+  .d01-citation .slide-title {
+    text-align: left;
+  }
+
+  .d01-citation__visual {
+    width: 100%;
+    height: 25rem;
+    margin-top: 1rem;
+  }
+
+  .d01-citation__source {
+    margin-top: 1.1rem;
+    color: var(--color-text-dim);
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    line-height: 1.5;
+    text-align: center;
+  }
+</style>
+
+<section class="chapter-slide terminal slide-frame">
+  <div class="slide-frame__top">
+    <span class="slide-frame__marker slide-frame__marker--amber"
+      >Kapitel 01</span
+    >
+  </div>
+  <div class="slide-frame__body">
+    <div class="chapter-number">01</div>
+    <div class="chapter-eyebrow">Kapitel · 01</div>
+    <h1 class="chapter-title-big">Warum Abstraktion?</h1>
+    <p class="chapter-subtitle">Bevor wir Tabellen tippen</p>
+
+    <svg
+      class="d01-opening-art"
+      viewBox="0 0 1000 400"
+      aria-label="Ein Auftragssatz und eine noch leere Modellkarte"
+    >
+      <path
+        d="M40 40 H590 Q620 40 620 70 V190 Q620 220 590 220 H250 L180 280 L195 220 H40 Q10 220 10 190 V70 Q10 40 40 40 Z"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-amber)"
+        stroke-width="4"
+      ></path>
+      <text
+        x="315"
+        y="112"
+        fill="var(--color-amber)"
+        font-size="34"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        <tspan x="315" dy="0">Bau mir eine App</tspan>
+        <tspan x="315" dy="48">für die Pizzeria</tspan>
+      </text>
+
+      <rect
+        x="680"
+        y="40"
+        width="290"
+        height="300"
+        rx="12"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+      ></rect>
+      <line
+        x1="715"
+        y1="100"
+        x2="935"
+        y2="100"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></line>
+      <circle cx="740" cy="72" r="8" fill="var(--color-blue)"></circle>
+      <circle cx="772" cy="72" r="8" fill="var(--color-blue)"></circle>
+      <circle cx="804" cy="72" r="8" fill="var(--color-blue)"></circle>
+    </svg>
+  </div>
+  <div class="slide-frame__footer">
+    <span class="slide-frame__footer-left">Warum Abstraktion?</span>
+    <span class="slide-frame__footer-mid"></span>
+    <span class="slide-frame__footer-right">01 / 11</span>
+  </div>
+  <aside class="notes">
+    Der Auftrag passt in einen Satz. Die Fachlichkeit passt nicht in einen Satz.
+    Heute machen wir die Lücke sichtbar.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Von der Idee zum Gespräch</h2>
+  <svg
+    class="d01-redline redline"
+    viewBox="0 0 1600 650"
+    aria-label="Der rote Faden des Kurses"
+  >
+    <defs>
+      <marker
+        id="d01-redline-arrow"
+        markerWidth="10"
+        markerHeight="10"
+        refX="9"
+        refY="5"
+        orient="auto"
+      >
+        <polygon class="redline__arrow" points="0 0, 10 5, 0 10"></polygon>
+      </marker>
+    </defs>
+    <path
+      class="redline__line"
+      d="M360 105 H410 M750 105 H800 M1140 105 H1190 M1530 105 H1560 V515 H1530 M1190 515 H1140 M800 515 H750 M410 515 H360"
+      marker-end="url(#d01-redline-arrow)"
+    ></path>
+
+    <g class="redline__step d01-redline__done">
+      <rect x="20" y="20" width="340" height="170" rx="8"></rect>
+      <text x="190" y="115">Idee im Kopf</text>
+    </g>
+    <g class="redline__step redline__step--active">
+      <rect x="410" y="20" width="340" height="170" rx="8"></rect>
+      <text x="580" y="62">
+        <tspan x="580" dy="0">Darüber</tspan>
+        <tspan x="580" dy="34">sprechen:</tspan>
+        <tspan x="580" dy="34">Abstraktion und</tspan>
+        <tspan x="580" dy="34">ER-Modell</tspan>
+      </text>
+    </g>
+    <g class="redline__step d01-redline__next">
+      <rect x="800" y="20" width="340" height="170" rx="8"></rect>
+      <text x="970" y="72">
+        <tspan x="970" dy="0">Tabellen, die</tspan>
+        <tspan x="970" dy="36">uns nicht anlügen:</tspan>
+        <tspan x="970" dy="36">Normalisierung</tspan>
+      </text>
+    </g>
+    <g class="redline__step">
+      <rect x="1190" y="20" width="340" height="170" rx="8"></rect>
+      <text x="1360" y="72">
+        <tspan x="1360" dy="0">Den Tabellen</tspan>
+        <tspan x="1360" dy="36">Fragen stellen:</tspan>
+        <tspan x="1360" dy="36">SQL</tspan>
+      </text>
+    </g>
+    <g class="redline__step">
+      <rect x="1190" y="430" width="340" height="170" rx="8"></rect>
+      <text x="1360" y="482">
+        <tspan x="1360" dy="0">Aus Java fragen:</tspan>
+        <tspan x="1360" dy="36">JDBC, Cursor,</tspan>
+        <tspan x="1360" dy="36">Statements</tspan>
+      </text>
+    </g>
+    <g class="redline__step">
+      <rect x="800" y="430" width="340" height="170" rx="8"></rect>
+      <text x="970" y="482">
+        <tspan x="970" dy="0">Wiederholungen</tspan>
+        <tspan x="970" dy="36">beenden:</tspan>
+        <tspan x="970" dy="36">Repository Pattern</tspan>
+      </text>
+    </g>
+    <g class="redline__step">
+      <rect x="410" y="430" width="340" height="170" rx="8"></rect>
+      <text x="580" y="482">
+        <tspan x="580" dy="0">Andere zugreifen</tspan>
+        <tspan x="580" dy="36">lassen:</tspan>
+        <tspan x="580" dy="36">REST API mit Spring</tspan>
+      </text>
+    </g>
+    <g class="redline__step">
+      <rect x="20" y="430" width="340" height="170" rx="8"></rect>
+      <text x="190" y="460">
+        <tspan x="190" dy="0">Solide machen:</tspan>
+        <tspan x="190" dy="28">Schichten,</tspan>
+        <tspan x="190" dy="28">Validierung,</tspan>
+        <tspan x="190" dy="28">Fehler, OpenAPI,</tspan>
+        <tspan x="190" dy="28">Tests, Middleware</tspan>
+      </text>
+    </g>
+  </svg>
+  <p class="slide-caption">
+    Vorher: Idee im Kopf · Jetzt: Abstraktion · Danach: Normalisierung
+  </p>
+  <aside class="notes">
+    Wir stehen beim zweiten Schritt. Das Modell ist noch keine Tabelle. Es
+    liefert aber die Begriffe, aus denen wir später Tabellen bauen.
+  </aside>
+</section>
+
+<section class="lead-question">
+  <div class="lead-question__mark">?</div>
+  <h2 class="lead-question__text">Welche fünf Fragen stellt ihr zuerst?</h2>
+  <p class="d01-lead-answer fragment fade-in" data-fragment-index="1">
+    Kunde? Bestellung? Lieferung? Zahlung? Änderung?
+  </p>
+  <aside class="notes">
+    Erwartet sind Fragen zu Akteuren, Dingen, Abläufen, Regeln und Ausnahmen.
+    Typisch falsch sind Fragen nach Framework und Farbe der Oberfläche. Ich
+    sammle fünf Fragen ohne sie zu bewerten.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Ein Satz wird sieben Dinge</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Ein Auftragssatz wird zu sieben Modellkarten"
+  >
+    <defs>
+      <marker
+        id="d01-things-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon points="0 0, 12 6, 0 12" fill="var(--color-amber)"></polygon>
+      </marker>
+    </defs>
+
+    <path
+      d="M90 315 H630 Q660 315 660 345 V505 Q660 535 630 535 H310 L240 595 L255 535 H90 Q60 535 60 505 V345 Q60 315 90 315 Z"
+      fill="var(--color-bg-deep)"
+      stroke="var(--color-amber)"
+      stroke-width="4"
+    ></path>
+    <text
+      x="360"
+      y="405"
+      fill="var(--color-amber)"
+      font-size="34"
+      font-weight="700"
+      text-anchor="middle"
+    >
+      <tspan x="360" dy="0">Bau mir eine App</tspan>
+      <tspan x="360" dy="48">für die Pizzeria</tspan>
+    </text>
+
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        x="790"
+        y="200"
+        width="240"
+        height="120"
+        rx="10"
+        fill="var(--color-grey-dim)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="910"
+        y="275"
+        fill="var(--color-blue)"
+        font-size="30"
+        text-anchor="middle"
+      >
+        Customer
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="1110"
+        y="200"
+        width="240"
+        height="120"
+        rx="10"
+        fill="var(--color-grey-dim)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="1230"
+        y="275"
+        fill="var(--color-blue)"
+        font-size="30"
+        text-anchor="middle"
+      >
+        Address
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        x="1430"
+        y="200"
+        width="240"
+        height="120"
+        rx="10"
+        fill="var(--color-grey-dim)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="1550"
+        y="275"
+        fill="var(--color-blue)"
+        font-size="30"
+        text-anchor="middle"
+      >
+        Order
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <rect
+        x="790"
+        y="420"
+        width="240"
+        height="120"
+        rx="10"
+        fill="var(--color-grey-dim)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="910"
+        y="495"
+        fill="var(--color-blue)"
+        font-size="30"
+        text-anchor="middle"
+      >
+        OrderItem
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="5">
+      <rect
+        x="1110"
+        y="420"
+        width="240"
+        height="120"
+        rx="10"
+        fill="var(--color-grey-dim)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="1230"
+        y="495"
+        fill="var(--color-blue)"
+        font-size="30"
+        text-anchor="middle"
+      >
+        Pizza
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="6">
+      <rect
+        x="1430"
+        y="420"
+        width="240"
+        height="120"
+        rx="10"
+        fill="var(--color-grey-dim)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="1550"
+        y="495"
+        fill="var(--color-blue)"
+        font-size="30"
+        text-anchor="middle"
+      >
+        Topping
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="7">
+      <rect
+        x="1110"
+        y="640"
+        width="240"
+        height="120"
+        rx="10"
+        fill="var(--color-grey-dim)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="1230"
+        y="715"
+        fill="var(--color-blue)"
+        font-size="30"
+        text-anchor="middle"
+      >
+        Driver
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="8">
+      <line
+        x1="1030"
+        y1="260"
+        x2="1090"
+        y2="260"
+        stroke="var(--color-amber)"
+        stroke-width="4"
+        marker-end="url(#d01-things-arrow)"
+      ></line>
+      <text
+        x="1060"
+        y="185"
+        fill="var(--color-amber)"
+        font-size="30"
+        text-anchor="middle"
+      >
+        wohnt an
+      </text>
+      <path
+        d="M1550 320 V365 H910 V400"
+        fill="none"
+        stroke="var(--color-amber)"
+        stroke-width="4"
+        marker-end="url(#d01-things-arrow)"
+      ></path>
+      <text
+        x="1230"
+        y="355"
+        fill="var(--color-amber)"
+        font-size="30"
+        text-anchor="middle"
+      >
+        enthält
+      </text>
+      <path
+        d="M1230 640 V595 H1550 V340"
+        fill="none"
+        stroke="var(--color-amber)"
+        stroke-width="4"
+        marker-end="url(#d01-things-arrow)"
+      ></path>
+      <text
+        x="1425"
+        y="585"
+        fill="var(--color-amber)"
+        font-size="30"
+        text-anchor="middle"
+      >
+        liefert
+      </text>
+    </g>
+  </svg>
+  <p class="slide-caption">Wörter tragen verschiedene Rollen.</p>
+  <aside class="notes">
+    Die Liste ist keine endgültige Lösung. Sie zeigt, wie schnell ein kurzer
+    Auftrag wächst. OrderItem trennt das angebotene Produkt von der konkreten
+    Bestellung.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Drei Bedeutungen von address</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Drei gleich benannte Felder mit verschiedenen Bedeutungen"
+  >
+    <defs>
+      <marker
+        id="d01-address-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon points="0 0, 12 6, 0 12" fill="var(--color-red)"></polygon>
+      </marker>
+    </defs>
+
+    <line
+      x1="960"
+      y1="190"
+      x2="960"
+      y2="870"
+      stroke="var(--color-line-bright)"
+      stroke-width="2"
+    ></line>
+
+    <g>
+      <rect
+        x="150"
+        y="230"
+        width="650"
+        height="150"
+        rx="10"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="475"
+        y="320"
+        fill="var(--color-blue)"
+        font-size="34"
+        text-anchor="middle"
+      >
+        customer.address
+      </text>
+    </g>
+    <g>
+      <rect
+        x="150"
+        y="465"
+        width="650"
+        height="150"
+        rx="10"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="475"
+        y="555"
+        fill="var(--color-blue)"
+        font-size="34"
+        text-anchor="middle"
+      >
+        order.address
+      </text>
+    </g>
+    <g>
+      <rect
+        x="150"
+        y="700"
+        width="650"
+        height="150"
+        rx="10"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="475"
+        y="790"
+        fill="var(--color-blue)"
+        font-size="34"
+        text-anchor="middle"
+      >
+        driver.address
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        x="1120"
+        y="230"
+        width="650"
+        height="150"
+        rx="10"
+        fill="var(--color-grey-dim)"
+        stroke="var(--color-green)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="1445"
+        y="320"
+        fill="var(--color-green)"
+        font-size="34"
+        text-anchor="middle"
+      >
+        Wohnadresse
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        x="1120"
+        y="465"
+        width="650"
+        height="150"
+        rx="10"
+        fill="var(--color-grey-dim)"
+        stroke="var(--color-green)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="1445"
+        y="555"
+        fill="var(--color-green)"
+        font-size="34"
+        text-anchor="middle"
+      >
+        historische Lieferadresse
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        x="1120"
+        y="700"
+        width="650"
+        height="150"
+        rx="10"
+        fill="var(--color-grey-dim)"
+        stroke="var(--color-green)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="1445"
+        y="790"
+        fill="var(--color-green)"
+        font-size="34"
+        text-anchor="middle"
+      >
+        Standort
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="4">
+      <rect
+        x="820"
+        y="270"
+        width="280"
+        height="80"
+        rx="40"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-red)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="960"
+        y="322"
+        fill="var(--color-red)"
+        font-size="30"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        Umzug
+      </text>
+      <path
+        d="M1100 310 V180 H1810 V445 H1500"
+        fill="none"
+        stroke="var(--color-red)"
+        stroke-width="5"
+        marker-end="url(#d01-address-arrow)"
+      ></path>
+      <line
+        x1="1160"
+        y1="500"
+        x2="1730"
+        y2="580"
+        stroke="var(--color-red)"
+        stroke-width="6"
+      ></line>
+      <line
+        x1="1730"
+        y1="500"
+        x2="1160"
+        y2="580"
+        stroke="var(--color-red)"
+        stroke-width="6"
+      ></line>
+    </g>
+  </svg>
+  <aside class="notes">
+    Gleiche Wörter garantieren keine gleiche Bedeutung. Alte Bestellungen
+    brauchen die damalige Lieferadresse. Ein gemeinsames Modell zwingt uns,
+    diesen Unterschied vor dem Bug zu benennen.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Karte und Gebiet</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Eine detailreiche Stadt und eine vereinfachte Karte"
+  >
+    <line
+      x1="960"
+      y1="190"
+      x2="960"
+      y2="850"
+      stroke="var(--color-line-bright)"
+      stroke-width="2"
+    ></line>
+
+    <g stroke="var(--color-grey)" fill="var(--color-grey-dim)" stroke-width="3">
+      <rect x="120" y="220" width="210" height="150" rx="6"></rect>
+      <rect x="390" y="190" width="150" height="220" rx="6"></rect>
+      <rect x="610" y="240" width="230" height="130" rx="6"></rect>
+      <rect x="160" y="590" width="180" height="190" rx="6"></rect>
+      <rect x="430" y="570" width="250" height="160" rx="6"></rect>
+      <rect x="740" y="560" width="120" height="220" rx="6"></rect>
+      <path
+        d="M90 480 H900 M350 160 V850 M700 160 V850"
+        fill="none"
+        stroke-width="18"
+      ></path>
+    </g>
+    <g stroke="var(--color-text-dim)" stroke-width="5" fill="none">
+      <path d="M110 420 C260 500 300 560 420 650"></path>
+      <path d="M520 420 C620 520 700 510 830 430"></path>
+      <circle cx="280" cy="500" r="55"></circle>
+    </g>
+
+    <g>
+      <rect
+        x="1070"
+        y="220"
+        width="700"
+        height="560"
+        rx="12"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+      ></rect>
+      <path
+        d="M1140 690 L1280 560 L1420 610 L1600 360 L1700 290"
+        fill="none"
+        stroke="var(--color-blue)"
+        stroke-width="12"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+      <circle cx="1140" cy="690" r="18" fill="var(--color-blue)"></circle>
+      <rect
+        x="1640"
+        y="230"
+        width="90"
+        height="90"
+        rx="8"
+        fill="var(--color-grey-dim)"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+      ></rect>
+      <path
+        d="M1660 280 H1710 M1685 255 V305"
+        stroke="var(--color-blue)"
+        stroke-width="6"
+      ></path>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        x="100"
+        y="815"
+        width="800"
+        height="70"
+        rx="8"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-grey)"
+        stroke-width="2"
+      ></rect>
+      <text
+        x="500"
+        y="860"
+        fill="var(--color-text-dim)"
+        font-size="28"
+        text-anchor="middle"
+      >
+        Wasserleitungen verschwinden
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <path
+        d="M1140 690 L1280 560 L1420 610 L1600 360 L1700 290"
+        fill="none"
+        stroke="var(--color-amber)"
+        stroke-width="12"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+      <text
+        x="1450"
+        y="755"
+        fill="var(--color-amber)"
+        font-size="28"
+        text-anchor="middle"
+      >
+        Weg bleibt
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        x="550"
+        y="895"
+        width="820"
+        height="90"
+        rx="10"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-amber)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="960"
+        y="952"
+        fill="var(--color-amber)"
+        font-size="34"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        Weglassen ist eine Entscheidung
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Eine Karte ist für eine Frage gebaut. Für den Weg brauche ich Straßen, für
+    eine Reparatur Leitungen. Unser Datenmodell lässt Oberfläche und Farben weg,
+    behält aber Identität und Regeln.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Was gehört ins Modell?</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Fachliche und technische Begriffe in zwei Spalten"
+  >
+    <rect
+      x="120"
+      y="190"
+      width="780"
+      height="700"
+      rx="12"
+      fill="var(--color-bg-deep)"
+      stroke="var(--color-green)"
+      stroke-width="3"
+    ></rect>
+    <rect
+      x="1020"
+      y="190"
+      width="780"
+      height="700"
+      rx="12"
+      fill="var(--color-bg-deep)"
+      stroke="var(--color-red)"
+      stroke-width="3"
+    ></rect>
+
+    <g class="fragment fade-in" data-fragment-index="1">
+      <text x="220" y="330" fill="var(--color-green)" font-size="38">
+        + Dinge
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <text x="220" y="455" fill="var(--color-green)" font-size="38">
+        + Beziehungen
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <text x="220" y="580" fill="var(--color-green)" font-size="38">
+        + Regeln
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <text x="220" y="705" fill="var(--color-green)" font-size="38">
+        + Identität
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="5">
+      <text x="1120" y="330" fill="var(--color-red)" font-size="38">
+        × Buttons
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="6">
+      <text x="1120" y="455" fill="var(--color-red)" font-size="38">× CSS</text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="7">
+      <text x="1120" y="580" fill="var(--color-red)" font-size="38">
+        × Indexwahl
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="8">
+      <text x="1120" y="705" fill="var(--color-red)" font-size="38">
+        × Controllerklassen
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Wir trennen Fachlichkeit von Umsetzung. Später treffen wir technische
+    Entscheidungen. Wer sie heute in das Modell mischt, erschwert das Gespräch
+    mit Menschen ohne Java-Kontext.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Fünf Sätze reichen für den Start</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Fünf nummerierte Fragen für den ersten Entwurf"
+  >
+    <g>
+      <rect
+        x="140"
+        y="210"
+        width="760"
+        height="180"
+        rx="12"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="200"
+        y="275"
+        fill="var(--color-blue)"
+        font-size="34"
+        font-weight="700"
+      >
+        01
+      </text>
+      <text
+        class="fragment fade-in"
+        data-fragment-index="1"
+        x="280"
+        y="315"
+        fill="var(--color-white)"
+        font-size="36"
+      >
+        Wer nutzt das System?
+      </text>
+    </g>
+    <g>
+      <rect
+        x="1020"
+        y="210"
+        width="760"
+        height="180"
+        rx="12"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="1080"
+        y="275"
+        fill="var(--color-blue)"
+        font-size="34"
+        font-weight="700"
+      >
+        02
+      </text>
+      <text
+        class="fragment fade-in"
+        data-fragment-index="2"
+        x="1160"
+        y="305"
+        fill="var(--color-white)"
+        font-size="32"
+      >
+        Welche Dinge bleiben
+      </text>
+      <text
+        class="fragment fade-in"
+        data-fragment-index="2"
+        x="1160"
+        y="350"
+        fill="var(--color-white)"
+        font-size="32"
+      >
+        erhalten?
+      </text>
+    </g>
+    <g>
+      <rect
+        x="140"
+        y="455"
+        width="760"
+        height="180"
+        rx="12"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="200"
+        y="520"
+        fill="var(--color-blue)"
+        font-size="34"
+        font-weight="700"
+      >
+        03
+      </text>
+      <text
+        class="fragment fade-in"
+        data-fragment-index="3"
+        x="280"
+        y="560"
+        fill="var(--color-white)"
+        font-size="36"
+      >
+        Was passiert?
+      </text>
+    </g>
+    <g>
+      <rect
+        x="1020"
+        y="455"
+        width="760"
+        height="180"
+        rx="12"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-blue)"
+        stroke-width="3"
+      ></rect>
+      <text
+        x="1080"
+        y="520"
+        fill="var(--color-blue)"
+        font-size="34"
+        font-weight="700"
+      >
+        04
+      </text>
+      <text
+        class="fragment fade-in"
+        data-fragment-index="4"
+        x="1160"
+        y="560"
+        fill="var(--color-white)"
+        font-size="36"
+      >
+        Welche Regeln gelten?
+      </text>
+    </g>
+    <g>
+      <rect
+        x="580"
+        y="700"
+        width="760"
+        height="180"
+        rx="12"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-amber)"
+        stroke-width="4"
+      ></rect>
+      <text
+        x="640"
+        y="765"
+        fill="var(--color-amber)"
+        font-size="34"
+        font-weight="700"
+      >
+        05
+      </text>
+      <text
+        class="fragment fade-in"
+        data-fragment-index="5"
+        x="720"
+        y="805"
+        fill="var(--color-amber)"
+        font-size="36"
+      >
+        Welche Ausnahme tut weh?
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Diese Fragen liefern kein perfektes Modell. Sie liefern genug Material für
+    den ersten Entwurf. Die schmerzhafte Ausnahme verrät oft eine vergessene
+    Beziehung.
+  </aside>
+</section>
+
+<section class="exercise-slide d01-exercise">
+  <div class="exercise-slide__tag">Übung 0</div>
+  <div class="exercise-slide__time">15 min</div>
+  <h2 class="exercise-slide__task d01-exercise-task">
+    Übung 0, eure Domäne in fünf Sätzen
+  </h2>
+  <div class="d01-exercise-steps">
+    <div class="d01-exercise-step">
+      <strong>1</strong>
+      Lest die Domänenbeschreibung.
+    </div>
+    <div class="d01-exercise-step">
+      <strong>2</strong>
+      Schreibt fünf Sätze und markiert Nomen einmal, Verben doppelt.
+    </div>
+    <div class="d01-exercise-step">
+      <strong>3</strong>
+      Kennzeichnet eine offene Fachfrage mit ?.
+    </div>
+  </div>
+  <div class="exercise-slide__deliverable">
+    <strong>Abgabe:</strong> fünf markierte Sätze als README-Notiz oder Foto
+  </div>
+  <div class="d01-exercise-path">exercises/&lt;domain&gt;/README.md</div>
+  <aside class="notes">
+    Schreibt zuerst Alltagssprache. Java-Wörter sind heute nicht nötig. Wählt am
+    Ende eine Unklarheit, die ihr einer Auftraggeberin stellen würdet.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Von Wörtern zu Modellbausteinen</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Nomen und Verb werden zu Modellbausteinen"
+  >
+    <defs>
+      <marker
+        id="d01-enrollment-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon points="0 0, 12 6, 0 12" fill="var(--color-blue)"></polygon>
+      </marker>
+    </defs>
+
+    <rect
+      x="250"
+      y="230"
+      width="1420"
+      height="170"
+      rx="12"
+      fill="var(--color-bg-deep)"
+      stroke="var(--color-grey)"
+      stroke-width="3"
+    ></rect>
+    <text
+      x="960"
+      y="335"
+      fill="var(--color-white)"
+      font-size="48"
+      font-weight="700"
+      text-anchor="middle"
+    >
+      Ein Student belegt einen Course.
+    </text>
+
+    <g class="fragment fade-in" data-fragment-index="1">
+      <path
+        d="M530 360 H720 M1140 360 H1370"
+        stroke="var(--color-blue)"
+        stroke-width="8"
+      ></path>
+      <text
+        x="625"
+        y="455"
+        fill="var(--color-blue)"
+        font-size="30"
+        text-anchor="middle"
+      >
+        Student
+      </text>
+      <text
+        x="1255"
+        y="455"
+        fill="var(--color-blue)"
+        font-size="30"
+        text-anchor="middle"
+      >
+        Course
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <path
+        d="M785 360 H1075"
+        stroke="var(--color-amber)"
+        stroke-width="8"
+      ></path>
+      <text
+        x="930"
+        y="510"
+        fill="var(--color-amber)"
+        font-size="30"
+        text-anchor="middle"
+      >
+        belegt
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        x="660"
+        y="570"
+        width="600"
+        height="110"
+        rx="55"
+        fill="var(--color-bg-deep)"
+        stroke="var(--color-amber)"
+        stroke-width="4"
+      ></rect>
+      <text
+        x="960"
+        y="640"
+        fill="var(--color-amber)"
+        font-size="38"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        mit welchem Datum?
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <rect
+        x="720"
+        y="780"
+        width="480"
+        height="130"
+        rx="12"
+        fill="var(--color-grey-dim)"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+      ></rect>
+      <text
+        x="960"
+        y="860"
+        fill="var(--color-blue)"
+        font-size="42"
+        font-weight="700"
+        text-anchor="middle"
+      >
+        Enrollment
+      </text>
+      <path
+        d="M750 780 L640 680"
+        fill="none"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d01-enrollment-arrow)"
+      ></path>
+      <path
+        d="M1170 780 L1280 680"
+        fill="none"
+        stroke="var(--color-blue)"
+        stroke-width="4"
+        marker-end="url(#d01-enrollment-arrow)"
+      ></path>
+    </g>
+  </svg>
+  <aside class="notes">
+    Nomen sind Kandidaten, keine automatische Klassenliste. Verben sind
+    Kandidaten für Beziehungen. Sobald die Beziehung eigene Daten trägt, kann
+    daraus ein eigener Modellbaustein werden.
+  </aside>
+</section>
+
+<section class="citation-slide d01-citation">
+  <h2 class="slide-title">Stripe trennt Product und Price</h2>
+  <svg
+    class="d01-citation__visual"
+    viewBox="0 0 1600 520"
+    aria-label="Product, Price und Checkout Line Item als getrennte Karten"
+  >
+    <defs>
+      <marker
+        id="d01-stripe-arrow"
+        markerWidth="12"
+        markerHeight="12"
+        refX="10"
+        refY="6"
+        orient="auto"
+      >
+        <polygon points="0 0, 12 6, 0 12" fill="var(--color-amber)"></polygon>
+      </marker>
+    </defs>
+    <rect
+      x="80"
+      y="170"
+      width="380"
+      height="180"
+      rx="12"
+      fill="var(--color-bg-deep)"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+    ></rect>
+    <text
+      x="270"
+      y="275"
+      fill="var(--color-blue)"
+      font-size="38"
+      font-weight="700"
+      text-anchor="middle"
+    >
+      Product
+    </text>
+
+    <rect
+      x="610"
+      y="170"
+      width="380"
+      height="180"
+      rx="12"
+      fill="var(--color-bg-deep)"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+    ></rect>
+    <text
+      x="800"
+      y="275"
+      fill="var(--color-blue)"
+      font-size="38"
+      font-weight="700"
+      text-anchor="middle"
+    >
+      Price
+    </text>
+
+    <rect
+      x="1140"
+      y="170"
+      width="380"
+      height="180"
+      rx="12"
+      fill="var(--color-bg-deep)"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+    ></rect>
+    <text
+      x="1330"
+      y="245"
+      fill="var(--color-blue)"
+      font-size="34"
+      font-weight="700"
+      text-anchor="middle"
+    >
+      Checkout Line Item
+    </text>
+    <text
+      x="1330"
+      y="305"
+      fill="var(--color-amber)"
+      font-size="32"
+      text-anchor="middle"
+    >
+      price_id
+    </text>
+
+    <line
+      x1="460"
+      y1="260"
+      x2="590"
+      y2="260"
+      stroke="var(--color-blue)"
+      stroke-width="4"
+    ></line>
+    <line
+      x1="1140"
+      y1="305"
+      x2="1015"
+      y2="305"
+      stroke="var(--color-amber)"
+      stroke-width="5"
+      marker-end="url(#d01-stripe-arrow)"
+    ></line>
+  </svg>
+  <p class="citation-text">
+    Stripe trennt Angebot, Preis und gekaufte Position.
+  </p>
+  <p class="d01-citation__source">
+    https://docs.stripe.com/products-prices/how-products-and-prices-work<br />
+    Abruf: 2026-08-23
+  </p>
+  <aside class="notes">
+    Stripe beschreibt Product und Price als getrennte Ressourcen. Eine Checkout
+    Session nennt für jede Position die Price-ID. Im nächsten Deck geben wir
+    solchen Trennungen eine feste ER-Notation.
+  </aside>
+</section>
