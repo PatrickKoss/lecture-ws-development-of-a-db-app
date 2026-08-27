@@ -1,0 +1,8 @@
+Ausgangsrelation:
+RESOURCE_EXPORT(id, resource_code, name, measure, ...)
+
+Funktionale Abhängigkeiten:
+TODO(A3)
+
+Zerlegung bis 3NF:
+TODO(A3)

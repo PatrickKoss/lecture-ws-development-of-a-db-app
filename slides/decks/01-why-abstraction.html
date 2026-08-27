@@ -7,6 +7,24 @@
     height: 18rem;
   }
 
+  .d01-chapter-questions {
+    position: absolute;
+    bottom: 4.8rem;
+    left: 5rem;
+    width: 43rem;
+    padding: 1rem 1.3rem;
+    border-left: 4px solid var(--color-amber);
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 1.45rem;
+    line-height: 1.4;
+  }
+
+  .d01-chapter-questions strong {
+    color: var(--color-amber);
+  }
+
   .d01-redline {
     position: absolute;
     top: 8.5rem;
@@ -135,6 +153,10 @@
     <div class="chapter-eyebrow">Kapitel · 01</div>
     <h1 class="chapter-title-big">Warum Abstraktion?</h1>
     <p class="chapter-subtitle">Bevor wir Tabellen tippen</p>
+    <div class="d01-chapter-questions">
+      <strong>Leitfragen</strong><br />Welche Dinge und Regeln stecken im
+      Auftrag?<br />Welche Fachfrage müssen wir vor dem Modellieren klären?
+    </div>
 
     <svg
       class="d01-opening-art"
@@ -730,7 +752,7 @@
         Umzug
       </text>
       <path
-        d="M1100 310 V180 H1810 V445 H1500"
+        d="M1100 310 V180 H1810 V420 H1500"
         fill="none"
         stroke="var(--color-red)"
         stroke-width="5"
@@ -1159,32 +1181,36 @@
 </section>
 
 <section class="exercise-slide d01-exercise">
-  <div class="exercise-slide__tag">Übung 0</div>
+  <div class="exercise-slide__tag">Übung A0</div>
   <div class="exercise-slide__time">15 min</div>
   <h2 class="exercise-slide__task d01-exercise-task">
-    Übung 0, eure Domäne in fünf Sätzen
+    A0, eure Domäne in fünf Sätzen
   </h2>
   <div class="d01-exercise-steps">
     <div class="d01-exercise-step">
-      <strong>1</strong>
-      Lest die Domänenbeschreibung.
+      <strong>Eingang</strong>
+      Öffnet die Gruppenkarte und notiert die Hauptentität.
     </div>
     <div class="d01-exercise-step">
-      <strong>2</strong>
-      Schreibt fünf Sätze und markiert Nomen einmal, Verben doppelt.
+      <strong>Kern</strong>
+      Schreibt fünf Sätze. Markiert Nomen einmal und Verben doppelt.
     </div>
     <div class="d01-exercise-step">
-      <strong>3</strong>
-      Kennzeichnet eine offene Fachfrage mit ?.
+      <strong>Vertiefung</strong>
+      Ergänzt eine Ausnahme und kennzeichnet eine offene Fachfrage mit ?.
     </div>
   </div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> fünf markierte Sätze als README-Notiz oder Foto
+    <strong>Ausgang:</strong> fünf markierte Sätze, Hauptentität und eine offene
+    Fachfrage
   </div>
-  <div class="d01-exercise-path">exercises/&lt;domain&gt;/README.md</div>
+  <div class="d01-exercise-path">
+    exercises/&lt;domain&gt;/a0-domain/README.md
+  </div>
   <aside class="notes">
-    Schreibt zuerst Alltagssprache. Java-Wörter sind heute nicht nötig. Wählt am
-    Ende eine Unklarheit, die ihr einer Auftraggeberin stellen würdet.
+    Starttest: Die Gruppe kann ihre Hauptentität in einem Satz benennen.
+    Zwischenschritt nach zehn Minuten: eine vorbereitete Beispielsatz-Schablone
+    freigeben. Java-Wörter sind heute nicht nötig.
   </aside>
 </section>
 
@@ -1453,8 +1479,8 @@
     Abruf: 2026-08-23
   </p>
   <aside class="notes">
-    Stripe beschreibt Product und Price als getrennte Ressourcen. Eine Checkout
-    Session nennt für jede Position die Price-ID. Im nächsten Deck geben wir
-    solchen Trennungen eine feste ER-Notation.
+    Stripe beschreibt Product und Price als getrennte Ressourcen. Der Checkout
+    nennt für jede Position die Price-ID. Im nächsten Deck geben wir solchen
+    Trennungen eine feste ER-Notation.
   </aside>
 </section>

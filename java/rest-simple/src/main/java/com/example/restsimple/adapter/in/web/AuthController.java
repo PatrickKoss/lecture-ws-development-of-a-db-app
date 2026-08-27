@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,7 +51,10 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new ErrorResponse("Registration failed", e.getMessage()));
+                    .body(new ErrorResponse(
+                            "ADMIN_ALREADY_EXISTS",
+                            "Username or email already exists",
+                            MDC.get("correlationId")));
         }
     }
 
@@ -68,7 +72,10 @@ public class AuthController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ErrorResponse("Login failed", "Invalid username or password"));
+                    .body(new ErrorResponse(
+                            "INVALID_CREDENTIALS",
+                            "Invalid username or password",
+                            MDC.get("correlationId")));
         }
     }
 
@@ -86,7 +93,10 @@ public class AuthController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ErrorResponse("Token refresh failed", "Invalid or expired refresh token"));
+                    .body(new ErrorResponse(
+                            "INVALID_REFRESH_TOKEN",
+                            "Invalid or expired refresh token",
+                            MDC.get("correlationId")));
         }
     }
 }

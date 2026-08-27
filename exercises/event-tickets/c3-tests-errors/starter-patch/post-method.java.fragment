@@ -1,0 +1,5 @@
+@PostMapping
+@ResponseStatus(HttpStatus.CREATED)
+public VenueResponse create(@Valid @RequestBody CreateVenueRequest request) {
+    return VenueResponse.from(service.create(request));
+}

@@ -1,6 +1,5 @@
 package com.example.restsimple.adapter.out.dto;
 
-import com.example.restsimple.converter.LocalDateTimeAttributeConverter;
 import com.example.restsimple.domain.model.RefreshToken;
 import jakarta.persistence.*;
 
@@ -22,11 +21,9 @@ public class RefreshTokenJpaEntity {
     private Long adminId;
 
     @Column(name = "expires_at", nullable = false)
-    @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime expiresAt;
 
     @Column(name = "created_at", nullable = false)
-    @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime createdAt;
 
     @Column(name = "revoked", nullable = false)

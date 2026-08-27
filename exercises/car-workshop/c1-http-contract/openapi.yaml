@@ -1,0 +1,14 @@
+openapi: 3.0.3
+info:
+  title: Kfz-Werkstatt API
+  version: 1.0.0
+paths:
+  /api/parts:
+    get:
+      responses:
+        '200': {description: Liste der Ersatzteil-Datensätze}
+    post:
+      responses:
+        '201': {description: Angelegt}
+        '400': {description: Validierung fehlgeschlagen}
+        '409': {description: part_number bereits vorhanden}

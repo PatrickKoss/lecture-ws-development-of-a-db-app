@@ -1,30 +1,23 @@
 # Fahrradverleih
 
-> Zeitbox: drei Kurstage
+Der Verleih "StadtRad Münster" ersetzt Stationslogbücher und Wartungszettel durch eine Anwendung.
 
-Der Verleih "StadtRad Münster" betreibt sechs aktive Stationen und 80 Räder. Ausleihen stehen noch in einem Logbuch pro Station, Reparaturen auf Klebezetteln am Rad. Ihr sollt beides durch eine Anwendung ersetzen, damit der Betreiber erkennt, welche Station leer läuft und welches Rad immer wieder ausfällt.
+Eure Hauptentität ist **Station** (`Station`). Ihr führt sie durch alle elf Phasen. Beziehungen und Geschäftsprozesse kommen erst in der Vertiefung hinzu.
 
-## Aufgabe
+## Arbeitsweg
 
-Entwickelt eure Domäne über drei Tage von der Beschreibung bis zur REST API. Haltet Entscheidungen und offene Annahmen in den jeweiligen Aufgabendateien fest.
+| Phase | Ergebnis                                 |
+| ----- | ---------------------------------------- |
+| A0    | Begriffe und offene Annahmen             |
+| A1    | ER-Modell mit markierter Hauptentität    |
+| A2    | Relationenmodell                         |
+| A3    | begründete Zerlegung bis 3NF             |
+| B1    | ausführbares Schema und Seed-Daten       |
+| B2    | vier geprüfte Abfragen                   |
+| B3    | JDBC-Mapping für `Station`               |
+| B4    | Datenzugriff hinter einem Repository     |
+| C1    | GET- und POST-Vertrag                    |
+| C2    | GET-Endpunkte für `Station`              |
+| C3    | POST, Validierung, 409-Konflikt und Test |
 
-Als erste Orientierung kommen Station, Rad, Radmodell, Kunde, Ausleihe, Tarif und Wartungseintrag infrage. Die Ausleihe ist die Beziehung zwischen Kunde und Rad und trägt eigene Angaben. Prüft diese Auswahl gegen eure fachlichen Entscheidungen.
-
-## Abgabe
-
-### Tag 1
-
-- Foto oder SVG des ER-Diagramms
-- Liste der normalisierten Tabellen mit Primary Keys und Foreign Keys
-
-### Tag 2
-
-- `sql/schema.sql`, `sql/seed.sql` und `sql/queries.sql`
-- das bearbeitete JDBC-Projekt
-
-### Tag 3
-
-- das bearbeitete Spring-Projekt
-- Screenshot der eigenen API in Swagger UI
-
-Öffnet `solutions/` erst nach der gemeinsamen Auswertung.
+Die fertigen SQL-Lösungen liegen nicht in diesem Gruppenordner. Die Lehrperson verwaltet sie unter `exercises/instructor-solutions/bike-rental/`.

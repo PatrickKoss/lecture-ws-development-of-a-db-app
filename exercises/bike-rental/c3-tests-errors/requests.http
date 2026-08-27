@@ -1,0 +1,10 @@
+@base = http://localhost:8081
+GET {{base}}/api/stations
+
+### gültiger POST
+POST {{base}}/api/stations
+Content-Type: application/json
+
+{"stationCode": "MS-NEW", "name": "Kursstation", "address": "Kursweg 1, 48143 Münster", "capacity": 20, "status": "ACTIVE"}
+
+### TODO(C3): denselben Wert für station_code erneut senden und 409 prüfen

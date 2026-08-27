@@ -1,0 +1,10 @@
+@base = http://localhost:8081
+GET {{base}}/api/pizzas
+
+### gültiger POST
+POST {{base}}/api/pizzas
+Content-Type: application/json
+
+{"pizzaNumber": "P-99", "name": "Kurspizza", "category": "Spezial", "ovenStation": "OFEN-A", "basePrice": 11.5, "active": true}
+
+### TODO(C3): denselben Wert für pizza_number erneut senden und 409 prüfen

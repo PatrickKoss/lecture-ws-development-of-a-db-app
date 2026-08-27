@@ -1,0 +1,8 @@
+Ausgangsrelation:
+BOOK_EXPORT(id, isbn, title, publication_year, ...)
+
+Funktionale Abhängigkeiten:
+TODO(A3)
+
+Zerlegung bis 3NF:
+TODO(A3)

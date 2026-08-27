@@ -1,0 +1,3 @@
+-- Lesbare Relationsnotation, noch kein ausführbares SQLite-Schema
+-- resources(id PK, resource_code UK, name, measure)
+-- TODO(A2): weitere Relationen, PK, FK, UK und NULL/NOT NULL ergänzen.

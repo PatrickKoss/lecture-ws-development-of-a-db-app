@@ -1,30 +1,23 @@
-# <!-- TODO(domain): Deutscher Name der Domäne -->
+# Domänenvorlage
 
-> Zeitbox: drei Kurstage
+Beschreibt Auftraggeber, Problem und eine offene fachliche Entscheidung.
 
-<!-- TODO(domain): Schreibe genau einen kurzen Absatz. Wer beauftragt die Gruppe, welches Problem soll die Anwendung lösen und welche zentrale Entscheidung muss die Gruppe selbst klären? Nenne keine fertige Tabellenstruktur. -->
+Eure Hauptentität ist **Hauptressource** (`Resource`). Ihr führt sie durch alle elf Phasen. Beziehungen und Geschäftsprozesse kommen erst in der Vertiefung hinzu.
 
-## Aufgabe
+## Arbeitsweg
 
-Entwickelt eure Domäne über drei Tage von der Beschreibung bis zur REST API. Haltet Entscheidungen und offene Annahmen in den jeweiligen Aufgabendateien fest.
+| Phase | Ergebnis                                 |
+| ----- | ---------------------------------------- |
+| A0    | Begriffe und offene Annahmen             |
+| A1    | ER-Modell mit markierter Hauptentität    |
+| A2    | Relationenmodell                         |
+| A3    | begründete Zerlegung bis 3NF             |
+| B1    | ausführbares Schema und Seed-Daten       |
+| B2    | vier geprüfte Abfragen                   |
+| B3    | JDBC-Mapping für `Resource`              |
+| B4    | Datenzugriff hinter einem Repository     |
+| C1    | GET- und POST-Vertrag                    |
+| C2    | GET-Endpunkte für `Resource`             |
+| C3    | POST, Validierung, 409-Konflikt und Test |
 
-<!-- TODO(domain): Nenne hier die 4 bis 6 vorgesehenen Entitäten als erste Orientierung. Kennzeichne die Entitäten nicht als endgültige Lösung. -->
-
-## Abgabe
-
-### Tag 1
-
-- Foto oder SVG des ER-Diagramms
-- Liste der normalisierten Tabellen mit Primary Keys und Foreign Keys
-
-### Tag 2
-
-- `sql/schema.sql`, `sql/seed.sql` und `sql/queries.sql`
-- das bearbeitete JDBC-Projekt
-
-### Tag 3
-
-- das bearbeitete Spring-Projekt
-- Screenshot der eigenen API in Swagger UI
-
-Öffnet `solutions/` erst nach der gemeinsamen Auswertung.
+Die fertigen SQL-Lösungen liegen nicht in diesem Gruppenordner. Die Lehrperson verwaltet sie unter `exercises/instructor-solutions/_template/`.

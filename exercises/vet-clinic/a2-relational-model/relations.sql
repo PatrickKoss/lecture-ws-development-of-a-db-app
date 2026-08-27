@@ -1,0 +1,3 @@
+-- Lesbare Relationsnotation, noch kein ausführbares SQLite-Schema
+-- medications(id PK, pzn UK, product_name, prescription_required)
+-- TODO(A2): weitere Relationen, PK, FK, UK und NULL/NOT NULL ergänzen.

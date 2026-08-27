@@ -7,6 +7,24 @@
     height: 18rem;
   }
 
+  .d00-chapter-questions {
+    position: absolute;
+    bottom: 4.8rem;
+    left: 5rem;
+    width: 42rem;
+    padding: 1rem 1.3rem;
+    border-left: 4px solid var(--color-amber);
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 1.45rem;
+    line-height: 1.4;
+  }
+
+  .d00-chapter-questions strong {
+    color: var(--color-amber);
+  }
+
   .d00-redline {
     position: absolute;
     top: 8.5rem;
@@ -235,6 +253,10 @@
     <div class="chapter-eyebrow">Kapitel · 00</div>
     <h1 class="chapter-title-big">Entwicklung einer Datenbankanwendung</h1>
     <p class="chapter-subtitle">3 Tage · Java · SQLite · Spring</p>
+    <div class="d00-chapter-questions">
+      <strong>Leitfragen</strong><br />Wie wird aus einer Fachidee ein
+      ausführbarer API-Schnitt?<br />Welche Datei wächst in jeder Etappe weiter?
+    </div>
 
     <svg
       class="d00-opening-art"
@@ -373,9 +395,9 @@
     <span class="slide-frame__footer-right">00 / 07</span>
   </div>
   <aside class="notes">
-    Wir bauen keine Folienanwendung. Wir bauen eine Idee Schritt für Schritt bis
-    zu einer nutzbaren API. Alles, was ihr zeichnet, taucht später im Code
-    wieder auf.
+    Wir führen eine einfache Hauptentität durch alle Schichten. Nach der letzten
+    Etappe kann die Gruppe einen Datensatz über HTTP lesen. Alles, was ihr
+    zeichnet, taucht später in SQL oder Code wieder auf.
   </aside>
 </section>
 
@@ -489,7 +511,7 @@
 </section>
 
 <section>
-  <h2 class="slide-title">Drei Tage, drei Ergebnisse</h2>
+  <h2 class="slide-title">Drei Etappen, ein durchgängiger API-Schnitt</h2>
   <span class="slide-context blue">Kursplan</span>
   <div class="d00-days">
     <article class="d00-day-card">
@@ -1091,7 +1113,7 @@
         x="140"
         y="190"
         fill="var(--color-white)"
-        font-size="26"
+        font-size="28"
         text-anchor="middle"
       >
         Firefox · Chrome
@@ -1100,7 +1122,7 @@
         x="140"
         y="226"
         fill="var(--color-white)"
-        font-size="26"
+        font-size="28"
         text-anchor="middle"
       >
         Safari

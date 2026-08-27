@@ -1,0 +1,5 @@
+@PostMapping
+@ResponseStatus(HttpStatus.CREATED)
+public PartResponse create(@Valid @RequestBody CreatePartRequest request) {
+    return PartResponse.from(service.create(request));
+}

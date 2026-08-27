@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/zones")
+@RequestMapping("/api/zones")
 @Tag(name = "Zone Management", description = "Zone management operations")
 public class ZoneController {
     private ZoneRepository zoneRepository;

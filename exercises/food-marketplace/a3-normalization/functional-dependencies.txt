@@ -1,0 +1,8 @@
+Ausgangsrelation:
+RESTAURANT_EXPORT(id, partner_number, name, commission_rate, ...)
+
+Funktionale Abhängigkeiten:
+TODO(A3)
+
+Zerlegung bis 3NF:
+TODO(A3)

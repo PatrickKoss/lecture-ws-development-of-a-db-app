@@ -100,6 +100,24 @@
     height: 62%;
   }
 
+  .d03-chapter-questions {
+    position: absolute;
+    bottom: 4.8rem;
+    left: 5rem;
+    width: 43rem;
+    padding: 1rem 1.3rem;
+    border-left: 4px solid var(--color-amber);
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 1.45rem;
+    line-height: 1.4;
+  }
+
+  .d03-chapter-questions strong {
+    color: var(--color-amber);
+  }
+
   .d03-chapter-visual .d03-label {
     font-size: 30px;
   }
@@ -268,6 +286,10 @@
   <div class="chapter-eyebrow">Kapitel 03</div>
   <h1 class="chapter-title-big">Vom ER-Modell <br />zu Tabellen</h1>
   <p class="chapter-subtitle">Jede Box und jede Linie bekommt einen Platz</p>
+  <div class="d03-chapter-questions">
+    <strong>Leitfragen</strong><br />Welche Tabelle entsteht aus jeder
+    Entität?<br />Wo liegen Fremdschlüssel und Beziehungsattribute?
+  </div>
 
   <svg
     class="d03-chapter-visual"
@@ -596,7 +618,7 @@
         stroke="var(--color-amber)"
         stroke-width="4"
       ></rect>
-      <text class="d03-amber" x="1690" y="265" font-size="26" font-weight="700">
+      <text class="d03-amber" x="1690" y="265" font-size="28" font-weight="700">
         PK
       </text>
     </g>
@@ -796,7 +818,7 @@
         x="960"
         y="580"
         text-anchor="middle"
-        font-size="27"
+        font-size="28"
         font-weight="700"
       >
         UNIQUE(student_id, course_id)
@@ -1006,37 +1028,38 @@
 </section>
 
 <section class="exercise-slide d03-exercise">
-  <div class="exercise-slide__tag">Übung 2</div>
-  <div class="exercise-slide__time">20 min</div>
-  <p class="exercise-slide__task">Modell auf Papier abbilden</p>
+  <div class="exercise-slide__tag">Übung A2</div>
+  <div class="exercise-slide__time">25 min</div>
+  <p class="exercise-slide__task">A2, ER-Modell in Relationen übersetzen</p>
   <div class="d03-exercise-steps">
     <div class="d03-exercise-step">
-      <span>1</span>
-      <div>Schreibt zu jeder Entity eine Tabelle.</div>
+      <span>E</span>
+      <div>Öffnet euer geprüftes ER-Modell aus A1.</div>
     </div>
     <div class="d03-exercise-step">
-      <span>2</span>
-      <div>Setzt Primary Keys und Foreign Keys.</div>
+      <span>K</span>
+      <div>Schreibt Tabellen mit Primär- und Fremdschlüsseln.</div>
     </div>
     <div class="d03-exercise-step">
-      <span>3</span>
-      <div>Löst n:m mit einer Join Table auf.</div>
+      <span>K</span>
+      <div>Löst n:m auf und ordnet Beziehungsattribute zu.</div>
     </div>
     <div class="d03-exercise-step">
-      <span>4</span>
-      <div>Begründet jede NULL-Spalte.</div>
+      <span>V</span>
+      <div>Begründet jede NULL-Spalte und ergänzt UNIQUE-Regeln.</div>
     </div>
   </div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> Tabellenliste oder Foto als Ergänzung zu 01-er.md
+    <strong>Ausgang:</strong> relational-model.md mit Tabellen, Schlüsseln und
+    begründeten NULL-Spalten
   </div>
   <div class="d03-exercise-path">
-    Arbeitsstand: exercises/&lt;domain&gt;/01-er.md
+    exercises/&lt;domain&gt;/a2-relational-model/README.md
   </div>
   <aside class="notes">
-    Dafür gibt es keine eigene Karte. Arbeitet direkt am ER-Modell aus
-    `01-er.md`. Noch ist kein SQL nötig. Prüft jede Linie gegen einen Foreign
-    Key.
+    Starttest: Das ER-Modell aus A1 ist vorhanden. Nach 15 Minuten kann die
+    Lehrperson eine vorbereitete Tabellenliste freigeben. Noch ist kein SQL
+    nötig. Prüft jede Linie gegen einen Fremdschlüssel.
   </aside>
 </section>
 

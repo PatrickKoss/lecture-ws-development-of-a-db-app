@@ -9,8 +9,8 @@ Dieser Leitfaden ergänzt die Sprecherhinweise in den Decks. Der verbindliche Ta
 - Auf dem Lehrrechner und den Rechnern der Studierenden sind Java 21, VS Code, SQLite 3, Git und `make` nötig.
 - Für die Folien braucht der Lehrrechner Node.js, npm und den von Playwright verwendeten Chromium-Browser.
 - Die Folien laufen laut `slides/Makefile` standardmäßig auf Port 8000.
-- `java/rest-simple-exercise` und `java/rest-simple` laufen standardmäßig auf Port 8081. Prüfe vor Tag 3, ob der Port frei ist.
-- Im Übungsprojekt `java/rest-simple-exercise` ist der Security-Starter in `build.gradle.kts` auskommentiert. Swagger UI und die Endpunkte sind ohne Anmeldung erreichbar. Nur `java/rest-simple` verlangt ein JWT.
+- Die gruppenspezifischen REST-Projekte unter `exercises/<domain>/c2-spring-resource/starter/` laufen standardmäßig auf Port 8081. Prüfe vor dem Implementierungsblock, ob der Port frei ist.
+- Die Gruppenprojekte enthalten keine Security-Konfiguration. Swagger UI und die Übungsendpunkte sind ohne Anmeldung erreichbar. `java/rest-simple` zeigt Security nur als weiterführendes Referenzprojekt.
 
 ### Technischer Probelauf
 
@@ -22,7 +22,7 @@ make -C java test-all
 make -C slides pdf-all
 ```
 
-Prüfe danach die vier Live-Beispiele einzeln. Das Übungs-Skeleton unter `java/repository-simple-exercise` soll unvollständig bleiben. `./verify-exercise.sh` prüft dort nur Build, Dateien und TODO-Marker, nicht die fachliche Korrektheit einer Lösung.
+Prüfe danach mindestens eine aktive Gruppendomäne vollständig. Die übrigen Domänen lassen sich mit den Prüfbefehlen in ihren Aufgabenordnern testen. Die Starter bleiben an den markierten TODOs unvollständig. Der Build allein beweist deshalb noch keine fachlich richtige Lösung.
 
 Halte auf dem Lehrrechner zwei VS-Code-Fenster bereit. Eines zeigt das gemeinsame Universitätsbeispiel. Das zweite zeigt die jeweilige Domänenkarte und kann bei Gruppenfragen geteilt werden. Öffne keine Lösung, solange die Gruppen arbeiten.
 
@@ -41,13 +41,13 @@ Trage die Namen zu Beginn in `exercises/README.md` ein. Die feste Ausgangsvertei
 |      7 | `car-workshop`   |
 |      8 | `event-tickets`  |
 
-`hotel` und `food-marketplace` bleiben als Ersatz frei. Tausche eine Domäne nur vor Übung 0. Danach baut jeder Arbeitsstand auf dem vorherigen auf.
+`hotel` und `food-marketplace` bleiben als Ersatz frei. Tausche eine Domäne nur vor A0. Danach baut jeder Arbeitsstand auf dem vorherigen auf.
 
-### Lösungen und Checklisten
+### Lösungen und Checkpoints
 
-Jede Domäne hat `exercises/<domain>/solutions/` und `exercises/<domain>/CHECKLIST.md`. Die Lösungen liegen sichtbar auf `main`, sind aber erst für das Debrief gedacht. Sage das ausdrücklich. Es gibt keine Benotung, deshalb dient die Regel dem gemeinsamen Denken und nicht der Kontrolle.
+Die Teilnehmerordner enthalten TODOs, kleine Beispieldaten und vorbereitete Zwischenstände. Vollständige Lösungen liegen getrennt unter `exercises/instructor-solutions/<domain>/`. Erstelle die Teilnehmerausgabe ohne diesen Ordner.
 
-Nutze die Checkliste vor dem Kurs, um jede Domäne gegen dieselben Lehrpunkte zu prüfen. Im Debrief öffnest du zuerst die Gruppenlösung. Danach vergleichst du gezielt mit `solutions/er.svg`, `solutions/README.md` oder den drei Dateien unter `sql/`. Eine abweichende Lösung ist in Ordnung, wenn Keys, Kardinalitäten, Functional Dependencies und Fachregeln zusammenpassen.
+Jede Aufgabe nennt Eingang, Starttest, Kernauftrag, Vertiefung, vorbereiteten Zwischenstand und Ausgang. Gib den Zwischenstand erst frei, wenn die Kernzeit abgelaufen ist oder eine Gruppe an einem bekannten Infrastrukturproblem festhängt. Im Debrief zeigt zuerst die Gruppe ihren Stand. Eine abweichende Lösung ist in Ordnung, wenn Schlüssel, Kardinalitäten, funktionale Abhängigkeiten und Fachregeln zusammenpassen.
 
 ## 00 Auftakt
 
@@ -73,8 +73,8 @@ Die Studierenden kennen Ziel, Arbeitsweise und Tagesstruktur. Sie übernehmen ei
 
 - Frage nach Apps, die seit dem Aufstehen Daten gespeichert haben.
 - Lasse jede Gruppe ihre Domäne und einen Satz zum Auftrag laut nennen.
-- Prüfe, ob alle acht Gruppen `exercises/<domain>/README.md` geöffnet haben.
-- Halte fest, dass `solutions/` bis zum Debrief geschlossen bleibt.
+- Prüfe, ob alle acht Gruppen `exercises/<domain>/a0-domain/README.md` geöffnet haben.
+- Halte fest, dass `exercises/instructor-solutions/` nicht Teil der Teilnehmerausgabe ist.
 
 ### Wenn Zeit fehlt
 
@@ -100,17 +100,17 @@ Die Studierenden trennen Fachbeschreibung und technische Umsetzung. Sie erkennen
 - Wenn eine Gruppe denselben Begriff für verschiedene Sachverhalte nutzt, frage nach einer Änderung über die Zeit. Das Beispiel mit alter und neuer Lieferadresse macht den Unterschied sichtbar.
 - Wenn fünf Sätze nur eine Liste sind, verlange Verben und eine schmerzhafte Ausnahme.
 
-### Debrief zu Übung 0
+### Auswertung A0
 
 - Frage, welches Wort in der Beschreibung mehr als eine Bedeutung hatte.
 - Lasse ein markiertes Verb vorlesen und frage, welche beiden Dinge es verbindet.
 - Frage nach der offenen Fachfrage, die das Modell am stärksten verändern würde.
 - Eine gute Antwort trennt Alltagssprache von Java und begründet mindestens eine noch offene Entscheidung.
-- Notiere ungelöste Fragen neben dem Gruppenmodell. Sie müssen in Übung 1 als Annahme auftauchen.
+- Notiere ungelöste Fragen neben dem Gruppenmodell. Sie müssen in A1 als Annahme auftauchen.
 
 ### Wenn Zeit fehlt
 
-Überspringe die Stripe-Folie und kürze die Geschichte zu `address`. Übung 0 bleibt bei 15 Minuten, weil sie den Ausgangspunkt für das ER-Modell liefert.
+Überspringe die Stripe-Folie und kürze die Geschichte zu `address`. A0 bleibt vollständig, weil diese Domänenbeschreibung der Eingang für A1 ist.
 
 ## 02 Das ER-Modell
 
@@ -134,14 +134,14 @@ Die Studierenden zeichnen Entities, Attributes, Keys, Relationships, Cardinaliti
 - Wenn jedes Attribut zur Entity wird, frage nach Identität, eigener Lebensdauer und eigenen Beziehungen.
 - Wenn eine n:m-Beziehung eigene Daten trägt, fordere eine assoziative Entity statt einer unbeschrifteten Linie.
 
-### Debrief zu Übung 1
+### Auswertung A1
 
 - Zwei Gruppen zeigen je eine Beziehung und lesen sie in beiden Richtungen vor.
 - Frage, wo eine Beziehung eigene Attribute trägt und warum diese Attribute zu keiner Seite allein gehören.
 - Frage, welche Seite optional ist und welche konkrete Fachregel das begründet.
 - Lasse eine schwache Entität samt identifizierendem Owner erklären.
 - Eine gute Antwort nennt Keys, Mengen und Annahmen. Der Zeichenstil ist zweitrangig.
-- Vergleiche danach gezielt mit `exercises/<domain>/solutions/er.svg`, ohne das Referenzmodell als einzig mögliche Lösung darzustellen.
+- Vergleiche danach gezielt mit `exercises/instructor-solutions/<domain>/design/er.svg`, ohne das Referenzmodell als einzig mögliche Lösung darzustellen.
 
 ### Wenn Zeit fehlt
 
@@ -166,15 +166,15 @@ Die Studierenden übersetzen ein Crow's-Foot-Modell in Tabellen. Sie setzen Prim
 - Wenn beide Tabellen gegenseitige Foreign Keys bekommen, lasse die ursprüngliche Beziehung noch einmal laut lesen.
 - Wenn eine Join Table nur als technische Hilfe gilt, frage nach Datum, Menge, Rolle oder Status der Beziehung.
 - Wenn jede Spalte NULL erlaubt, verlange für jede Ausnahme einen vollständigen Fachsatz.
-- Wenn zusammengesetzte Identität verloren geht, nutze `CourseSession` oder den Domänenfall aus `01-er.md`.
+- Wenn zusammengesetzte Identität verloren geht, nutze `CourseSession` oder den Domänenfall aus `a1-er-model/README.md`.
 
-### Debrief zu Übung 2
+### Auswertung A2
 
 - Lasse eine ER-Linie und den daraus entstandenen Foreign Key zeigen.
 - Frage, welche n:m-Beziehung zur Join Table wurde und welche eigenen Attribute sie trägt.
 - Frage nach einer NULL-Spalte und der Fachregel, die den fehlenden Wert erlaubt.
 - Eine gute Antwort kann jede Tabelle auf eine Entity oder Beziehung zurückführen.
-- Halte Abweichungen fest. Übung 3 darf den Tabellenentwurf ändern.
+- Halte Abweichungen fest. A3 darf den Tabellenentwurf ändern.
 
 ### Wenn Zeit fehlt
 
@@ -199,21 +199,21 @@ Die Studierenden erkennen Insert-, Update- und Delete-Anomalien. Sie leiten Func
 - Wenn Wiederholung nur als Speicherproblem gilt, spiele ein unvollständiges Update und das Löschen der letzten Zeile durch.
 - Wenn Functional Dependencies aus den Beispielzeilen geraten werden, frage nach der Fachregel, die für alle gültigen Daten gelten soll.
 - Wenn `student_id` allein als Enrollment-Key gilt, frage nach zwei Courses desselben Studenten.
-- Wenn 2NF ohne zusammengesetzten Candidate Key erklärt wird, markiere zuerst den ganzen Key.
+- Wenn 2NF erklärt wird, prüfe zuerst alle Kandidatenschlüssel. Partielle Abhängigkeiten sind nur bei zusammengesetzten Kandidatenschlüsseln möglich.
 - Wenn BCNF die Gruppe blockiert, behandle 3NF als Pflichtziel und die konkrete Falle der Karte als kurze Zusatzprüfung.
 
-### Debrief zu Übung 3
+### Auswertung A3
 
 - Frage, welche konkrete Operation den ersten Widerspruch erzeugt hat.
 - Lasse eine partielle und eine transitive Functional Dependency nennen.
 - Frage, welche Tatsache vor und nach der Zerlegung nur noch an einem Ort steht.
 - Frage, ob das ER-Modell geändert werden musste und welche vergessene Entity sichtbar wurde.
-- Eine gute Antwort zeigt Tabellen, Keys und Foreign Keys sowie einen verständlichen Satz zur BCNF-Falle.
-- Nutze `exercises/<domain>/solutions/README.md` erst nach der Erklärung der Gruppe.
+- Eine gute Antwort zeigt Tabellen, Primär- und Fremdschlüssel sowie einen verständlichen Satz zur BCNF-Falle.
+- Nutze `exercises/instructor-solutions/<domain>/design/normalization.md` erst nach der Erklärung der Gruppe.
 
 ### Wenn Zeit fehlt
 
-Kürze BCNF auf die Prüffrage "Ist jeder Determinant ein Candidate Key?". Überspringe die BigQuery-Folie. 1NF bis 3NF und die drei Anomalien bleiben Pflicht.
+Das Normalisierungskapitel bleibt vollständig. Falls der Block später beginnt, verschiebe die Auswertung, statt Definitionen oder Beispiele zu streichen. Die korrekte BCNF-Prüffrage lautet: "Ist jeder Determinant ein Superschlüssel?"
 
 ## 05 SQL-Grundlagen
 
@@ -251,7 +251,7 @@ Stoppe nach Schema und Seed kurz. Zeige einen gültigen `SELECT` und einen absic
 - Wenn `PRAGMA foreign_keys = ON` fehlt, lasse einen unbekannten Foreign Key absichtlich einsetzen und vergleiche das Verhalten.
 - Wenn der Seed nur Happy-Path-Daten enthält, fordere NULL an einer erlaubten Stelle und mindestens einen Datensatz ohne optionale Zuordnung.
 
-### Debrief zu Übung 4
+### Auswertung B1
 
 - Frage, welcher Constraint einen echten Eingabefehler gefangen hat.
 - Lasse die Ladefolge der Tabellen anhand zweier Foreign Keys erklären.
@@ -285,7 +285,7 @@ Die Studierenden verbinden Zeilen mit `JOIN`, bewahren linke Zeilen mit `LEFT JO
 - Wenn `WHERE COUNT(...)` geschrieben wird, lasse die logische Reihenfolge bis `GROUP BY` und `HAVING` aufsagen.
 - Wenn `DISTINCT` einen falschen JOIN verstecken soll, entferne es und prüfe zuerst die Matching-Bedingung.
 
-### Debrief zu Übung 5
+### Auswertung B2
 
 - Frage, welche fachliche Frage einen LEFT JOIN brauchte und welcher Datensatz sonst verschwunden wäre.
 - Frage, wo `COUNT(*)` ein falsches Ergebnis geliefert hätte.
@@ -330,24 +330,24 @@ Zeige im ersten Lauf Create und List. Setze einen Breakpoint vor `resultSet.next
 - Wenn `LocalDate` direkt aus einem beliebigen String gebaut wird, verweise auf ISO-Text und `LocalDate.parse`.
 - Wenn Ressourcen nur am Ende manuell geschlossen werden, wirf gedanklich vorher eine Exception und frage, welcher Pfad das Schließen noch erreicht.
 
-### Debrief zu Übung 6
+### Auswertung B3
 
 - Frage, welche Teile in Student-Repository und Domänen-Repository gleich geblieben sind.
 - Lasse die Stelle zeigen, an der eine Datenbankzeile zum Java-Objekt wird.
 - Frage, welche externen Werte gebunden und welche Teile des SQL statisch sind.
 - Frage nach dem Verhalten bei leerem Ergebnis und bei einem `UNIQUE`-Fehler.
-- Eine gute Lösung führt `./verify-exercise.sh` grün aus, zeigt aber zusätzlich echtes CRUD über die CLI. Der Verify-Lauf allein beweist die Implementierung nicht.
-- Vergleiche die Domänenfelder mit `exercises/<domain>/04-jdbc.md`, nicht mit einem generischen `Book`-Beispiel.
+- Eine gute Lösung führt den Prüfbefehl aus `b3-jdbc/README.md` grün aus und zeigt einen echten Treffer sowie einen leeren Treffer. Der Build allein beweist die Implementierung nicht.
+- Vergleiche die Domänenfelder mit `exercises/<domain>/b3-jdbc/README.md`, nicht mit einem generischen `Book`-Beispiel.
 
 ### Wenn Zeit fehlt
 
-Kürze pgJDBC, Fehlerlogging und den vollständigen Datei-Walkthrough. Behalte Connection, PreparedStatement, Cursor, Row Mapping, Datum und `try-with-resources`. Die 75 Minuten für Übung 6 bleiben unverändert.
+Kürze pgJDBC, Fehlerlogging und den vollständigen Datei-Walkthrough. Behalte Connection, PreparedStatement, Cursor, Row-Mapping, Datum und `try-with-resources`. B3 beginnt mit dem vorbereiteten Domänenprojekt und implementiert als Kern nur `findById` und `findAll`.
 
 ## 08 Das Repository Pattern
 
 ### Ziel
 
-Die Studierenden kapseln Datenzugriff hinter einem typisierten Repository. Sie erkennen den gemeinsamen CRUD-Ablauf und können erklären, wie Reflection, Annotationen und Spring Data darauf aufbauen.
+Die Studierenden kapseln Datenzugriff hinter einem typisierten Repository. SQL und Row-Mapping liegen danach nicht mehr im Aufrufer. Sie übernehmen Schema und Seed-Daten als Flyway-Migrationen in den nächsten Starter.
 
 ### Leitfragen
 
@@ -375,19 +375,17 @@ Der Lauf zeigt Create, All, Get, Update und Delete. Öffne danach `AbstractRepos
 - Wenn `IF NOT EXISTS` als Migration gilt, vergleiche eine alte Installation ohne neue Spalte mit einer Neuinstallation.
 - Wenn Spring Data als Magie erscheint, ordne `all/get/create/update/delete` den Methoden `findAll/findById/save/delete` zu.
 
-### Debrief zu Übung 7
-
-Übung 7 entfällt im verbindlichen Ablauf. Falls du sie als freiwillige Weiterarbeit oder bei zusätzlicher Zeit nutzt:
+### Auswertung B4
 
 - Frage, welcher Teil der Suche fachlich blieb und welcher JDBC-Ablauf wiederverwendet wurde.
 - Lasse den Foreign Key der zweiten Entity bis zur Zieltabelle verfolgen.
 - Frage, welcher Rückgabetyp einen fehlenden Treffer ausdrückt.
 - Frage, welche Migration eine bereits verteilte Datenbank für die zweite Tabelle bräuchte.
-- Eine gute Antwort zeigt `findByX`, beide Models, das CREATE SQL und einen echten CLI-Aufruf.
+- Eine gute Antwort zeigt die Repository-Grenze, einen echten CLI-Aufruf und die beiden Flyway-Dateien für Schema und Seed-Daten.
 
 ### Wenn Zeit fehlt
 
-Übung 7 und die Reservefolie zu Transaktionen entfallen bereits. Kürze ORM auf zwei Sätze und zeige Flyway nur anhand der drei vorhandenen Migrationsdateien. Die Brücke zu Spring Data bleibt.
+Reflection und die generische Repository-Basis stehen im Anhang. Im Pflichtteil bleiben Repository-Grenze, das kurze Refactoring und die Flyway-Übergabe.
 
 ## 09 HTTP, REST und OpenAPI
 
@@ -411,13 +409,13 @@ Die Studierenden entwerfen einen HTTP-Vertrag mit Ressourcen, Methoden, Statusco
 - Wenn 400, 404 und 409 vermischt werden, trenne Formfehler, fehlende Ressource und Zustandskonflikt.
 - Wenn Swagger UI mit OpenAPI gleichgesetzt wird, frage nach dem maschinenlesbaren Dokument unter `/v3/api-docs`.
 
-### Debrief zu Übung 8
+### Auswertung C1
 
 - Lasse eine andere Gruppe den Vertrag ohne mündliche Erklärung lesen.
 - Frage, ob jede URL eine Ressource als Nomen benennt.
 - Frage, welche Operation idempotent ist und was bei einer Wiederholung gleich bleibt.
 - Lasse Request und Response desselben POST vergleichen.
-- Eine gute Antwort nennt für jeden Pfad Erfolg und erwartete Fehler und übernimmt die Hauptressource sowie den Beziehungsendpunkt aus `exercises/<domain>/06-rest.md`.
+- Eine gute Antwort nennt für GET und POST Erfolg sowie erwartete Fehler und verwendet den Pfad aus `exercises/<domain>/c1-http-contract/README.md`.
 
 ### Wenn Zeit fehlt
 
@@ -427,7 +425,7 @@ Kürze Header, Stripe und die ausführliche Idempotency-Diskussion. Behalte Coll
 
 ### Ziel
 
-Die Studierenden starten das Übungsprojekt, prüfen Health und bauen GET sowie POST für die erste Ressource. Sie ordnen Dependency Injection, JPA und `JpaRepository` den bekannten Konzepten zu.
+Die Studierenden starten ihr vorbereitetes Domänenprojekt. Flyway übernimmt Schema und Seed-Daten aus B4. Sie implementieren GET für dieselbe Hauptentität wie in B3 und ordnen Dependency Injection, JPA und `JpaRepository` den bekannten Konzepten zu.
 
 ### Leitfragen
 
@@ -442,45 +440,45 @@ Die Studierenden starten das Übungsprojekt, prüfen Health und bauen GET sowie 
 Terminal 1:
 
 ```sh
-cd java/rest-simple-exercise
+cd exercises/<domain>/c2-spring-resource/starter
 ./gradlew build
-make run
+./gradlew bootRun
 ```
 
 Terminal 2:
 
 ```sh
-curl -i http://localhost:8081/api/students/health
+curl -i http://localhost:8081/actuator/health
 ```
 
-Falls Spring mit der Standardanmeldung antwortet, übernimm das Passwort aus dem Startlog:
+Prüfe danach die gruppenspezifische Collection. Für die Bibliothek lautet der Pfad zum Beispiel:
 
 ```sh
-SPRING_PASSWORD='Wert aus dem Startlog'
-curl -i -u "user:${SPRING_PASSWORD}" http://localhost:8081/api/students/health
+curl -i http://localhost:8081/api/books
 ```
 
-Öffne danach `http://localhost:8081/swagger-ui.html` und `http://localhost:8081/v3/api-docs`. Arbeite in vier sichtbaren Checkpoints: Health 200, GET mit Liste, POST 201, GET mit gespeichertem Datensatz.
+Öffne danach `http://localhost:8081/swagger-ui.html` und `http://localhost:8081/v3/api-docs`. Arbeite in drei sichtbaren Checkpoints: Migration erfolgreich, Health 200 und GET mit den Seed-Daten. POST folgt in C3.
 
 ### Häufige Fehler und Steuerung
 
 - Wenn Port 8081 belegt ist, stoppe den fremden Prozess oder starte bewusst mit einer anderen `SERVER_PORT`-Variable. Passe dann alle URLs gemeinsam an.
 - Wenn Spring Controller oder Repository nicht findet, prüfe Package-Lage und Component Scan ab `DemoApplication`.
 - Wenn die Gruppe eine Entity direkt zurückgibt, fordere ein `StudentResponse` oder das DTO der Domänenressource.
-- Wenn `ddl-auto=update` als Ersatz für Flyway behandelt wird, verweise auf die verlangte Migration und die Geschichte bestehender Datenbanken.
+- Damit Hibernate kein Schema erzeugt, zeige `ddl-auto=none`. Flyway ist die einzige Schemaquelle im Gruppenstarter.
+- Wenn ein ungültiger Fremdschlüssel gespeichert werden kann, prüfe `spring.datasource.hikari.connection-init-sql=PRAGMA foreign_keys=ON`.
 - Wenn POST grün ist, aber GET leer bleibt, prüfe zuerst, ob beide denselben Repository-Pfad und dieselbe Datenbankdatei nutzen.
 
-### Debrief zu Übung 9
+### Auswertung C2
 
 - Frage, welche Annotation den HTTP-Pfad und welche das Persistenzmodell markiert.
 - Frage, wer die Repository-Implementierung erzeugt.
-- Verfolge einen POST über Controller, DTO, Repository, JPA und SQLite.
+- Verfolge einen GET über Controller, Response-DTO, Repository, JPA und SQLite.
 - Lasse die tatsächlich erzeugte SQL-Anweisung im Log zeigen, wenn die Gruppe sie aktiviert hat.
-- Eine gute Antwort zeigt GET 200, POST 201 und den gespeicherten Datensatz im folgenden GET.
+- Eine gute Antwort zeigt GET 200 und einen Seed-Datensatz, der schon in B2 per SQL und in B3 per JDBC gelesen wurde.
 
 ### Wenn Zeit fehlt
 
-Kürze die vollständige Annotationsübersicht und die Spring-Data-Quellenfolie. Behalte Dependency Injection und die vier Live-Checkpoints. Validation und Fehler gehören erst in Deck 11.
+Kürze die vollständige Annotationsübersicht und die Spring-Data-Quellenfolie. Behalte Artefaktimport, Dependency Injection und die drei Live-Checkpoints. POST, Validation und Fehler folgen in C3.
 
 ## 11 Gutes Anwendungsdesign
 
@@ -504,24 +502,24 @@ Die Studierenden trennen HTTP-Darstellung, Fachlogik und Speicherung. Sie nutzen
 - Wenn alle Exceptions zu 500 werden, sortiere einen Formfehler, eine fehlende ID und einen Konflikt in 400, 404 und 409.
 - Wenn die Feldnamen aus `java/rest-simple` übernommen werden, weise auf den bestehenden Zielbild-Vertrag mit `name`, `mnr`, `createdOn` und den Kursstandard mit `firstName`, `studentNumber`, `enrollmentDate` hin.
 
-### Debrief zu Übung 10
+### Auswertung C3, Fehlervertrag
 
 - Lasse den schwierigsten Fehlerfall durch Controller, optionalen Service, Repository und Datenbank verfolgen.
 - Frage, wo syntaktische Validation endet und eine Fachregel beginnt.
 - Lasse ein internes Entity-Feld nennen, das im Response nicht erscheinen soll.
 - Frage, welche Exception welchen Statuscode und welches Fehlerformat erzeugt.
-- Eine gute Antwort zeigt CRUD, getrennte DTOs sowie 400, 404 und 409 für die Hauptressource.
-- Der verbindliche Ablauf kürzt auf die Hauptressource. Der Beziehungsendpunkt aus `exercises/<domain>/06-rest.md` bleibt offen.
+- Eine gute Antwort zeigt GET und POST, getrennte DTOs sowie 400 oder 409 für die Hauptressource.
+- PUT, DELETE und Beziehungsendpunkte sind Vertiefungen. Die Gruppe beginnt sie erst, wenn der Kernauftrag geprüft ist.
 
 ### Wenn Zeit fehlt
 
-Die Übung dauert laut Ablauf 55 statt 75 Minuten. Streiche zuerst den Beziehungsendpunkt. Zeige die hexagonale Struktur von `java/rest-simple` nur als Dateibaum. DTOs, `@Valid`, Fachregel, Service-Entscheidung und Fehlercodes bleiben.
+Gib bei Bedarf den vorbereiteten Zwischenstand aus `c3-tests-errors/` frei. GET, POST, DTOs, `@Valid`, genau eine Fachregel und der stabile Fehlercode bleiben im Kernauftrag. Die hexagonale Struktur von `java/rest-simple` ist Nachschlageinhalt.
 
 ## 12 Die Anwendung absichern
 
 ### Ziel
 
-Die Studierenden prüfen den HTTP-Rand mit MockMvc und eine Fachentscheidung mit Mockito. Sie verstehen Correlation ID, Actuator, CORS und Security Filter Chain auf Überblicksniveau.
+Die Studierenden prüfen den HTTP-Rand mit MockMvc und eine Fachentscheidung mit Mockito. Sie verfolgen dieselbe Korrelations-ID in Fehlerkörper, Response-Header und Log.
 
 ### Leitfragen
 
@@ -552,18 +550,18 @@ cd java/rest-simple
 - Wenn Correlation IDs nur erzeugt, aber nicht zurückgegeben oder aus MDC entfernt werden, verfolge den ganzen Request bis `finally`.
 - Wenn CORS als API-Schutz gilt, vergleiche einen Browser mit `curl`.
 
-### Debrief zu Übung 11
+### Auswertung C3, Tests
 
 - Frage, welche Grenze jeder der zwei Tests prüft.
 - Lasse zeigen, welches Repository oder welcher Service im Test ersetzt wurde.
 - Frage, warum der Erfolgsfall 201, eine Response-ID und das Fachfeld der Karte prüft.
 - Frage, warum der Konfliktfall 409 und einen stabilen Fehlercode braucht.
 - Sende einen Request mit eigener `X-Correlation-ID` und suche dieselbe ID im Response und im Log.
-- Eine gute Abgabe hat genau die zwei Fälle aus `exercises/<domain>/06-rest.md`, einen passenden Response-Header und eine Logzeile.
+- Eine gute Abgabe hat die Fälle aus `exercises/<domain>/c3-tests-errors/README.md`, einen passenden Response-Header und eine Logzeile.
 
 ### Wenn Zeit fehlt
 
-Pagination und PATCH sind Reserve und entfallen. Kürze Docker, CORS und Security auf je einen Satz. Wenn der Kurs zurückliegt, entfällt zuerst Übung 11. Danach kann der gesamte Block 12 entfallen. Öffne in diesem Fall wenigstens die vorhandenen Tests und den LoggingFilter im Abschluss.
+Actuator, CORS, Security, Docker, Pagination und PATCH stehen im Anhang. Der Pflichtteil bleibt bei Controller-Test, Service-Test, Fehlerkörper und Korrelations-ID.
 
 ## 13 Abschluss
 
@@ -589,23 +587,23 @@ Die Studierenden ordnen ihre Dateien allen acht Schritten der roten Linie zu. Si
 
 - Jede Gruppe nennt in höchstens einer Minute eine Datei, ein beobachtetes Problem und den nächsten Test oder Lernschritt.
 - Lasse einen vollständigen POST vom HTTP-Request bis SQLite und zurück erklären.
-- Ordne die gezeigten Dateien noch einmal den acht exakten Schritten aus `docs/schedule.md` zu.
+- Ordne die gezeigten Dateien noch einmal den Phasen A0 bis C3 aus `docs/schedule.md` zu.
 - Sammle Feedback zu einer konkreten Stelle, an der ein Zwischenschritt fehlte oder eine Übung zu lang war.
 
 ### Wenn Zeit fehlt
 
 Überspringe die GitHub-Quellenfolie und die breite Liste möglicher Folgethemen. Die Dateizuordnung, der Request-Weg und die einminütige Gruppenrunde bleiben.
 
-## Was am dritten Tag eingesammelt wird
+## Was zum Abschluss gezeigt wird
 
 Es gibt keine Benotung. Die Abgabe dient dem gemeinsamen Abschluss und der Kursauswertung. Jede Gruppe zeigt oder teilt:
 
 - das bearbeitete Spring-Projekt für die Hauptressource
 - die Liste der Endpunkte mit Methoden und Statuscodes
 - einen Swagger-Screenshot mit dem eigenen GET und POST
-- den gespeicherten Datensatz aus Übung 9
-- den Stand von CRUD, DTOs, Validation sowie 400, 404 und 409 aus der gekürzten Übung 10
-- falls Übung 11 stattfand, die Ergebnisse der genau zwei geforderten Tests sowie einen `X-Correlation-ID`-Header mit passender Logzeile
+- einen Datensatz, der in B2 per SQL, in B3 per JDBC und in C2 per HTTP gelesen wurde
+- GET, POST, getrennte DTOs, Validation und den vereinbarten Konflikt mit 409
+- die geforderten Tests sowie einen `X-Correlation-ID`-Header mit derselben ID im Fehlerkörper und in der Logzeile
 - einen Satz mit Datei, beobachtetem Problem und nächstem Test
 
-Die Lehrperson nutzt `exercises/<domain>/CHECKLIST.md` und `exercises/<domain>/solutions/` für den Vergleich. Sie vergibt keine Punkte und verlangt keine nachträgliche Fertigstellung des gestrichenen Beziehungsendpunkts oder der entfallenen Übung 7.
+Die Lehrperson nutzt `exercises/instructor-solutions/<domain>/` für den Vergleich. Sie vergibt keine Punkte und verlangt keine nachträgliche Fertigstellung der Vertiefungen.

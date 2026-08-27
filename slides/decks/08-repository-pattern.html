@@ -254,6 +254,20 @@
   .d08-spring-data .slide-frame__footer-mid::after {
     content: none;
   }
+
+  .d08-chapter-guides {
+    position: absolute;
+    top: 130px;
+    left: 0;
+    width: 760px;
+    color: var(--color-amber);
+    font-size: 28px;
+    line-height: 1.45;
+  }
+
+  .d08-chapter-guides p {
+    margin: 0.35rem 0;
+  }
 </style>
 
 <section class="chapter-slide terminal slide-frame">
@@ -268,6 +282,19 @@
     <div class="chapter-eyebrow">Kapitel · 08</div>
     <h1 class="chapter-title-big">Das Repository Pattern</h1>
     <div class="chapter-subtitle">Datenzugriff einmal schreiben</div>
+    <div class="d08-chapter-guides">
+      <div
+        style="
+          font-size: 18px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+        "
+      >
+        Leitfragen
+      </div>
+      <p>Welche Klasse kennt SQL und Spaltennamen?</p>
+      <p>Wie bleibt der Aufrufer unabhängig von JDBC?</p>
+    </div>
     <svg
       viewBox="0 0 1120 260"
       aria-label="Drei Entities laufen durch ein Repository zur Datenbank"
@@ -543,7 +570,7 @@
 
 <section class="slide-frame d08-slide">
   <div class="slide-frame__top">
-    <span class="slide-frame__marker slide-frame__marker--blue">Muster</span>
+    <span class="slide-frame__marker slide-frame__marker--amber">Anhang</span>
     <span class="slide-frame__context">Generisch und konkret</span>
   </div>
   <h2 class="slide-frame__title">AbstractRepository&lt;T&gt;</h2>
@@ -710,6 +737,7 @@
 
 <section class="code-slide d08-code">
   <h2 class="slide-title">Reflection liest die Felder</h2>
+  <span class="slide-context amber">Anhang · nicht Teil des Kernpfads</span>
   <span class="slide-context blue">AbstractRepository.java · 126 bis 138</span>
   <div class="code-slide__content">
     <pre><code class="language-java" data-trim data-line-numbers="1-2|4-6|7-9|12">private T fromResultSet(ResultSet resultSet) throws Exception {
@@ -744,6 +772,7 @@
 
 <section class="code-slide d08-code d08-code-compact">
   <h2 class="slide-title">@Entity und @Column</h2>
+  <span class="slide-context amber">Anhang · Reflection</span>
   <span class="slide-context blue">Student.java · 3 bis 21</span>
   <div class="code-slide__content">
     <pre><code class="language-java" data-trim data-line-numbers="1|3-7|9-13|15-19">@Entity(tableName = "students")
@@ -785,6 +814,7 @@ public class Student {
 
 <section class="code-slide d08-code d08-code-compact">
   <h2 class="slide-title">Generisches create</h2>
+  <span class="slide-context amber">Anhang · Reflection</span>
   <span class="slide-context blue">AbstractRepository.java · 43 bis 64</span>
   <div class="code-slide__content">
     <pre><code class="language-java" data-trim data-line-numbers="1-4|6-9|11-12|14-21">default void create(T entity) throws Exception {
@@ -829,7 +859,7 @@ public class Student {
 
 <section class="slide-frame d08-slide">
   <div class="slide-frame__top">
-    <span class="slide-frame__marker slide-frame__marker--amber">Abwägung</span>
+    <span class="slide-frame__marker slide-frame__marker--amber">Anhang</span>
     <span class="slide-frame__context">Reflection</span>
   </div>
   <h2 class="slide-frame__title">Die Kosten der Reflection</h2>
@@ -1783,39 +1813,35 @@ public class Student {
 </section>
 
 <section class="exercise-slide">
-  <div class="exercise-slide__tag">Übung 7</div>
-  <div class="exercise-slide__time">30 min</div>
-  <p class="exercise-slide__task">Suche und zweite Entity</p>
+  <div class="exercise-slide__tag">B4 · Kernauftrag</div>
+  <div class="exercise-slide__time">15 min</div>
+  <p class="exercise-slide__task">Repository-Grenze freiziehen</p>
   <div class="d08-exercise-steps">
     <div class="d08-exercise-step">
       <span>1</span>
-      <div>
-        Implementiert die konkrete findBy-Methode der Karte mit
-        PreparedStatement und Optional.
-      </div>
+      <div>Verschiebt SQL und Row Mapping aus dem Aufrufer ins Repository.</div>
     </div>
     <div class="d08-exercise-step">
       <span>2</span>
-      <div>Ergänzt die zweite Entity samt Tabelle und Repository.</div>
+      <div>Lasst den Aufrufer nur das Repository-Interface kennen.</div>
     </div>
     <div class="d08-exercise-step">
       <span>3</span>
-      <div>Setzt den beschriebenen Foreign Key.</div>
+      <div>Prüft <code>findById</code> und <code>findAll</code> erneut.</div>
     </div>
     <div class="d08-exercise-step">
       <span>4</span>
-      <div>Zeigt Suche und zugehörige Datensätze im CLI.</div>
+      <div>Sichert Repository und Migration für C2.</div>
     </div>
   </div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> beide Repositories und Models, CREATE SQL,
-    Beispielaufruf mit Ausgabe
+    <strong>Abgabe:</strong> Aufrufer ohne SQL, grüner Test und Übergabestand
   </div>
-  <div class="d08-exercise-path">exercises/&lt;domain&gt;/05-repository.md</div>
+  <div class="d08-exercise-path">exercises/&lt;domain&gt;/b4-repository/</div>
   <aside class="notes">
-    Die Karte nennt Suchfeld, Beispielwert und zweite Entity. Für die Bibliothek
-    sind das `findByIsbn` und `Copy`. Diese Übung entfällt zuerst, wenn Tag 2 zu
-    lang wird.
+    Diese Übung ist verpflichtend. Der vorbereitete Zwischenstand enthält das
+    fertige Refactoring, falls eine Gruppe nach 15 Minuten noch blockiert ist.
+    Reflection bleibt Anhang und ist keine Voraussetzung für C2.
   </aside>
 </section>
 

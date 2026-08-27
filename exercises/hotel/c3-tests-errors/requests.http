@@ -1,0 +1,10 @@
+@base = http://localhost:8081
+GET {{base}}/api/room-types
+
+### gültiger POST
+POST {{base}}/api/room-types
+Content-Type: application/json
+
+{"typeCode": "NX", "name": "Kurszimmer", "capacity": 2, "standardPriceCents": 14900}
+
+### TODO(C3): denselben Wert für type_code erneut senden und 409 prüfen

@@ -1,0 +1,5 @@
+Auftraggeber:
+Problem:
+Hauptentität: Station
+Offene Annahme:
+Begriffe:

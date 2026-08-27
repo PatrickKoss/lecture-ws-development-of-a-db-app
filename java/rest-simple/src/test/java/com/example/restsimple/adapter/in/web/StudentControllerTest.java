@@ -188,6 +188,6 @@ class StudentControllerTest {
         // When & Then
         mockMvc.perform(get("/healthz"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value("OK"));
+                .andExpect(jsonPath("$.status").value("OK"));
     }
 }

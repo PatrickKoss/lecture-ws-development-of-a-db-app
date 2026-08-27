@@ -116,6 +116,25 @@
     white-space: nowrap;
   }
 
+  .d06-chapter-questions {
+    position: absolute;
+    bottom: 4.8rem;
+    left: 5rem;
+    z-index: 2;
+    width: 45rem;
+    padding: 1rem 1.3rem;
+    border-left: 4px solid var(--color-amber);
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 1.45rem;
+    line-height: 1.4;
+  }
+
+  .d06-chapter-questions strong {
+    color: var(--color-amber);
+  }
+
   .d06-caption {
     position: absolute;
     right: var(--frame-gutter);
@@ -445,6 +464,11 @@
   <p class="chapter-subtitle">
     Beziehungen abfragen, viele Zeilen zusammenfassen
   </p>
+  <div class="d06-chapter-questions">
+    <strong>Leitfragen</strong><br />Wie setzen JOINs getrennte Beziehungen
+    wieder zusammen?<br />Wann brauchen wir eine Zeile pro Datensatz oder pro
+    Gruppe?
+  </div>
   <svg
     class="d06-svg"
     viewBox="0 0 1920 1080"
@@ -1870,35 +1894,36 @@ ORDER BY d.code;</code></pre>
 </section>
 
 <section class="exercise-slide">
-  <div class="exercise-slide__tag">Übung 5</div>
-  <div class="exercise-slide__time">50 min</div>
-  <p class="exercise-slide__task">Acht Fragen an eure Datenbank beantworten</p>
+  <div class="exercise-slide__tag">Übung B2</div>
+  <div class="exercise-slide__time">45 min</div>
+  <p class="exercise-slide__task">B2, vier geprüfte Fragen an eure Datenbank</p>
   <div class="d06-exercise-steps">
     <div class="d06-exercise-step">
-      <strong>1</strong>
-      Schreibt die acht vorgegebenen Fragen in `sql/queries.sql`.
+      <strong>Eingang</strong>
+      Startet Schema und Seed aus B1. Prüft mindestens zehn Zeilen.
     </div>
     <div class="d06-exercise-step">
-      <strong>2</strong>
-      Nutzt JOIN, LEFT JOIN und den Datumsvergleich der Karte.
+      <strong>Kern</strong>
+      Schreibt zwei JOIN-Abfragen und eine Aggregation.
     </div>
     <div class="d06-exercise-step">
-      <strong>3</strong>
-      Nutzt in Query 7 GROUP BY plus HAVING.
+      <strong>Kern</strong>
+      Ergänzt eine LEFT-JOIN-Abfrage mit einem fehlenden Partner.
     </div>
     <div class="d06-exercise-step">
-      <strong>4</strong>
-      Nutzt in Query 8 eine Subquery mit GROUP BY plus HAVING.
+      <strong>Vertiefung</strong>
+      Ergänzt HAVING oder eine Subquery aus der Gruppenkarte.
     </div>
   </div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> sql/queries.sql mit Nummer und erwartetem Ergebnis
-    über jeder Query
+    <strong>Ausgang:</strong> queries.sql läuft ohne Fehler; die Gruppe erklärt,
+    warum eine Zeile beim LEFT JOIN erhalten bleibt
   </div>
-  <div class="d06-exercise-path">exercises/&lt;domain&gt;/03-sql.md</div>
+  <div class="d06-exercise-path">exercises/&lt;domain&gt;/b2-sql/README.md</div>
   <aside class="notes">
-    Führt jede Query einzeln aus. Die Karte gibt die fachlichen Fragen vor.
-    Prüft einen Fall ohne passenden rechten Datensatz.
+    Führt jede Abfrage einzeln aus. Nach 35 Minuten kann die Lehrperson eine
+    vorbereitete JOIN-Abfrage freigeben. Plant danach fünf Minuten für die
+    gemeinsame Auswertung ein.
   </aside>
 </section>
 

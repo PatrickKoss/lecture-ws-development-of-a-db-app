@@ -1,0 +1,5 @@
+@PostMapping
+@ResponseStatus(HttpStatus.CREATED)
+public ResourceResponse create(@Valid @RequestBody CreateResourceRequest request) {
+    return ResourceResponse.from(service.create(request));
+}

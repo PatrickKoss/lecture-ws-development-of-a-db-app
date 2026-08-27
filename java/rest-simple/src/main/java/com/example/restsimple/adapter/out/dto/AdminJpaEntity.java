@@ -1,6 +1,5 @@
 package com.example.restsimple.adapter.out.dto;
 
-import com.example.restsimple.converter.LocalDateTimeAttributeConverter;
 import com.example.restsimple.domain.model.Admin;
 import jakarta.persistence.*;
 
@@ -31,11 +30,9 @@ public class AdminJpaEntity {
     private String passwordHash;
 
     @Column(name = "created_at", nullable = false)
-    @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
-    @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime updatedAt;
 
     public AdminJpaEntity() {}

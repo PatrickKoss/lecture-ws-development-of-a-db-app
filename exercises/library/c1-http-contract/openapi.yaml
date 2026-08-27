@@ -1,0 +1,14 @@
+openapi: 3.0.3
+info:
+  title: Bibliothek API
+  version: 1.0.0
+paths:
+  /api/books:
+    get:
+      responses:
+        '200': {description: Liste der Buch-Datensätze}
+    post:
+      responses:
+        '201': {description: Angelegt}
+        '400': {description: Validierung fehlgeschlagen}
+        '409': {description: isbn bereits vorhanden}

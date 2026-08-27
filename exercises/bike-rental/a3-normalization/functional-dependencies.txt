@@ -1,0 +1,8 @@
+Ausgangsrelation:
+STATION_EXPORT(id, station_code, name, capacity, ...)
+
+Funktionale Abhängigkeiten:
+TODO(A3)
+
+Zerlegung bis 3NF:
+TODO(A3)

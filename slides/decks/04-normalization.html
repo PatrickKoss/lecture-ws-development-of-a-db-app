@@ -153,6 +153,25 @@
     text-align: center;
   }
 
+  .d04-chapter-questions {
+    position: absolute;
+    bottom: 4.8rem;
+    left: 5rem;
+    z-index: 2;
+    width: 43rem;
+    padding: 1rem 1.3rem;
+    border-left: 4px solid var(--color-amber);
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 1.45rem;
+    line-height: 1.4;
+  }
+
+  .d04-chapter-questions strong {
+    color: var(--color-amber);
+  }
+
   .d04-exercise-steps {
     display: grid;
     flex: 1;
@@ -254,6 +273,10 @@
   <div class="chapter-eyebrow">Kapitel 04</div>
   <h1 class="chapter-title-big">Normalisierung</h1>
   <p class="chapter-subtitle">Tabellen, die uns nicht anlügen</p>
+  <div class="d04-chapter-questions">
+    <strong>Leitfragen</strong><br />Welche Redundanz erzeugt eine Anomalie?<br />Welche
+    funktionale Abhängigkeit zeigt den passenden Schnitt?
+  </div>
   <svg
     class="slide-svg"
     viewBox="0 0 1920 1080"
@@ -732,11 +755,11 @@
 </section>
 
 <section class="d04-content">
-  <h2 class="slide-title">Insert-Anomalie</h2>
+  <h2 class="slide-title">Einfügeanomalie</h2>
   <svg
     class="slide-svg"
     viewBox="0 0 1920 1080"
-    aria-label="Eine unvollständige flache Zeile für einen neuen Course"
+    aria-label="Eine unvollständige flache Zeile für einen neuen Kurs"
   >
     <g transform="translate(70 300)">
       <rect class="d04-table-head" width="1780" height="90" rx="8"></rect>
@@ -810,10 +833,10 @@
       </g>
     </g>
     <text class="d04-label" x="960" y="225" text-anchor="middle">
-      Hypothetischer neuer Course, nicht in seed.sql
+      Hypothetischer neuer Kurs, nicht in seed.sql
     </text>
   </svg>
-  <div class="slide-caption red">Course ohne Enrollment nicht speicherbar</div>
+  <div class="slide-caption red">Kurs ohne Enrollment nicht speicherbar</div>
   <aside class="notes">
     Ein neuer Kurs existiert fachlich vor der ersten Belegung. Die flache
     Tabelle zwingt uns zu erfundenen Studierendendaten oder verhindert das
@@ -822,11 +845,11 @@
 </section>
 
 <section class="d04-content">
-  <h2 class="slide-title">Delete-Anomalie</h2>
+  <h2 class="slide-title">Löschanomalie</h2>
   <svg
     class="slide-svg"
     viewBox="0 0 1920 1080"
-    aria-label="Beim Löschen einer Belegung verschwinden Course-Daten"
+    aria-label="Beim Löschen einer Belegung verschwinden Kursdaten"
   >
     <text class="d04-label" x="960" y="190" text-anchor="middle">
       Fortsetzung des hypothetischen Beispiels aus 04.6
@@ -879,13 +902,13 @@
         y="390"
         text-anchor="middle"
       >
-        Course-Information unbeabsichtigt gelöscht
+        Kursinformation unbeabsichtigt gelöscht
       </text>
     </g>
   </svg>
   <aside class="notes">
     Wir wollten eine Belegung löschen. In der flachen Tabelle verlieren wir
-    zugleich den einzigen Datensatz über diesen Course.
+    zugleich den einzigen Datensatz über diesen Kurs.
   </aside>
 </section>
 
@@ -1057,6 +1080,291 @@
 </section>
 
 <section class="d04-content">
+  <h2 class="slide-title">Funktionale Abhängigkeit, formal</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Formale Definition einer funktionalen Abhängigkeit mit positivem und negativem Zeilenbeispiel"
+  >
+    <g transform="translate(110 130)">
+      <rect class="d04-box-blue" width="1700" height="195" rx="12"></rect>
+      <text class="d04-label d04-blue" x="850" y="45" text-anchor="middle">
+        DEFINITION
+      </text>
+      <text class="d04-text" x="850" y="88" text-anchor="middle">
+        <tspan x="850">
+          X → Y gilt genau dann, wenn für alle Tupel t1, t2:
+        </tspan>
+        <tspan x="850" dy="42">t1[X] = t2[X] ⇒ t1[Y] = t2[Y]</tspan>
+      </text>
+      <text class="d04-text d04-amber" x="850" y="165" text-anchor="middle">
+        gleicher X-Wert erzwingt gleichen Y-Wert
+      </text>
+    </g>
+
+    <g transform="translate(110 350)">
+      <rect class="d04-box-blue" width="800" height="530" rx="12"></rect>
+      <text class="d04-label d04-blue" x="400" y="48" text-anchor="middle">
+        PRÜFUNG: lecturer_id → lecturer_name
+      </text>
+      <rect class="d04-table-head" x="30" y="85" width="740" height="70"></rect>
+      <rect class="d04-box" x="30" y="155" width="740" height="180"></rect>
+      <g class="fragment fade-in" data-fragment-index="1">
+        <rect
+          class="d04-highlight-amber"
+          x="370"
+          y="155"
+          width="160"
+          height="180"
+        ></rect>
+        <text class="d04-text d04-amber" x="400" y="390" text-anchor="middle">
+          t1[X] = t2[X]: 1 = 1
+        </text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="2">
+        <rect
+          class="d04-highlight-amber"
+          x="530"
+          y="155"
+          width="240"
+          height="180"
+        ></rect>
+        <text
+          class="d04-text d04-text-compact d04-green"
+          x="400"
+          y="440"
+          text-anchor="middle"
+        >
+          ⇒ t1[Y] = t2[Y]: Anna Weber = Anna Weber
+        </text>
+        <text class="d04-label d04-green" x="400" y="485" text-anchor="middle">
+          GILT ALS FACHREGEL
+        </text>
+      </g>
+      <path
+        class="d04-line"
+        d="M110 85 V335 M370 85 V335 M530 85 V335 M30 245 H770"
+      ></path>
+      <g class="d04-table-header">
+        <text x="70" y="130">Tupel</text>
+        <text x="240" y="130">student_name</text>
+        <text x="450" y="130">lecturer_id</text>
+        <text x="650" y="130">lecturer_name</text>
+      </g>
+      <g class="d04-table-value">
+        <text x="70" y="212">t1</text>
+        <text x="240" y="212">Lena Hoffmann</text>
+        <text x="450" y="212">1</text>
+        <text x="650" y="212">Anna Weber</text>
+        <text x="70" y="302">t2</text>
+        <text x="240" y="302">Jonas Becker</text>
+        <text x="450" y="302">1</text>
+        <text x="650" y="302">Anna Weber</text>
+      </g>
+    </g>
+
+    <g
+      class="fragment fade-in"
+      data-fragment-index="3"
+      transform="translate(1010 350)"
+    >
+      <rect class="d04-box-red" width="800" height="530" rx="12"></rect>
+      <text class="d04-label d04-red" x="400" y="48" text-anchor="middle">
+        GEGENBEISPIEL: student_id ↛ grade
+      </text>
+      <rect class="d04-table-head" x="30" y="85" width="740" height="70"></rect>
+      <rect class="d04-box" x="30" y="155" width="740" height="180"></rect>
+      <rect
+        class="d04-highlight-red"
+        x="520"
+        y="155"
+        width="150"
+        height="180"
+      ></rect>
+      <text class="d04-text d04-red" x="400" y="390" text-anchor="middle">
+        t1[X] = t2[X]: 1 = 1
+      </text>
+      <g class="fragment fade-in" data-fragment-index="4">
+        <rect
+          class="d04-highlight-red"
+          x="670"
+          y="155"
+          width="100"
+          height="180"
+        ></rect>
+        <text class="d04-text d04-red" x="400" y="440" text-anchor="middle">
+          t1[Y] ≠ t2[Y]: 1.7 ≠ 2.0
+        </text>
+        <text class="d04-label d04-red" x="400" y="485" text-anchor="middle">
+          IMPLIKATION FALSCH
+        </text>
+      </g>
+      <path
+        class="d04-line"
+        d="M110 85 V335 M330 85 V335 M520 85 V335 M670 85 V335 M30 245 H770"
+      ></path>
+      <g class="d04-table-header">
+        <text x="70" y="130">Tupel</text>
+        <text x="220" y="130">student_name</text>
+        <text x="425" y="130">course_code</text>
+        <text x="595" y="130">student_id</text>
+        <text x="720" y="130">grade</text>
+      </g>
+      <g class="d04-table-value">
+        <text x="70" y="212">t1</text>
+        <text x="220" y="212">Lena Hoffmann</text>
+        <text x="425" y="212">INF-201</text>
+        <text x="595" y="212">1</text>
+        <text x="720" y="212">1.7</text>
+        <text x="70" y="302">t2</text>
+        <text x="220" y="302">Lena Hoffmann</text>
+        <text x="425" y="302">INF-202</text>
+        <text x="595" y="302">1</text>
+        <text x="720" y="302">2.0</text>
+      </g>
+    </g>
+  </svg>
+  <aside class="notes">
+    Eine funktionale Abhängigkeit ist eine Regel der Domäne. Die beiden
+    Lecturer-Zeilen machen die Regel konkret, beweisen sie aber nicht. Sechs
+    Zeilen können eine funktionale Abhängigkeit widerlegen, niemals beweisen.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">Schlüsselbegriffe</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Vier formale Schlüsselbegriffe mit Beispielen aus enrollments_flat"
+  >
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d04-box-blue"
+        x="110"
+        y="170"
+        width="810"
+        height="330"
+        rx="12"
+      ></rect>
+      <text class="d04-label d04-amber" x="515" y="225" text-anchor="middle">
+        SUPERSCHLÜSSEL
+      </text>
+      <line class="d04-line" x1="155" y1="250" x2="875" y2="250"></line>
+      <text
+        class="d04-text d04-text-compact"
+        x="515"
+        y="310"
+        text-anchor="middle"
+      >
+        Attributmenge K mit K → alle Attribute.
+      </text>
+      <text class="d04-text d04-blue" x="515" y="390" text-anchor="middle">
+        (student_id, course_id, enrolled_on)
+      </text>
+      <text class="d04-text" x="515" y="440" text-anchor="middle">
+        ist Superschlüssel, aber nicht minimal.
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d04-box-blue"
+        x="1000"
+        y="170"
+        width="810"
+        height="330"
+        rx="12"
+      ></rect>
+      <text class="d04-label d04-amber" x="1405" y="225" text-anchor="middle">
+        KANDIDATENSCHLÜSSEL
+      </text>
+      <line class="d04-line" x1="1045" y1="250" x2="1765" y2="250"></line>
+      <text class="d04-text" x="1405" y="295" text-anchor="middle">
+        Minimaler Superschlüssel:
+      </text>
+      <text class="d04-text" x="1405" y="340" text-anchor="middle">
+        kein Attribut ist entfernbar.
+      </text>
+      <text class="d04-text d04-blue" x="1405" y="415" text-anchor="middle">
+        (student_id, course_id)
+      </text>
+      <text class="d04-text" x="1405" y="460" text-anchor="middle">
+        ist Kandidatenschlüssel.
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        class="d04-box-blue"
+        x="110"
+        y="550"
+        width="810"
+        height="370"
+        rx="12"
+      ></rect>
+      <text class="d04-label d04-amber" x="515" y="605" text-anchor="middle">
+        SCHLÜSSELATTRIBUT / NICHTSCHLÜSSELATTRIBUT
+      </text>
+      <line class="d04-line" x1="155" y1="630" x2="875" y2="630"></line>
+      <text class="d04-text" x="515" y="685" text-anchor="middle">
+        kommt in mindestens einem / keinem
+      </text>
+      <text class="d04-text" x="515" y="730" text-anchor="middle">
+        Kandidatenschlüssel vor.
+      </text>
+      <text
+        class="d04-text d04-text-compact d04-blue"
+        x="515"
+        y="805"
+        text-anchor="middle"
+      >
+        student_id, course_id: Schlüsselattribute
+      </text>
+      <text class="d04-text d04-red" x="515" y="850" text-anchor="middle">
+        grade: Nichtschlüsselattribut
+      </text>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="4">
+      <rect
+        class="d04-box-blue"
+        x="1000"
+        y="550"
+        width="810"
+        height="370"
+        rx="12"
+      ></rect>
+      <text class="d04-label d04-amber" x="1405" y="605" text-anchor="middle">
+        VOLLE / PARTIELLE ABHÄNGIGKEIT
+      </text>
+      <line class="d04-line" x1="1045" y1="630" x2="1765" y2="630"></line>
+      <text class="d04-text" x="1405" y="685" text-anchor="middle">
+        Y hängt voll von K ab, wenn keine echte
+      </text>
+      <text class="d04-text" x="1405" y="730" text-anchor="middle">
+        Teilmenge von K bereits Y bestimmt.
+      </text>
+      <text class="d04-text d04-red" x="1405" y="790" text-anchor="middle">
+        student_id → student_name
+      </text>
+      <text class="d04-text d04-red" x="1405" y="835" text-anchor="middle">
+        ⇒ partiell abhängig vom
+      </text>
+      <text class="d04-text d04-red" x="1405" y="875" text-anchor="middle">
+        Kandidatenschlüssel
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Diese vier Begriffe tragen die Definitionen von 2NF und 3NF. Minimal
+    bedeutet, dass wirklich kein Attribut aus dem Superschlüssel entfernt werden
+    kann. Bei einem zusammengesetzten Kandidatenschlüssel suchen wir gezielt
+    nach Abhängigkeiten von seinen echten Teilmengen.
+  </aside>
+</section>
+
+<section class="d04-content">
   <h2 class="slide-title">Der Schlüssel der Belegung</h2>
   <svg
     class="slide-svg"
@@ -1162,84 +1470,399 @@
     </g>
   </svg>
   <aside class="notes">
-    Die Note gehört zur Paarung. Weder Student noch Course allein bestimmen sie.
+    Die Note gehört zur Paarung. Weder Student noch Kurs allein bestimmen sie.
     Für die 2NF-Prüfung zählt dieser zusammengesetzte Kandidatenschlüssel, auch
     wenn `enrollments.id` der Primärschlüssel ist.
   </aside>
 </section>
 
 <section class="d04-content">
-  <h2 class="slide-title">1NF, ein Wert pro Zelle</h2>
+  <h2 class="slide-title">1NF, die Definition</h2>
   <svg
     class="slide-svg"
     viewBox="0 0 1920 1080"
-    aria-label="Liste in einer Zelle gegenüber zwei atomaren Zeilen"
+    aria-label="Definition der ersten Normalform und drei verbotene Formen"
   >
-    <g transform="translate(120 270)">
-      <rect
-        class="d04-box-red"
-        x="0"
-        y="0"
-        width="720"
-        height="280"
-        rx="14"
-      ></rect>
-      <text class="d04-label d04-red" x="360" y="60" text-anchor="middle">
-        course_codes
+    <g transform="translate(120 165)">
+      <rect class="d04-box-blue" width="1680" height="250" rx="14"></rect>
+      <text class="d04-label d04-blue" x="840" y="52" text-anchor="middle">
+        ERSTE NORMALFORM
       </text>
-      <text class="d04-text d04-red" x="360" y="155" text-anchor="middle">
-        course_codes="INF-201,INF-230"
+      <text class="d04-text" x="840" y="112" text-anchor="middle">
+        <tspan x="840">
+          Eine Relation ist in 1NF, wenn jedes Attribut in jeder Zeile
+        </tspan>
+        <tspan x="840" dy="48">
+          genau
+          <tspan class="d04-amber">EINEN</tspan>
+          atomaren Wert trägt:
+        </tspan>
       </text>
-      <g transform="translate(900 0)">
-        <rect class="d04-box-blue" width="720" height="280" rx="14"></rect>
-        <text class="d04-label d04-green" x="360" y="55" text-anchor="middle">
-          ENROLLMENTS
+      <text class="d04-label d04-red" x="840" y="218" text-anchor="middle">
+        <tspan class="fragment fade-in" data-fragment-index="1">
+          KEINE LISTEN,
+        </tspan>
+        <tspan class="fragment fade-in" data-fragment-index="2">
+          KEINE WIEDERHOLUNGSGRUPPEN,
+        </tspan>
+        <tspan class="fragment fade-in" data-fragment-index="3">
+          KEINE GESCHACHTELTEN TABELLEN
+        </tspan>
+      </text>
+
+      <g class="fragment fade-in" data-fragment-index="1">
+        <rect
+          class="d04-box-red"
+          x="0"
+          y="300"
+          width="520"
+          height="330"
+          rx="12"
+        ></rect>
+        <text class="d04-label d04-red" x="260" y="355" text-anchor="middle">
+          1 · LISTE IN EINER ZELLE
         </text>
-        <text class="d04-text" x="360" y="135" text-anchor="middle">
-          student_id=1, course_id=1
+        <text class="d04-text d04-red" x="260" y="455" text-anchor="middle">
+          <tspan x="260">course_codes =</tspan>
+          <tspan x="260" dy="52">"INF-201,INF-230"</tspan>
         </text>
-        <line class="d04-line" x1="45" y1="175" x2="675" y2="175"></line>
-        <text class="d04-text" x="360" y="235" text-anchor="middle">
-          student_id=1, course_id=3
+        <text class="d04-text d04-red" x="260" y="585" text-anchor="middle">
+          ✕
         </text>
       </g>
-      <text
-        class="d04-text d04-amber fragment fade-in"
-        data-fragment-index="1"
-        x="810"
-        y="400"
-        text-anchor="middle"
-      >
-        atomar für unseren Zweck
-      </text>
-      <text
-        class="d04-text d04-green fragment fade-in"
-        data-fragment-index="2"
-        x="810"
-        y="485"
-        text-anchor="middle"
-      >
-        keine Listen in Zellen
-      </text>
+
+      <g class="fragment fade-in" data-fragment-index="2">
+        <rect
+          class="d04-box-red"
+          x="580"
+          y="300"
+          width="520"
+          height="330"
+          rx="12"
+        ></rect>
+        <text class="d04-label d04-red" x="840" y="355" text-anchor="middle">
+          2 · WIEDERHOLUNGSGRUPPE
+        </text>
+        <text class="d04-text d04-red" x="840" y="435" text-anchor="middle">
+          <tspan x="840">course_code_1</tspan>
+          <tspan x="840" dy="48">course_code_2</tspan>
+          <tspan x="840" dy="48">course_code_3</tspan>
+        </text>
+        <text class="d04-text d04-red" x="840" y="585" text-anchor="middle">
+          ✕
+        </text>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="3">
+        <rect
+          class="d04-box-red"
+          x="1160"
+          y="300"
+          width="520"
+          height="330"
+          rx="12"
+        ></rect>
+        <text class="d04-label d04-red" x="1420" y="355" text-anchor="middle">
+          3 · GESCHACHTELTE TABELLE
+        </text>
+        <rect
+          class="d04-table-cell"
+          x="1280"
+          y="410"
+          width="280"
+          height="140"
+          rx="6"
+        ></rect>
+        <line class="d04-line-red" x1="1280" y1="480" x2="1560" y2="480"></line>
+        <text class="d04-table-value d04-red" x="1420" y="457">Zeile A</text>
+        <text class="d04-table-value d04-red" x="1420" y="527">Zeile B</text>
+        <text class="d04-label d04-red" x="1420" y="600" text-anchor="middle">
+          EINE ZELLE ENTHÄLT ZEILEN
+        </text>
+      </g>
     </g>
   </svg>
   <aside class="notes">
-    1NF verlangt Werte, die wir nicht als versteckte Liste behandeln. Atomar
-    hängt vom Zweck ab. Eine ISO-Datumszeichenkette ist für unsere Abfragen ein
-    Wert.
+    Atomar heißt: für unseren Zweck unteilbar. Eine Zelle enthält deshalb weder
+    eine Liste noch eine Wiederholungsgruppe oder eine weitere Tabelle. Ein
+    ISO-Datum ist trotzdem ein Wert, obwohl es aus Jahr, Monat und Tag besteht.
   </aside>
 </section>
 
 <section class="d04-content">
-  <h2 class="slide-title">2NF, der ganze Schlüssel zählt</h2>
+  <h2 class="slide-title">1NF verletzt, die Prüfung</h2>
   <svg
     class="slide-svg"
     viewBox="0 0 1920 1080"
-    aria-label="Partielle Abhängigkeiten verlassen Enrollment"
+    aria-label="Prüfung einer students_flat-Tabelle mit einer Liste in einer Zelle"
+  >
+    <text class="d04-label d04-blue" x="960" y="170" text-anchor="middle">
+      students_flat(student_id, student_name, course_codes)
+    </text>
+
+    <text
+      class="d04-text d04-amber fragment fade-in"
+      data-fragment-index="1"
+      x="960"
+      y="235"
+      text-anchor="middle"
+    >
+      Prüffrage: Trägt jede Zelle genau einen Wert?
+    </text>
+
+    <g transform="translate(160 285)">
+      <rect class="d04-table-head" width="1600" height="90" rx="8"></rect>
+      <text class="d04-table-header" x="140" y="56">student_id</text>
+      <text class="d04-table-header" x="610" y="56">student_name</text>
+      <text class="d04-table-header" x="1280" y="56">course_codes</text>
+      <rect class="d04-box" y="90" width="1600" height="280"></rect>
+      <path class="d04-line" d="M280 0 V370 M940 0 V370 M0 230 H1600"></path>
+
+      <g class="fragment fade-in" data-fragment-index="2">
+        <rect
+          class="d04-highlight-red"
+          x="940"
+          y="90"
+          width="660"
+          height="140"
+        ></rect>
+      </g>
+
+      <g class="d04-table-value">
+        <text x="140" y="175">1</text>
+        <text x="610" y="175">Lena Hoffmann</text>
+        <text x="1270" y="175">"INF-201,INF-230"</text>
+        <text x="140" y="315">2</text>
+        <text x="610" y="315">Jonas Becker</text>
+        <text x="1270" y="315">"INF-201"</text>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="2">
+        <text class="d04-text d04-red" x="1270" y="430" text-anchor="middle">
+          zwei Werte in einer Zelle, 1NF verletzt
+        </text>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="3">
+        <rect
+          class="d04-box-red"
+          x="0"
+          y="500"
+          width="1600"
+          height="150"
+          rx="10"
+        ></rect>
+        <text
+          class="d04-text d04-text-compact d04-red"
+          x="800"
+          y="590"
+          text-anchor="middle"
+        >
+          WHERE course_code = 'INF-230' findet die Zeile nur mit String-Tricks
+          (LIKE '%INF-230%').
+        </text>
+      </g>
+    </g>
+  </svg>
+  <aside class="notes">
+    Wir prüfen die Definition Zelle für Zelle. Die erste problematische Zelle
+    enthält zwei Course-Codes und verletzt damit die 1NF. Der Verstoß fällt
+    durch die Prüffrage auf, nicht durch Intuition.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">1NF erfüllt</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Enrollment-Tabelle mit einer Zeile pro Student-Course-Paar"
+  >
+    <text class="d04-text d04-amber" x="960" y="190" text-anchor="middle">
+      Trägt jede Zelle genau einen Wert?
+    </text>
+
+    <g class="fragment fade-in" data-fragment-index="1">
+      <g transform="translate(360 250)">
+        <text class="d04-label d04-blue" x="600" y="0" text-anchor="middle">
+          enrollments(student_id, course_code)
+        </text>
+        <rect
+          class="d04-table-head"
+          y="40"
+          width="1200"
+          height="90"
+          rx="8"
+        ></rect>
+        <text class="d04-table-header" x="300" y="96">student_id</text>
+        <text class="d04-table-header" x="900" y="96">course_code</text>
+        <rect class="d04-box" y="130" width="1200" height="330"></rect>
+        <path
+          class="d04-line"
+          d="M600 40 V460 M0 240 H1200 M0 350 H1200"
+        ></path>
+        <g class="d04-table-value">
+          <text x="300" y="200">1</text>
+          <text x="900" y="200">INF-201</text>
+          <text x="300" y="310">1</text>
+          <text x="900" y="310">INF-230</text>
+          <text x="300" y="420">2</text>
+          <text x="900" y="420">INF-201</text>
+        </g>
+      </g>
+    </g>
+
+    <g class="fragment fade-in" data-fragment-index="2">
+      <path class="d04-line-green" d="M300 760 H1620 V930 H300 Z"></path>
+      <text class="d04-text d04-green" x="960" y="825" text-anchor="middle">
+        jede Zelle genau ein Wert ✓
+      </text>
+      <text class="d04-text d04-green" x="960" y="885" text-anchor="middle">
+        WHERE course_code = 'INF-230' funktioniert ohne Tricks.
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Jede Belegung steht jetzt in einer eigenen Zeile. Damit besteht jede Zelle
+    die Prüffrage, und die Datenbank kann direkt nach `course_code` filtern. 1NF
+    ist die Eintrittskarte. Erst jetzt lassen sich funktionale Abhängigkeiten
+    über Spalten sauber definieren.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">2NF, die Definition</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Definition der zweiten Normalform und drei Prüffragen"
+  >
+    <g transform="translate(150 165)">
+      <rect
+        class="d04-box-amber"
+        x="0"
+        y="0"
+        width="1620"
+        height="260"
+        rx="14"
+      ></rect>
+      <text class="d04-label d04-amber" x="810" y="50" text-anchor="middle">
+        DEFINITION
+      </text>
+      <g class="fragment fade-in" data-fragment-index="1">
+        <text class="d04-text" x="810" y="120" text-anchor="middle">
+          Eine Relation ist in 2NF, wenn sie in 1NF ist
+        </text>
+        <line
+          class="d04-line-amber"
+          x1="570"
+          y1="138"
+          x2="1050"
+          y2="138"
+        ></line>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="2">
+        <text class="d04-text" x="810" y="190" text-anchor="middle">
+          <tspan x="810">
+            UND jedes Nichtschlüsselattribut von JEDEM Kandidatenschlüssel
+          </tspan>
+          <tspan x="810" dy="42">
+            voll funktional abhängig ist (keine partielle Abhängigkeit).
+          </tspan>
+        </text>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="3">
+        <rect
+          class="d04-box-blue"
+          x="0"
+          y="335"
+          width="500"
+          height="210"
+          rx="12"
+        ></rect>
+        <text class="d04-label d04-blue" x="250" y="385" text-anchor="middle">
+          FRAGE 1
+        </text>
+        <text class="d04-text" x="250" y="465" text-anchor="middle">
+          <tspan x="250">Was sind die</tspan>
+          <tspan x="250" dy="42">Kandidatenschlüssel?</tspan>
+        </text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="4">
+        <rect
+          class="d04-box-blue"
+          x="560"
+          y="335"
+          width="500"
+          height="210"
+          rx="12"
+        ></rect>
+        <text class="d04-label d04-blue" x="810" y="385" text-anchor="middle">
+          FRAGE 2
+        </text>
+        <text class="d04-text" x="810" y="465" text-anchor="middle">
+          <tspan x="810">Welche Attribute sind</tspan>
+          <tspan x="810" dy="42">Nichtschlüsselattribute?</tspan>
+        </text>
+      </g>
+      <g class="fragment fade-in" data-fragment-index="5">
+        <rect
+          class="d04-box-red"
+          x="1120"
+          y="335"
+          width="500"
+          height="210"
+          rx="12"
+        ></rect>
+        <text class="d04-label d04-red" x="1370" y="385" text-anchor="middle">
+          FRAGE 3
+        </text>
+        <text class="d04-text" x="1370" y="445" text-anchor="middle">
+          <tspan x="1370">Hängt eines davon schon</tspan>
+          <tspan x="1370" dy="42">von einem ECHTEN Teil</tspan>
+          <tspan x="1370" dy="42">eines Schlüssels ab?</tspan>
+        </text>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="6">
+        <rect
+          class="d04-box"
+          x="210"
+          y="610"
+          width="1200"
+          height="165"
+          rx="10"
+        ></rect>
+        <text class="d04-text d04-green" x="810" y="655" text-anchor="middle">
+          <tspan x="810">Partielle Abhängigkeiten gibt es nur</tspan>
+          <tspan x="810" dy="42">bei zusammengesetzten Schlüsseln.</tspan>
+          <tspan x="810" dy="42">
+            Sind alle Kandidatenschlüssel einspaltig, ist 2NF automatisch
+            erfüllt.
+          </tspan>
+        </text>
+      </g>
+    </g>
+  </svg>
+  <aside class="notes">
+    2NF ist eine Aussage über Teile zusammengesetzter Schlüssel, sonst nichts.
+    Wir bestimmen zuerst alle Kandidatenschlüssel und prüfen danach nur die
+    Nichtschlüsselattribute. Sind alle Kandidatenschlüssel einspaltig, gibt es
+    keinen echten Teil, der eine partielle Abhängigkeit erzeugen könnte.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">2NF verletzt, die Prüfung</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Dreistufige 2NF-Prüfung von enrollments_flat mit zwei partiellen Abhängigkeiten"
   >
     <defs>
       <marker
-        id="d04-2nf-arrow"
+        id="d04-2nf-check-red-arrow"
         markerWidth="12"
         markerHeight="12"
         refX="10"
@@ -1249,105 +1872,356 @@
         <polygon class="d04-red" points="0 0, 12 6, 0 12"></polygon>
       </marker>
     </defs>
-    <g transform="translate(170 215)">
-      <rect
-        class="d04-box-amber"
-        x="430"
-        y="0"
-        width="660"
-        height="130"
-        rx="12"
-      ></rect>
-      <text class="d04-text d04-amber" x="760" y="80" text-anchor="middle">
-        (student_id, course_id)
-      </text>
+    <g transform="translate(120 145)">
       <g class="fragment fade-in" data-fragment-index="1">
+        <text class="d04-label" x="0" y="35">RELATION · enrollments_flat</text>
+        <text class="d04-label d04-amber" x="840" y="35" text-anchor="middle">
+          SCHRITT 1 · KANDIDATENSCHLÜSSEL
+        </text>
         <rect
-          class="d04-box-red"
-          x="0"
-          y="250"
-          width="430"
-          height="130"
+          class="d04-box-amber"
+          x="455"
+          y="60"
+          width="770"
+          height="125"
           rx="12"
         ></rect>
-        <text class="d04-text d04-red" x="215" y="330" text-anchor="middle">
-          student_name
+        <line class="d04-line-amber" x1="840" y1="60" x2="840" y2="185"></line>
+        <text class="d04-text d04-amber" x="645" y="138" text-anchor="middle">
+          student_id
         </text>
-        <path
-          class="d04-line-red"
-          d="M600 130 C520 190 360 175 250 240"
-          marker-end="url(#d04-2nf-arrow)"
-        ></path>
-        <text class="d04-label d04-red" x="300" y="195">nur student_id</text>
+        <text class="d04-text d04-amber" x="1035" y="138" text-anchor="middle">
+          course_id
+        </text>
       </g>
+
       <g class="fragment fade-in" data-fragment-index="2">
-        <rect
-          class="d04-box-red"
-          x="1090"
-          y="250"
-          width="430"
-          height="130"
-          rx="12"
-        ></rect>
-        <text class="d04-text d04-red" x="1305" y="330" text-anchor="middle">
-          course_title
+        <text class="d04-label d04-blue" x="840" y="240" text-anchor="middle">
+          SCHRITT 2 · NICHTSCHLÜSSELATTRIBUTE
         </text>
+        <rect
+          class="d04-box-blue"
+          x="80"
+          y="265"
+          width="1520"
+          height="140"
+          rx="10"
+        ></rect>
+        <text
+          class="d04-text d04-text-compact"
+          x="840"
+          y="300"
+          text-anchor="middle"
+        >
+          <tspan x="840">student_name · course_code · course_title</tspan>
+          <tspan x="840" dy="38">
+            lecturer_id · lecturer_name · department_name
+          </tspan>
+          <tspan x="840" dy="38">enrolled_on · grade</tspan>
+        </text>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="3">
         <path
           class="d04-line-red"
-          d="M920 130 C1000 190 1160 175 1270 240"
-          marker-end="url(#d04-2nf-arrow)"
+          d="M645 185 C645 220 60 220 60 250 V445"
+          marker-end="url(#d04-2nf-check-red-arrow)"
         ></path>
-        <text class="d04-label d04-red" x="1060" y="195">nur course_id</text>
-      </g>
-      <g class="fragment fade-in" data-fragment-index="3">
         <rect
-          class="d04-box-blue"
+          class="d04-box-red"
           x="0"
-          y="500"
-          width="430"
-          height="150"
+          y="465"
+          width="800"
+          height="165"
           rx="12"
         ></rect>
-        <text class="d04-label d04-blue" x="215" y="555" text-anchor="middle">
-          students
+        <text class="d04-label d04-red" x="400" y="510" text-anchor="middle">
+          SCHRITT 3A · PARTIELL
         </text>
-        <text class="d04-text" x="215" y="615" text-anchor="middle">
-          student_name
+        <text class="d04-text d04-red" x="400" y="565" text-anchor="middle">
+          student_id → student_name
         </text>
+        <text class="d04-label d04-red" x="400" y="605" text-anchor="middle">
+          NUR TEILSCHLÜSSEL student_id → 2NF VERLETZT
+        </text>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="4">
+        <path
+          class="d04-line-red"
+          d="M1035 185 C1035 220 1620 220 1620 250 V445"
+          marker-end="url(#d04-2nf-check-red-arrow)"
+        ></path>
+        <rect
+          class="d04-box-red"
+          x="880"
+          y="465"
+          width="800"
+          height="165"
+          rx="12"
+        ></rect>
+        <text class="d04-label d04-red" x="1280" y="510" text-anchor="middle">
+          SCHRITT 3B · GLEICHE VERLETZUNG
+        </text>
+        <text class="d04-text d04-red" x="1280" y="565" text-anchor="middle">
+          course_id → course_title
+        </text>
+        <text class="d04-label d04-red" x="1280" y="605" text-anchor="middle">
+          NUR TEILSCHLÜSSEL course_id → 2NF VERLETZT
+        </text>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="5">
         <rect
           class="d04-box-blue"
-          x="1090"
-          y="500"
-          width="430"
-          height="150"
+          x="355"
+          y="700"
+          width="970"
+          height="125"
           rx="12"
         ></rect>
-        <text class="d04-label d04-blue" x="1305" y="555" text-anchor="middle">
-          courses
+        <text class="d04-text d04-green" x="840" y="755" text-anchor="middle">
+          (student_id, course_id) → grade
         </text>
-        <text class="d04-text" x="1305" y="615" text-anchor="middle">
-          course_title
+        <text class="d04-label d04-green" x="840" y="800" text-anchor="middle">
+          VOLL ABHÄNGIG · IN ORDNUNG ✓
         </text>
-        <path class="d04-line-blue" d="M215 380 V485 M1305 380 V485"></path>
       </g>
     </g>
   </svg>
   <aside class="notes">
-    2NF entfernt partielle Abhängigkeiten von einem Teil des zusammengesetzten
-    Schlüssels. In enrollments bleiben nur Fakten über die Paarung.
+    `student_name` und `course_title` hängen jeweils schon von einem Teil des
+    Kandidatenschlüssels ab. Das verletzt 2NF. `grade` und `enrolled_on` bleiben
+    bei der Paarung, weil erst Student und Kurs zusammen diese Werte bestimmen.
   </aside>
 </section>
 
 <section class="d04-content">
-  <h2 class="slide-title">3NF, keine Umleitung</h2>
+  <h2 class="slide-title">2NF erfüllt</h2>
   <svg
     class="slide-svg"
     viewBox="0 0 1920 1080"
-    aria-label="Transitive Abhängigkeit über Lecturer und Department"
+    aria-label="Drei zerlegte Tabellen erfüllen die zweite Normalform"
+  >
+    <g transform="translate(140 175)">
+      <g class="fragment fade-in" data-fragment-index="1">
+        <g transform="translate(0 0)">
+          <rect class="d04-box-blue" width="480" height="300" rx="12"></rect>
+          <text class="d04-label d04-blue" x="240" y="50" text-anchor="middle">
+            students
+          </text>
+          <line class="d04-line" x1="30" y1="75" x2="450" y2="75"></line>
+          <text class="d04-text d04-amber" x="45" y="140">student_id</text>
+          <line
+            class="d04-line-amber"
+            x1="45"
+            y1="153"
+            x2="235"
+            y2="153"
+          ></line>
+          <text class="d04-text" x="45" y="220">student_name</text>
+        </g>
+
+        <g transform="translate(570 0)">
+          <rect class="d04-box-blue" width="480" height="300" rx="12"></rect>
+          <text class="d04-label d04-blue" x="240" y="50" text-anchor="middle">
+            courses
+          </text>
+          <line class="d04-line" x1="30" y1="75" x2="450" y2="75"></line>
+          <text class="d04-text d04-amber" x="45" y="140">course_id</text>
+          <line
+            class="d04-line-amber"
+            x1="45"
+            y1="153"
+            x2="215"
+            y2="153"
+          ></line>
+          <text class="d04-text" x="45" y="210">course_title</text>
+          <text class="d04-text d04-grey" x="45" y="265">...</text>
+        </g>
+
+        <g transform="translate(1140 0)">
+          <rect class="d04-box-blue" width="480" height="300" rx="12"></rect>
+          <text class="d04-label d04-blue" x="240" y="50" text-anchor="middle">
+            enrollments
+          </text>
+          <line class="d04-line" x1="30" y1="75" x2="450" y2="75"></line>
+          <text class="d04-text d04-amber" x="30" y="130">student_id</text>
+          <text class="d04-text d04-amber" x="265" y="130">course_id</text>
+          <line
+            class="d04-line-amber"
+            x1="30"
+            y1="143"
+            x2="450"
+            y2="143"
+          ></line>
+          <text class="d04-text" x="35" y="205">enrolled_on</text>
+          <text class="d04-text" x="290" y="205">grade</text>
+        </g>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="2">
+        <rect
+          class="d04-box-blue"
+          x="300"
+          y="385"
+          width="1120"
+          height="200"
+          rx="12"
+        ></rect>
+        <text class="d04-label d04-blue" x="860" y="430" text-anchor="middle">
+          PRÜFUNG FÜR enrollments
+        </text>
+        <text class="d04-text" x="860" y="495" text-anchor="middle">
+          <tspan x="860">
+            Jedes Nichtschlüsselattribut (enrolled_on, grade)
+          </tspan>
+          <tspan x="860" dy="42">hängt voll vom ganzen Schlüssel ab.</tspan>
+        </text>
+        <text class="d04-text d04-green" x="860" y="575" text-anchor="middle">
+          keine partielle Abhängigkeit ✓
+        </text>
+      </g>
+
+      <g class="fragment fade-in" data-fragment-index="3">
+        <path class="d04-line-green" d="M250 650 H1470"></path>
+        <text class="d04-text d04-green" x="860" y="715" text-anchor="middle">
+          <tspan x="860">
+            In students und courses ist der Schlüssel einspaltig.
+          </tspan>
+          <tspan x="860" dy="42">2NF ist dort automatisch erfüllt.</tspan>
+        </text>
+      </g>
+    </g>
+  </svg>
+  <aside class="notes">
+    Die Fakten bleiben dieselben, bekommen aber neue Tabellen. Die
+    Paarungstabelle behält nur Fakten über die Paarung. `student_name` liegt bei
+    `students`, `course_title` bei `courses`.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">3NF, Intuition und Prüfbedingung</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Intuition und formale Prüfbedingung der dritten Normalform"
+  >
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d04-box-amber"
+        x="120"
+        y="165"
+        width="1680"
+        height="190"
+        rx="14"
+      ></rect>
+      <text class="d04-label d04-amber" x="160" y="215">INTUITION</text>
+      <text class="d04-text" x="960" y="245" text-anchor="middle">
+        <tspan x="960">Eine Relation ist in 3NF, wenn sie in 2NF ist UND</tspan>
+        <tspan x="960" dy="40">
+          kein Nichtschlüsselattribut transitiv von einem
+        </tspan>
+        <tspan x="960" dy="40">Kandidatenschlüssel abhängt.</tspan>
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d04-box-blue"
+        x="120"
+        y="400"
+        width="1020"
+        height="250"
+        rx="14"
+      ></rect>
+      <text class="d04-label d04-blue" x="160" y="450">TRANSITIV</text>
+      <text class="d04-text" x="630" y="515" text-anchor="middle">
+        K → B und B → C
+      </text>
+      <text class="d04-text" x="630" y="570" text-anchor="middle">
+        B ist ein Nichtschlüsselattribut
+      </text>
+      <text class="d04-text d04-blue" x="630" y="625" text-anchor="middle">
+        C hängt transitiv von K ab
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        class="d04-box-red"
+        x="1185"
+        y="400"
+        width="615"
+        height="250"
+        rx="14"
+      ></rect>
+      <text class="d04-label d04-red" x="1492" y="455" text-anchor="middle">
+        BEDINGUNG
+      </text>
+      <text class="d04-text d04-red" x="1492" y="535" text-anchor="middle">
+        B → K gilt nicht zurück
+      </text>
+      <text class="d04-text" x="1492" y="595" text-anchor="middle">
+        B ist kein Schlüssel
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <rect
+        class="d04-box-amber"
+        x="120"
+        y="700"
+        width="1680"
+        height="205"
+        rx="14"
+      ></rect>
+      <text class="d04-label d04-amber" x="160" y="750">
+        FORMALE PRÜFBEDINGUNG
+      </text>
+      <text
+        class="d04-text d04-text-compact"
+        x="960"
+        y="810"
+        text-anchor="middle"
+      >
+        Für jede nichttriviale FD X → A gilt:
+      </text>
+      <text class="d04-text" x="960" y="862" text-anchor="middle">
+        <tspan class="d04-blue">X ist Superschlüssel</tspan>
+        <tspan>ODER</tspan>
+        <tspan class="d04-amber">A ist Schlüsselattribut</tspan>
+        <tspan class="d04-red">. Sonst: 3NF verletzt.</tspan>
+      </text>
+    </g>
+    <text
+      class="d04-text d04-text-compact d04-green fragment fade-in"
+      data-fragment-index="5"
+      x="960"
+      y="935"
+      text-anchor="middle"
+    >
+      <tspan x="960">2NF verbietet Abkürzungen über Teilschlüssel.</tspan>
+      <tspan x="960" dy="34">
+        3NF verbietet Umleitungen über Nichtschlüsselattribute.
+      </tspan>
+    </text>
+  </svg>
+  <aside class="notes">
+    Die obere Box gibt die übliche Intuition. Die vollständige formale
+    Prüfbedingung steht unten: Für jede nichttriviale funktionale Abhängigkeit X
+    nach A ist X ein Superschlüssel oder A ein Schlüsselattribut.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">3NF verletzt, die Prüfung</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Prüfung transitiver Abhängigkeiten in courses_flat"
   >
     <defs>
       <marker
-        id="d04-3nf-blue"
+        id="d04-3nf-check-arrow"
         markerWidth="12"
         markerHeight="12"
         refX="10"
@@ -1356,135 +2230,355 @@
       >
         <polygon class="d04-blue" points="0 0, 12 6, 0 12"></polygon>
       </marker>
+    </defs>
+    <text class="d04-label d04-blue" x="960" y="155" text-anchor="middle">
+      courses_flat(course_id, title, lecturer_id, lecturer_name,
+    </text>
+    <text class="d04-label d04-blue" x="960" y="190" text-anchor="middle">
+      department_id, department_name)
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <g transform="translate(130 245)">
+        <rect class="d04-box-amber" width="330" height="110" rx="10"></rect>
+        <text class="d04-text d04-amber" x="165" y="68" text-anchor="middle">
+          course_id
+        </text>
+        <path
+          class="d04-line-blue"
+          d="M330 55 H430"
+          marker-end="url(#d04-3nf-check-arrow)"
+        ></path>
+        <rect
+          class="d04-box-blue"
+          x="455"
+          width="330"
+          height="110"
+          rx="10"
+        ></rect>
+        <text class="d04-text" x="620" y="68" text-anchor="middle">
+          lecturer_id
+        </text>
+        <path
+          class="d04-line-blue"
+          d="M785 55 H885"
+          marker-end="url(#d04-3nf-check-arrow)"
+        ></path>
+        <rect
+          class="d04-box-blue"
+          x="910"
+          width="330"
+          height="110"
+          rx="10"
+        ></rect>
+        <text class="d04-text" x="1075" y="68" text-anchor="middle">
+          department_id
+        </text>
+        <path
+          class="d04-line-blue"
+          d="M1240 55 H1340"
+          marker-end="url(#d04-3nf-check-arrow)"
+        ></path>
+        <rect
+          class="d04-box-blue"
+          x="1365"
+          width="330"
+          height="110"
+          rx="10"
+        ></rect>
+        <text class="d04-text" x="1530" y="68" text-anchor="middle">
+          department_name
+        </text>
+      </g>
+      <text class="d04-label" x="960" y="400" text-anchor="middle">
+        Jeder Pfeil ist eine funktionale Abhängigkeit.
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d04-box-red"
+        x="120"
+        y="445"
+        width="1680"
+        height="155"
+        rx="12"
+      ></rect>
+      <text class="d04-text d04-red" x="165" y="500">
+        lecturer_id → lecturer_name
+      </text>
+      <text class="d04-text d04-text-compact" x="165" y="545">
+        <tspan x="165">
+          lecturer_id ist kein Superschlüssel von courses_flat,
+        </tspan>
+        <tspan x="165" dy="38">
+          lecturer_name ist kein Schlüsselattribut → 3NF verletzt.
+        </tspan>
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        class="d04-box-red"
+        x="120"
+        y="635"
+        width="1680"
+        height="155"
+        rx="12"
+      ></rect>
+      <text class="d04-text d04-red" x="165" y="690">
+        department_id → department_name
+      </text>
+      <text class="d04-text d04-text-compact" x="165" y="735">
+        <tspan x="165">department_id ist kein Superschlüssel,</tspan>
+        <tspan x="165" dy="38">
+          department_name ist kein Schlüsselattribut → 3NF verletzt.
+        </tspan>
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <rect
+        class="d04-box-amber"
+        x="120"
+        y="835"
+        width="1680"
+        height="125"
+        rx="12"
+      ></rect>
+      <text
+        class="d04-text d04-text-compact d04-amber"
+        x="960"
+        y="912"
+        text-anchor="middle"
+      >
+        Fachbereich umbenennen = eine Änderung pro Kurs. Die Änderungsanomalie
+        kehrt zurück.
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Die Prüfregel ist mechanisch anwendbar. Wir prüfen jede nichttriviale FD
+    einzeln und markieren beide Bedingungen, wenn sie scheitern. Genau so sollen
+    die Studierenden in der Übung vorgehen.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">3NF erfüllt</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Drei Tabellen ohne transitive Abhängigkeit"
+  >
+    <defs>
       <marker
-        id="d04-3nf-red"
+        id="d04-3nf-pass-arrow"
         markerWidth="12"
         markerHeight="12"
         refX="10"
         refY="6"
         orient="auto"
       >
-        <polygon class="d04-red" points="0 0, 12 6, 0 12"></polygon>
+        <polygon class="d04-blue" points="0 0, 12 6, 0 12"></polygon>
       </marker>
     </defs>
-    <g transform="translate(110 355)">
-      <rect
-        class="d04-box-amber"
-        x="0"
-        y="0"
-        width="330"
-        height="120"
-        rx="10"
-      ></rect>
-      <text class="d04-text d04-amber" x="165" y="75" text-anchor="middle">
-        course_id
-      </text>
-      <path
-        class="d04-line-blue"
-        d="M330 60 H455"
-        marker-end="url(#d04-3nf-blue)"
-      ></path>
-      <rect
-        class="d04-box-blue"
-        x="480"
-        y="0"
-        width="330"
-        height="120"
-        rx="10"
-      ></rect>
-      <text class="d04-text" x="645" y="75" text-anchor="middle">
-        lecturer_id
-      </text>
-      <path
-        class="d04-line-blue"
-        d="M810 60 H935"
-        marker-end="url(#d04-3nf-blue)"
-      ></path>
-      <rect
-        class="d04-box-blue"
-        x="960"
-        y="0"
-        width="330"
-        height="120"
-        rx="10"
-      ></rect>
-      <text class="d04-text" x="1125" y="75" text-anchor="middle">
-        department_id
-      </text>
-      <path
-        class="d04-line-blue"
-        d="M1290 60 H1415"
-        marker-end="url(#d04-3nf-blue)"
-      ></path>
-      <rect
-        class="d04-box-blue"
-        x="1440"
-        y="0"
-        width="330"
-        height="120"
-        rx="10"
-      ></rect>
-      <text class="d04-text" x="1605" y="75" text-anchor="middle">
-        department_name
-      </text>
-      <g class="fragment fade-in" data-fragment-index="1">
-        <path
-          class="d04-line-red"
-          d="M165 -20 C500 -210 1270 -210 1605 -20"
-          marker-end="url(#d04-3nf-red)"
-        ></path>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <g transform="translate(110 190)">
+        <rect class="d04-box-blue" width="500" height="340" rx="12"></rect>
+        <text class="d04-label d04-blue" x="250" y="50" text-anchor="middle">
+          courses
+        </text>
+        <text class="d04-text d04-amber" x="40" y="120">course_id</text>
+        <line class="d04-line-amber" x1="40" y1="132" x2="210" y2="132"></line>
+        <text class="d04-text" x="40" y="205">title</text>
+        <text class="d04-text d04-blue" x="40" y="290">lecturer_id</text>
       </g>
-      <g class="fragment fade-in" data-fragment-index="2">
-        <rect
-          class="d04-box-blue"
-          x="410"
-          y="260"
-          width="460"
-          height="170"
-          rx="12"
-        ></rect>
-        <text class="d04-label d04-blue" x="640" y="315" text-anchor="middle">
+      <g transform="translate(710 190)">
+        <rect class="d04-box-blue" width="500" height="340" rx="12"></rect>
+        <text class="d04-label d04-blue" x="250" y="50" text-anchor="middle">
           lecturers
         </text>
-        <text
-          class="d04-text d04-text-compact"
-          x="640"
-          y="385"
-          text-anchor="middle"
-        >
-          lecturer_id, department_id
-        </text>
-        <rect
-          class="d04-box-blue"
-          x="980"
-          y="260"
-          width="540"
-          height="170"
-          rx="12"
-        ></rect>
-        <text class="d04-label d04-blue" x="1250" y="315" text-anchor="middle">
+        <text class="d04-text d04-amber" x="40" y="120">lecturer_id</text>
+        <line class="d04-line-amber" x1="40" y1="132" x2="240" y2="132"></line>
+        <text class="d04-text" x="40" y="205">lecturer_name</text>
+        <text class="d04-text d04-blue" x="40" y="290">department_id</text>
+      </g>
+      <g transform="translate(1310 190)">
+        <rect class="d04-box-blue" width="500" height="340" rx="12"></rect>
+        <text class="d04-label d04-blue" x="250" y="50" text-anchor="middle">
           departments
         </text>
-        <text
-          class="d04-text d04-text-compact"
-          x="1250"
-          y="385"
-          text-anchor="middle"
-        >
-          department_id, department_name
-        </text>
+        <text class="d04-text d04-amber" x="40" y="120">department_id</text>
+        <line class="d04-line-amber" x1="40" y1="132" x2="270" y2="132"></line>
+        <text class="d04-text" x="40" y="205">department_name</text>
       </g>
-      <g class="fragment fade-in" data-fragment-index="3">
-        <path class="d04-line-green" d="M390 440 H1540"></path>
-        <text class="d04-text d04-green" x="965" y="500" text-anchor="middle">
-          keine transitive Abhängigkeit
-        </text>
-      </g>
+      <path
+        class="d04-line-blue"
+        d="M610 480 C660 480 660 310 710 310"
+        marker-end="url(#d04-3nf-pass-arrow)"
+      ></path>
+      <path
+        class="d04-line-blue"
+        d="M1210 480 C1260 480 1260 310 1310 310"
+        marker-end="url(#d04-3nf-pass-arrow)"
+      ></path>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d04-box-blue"
+        x="110"
+        y="595"
+        width="1700"
+        height="195"
+        rx="12"
+      ></rect>
+      <text class="d04-label d04-green" x="960" y="640" text-anchor="middle">
+        PRÜFREGEL BESTANDEN
+      </text>
+      <text class="d04-label d04-grey" x="360" y="695" text-anchor="middle">
+        <tspan x="360">course_id →</tspan>
+        <tspan x="360" dy="38">title, lecturer_id</tspan>
+      </text>
+      <text class="d04-label d04-grey" x="960" y="695" text-anchor="middle">
+        <tspan x="960">lecturer_id →</tspan>
+        <tspan x="960" dy="38">lecturer_name, department_id</tspan>
+      </text>
+      <text class="d04-label d04-grey" x="1560" y="695" text-anchor="middle">
+        <tspan x="1560">department_id →</tspan>
+        <tspan x="1560" dy="38">department_name</tspan>
+      </text>
+      <text class="d04-text d04-green" x="960" y="775" text-anchor="middle">
+        Linke Seite jeder FD = ganzer Schlüssel. Keine Umleitung ✓
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        class="d04-box-amber"
+        x="310"
+        y="845"
+        width="1300"
+        height="120"
+        rx="12"
+      ></rect>
+      <text class="d04-text d04-green" x="960" y="920" text-anchor="middle">
+        Umbenennung eines Departments ist wieder genau ein Update.
+      </text>
     </g>
   </svg>
   <aside class="notes">
-    3NF entfernt transitive Abhängigkeiten von Nichtschlüsselattributen. Der
-    Department-Name gehört zum Department, nicht zum Lecturer oder Course.
+    Die Zerlegung entspricht der Struktur in `java/sql/university/schema.sql`.
+    In jeder Tabelle bestimmt der ganze Schlüssel die übrigen Attribute. Ein
+    Department-Name steht damit nur noch an einer Stelle.
+  </aside>
+</section>
+
+<section class="d04-content">
+  <h2 class="slide-title">Die Prüfliste der Normalformen</h2>
+  <svg
+    class="slide-svg"
+    viewBox="0 0 1920 1080"
+    aria-label="Prüffragen und verbotene Muster für 1NF, 2NF und 3NF"
+  >
+    <text class="d04-label d04-grey" x="220" y="185" text-anchor="middle">
+      NORMALFORM
+    </text>
+    <text class="d04-label d04-grey" x="870" y="185" text-anchor="middle">
+      PRÜFFRAGE
+    </text>
+    <text class="d04-label d04-grey" x="1530" y="185" text-anchor="middle">
+      VERBOTENES MUSTER
+    </text>
+    <g class="fragment fade-in" data-fragment-index="1">
+      <rect
+        class="d04-box-blue"
+        x="110"
+        y="220"
+        width="1700"
+        height="170"
+        rx="12"
+      ></rect>
+      <line class="d04-line-blue" x1="330" y1="220" x2="330" y2="390"></line>
+      <line class="d04-line-blue" x1="1320" y1="220" x2="1320" y2="390"></line>
+      <text class="d04-text d04-amber" x="220" y="320" text-anchor="middle">
+        1NF
+      </text>
+      <text class="d04-text" x="825" y="320" text-anchor="middle">
+        Trägt jede Zelle genau einen Wert?
+      </text>
+      <text class="d04-text d04-red" x="1565" y="295" text-anchor="middle">
+        <tspan x="1565">Listen und</tspan>
+        <tspan x="1565" dy="45">Wiederholungsgruppen</tspan>
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="2">
+      <rect
+        class="d04-box-blue"
+        x="110"
+        y="420"
+        width="1700"
+        height="170"
+        rx="12"
+      ></rect>
+      <line class="d04-line-blue" x1="330" y1="420" x2="330" y2="590"></line>
+      <line class="d04-line-blue" x1="1320" y1="420" x2="1320" y2="590"></line>
+      <text class="d04-text d04-amber" x="220" y="520" text-anchor="middle">
+        2NF
+      </text>
+      <text
+        class="d04-text d04-text-compact"
+        x="825"
+        y="495"
+        text-anchor="middle"
+      >
+        <tspan x="825">Hängt ein Nichtschlüsselattribut nur von</tspan>
+        <tspan x="825" dy="45">einem Teil eines Schlüssels ab?</tspan>
+      </text>
+      <text class="d04-text d04-red" x="1565" y="520" text-anchor="middle">
+        partielle Abhängigkeit
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="3">
+      <rect
+        class="d04-box-blue"
+        x="110"
+        y="620"
+        width="1700"
+        height="170"
+        rx="12"
+      ></rect>
+      <line class="d04-line-blue" x1="330" y1="620" x2="330" y2="790"></line>
+      <line class="d04-line-blue" x1="1320" y1="620" x2="1320" y2="790"></line>
+      <text class="d04-text d04-amber" x="220" y="720" text-anchor="middle">
+        3NF
+      </text>
+      <text
+        class="d04-text d04-text-compact"
+        x="825"
+        y="695"
+        text-anchor="middle"
+      >
+        <tspan x="825">Hängt ein Nichtschlüsselattribut über ein</tspan>
+        <tspan x="825" dy="45">anderes Nichtschlüsselattribut ab?</tspan>
+      </text>
+      <text class="d04-text d04-red" x="1565" y="720" text-anchor="middle">
+        transitive Abhängigkeit
+      </text>
+    </g>
+    <g class="fragment fade-in" data-fragment-index="4">
+      <rect
+        class="d04-box-amber"
+        x="350"
+        y="850"
+        width="1220"
+        height="115"
+        rx="12"
+      ></rect>
+      <text class="d04-text d04-amber" x="960" y="922" text-anchor="middle">
+        Diese drei Fragen sind eure Übungsanleitung.
+      </text>
+    </g>
+  </svg>
+  <aside class="notes">
+    Diese Prüfliste ist das Werkzeug für Übung A3. Die Fragen sind kurz genug
+    für die Arbeit am Schema. Die formalen Definitionen machen präzise, was mit
+    Teil, Umleitung und Abhängigkeit gemeint ist.
   </aside>
 </section>
 
@@ -1673,7 +2767,7 @@
       </g>
       <g class="fragment fade-in" data-fragment-index="2">
         <text class="d04-text d04-red" x="1285" y="300" text-anchor="middle">
-          Determinant room_id ist kein Kandidatenschlüssel
+          Determinant room_id ist kein Superschlüssel
         </text>
         <path class="d04-line-red" d="M985 335 H1585"></path>
       </g>
@@ -1707,9 +2801,8 @@
     </g>
   </svg>
   <aside class="notes">
-    BCNF verschärft 3NF: Jeder Determinant muss ein Kandidatenschlüssel sein.
-    Das Beispiel ist bewusst klein. Merkt euch die Prüffrage, nicht die
-    Abkürzung.
+    BCNF verschärft 3NF: Jeder Determinant muss ein Superschlüssel sein. Ein
+    Superschlüssel muss nicht minimal sein. Das Beispiel ist bewusst klein.
   </aside>
 </section>
 
@@ -1778,7 +2871,7 @@
       <path class="d04-line-blue" d="M360 210 L250 410 H470 Z"></path>
       <path class="d04-line-amber" d="M1440 210 L1330 410 H1550 Z"></path>
       <text class="d04-text d04-blue" x="360" y="455" text-anchor="middle">
-        <tspan x="360">Korrektheit, klare Writes,</tspan>
+        <tspan x="360">Korrektheit, klare Schreibwege,</tspan>
         <tspan x="360" dy="42">Constraints</tspan>
       </text>
       <text class="d04-text d04-amber" x="1440" y="455" text-anchor="middle">
@@ -1817,35 +2910,37 @@
 </section>
 
 <section class="exercise-slide">
-  <div class="exercise-slide__tag">Übung 3</div>
-  <div class="exercise-slide__time">40 min</div>
-  <p class="exercise-slide__task">Die flache Tabelle zerlegen</p>
+  <div class="exercise-slide__tag">Übung A3</div>
+  <div class="exercise-slide__time">35 min</div>
+  <p class="exercise-slide__task">A3, die flache Tabelle begründet zerlegen</p>
   <div class="d04-exercise-steps">
     <div class="d04-exercise-step">
-      <span>1</span
-      ><span
-        >Bestimmt einen Schlüssel und die funktionalen Abhängigkeiten.</span
-      >
+      <span>E</span
+      ><span>Öffnet flache Tabelle und Prüffragen der Gruppe.</span>
     </div>
     <div class="d04-exercise-step">
-      <span>2</span><span>Zerlegt schrittweise bis 3NF.</span>
+      <span>K</span
+      ><span>Bestimmt Kandidatenschlüssel und Abhängigkeiten.</span>
     </div>
     <div class="d04-exercise-step">
-      <span>3</span><span>Prüft die BCNF-Falle der Karte.</span>
+      <span>K</span><span>Zerlegt bis 3NF und begründet jeden Schnitt.</span>
     </div>
     <div class="d04-exercise-step">
-      <span>4</span><span>Gleicht das Ergebnis mit dem ER-Modell ab.</span>
+      <span>V</span
+      ><span>Prüft die BCNF-Falle und gleicht mit dem ER-Modell ab.</span>
     </div>
   </div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> Tabellen mit Primär- und Fremdschlüsseln, FDs, ein
-    Satz zur BCNF-Falle
+    <strong>Ausgang:</strong> normalization.md mit Abhängigkeiten, 3NF-Tabellen
+    und Begründung
   </div>
-  <div class="d04-exercise-path">exercises/library/02-normalization.md</div>
+  <div class="d04-exercise-path">
+    exercises/&lt;domain&gt;/a3-normalization/README.md
+  </div>
   <aside class="notes">
-    Beginnt bei den konkreten Beobachtungen der Karte. Benennt Einfüge-,
-    Änderungs- und Löschanomalie im Gespräch. Ändert euer ER-Modell, wenn die
-    Zerlegung eine vergessene Entität zeigt.
+    Starttest: A2 enthält Primär- und Fremdschlüssel. Nach 25 Minuten kann die
+    Lehrperson einen vorbereiteten 2NF-Zwischenstand freigeben. BCNF bleibt
+    Vertiefung, der prüfbare Kern endet bei 3NF.
   </aside>
 </section>
 

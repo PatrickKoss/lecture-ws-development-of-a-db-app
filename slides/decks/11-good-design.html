@@ -228,6 +228,20 @@
     line-height: 1.5;
     text-align: center;
   }
+
+  .d11-chapter-guides {
+    position: absolute;
+    top: 300px;
+    left: 96px;
+    width: 850px;
+    color: var(--color-amber);
+    font-size: 30px;
+    line-height: 1.45;
+  }
+
+  .d11-chapter-guides p {
+    margin: 0.35rem 0;
+  }
 </style>
 
 <section class="chapter-slide d11-slide">
@@ -235,6 +249,17 @@
   <div class="chapter-eyebrow">Kapitel 11</div>
   <h1 class="chapter-title-big">Gutes Anwendungsdesign</h1>
   <p class="chapter-subtitle">Klare Grenzen statt mehr Klassen</p>
+  <div class="d11-chapter-guides">
+    <div
+      style="font-size: 18px; letter-spacing: 0.16em; text-transform: uppercase"
+    >
+      Leitfragen
+    </div>
+    <p>Welche Schicht entscheidet über HTTP, Fachregel und SQL?</p>
+    <p>
+      Wie ergänzen wir POST für dieselbe Ressource, die GET bereits liefert?
+    </p>
+  </div>
   <svg
     class="d11-svg"
     viewBox="0 0 1920 1080"
@@ -1119,33 +1144,34 @@
   </svg>
   <aside class="notes">
     Der Controller muss nicht jeden Fehler lokal fangen. Ein zentraler Handler
-    übersetzt bekannte Exceptions konsistent. Unbekannte Fehler werden geloggt
-    und als knappe 500-Antwort ausgegeben.
+    übersetzt bekannte Exceptions konsistent. Unbekannte Fehler werden mit
+    Correlation ID geloggt. Der Client erhält bei 500 weder Exception-Text noch
+    Stacktrace.
   </aside>
 </section>
 
 <section class="code-slide d11-slide d11-code-short">
   <h2 class="slide-title">@ControllerAdvice</h2>
   <div class="code-slide__content code-slide__content--wide">
-    <pre><code class="language-java" data-trim data-line-numbers="33|34|35-36">@ExceptionHandler(ResourceNotFoundException.class)
-public ResponseEntity&lt;ErrorResponse&gt; handleResourceNotFoundException(ResourceNotFoundException ex) {
-    ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
-    return new ResponseEntity&lt;&gt;(errorResponse, HttpStatus.NOT_FOUND);
+    <pre><code class="language-java" data-trim data-line-numbers="1|2-4|5">@ExceptionHandler(ResourceNotFoundException.class)
+ResponseEntity&lt;ErrorResponse&gt; notFound(ResourceNotFoundException ex) {
+    var body = new ErrorResponse(
+            "RESOURCE_NOT_FOUND", ex.getMessage(), correlationId());
+    return ResponseEntity.status(404).body(body);
 }</code></pre>
   </div>
   <div class="d11-source">
-    java/rest-simple-exercise/src/main/java/com/example/restsimple/exception/GlobalExceptionHandler.java,
-    Zeilen 33 bis 37
+    Zielcode im C3-Starter: GlobalExceptionHandler.java
   </div>
   <aside class="notes">
     Die Handler-Methode verbindet Exception-Typ, Body und Status. Alle
-    Controller erhalten dasselbe Verhalten. Das vorhandene ErrorResponse hat
-    message und optional details.
+    Controller erhalten dasselbe Verhalten. Ein 500-Handler loggt die technische
+    Ursache, gibt sie aber nicht an den Client zurück.
   </aside>
 </section>
 
 <section class="d11-slide">
-  <h2 class="slide-title">Das vorhandene ErrorResponse hat zwei Felder</h2>
+  <h2 class="slide-title">Ein stabiler Fehlerkörper</h2>
   <svg
     class="slide-svg d11-svg"
     viewBox="0 0 1920 1080"
@@ -1160,7 +1186,7 @@ public ResponseEntity&lt;ErrorResponse&gt; handleResourceNotFoundException(Resou
       rx="12"
     ></rect>
     <text class="d11-label d11-blue" x="500" y="305" text-anchor="middle">
-      vorhandener Typ
+      instabil
     </text>
     <text class="d11-code" x="155" y="430">{</text>
     <g class="fragment fade-in" data-fragment-index="1">
@@ -1181,19 +1207,24 @@ public ResponseEntity&lt;ErrorResponse&gt; handleResourceNotFoundException(Resou
       rx="12"
     ></rect>
     <text class="d11-label d11-amber" x="1420" y="305" text-anchor="middle">
-      Kursziel
+      stabiler Vertrag
     </text>
     <text class="d11-code" x="1075" y="430">{</text>
     <text class="d11-code d11-amber" x="1125" y="500">
-      "message":"Student 42 not found",
+      "code":"STUDENT_NOT_FOUND",
     </text>
     <g class="fragment fade-in" data-fragment-index="3">
       <text class="d11-code d11-amber" x="1125" y="570">
-        "code":"STUDENT_NOT_FOUND"
+        "message":"Student 42 not found",
       </text>
     </g>
-    <text class="d11-code" x="1075" y="640">}</text>
     <g class="fragment fade-in" data-fragment-index="4">
+      <text class="d11-code d11-amber" x="1125" y="640">
+        "correlationId":"4d2a..."
+      </text>
+    </g>
+    <text class="d11-code" x="1075" y="705">}</text>
+    <g class="fragment fade-in" data-fragment-index="5">
       <text class="d11-label d11-red" x="960" y="885" text-anchor="middle">
         Stacktrace
       </text>
@@ -1201,15 +1232,11 @@ public ResponseEntity&lt;ErrorResponse&gt; handleResourceNotFoundException(Resou
       <line class="d11-line-red" x1="1090" y1="820" x2="830" y2="930"></line>
     </g>
   </svg>
-  <div class="d11-source">
-    java/rest-simple/src/main/java/com/example/restsimple/response/ErrorResponse.java,
-    Zeilen 5 bis 34
-  </div>
+  <div class="d11-source">C3-Starter · ErrorResponse.java</div>
   <aside class="notes">
-    Der Repo-Typ hat nur `message` und `details`. Die Domänenkarte für Ex 11
-    verlangt einen Fehlercode im 409-Response. Die Gruppen dürfen den Typ
-    deshalb um `code` erweitern. Wir behaupten nicht, dass das Feld schon
-    existiert.
+    `code` ist der maschinenlesbare Vertrag. `message` bleibt für Menschen. Die
+    Correlation ID verbindet Antwort und Log. Bei 500 bleibt die technische
+    Exception ausschließlich im Log.
   </aside>
 </section>
 
@@ -1839,35 +1866,32 @@ public ResponseEntity&lt;ErrorResponse&gt; handleResourceNotFoundException(Resou
 </section>
 
 <section class="exercise-slide d11-slide">
-  <div class="exercise-slide__tag">Übung 10</div>
-  <div class="exercise-slide__time">55 min</div>
-  <p class="exercise-slide__task">Übung 10, vollständiges CRUD</p>
+  <div class="exercise-slide__tag">C3 · Kernauftrag</div>
+  <div class="exercise-slide__time">45 min</div>
+  <p class="exercise-slide__task">POST für dieselbe Hauptressource</p>
   <div class="d11-exercise-steps">
     <div class="d11-exercise-step">
-      <span>1</span
-      ><span>Vervollständigt CRUD mit Request- und Response-DTOs.</span>
+      <span>1</span><span>Ergänzt Request- und Response-DTO für POST.</span>
     </div>
     <div class="d11-exercise-step">
       <span>2</span><span>Ergänzt Bean Validation und @Valid.</span>
     </div>
     <div class="d11-exercise-step">
-      <span>3</span><span>Setzt die Fachregeln und 400, 404, 409 um.</span>
+      <span>3</span><span>Setzt genau eine Fachregel als 409 um.</span>
     </div>
     <div class="d11-exercise-step">
-      <span>4</span><span>Verschiebt die Fachlogik in einen @Service.</span>
+      <span>4</span
+      ><span>Gebt Fehler als code, message und correlationId aus.</span>
     </div>
   </div>
-  <div class="d11-exercise-path">
-    exercises/&lt;domain&gt;/06-rest.md · java/rest-simple-exercise/README.md,
-    Phase 3
-  </div>
+  <div class="d11-exercise-path">exercises/&lt;domain&gt;/c3-tests-errors/</div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> laufendes Projekt, Endpoint-Liste,
-    Swagger-Screenshot
+    <strong>Abgabe:</strong> POST 201 sowie ein reproduzierbarer 409
   </div>
   <aside class="notes">
-    Beginnt mit der Hauptressource. Der Beziehungsendpunkt aus der Karte ist
-    freiwillige Zusatzarbeit. Die Karte nennt die konkrete Konfliktregel.
+    POST verwendet dieselbe flache Hauptressource wie die GET-Endpunkte aus C2.
+    PUT, DELETE und Beziehungen sind Vertiefung. Der vorbereitete Zwischenstand
+    enthält den vollständigen POST-Kernpfad.
   </aside>
 </section>
 

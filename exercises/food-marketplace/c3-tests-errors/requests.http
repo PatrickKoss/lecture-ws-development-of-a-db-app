@@ -1,0 +1,10 @@
+@base = http://localhost:8081
+GET {{base}}/api/restaurants
+
+### gültiger POST
+POST {{base}}/api/restaurants
+Content-Type: application/json
+
+{"partnerNumber": "R-199", "name": "Kursküche", "street": "Kursweg 1", "postalCode": "45127", "city": "Essen", "commissionRate": 17.5, "active": true}
+
+### TODO(C3): denselben Wert für partner_number erneut senden und 409 prüfen

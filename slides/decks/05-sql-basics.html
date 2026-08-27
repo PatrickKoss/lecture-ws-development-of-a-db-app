@@ -246,7 +246,7 @@
   }
 
   .d05-redline .redline__step text {
-    font-size: 24px;
+    font-size: 28px;
   }
 
   .d05-chapter-art {
@@ -255,6 +255,24 @@
     bottom: 8rem;
     width: 32rem;
     height: 25rem;
+  }
+
+  .d05-chapter-questions {
+    position: absolute;
+    bottom: 4.8rem;
+    left: 5rem;
+    width: 43rem;
+    padding: 1rem 1.3rem;
+    border-left: 4px solid var(--color-amber);
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 1.45rem;
+    line-height: 1.4;
+  }
+
+  .d05-chapter-questions strong {
+    color: var(--color-amber);
   }
 
   .d05-citation {
@@ -286,6 +304,10 @@
     <h1 class="chapter-title-big">SQL-Grundlagen</h1>
     <div class="chapter-subtitle">
       Tabellen erstellen, Daten ändern, Fragen stellen
+    </div>
+    <div class="d05-chapter-questions">
+      <strong>Leitfragen</strong><br />Wie wird der Tabellenentwurf
+      ausführbar?<br />Welche Constraints weisen falsche Daten sichtbar zurück?
     </div>
     <svg
       class="d05-chapter-art d05-svg"
@@ -429,9 +451,9 @@
       <rect x="10" y="245" width="360" height="130" rx="8"></rect>
       <text x="190" y="270">
         <tspan x="190">8. Solide machen:</tspan>
-        <tspan x="190" dy="27">Schichten, Validierung,</tspan>
-        <tspan x="190" dy="27">Fehler, OpenAPI, Tests,</tspan>
-        <tspan x="190" dy="27">Middleware</tspan>
+        <tspan x="190" dy="27">Schichten, Regeln</tspan>
+        <tspan x="190" dy="27">Fehler, OpenAPI</tspan>
+        <tspan x="190" dy="27">Tests, Middleware</tspan>
       </text>
     </g>
   </svg>
@@ -773,7 +795,7 @@ sqlite3 -header -column students.db &lt; queries.sql</code></pre>
     (6, 'WI-101', 'Grundlagen der Betriebswirtschaft', 5, 4),
     (7, 'INF-250', 'Software Engineering', 6, 1);</code></pre>
     <div class="d05-code-result">
-      <div class="d05-result-title">7 Courses</div>
+      <div class="d05-result-title">7 Kurse</div>
       <div class="d05-result-box">
         INF-201<br />INF-202<br />INF-230<br />MAT-110<br />MAT-210<br />WI-101<br />INF-250
       </div>
@@ -812,15 +834,18 @@ sqlite3 -header -column students.db &lt; queries.sql</code></pre>
     </g>
     <g class="fragment fade-in" data-fragment-index="2">
       <rect
-        x="525"
+        x="535"
         y="267"
-        width="210"
+        width="205"
         height="44"
         fill="none"
         stroke="var(--color-amber)"
         stroke-width="4"
         rx="5"
       />
+      <text class="d05-small d05-amber" x="637" y="350" text-anchor="middle">
+        bereits vorhanden
+      </text>
       <rect
         x="525"
         y="380"
@@ -868,8 +893,8 @@ FROM students;</code></pre>
     java/sql/university/queries.sql, Zeilen 3 bis 6
   </div>
   <aside class="notes">
-    Query 1 nennt vier Spalten und liefert vor den Writes genau 20 Zeilen. Die
-    erste und letzte sichtbare Zeile stammen aus `seed.sql`.
+    Query 1 nennt vier Spalten und liefert vor den Schreiboperationen genau 20
+    Zeilen. Die erste und letzte sichtbare Zeile stammen aus `seed.sql`.
   </aside>
 </section>
 
@@ -1200,37 +1225,38 @@ RETURNING id, first_name, last_name;</code></pre>
 </section>
 
 <section class="exercise-slide">
-  <div class="exercise-slide__tag">Übung 4</div>
-  <div class="exercise-slide__time">40 min</div>
-  <p class="exercise-slide__task">Schema und Seed</p>
+  <div class="exercise-slide__tag">Übung B1</div>
+  <div class="exercise-slide__time">35 min</div>
+  <p class="exercise-slide__task">B1, Schema starten und Constraints prüfen</p>
   <div class="d05-exercise-steps">
     <div class="d05-exercise-step">
-      <span>1</span>
-      <div>Schreibt <code>sql/schema.sql</code>.</div>
+      <span>E</span>
+      <div>Startet <code>schema.sql</code> und den vorbereiteten Seed.</div>
     </div>
     <div class="d05-exercise-step">
-      <span>2</span>
-      <div>Setzt Keys, NOT NULL, UNIQUE und weitere Fach-Constraints.</div>
+      <span>K</span>
+      <div>Ergänzt Schlüssel, NOT NULL, UNIQUE und zwei Fachregeln.</div>
     </div>
     <div class="d05-exercise-step">
-      <span>3</span>
-      <div>
-        Schreibt <code>sql/seed.sql</code> mit 10 bis 20 Zeilen pro Tabelle.
-      </div>
+      <span>K</span>
+      <div>Prüft zwei ungültige INSERTs und erklärt die Fehler.</div>
     </div>
     <div class="d05-exercise-step">
-      <span>4</span>
-      <div>Ladet beide Dateien in eine leere SQLite-Datenbank.</div>
+      <span>V</span>
+      <div>Ergänzt eine weitere Fachregel und eine passende Gegenprobe.</div>
     </div>
   </div>
-  <div class="d05-exercise-path">exercises/&lt;domain&gt;/03-sql.md</div>
+  <div class="d05-exercise-path">
+    exercises/&lt;domain&gt;/b1-schema/README.md
+  </div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> sql/schema.sql, sql/seed.sql, erfolgreiche
-    .tables-Ausgabe
+    <strong>Ausgang:</strong> schema.sql läuft mit seed.sql; zwei gezielte
+    Gegenproben scheitern am erwarteten Constraint
   </div>
   <aside class="notes">
-    Beginnt immer mit einer leeren Datei. Ladet Eltern vor Kindern. Ein Seed
-    muss beim ersten Lauf vollständig durchlaufen.
+    Starttest: Das vorbereitete Schema und der Seed laufen in einer leeren
+    Datenbank. Nach 25 Minuten kann die Lehrperson einen vollständigen
+    Constraint-Block freigeben. Seed-Daten werden nicht von Hand erzeugt.
   </aside>
 </section>
 

@@ -1,0 +1,5 @@
+Auftraggeber:
+Problem:
+Hauptentität: Medikament
+Offene Annahme:
+Begriffe:

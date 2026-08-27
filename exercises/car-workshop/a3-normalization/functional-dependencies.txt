@@ -1,0 +1,8 @@
+Ausgangsrelation:
+PART_EXPORT(id, part_number, name, reorder_level, ...)
+
+Funktionale Abhängigkeiten:
+TODO(A3)
+
+Zerlegung bis 3NF:
+TODO(A3)

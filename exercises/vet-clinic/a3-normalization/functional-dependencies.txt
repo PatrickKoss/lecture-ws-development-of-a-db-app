@@ -1,0 +1,8 @@
+Ausgangsrelation:
+MEDICATION_EXPORT(id, pzn, product_name, prescription_required, ...)
+
+Funktionale Abhängigkeiten:
+TODO(A3)
+
+Zerlegung bis 3NF:
+TODO(A3)

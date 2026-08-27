@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class StudentController {
@@ -44,9 +45,9 @@ public class StudentController {
     }
 
     @GetMapping("/healthz")
-    public ErrorResponse healthz() {
+    public Map<String, String> healthz() {
         logger.debug("Health check endpoint called");
-        return new ErrorResponse("OK");
+        return Map.of("status", "OK");
     }
 
     @GetMapping("/students")

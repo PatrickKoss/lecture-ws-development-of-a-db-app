@@ -130,6 +130,24 @@
     height: 15rem;
   }
 
+  .d02-chapter-questions {
+    position: absolute;
+    bottom: 4.8rem;
+    left: 5rem;
+    width: 43rem;
+    padding: 1rem 1.3rem;
+    border-left: 4px solid var(--color-amber);
+    background: var(--color-bg-deep);
+    color: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 1.45rem;
+    line-height: 1.4;
+  }
+
+  .d02-chapter-questions strong {
+    color: var(--color-amber);
+  }
+
   .d02-redline .d02-redline-line {
     fill: none;
     stroke: var(--color-grey);
@@ -259,6 +277,10 @@
   <div class="chapter-eyebrow">Kapitel 02 · ER-Modell</div>
   <h1 class="chapter-title-big">Das ER-Modell</h1>
   <p class="chapter-subtitle">Dinge, Beziehungen, Mengen</p>
+  <div class="d02-chapter-questions">
+    <strong>Leitfragen</strong><br />Welche Entitäten haben eine eigene
+    Identität?<br />Wie lesen wir jede Beziehung in beide Richtungen?
+  </div>
   <svg
     class="d02-chapter-visual"
     viewBox="0 0 1160 360"
@@ -731,8 +753,8 @@
       </text>
     </g>
     <g class="fragment fade-out" data-fragment-index="3">
-      <path d="M805 500 L845 515 L805 530 Z" fill="var(--color-red)" />
-      <path d="M1115 500 L1075 515 L1115 530 Z" fill="var(--color-red)" />
+      <path d="M745 500 L785 515 L745 530 Z" fill="var(--color-red)" />
+      <path d="M1175 500 L1135 515 L1175 530 Z" fill="var(--color-red)" />
     </g>
   </svg>
   <div class="slide-caption">Relationship: fachlicher Zusammenhang</div>
@@ -1921,7 +1943,7 @@
         y="455"
         text-anchor="middle"
         class="d02-title-text"
-        font-size="27"
+        font-size="28"
       >
         Course
       </text>
@@ -2182,35 +2204,37 @@
 </section>
 
 <section class="exercise-slide d02-exercise">
-  <div class="exercise-slide__tag">Übung 1</div>
-  <div class="exercise-slide__time">40 min</div>
-  <p class="exercise-slide__task">Übung 1, euer ER-Modell</p>
+  <div class="exercise-slide__tag">Übung A1</div>
+  <div class="exercise-slide__time">35 min</div>
+  <p class="exercise-slide__task">A1, euer ER-Modell</p>
   <div class="d02-exercise-steps">
     <div class="d02-exercise-step">
-      <span>1</span><span>Markiert Entitäten, Attribute und Beziehungen.</span>
+      <span>E</span
+      ><span>Öffnet den Ausgang aus A0 und prüft die Hauptentität.</span>
     </div>
     <div class="d02-exercise-step">
-      <span>2</span><span>Klärt offene Punkte oder notiert Annahmen.</span>
+      <span>K</span><span>Zeichnet Entitäten, Attribute und Beziehungen.</span>
     </div>
     <div class="d02-exercise-step">
-      <span>3</span
-      ><span
-        >Zeichnet Keys, Kardinalitäten und Optionalitäten in Crow's Foot.</span
-      >
+      <span>K</span
+      ><span>Ergänzt Schlüssel, Kardinalitäten und Optionalitäten.</span>
     </div>
     <div class="d02-exercise-step">
-      <span>4</span
+      <span>V</span
       ><span>Prüft Beziehungsattribute und eine schwache Entität.</span>
     </div>
   </div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> Foto oder SVG plus Annahmen; danach präsentieren
-    zwei Gruppen je 5 min
+    <strong>Ausgang:</strong> er.svg oder er.md plus Annahmen; jede Linie lässt
+    sich in beide Richtungen vorlesen
   </div>
-  <div class="d02-exercise-path">exercises/&lt;domain&gt;/01-er.md</div>
+  <div class="d02-exercise-path">
+    exercises/&lt;domain&gt;/a1-er-model/README.md
+  </div>
   <aside class="notes">
-    Beginnt mit den fünf Sätzen aus Übung 0. Ziel sind vier bis sechs gut
-    begründete Entities. Lest jede Beziehung in beide Richtungen laut.
+    Starttest: Die fünf Sätze aus A0 liegen vor. Nach 25 Minuten kann die
+    Lehrperson ein vorbereitetes Zwischenmodell freigeben. Danach zeigen zwei
+    Gruppen je eine Modellentscheidung.
   </aside>
 </section>
 

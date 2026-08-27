@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
-  <title id="title">Platzhalter für das ER-Diagramm</title>
-  <desc id="desc">Dieser Platzhalter wird durch das Referenzmodell der Domäne ersetzt.</desc>
-  <!-- TODO(domain): Ersetze den gesamten Platzhalter durch ein lesbares ER-Diagramm im Stil der Kursfolien. Zeige Entitäten, Attribute, Schlüssel, Kardinalitäten und Optionalitäten. -->
-  <rect x="40" y="40" width="880" height="460" rx="12" fill="none" stroke="currentColor" stroke-width="3" />
-  <text x="480" y="250" text-anchor="middle" font-family="monospace" font-size="30">ER-Diagramm ergänzen</text>
-  <text x="480" y="300" text-anchor="middle" font-family="monospace" font-size="20">Siehe TODO(domain) im SVG-Quelltext.</text>
-</svg>

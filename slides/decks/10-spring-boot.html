@@ -192,6 +192,33 @@
     white-space: pre-wrap;
   }
 
+  .d10-handoff {
+    position: absolute;
+    inset: 10rem 5rem 5.5rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    align-items: stretch;
+  }
+
+  .d10-handoff__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+    border: 2px solid var(--color-blue);
+    background: var(--color-bg-deep);
+    font-family: var(--font-mono);
+    font-size: 28px;
+    line-height: 1.45;
+  }
+
+  .d10-handoff__card strong {
+    color: var(--color-amber);
+    font-size: 34px;
+  }
+
   .d10-exercise-steps {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -278,6 +305,20 @@
     letter-spacing: 0;
     text-transform: none;
   }
+
+  .d10-chapter-guides {
+    position: absolute;
+    top: 130px;
+    left: 0;
+    width: 760px;
+    color: var(--color-amber);
+    font-size: 28px;
+    line-height: 1.45;
+  }
+
+  .d10-chapter-guides p {
+    margin: 0.35rem 0;
+  }
 </style>
 
 <section class="chapter-slide terminal slide-frame">
@@ -292,6 +333,19 @@
     <div class="chapter-eyebrow">Kapitel · 10</div>
     <h1 class="chapter-title-big">Spring Boot</h1>
     <div class="chapter-subtitle">Vom Vertrag zum laufenden Endpoint</div>
+    <div class="d10-chapter-guides">
+      <div
+        style="
+          font-size: 18px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+        "
+      >
+        Leitfragen
+      </div>
+      <p>Wie übernehmen wir Migration und Repository aus dem letzten Stand?</p>
+      <p>Welche Spring-Bausteine machen daraus zwei GET-Endpunkte?</p>
+    </div>
     <svg
       class="d10-chapter-art d10-svg"
       viewBox="0 0 760 540"
@@ -388,8 +442,9 @@
     <span class="slide-frame__footer-right">10.1</span>
   </div>
   <aside class="notes">
-    Heute starten wir mit einem leeren Health-Endpoint und enden mit POST und
-    GET über Swagger UI.
+    Heute starten wir mit einem leeren Health-Endpoint. Danach binden wir
+    Migration und Repository aus B4 ein und lesen dieselbe Ressource über zwei
+    GET-Endpunkte.
   </aside>
 </section>
 
@@ -501,6 +556,30 @@
   <aside class="notes">
     Erwartet ist Infrastrukturarbeit. Typisch falsch sind Fachregeln und
     Datenmodell. Spring nimmt Mechanik ab, nicht Entscheidungen.
+  </aside>
+</section>
+
+<section>
+  <h2 class="slide-title">Der Stand aus B4 kommt mit</h2>
+  <div class="slide-context amber">Übergabe statt Neustart</div>
+  <div class="d10-handoff">
+    <div class="d10-handoff__card">
+      <strong>1 · Migration</strong>
+      <span><code>V1__schema.sql</code> und Seed-Daten übernehmen</span>
+    </div>
+    <div class="d10-handoff__card">
+      <strong>2 · Repository</strong>
+      <span>Interface, JDBC-Implementierung und Row Mapping kopieren</span>
+    </div>
+    <div class="d10-handoff__card">
+      <strong>3 · Starttest</strong>
+      <span>vorhandenen Datensatz mit <code>findById</code> lesen</span>
+    </div>
+  </div>
+  <aside class="notes">
+    Der Spring-Starter setzt auf dem B4-Stand auf. Erst wenn Migration und
+    Repository denselben Seed-Datensatz lesen, ergänzen wir den Controller.
+    Damit bleibt der Datenzugriff sichtbar und muss nicht neu erfunden werden.
   </aside>
 </section>
 
@@ -627,7 +706,7 @@
 </section>
 
 <section>
-  <h2 class="slide-title">Dependency Injection in einem Diagramm</h2>
+  <h2 class="slide-title">Dependency Injection</h2>
   <div class="slide-context">Abhängigkeitsinjektion</div>
   <svg class="d10-content-svg d10-svg" viewBox="0 0 1700 700">
     <defs>
@@ -695,7 +774,7 @@
         rx="10"
       ></rect>
       <text class="d10-body d10-blue" x="770" y="260" text-anchor="middle">
-        StudentJpaRepository
+        StudentRepository
       </text>
     </g>
     <g class="fragment fade-in" data-fragment-index="3">
@@ -798,15 +877,15 @@ public class DemoApplication {
     </g>
     <g class="fragment fade-in" data-fragment-index="5">
       <text class="d10-body d10-blue" x="720" y="520" text-anchor="end">
-        @Entity
+        Row Mapper
       </text>
-      <text class="d10-body" x="980" y="520">Tabellenabbildung</text>
+      <text class="d10-body" x="980" y="520">Zeile → Objekt</text>
     </g>
     <g class="fragment fade-in" data-fragment-index="6">
       <text class="d10-body d10-blue" x="720" y="625" text-anchor="end">
-        JpaRepository
+        Repository-Port
       </text>
-      <text class="d10-body" x="980" y="625">AbstractRepository</text>
+      <text class="d10-body" x="980" y="625">Grenze zum Adapter</text>
     </g>
   </svg>
   <aside class="notes">
@@ -848,12 +927,12 @@ public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; health() {
   <h2 class="slide-title">application.properties</h2>
   <div class="slide-context blue">Konfiguration</div>
   <div class="code-slide__content">
-    <pre><code class="language-properties" data-trim data-line-numbers="1-4|5-7|9-12">spring.jpa.database-platform=org.hibernate.community.dialect.SQLiteDialect
-spring.jpa.hibernate.ddl-auto=update
-spring.datasource.url=jdbc:sqlite:students.db
+    <pre><code class="language-properties" data-trim data-line-numbers="1-3|4-6|8-11">spring.datasource.url=jdbc:sqlite:students.db
 spring.datasource.driver-class-name=org.sqlite.JDBC
+spring.datasource.hikari.connection-init-sql=PRAGMA foreign_keys=ON
 spring.datasource.username=admin
 spring.datasource.password=admin
+spring.flyway.enabled=true
 server.port=${SERVER_PORT:8081}
 
 # SpringDoc/OpenAPI configuration
@@ -861,8 +940,9 @@ springdoc.api-docs.path=/v3/api-docs
 springdoc.swagger-ui.path=/swagger-ui.html
 springdoc.swagger-ui.enabled=true</code></pre>
     <div class="d10-code-fields">
-      <strong>Drei Bereiche</strong>
-      <p>SQLite + Hibernate</p>
+      <strong>Vier Bereiche</strong>
+      <p>Flyway für die vorhandene Migration</p>
+      <p>Fremdschlüssel pro Connection</p>
       <p>Port 8081 als Default</p>
       <p>OpenAPI und Swagger UI</p>
     </div>
@@ -872,9 +952,9 @@ springdoc.swagger-ui.enabled=true</code></pre>
     1 bis 12
   </div>
   <aside class="notes">
-    Die Datei setzt `server.port=${SERVER_PORT:8081}`, nicht einen starren Wert.
-    Ohne Umgebungsvariable läuft der Kurs auf 8081. Swagger UI liegt unter
-    `/swagger-ui.html`.
+    Flyway spielt die vorhandene Migration ein. Hikari führt das SQLite-PRAGMA
+    für jede neue Connection aus. Ohne Umgebungsvariable läuft der Kurs auf
+    8081. Swagger UI liegt unter `/swagger-ui.html`.
   </aside>
 </section>
 
@@ -1000,6 +1080,7 @@ springdoc.swagger-ui.enabled=true</code></pre>
 
 <section class="code-slide d10-code d10-code-compact">
   <h2 class="slide-title">JPA-Entity</h2>
+  <div class="slide-context amber">Vertiefung · alternativer Adapter</div>
   <div class="slide-context blue">Zielbild</div>
   <div class="code-slide__content">
     <pre><code class="language-java" data-trim data-line-numbers="1-2|3-5|6-7">@Entity
@@ -1033,6 +1114,7 @@ class Student {
 
 <section class="code-slide d10-code d10-code-compact">
   <h2 class="slide-title">JpaRepository = AbstractRepository</h2>
+  <div class="slide-context amber">Vertiefung · statt JDBC-Adapter</div>
   <div class="slide-context blue">Zielbild</div>
   <div class="code-slide__content">
     <pre><code class="language-java" data-trim data-line-numbers="1-3">@Repository
@@ -1064,23 +1146,22 @@ public interface StudentRepository extends JpaRepository&lt;Student, Long&gt; {
 </section>
 
 <section class="code-slide d10-code d10-code-compact">
-  <h2 class="slide-title">Der erste POST</h2>
-  <div class="slide-context blue">Zielbild</div>
+  <h2 class="slide-title">GET per ID</h2>
+  <div class="slide-context amber">C2 · Kernpfad</div>
   <div class="code-slide__content code-slide__content--wide">
-    <pre><code class="language-java" data-trim data-line-numbers="1|2|3|4">@PostMapping
-CreateStudentRequest
-repository.save(...)
-201 StudentResponse</code></pre>
+    <pre><code class="language-java" data-trim data-line-numbers="1|2|3-4">@GetMapping("/{id}")
+StudentResponse findById(@PathVariable long id) {
+    return repository.findById(id)
+            .map(StudentResponse::from).orElseThrow();
+}</code></pre>
   </div>
   <div class="slide-caption d10-source">
-    Auf Student angepasstes und gekürztes Zielbild aus
-    java/rest-simple-exercise/README.md, Zeilen 250 bis 318. Im Skeleton noch
-    nicht vorhanden.
+    Zielbild für den vorhandenen Repository-Port aus B4. Das Starterprojekt
+    enthält die Methodengerüste.
   </div>
   <aside class="notes">
-    Das README zeigt den vollständigen Ablauf an Book. Für den Kurs nehmen
-    Request und Response die standardisierten Student-Felder. Der POST beweist
-    den Datenweg und gibt keine JPA-Entity zurück.
+    Der Controller delegiert die Suche an `findById`. Das Row-Mapping bleibt im
+    JDBC-Adapter aus B4. Nach außen geht ein Response-DTO, keine Datenbankzeile.
   </aside>
 </section>
 
@@ -1141,7 +1222,7 @@ repository.save(...)
       rx="10"
     ></rect>
     <text class="d10-body d10-blue" x="850" y="315" text-anchor="middle">
-      JpaRepository
+      Repository
     </text>
     <rect
       class="d10-panel-blue"
@@ -1152,10 +1233,10 @@ repository.save(...)
       rx="10"
     ></rect>
     <text class="d10-body d10-blue" x="1190" y="300" text-anchor="middle">
-      Hibernate/
+      JDBC-
     </text>
     <text class="d10-body d10-blue" x="1190" y="340" text-anchor="middle">
-      JPA
+      Adapter
     </text>
     <rect
       class="d10-panel-blue"
@@ -1226,8 +1307,8 @@ repository.save(...)
     </g>
   </svg>
   <aside class="notes">
-    Jeder Pfeil entspricht einem Begriff von gestern. Hibernate erzeugt SQL. Der
-    Controller sieht ein Repository, nicht die JDBC-Details.
+    Jeder Pfeil entspricht einem bekannten Begriff. Der JDBC-Adapter erzeugt
+    SQL. Der Controller sieht den Repository-Port, nicht die JDBC-Details.
   </aside>
 </section>
 
@@ -1266,7 +1347,9 @@ repository.save(...)
         height="78"
         rx="8"
       ></rect>
-      <text class="d10-body d10-blue" x="200" y="195">POST /api/students</text>
+      <text class="d10-body d10-blue" x="200" y="195">
+        GET /api/students/42
+      </text>
     </g>
     <g class="fragment fade-in" data-fragment-index="2">
       <rect
@@ -1277,14 +1360,14 @@ repository.save(...)
         height="285"
         rx="8"
       ></rect>
-      <text class="d10-small" x="185" y="290">Request JSON</text>
+      <text class="d10-small" x="185" y="290">Response JSON</text>
       <text class="d10-label" x="185" y="335">{</text>
-      <text class="d10-label" x="220" y="375">"firstName": "",</text>
+      <text class="d10-label" x="220" y="375">"id": 42,</text>
       <text class="d10-label" x="220" y="410">
-        "lastName": "", "email": "",
+        "firstName": "Ada", "lastName": "Lovelace",
       </text>
-      <text class="d10-label" x="220" y="445">"studentNumber": "",</text>
-      <text class="d10-label" x="220" y="480">"enrollmentDate": ""</text>
+      <text class="d10-label" x="220" y="445">"email": "ada@example.org",</text>
+      <text class="d10-label" x="220" y="480">"studentNumber": "S-42"</text>
       <text class="d10-label" x="185" y="515">}</text>
     </g>
     <g class="fragment fade-in" data-fragment-index="3">
@@ -1310,7 +1393,7 @@ repository.save(...)
         rx="8"
       ></rect>
       <text class="d10-body d10-green" x="1280" y="485" text-anchor="middle">
-        201 Response
+        200 Response
       </text>
     </g>
     <text class="d10-label d10-amber" x="850" y="600" text-anchor="middle">
@@ -1397,7 +1480,7 @@ repository.save(...)
       rx="10"
     ></rect>
     <text class="d10-body d10-blue" x="575" y="310" text-anchor="middle">
-      GET []
+      Seed 42
     </text>
     <rect
       class="d10-panel-blue"
@@ -1408,7 +1491,7 @@ repository.save(...)
       rx="10"
     ></rect>
     <text class="d10-body d10-blue" x="975" y="310" text-anchor="middle">
-      POST 201
+      GET Liste
     </text>
     <rect
       class="d10-panel-blue"
@@ -1419,7 +1502,7 @@ repository.save(...)
       rx="10"
     ></rect>
     <text class="d10-body d10-blue" x="1425" y="310" text-anchor="middle">
-      GET [Student]
+      GET /42 200
     </text>
     <g class="fragment fade-in" data-fragment-index="1">
       <circle
@@ -1494,46 +1577,44 @@ repository.save(...)
     </text>
   </svg>
   <aside class="notes">
-    Nach jedem kleinen Schritt gibt es ein sichtbares Ergebnis. Wenn POST
-    scheitert, wissen wir, dass Health und GET bereits funktionieren. Das
-    verkürzt Fehlersuche.
+    Nach jedem kleinen Schritt gibt es ein sichtbares Ergebnis. Erst startet die
+    Anwendung, dann lesen Collection und Einzelpfad denselben Seed-Datensatz.
+    Das verkürzt die Fehlersuche.
   </aside>
 </section>
 
 <section class="exercise-slide">
-  <div class="exercise-slide__tag">Übung 9</div>
-  <div class="exercise-slide__time">45 min</div>
-  <p class="exercise-slide__task">Erste Ressource</p>
+  <div class="exercise-slide__tag">C2 · Kernauftrag</div>
+  <div class="exercise-slide__time">50 min</div>
+  <p class="exercise-slide__task">Vorhandene Ressource lesen</p>
   <div class="d10-exercise-steps">
     <div class="d10-exercise-step">
       <span>1</span>
-      <div>Startet auf Port 8081 und prüft Health.</div>
+      <div>Übernehmt Migration und Repository aus B4.</div>
     </div>
     <div class="d10-exercise-step">
       <span>2</span>
-      <div>Baut Model, Response-DTO und GET-Collection.</div>
+      <div>Startet den Test, der einen Seed-Datensatz liest.</div>
     </div>
     <div class="d10-exercise-step">
       <span>3</span>
-      <div>Ergänzt Migration, JPA-Entity und JpaRepository.</div>
+      <div>Implementiert GET Collection mit <code>findAll</code>.</div>
     </div>
     <div class="d10-exercise-step">
       <span>4</span>
-      <div>Baut POST und prüft GET 200 sowie POST 201 in Swagger UI.</div>
+      <div>Implementiert GET per ID mit <code>findById</code>.</div>
     </div>
   </div>
   <div class="d10-exercise-path">
-    exercises/&lt;domain&gt;/06-rest.md · java/rest-simple-exercise/README.md,
-    Phasen 1 und 2
+    exercises/&lt;domain&gt;/c2-spring-resource/
   </div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> laufendes Projekt, Swagger-Screenshot,
-    gespeicherter Datensatz
+    <strong>Abgabe:</strong> GET 200 für Collection und vorhandene ID
   </div>
   <aside class="notes">
-    Nutzt den API-Entwurf aus Übung 8. Für den Kursvertrag heißen die
-    Student-Felder firstName, lastName, email, studentNumber und enrollmentDate.
-    Validation und Fehlerfälle folgen in Übung 10.
+    Das Starterprojekt enthält Controller- und Response-DTO-Gerüste. Nach der
+    Kernzeit kann die Lehrperson den vorbereiteten Zwischenstand freigeben. POST
+    folgt in C3, Beziehungen bleiben Vertiefung.
   </aside>
 </section>
 
@@ -1604,7 +1685,7 @@ repository.save(...)
     <g transform="translate(605 255)">
       <rect class="d10-panel-blue" width="490" height="150" rx="10"></rect>
       <text class="d10-body d10-blue" x="245" y="62" text-anchor="middle">
-        @Entity
+        Row Mapper
       </text>
       <text
         class="d10-label fragment fade-in"
@@ -1613,13 +1694,13 @@ repository.save(...)
         y="112"
         text-anchor="middle"
       >
-        Tabellenabbildung
+        Zeile → Objekt
       </text>
     </g>
     <g transform="translate(1150 255)">
       <rect class="d10-panel-blue" width="490" height="150" rx="10"></rect>
       <text class="d10-body d10-blue" x="245" y="62" text-anchor="middle">
-        JpaRepository
+        Repository-Port
       </text>
       <text
         class="d10-label fragment fade-in"
@@ -1628,7 +1709,7 @@ repository.save(...)
         y="112"
         text-anchor="middle"
       >
-        AbstractRepository
+        Grenze zum Adapter
       </text>
     </g>
     <g class="fragment fade-in" data-fragment-index="7">
@@ -1646,9 +1727,9 @@ repository.save(...)
     </g>
   </svg>
   <aside class="notes">
-    Eine Gruppe verfolgt ihren POST vom Mapping bis SQLite. Wir nennen für jede
-    Annotation das bekannte Konzept. Wer kann, schaltet SQL-Logging ein und
-    zeigt das INSERT.
+    Eine Gruppe verfolgt GET per ID vom Mapping bis SQLite. Wir nennen für jede
+    Annotation das bekannte Konzept. Wer kann, loggt die SELECT-Abfrage und
+    gleicht sie mit `findById` ab.
   </aside>
 </section>
 

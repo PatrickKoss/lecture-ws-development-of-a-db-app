@@ -1,0 +1,14 @@
+openapi: 3.0.3
+info:
+  title: Domänenvorlage API
+  version: 1.0.0
+paths:
+  /api/resources:
+    get:
+      responses:
+        '200': {description: Liste der Hauptressource-Datensätze}
+    post:
+      responses:
+        '201': {description: Angelegt}
+        '400': {description: Validierung fehlgeschlagen}
+        '409': {description: resource_code bereits vorhanden}

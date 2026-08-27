@@ -1,0 +1,10 @@
+@base = http://localhost:8081
+GET {{base}}/api/movies
+
+### gültiger POST
+POST {{base}}/api/movies
+Content-Type: application/json
+
+{"movieCode": "F-199", "title": "Kursfilm", "releaseYear": 2026, "durationMinutes": 90, "fskCode": "FSK_12", "minimumAge": 12}
+
+### TODO(C3): denselben Wert für movie_code erneut senden und 409 prüfen

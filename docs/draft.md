@@ -42,7 +42,7 @@ Die Deck-Agenten übernehmen diese Namen und Zahlen unverändert.
 - `courses` hat `id`, `course_code`, `title`, `credits`, `lecturer_id`. `lecturers` hat `id`, `first_name`, `last_name`, `email`, `department_id`. `departments` hat `id`, `name`, `code`.
 - `java/sql/university/queries.sql` enthält genau zwölf Anweisungen. Ihre erwarteten Zeilenzahlen sind der Reihe nach 20, 5, 1, 1, 16, 1, 7, 7, 3, 7, 24 und 3. Query 3 ändert Lenas E-Mail-Adresse. Query 4 löscht Samir Saleh. Die folgenden Queries laufen auf diesem veränderten Stand.
 - Die Spring-Decks verwenden für den Kursvertrag `firstName`, `lastName`, `email`, `studentNumber` und `enrollmentDate`. Das größere Beispiel `java/rest-simple` nutzt dagegen `name`, `lastName`, `mnr` und `createdOn`. Code aus diesem Projekt bleibt verbatim und bekommt auf der Folie den Hinweis "bestehendes Zielbild, andere Namen".
-- Die Übungskarten sind verbindlich: Ex 1 und der Tabellenentwurf nutzen `exercises/<domain>/01-er.md`; Ex 3 nutzt `02-normalization.md`; Ex 4 und 5 nutzen `03-sql.md`; Ex 6 nutzt `04-jdbc.md`; Ex 7 nutzt `05-repository.md`; Ex 8 bis 11 nutzen `06-rest.md`. Ex 0 nutzt die Domänenbeschreibung in `exercises/<domain>/README.md`.
+- Die Übungsordner sind verbindlich und bauen aufeinander auf: A0 `a0-domain`, A1 `a1-er-model`, A2 `a2-relational-model`, A3 `a3-normalization`, B1 `b1-schema`, B2 `b2-sql`, B3 `b3-jdbc`, B4 `b4-repository`, C1 `c1-http-contract`, C2 `c2-spring-resource` und C3 `c3-tests-errors`. Jeder Pfad beginnt mit `exercises/<domain>/` und enthält ein Grundgerüst, eine Gruppenanleitung und einen Leitfaden.
 
 ## 00 Auftakt (Dateiname decks/00-opening.html)
 
@@ -85,7 +85,7 @@ Reveal.js Prompt: Layout chapter-slide. Grundzustand: Titel und "3 Tage · Java 
 Reveal.js Prompt: Rote-Linie-SVG mit allen acht exakten Beschriftungen aus `## Die rote Linie`. Status: erledigt keiner; aktiv `Idee im Kopf` in amber; als Nächstes `Darüber sprechen: Abstraktion und ER-Modell` mit gestricheltem blue Rahmen; alle übrigen Schritte grau. Fragmente: 1 Label `Tag 1` unter Schritten 1 bis 3, 2 `Tag 2` unter 4 bis 6, 3 `Tag 3` unter 7 bis 8. Folientext unten: "Eine Idee wird ausführbar." Notizen: "Heute beginnen wir bei einer Idee im Kopf. Jeder Pfeil löst ein konkretes Problem. Nach dem letzten Schritt kann ich zeigen, welche Datei zu welchem Kasten gehört."
 ```
 
-#### Folie 00.3: Drei Tage, drei Ergebnisse
+#### Folie 00.3: Drei Etappen, ein durchgängiger API-Schnitt
 
 ```text
 Reveal.js Prompt: Three-column content. Grundzustand: Spalten "Tag 1: schema.sql", "Tag 2: Java Repository", "Tag 3: REST API". Fragmente: die drei Dateisymbole nacheinander, jeweils green Haken. Visual: blue Dateikarten, amber Tagesnummern. Notizen: "Jeder Tag endet mit einem prüfbaren Ergebnis. Nichts wird benotet. Wir vergleichen Lösungen, führen Code aus und verbessern ihn gemeinsam."
@@ -198,10 +198,10 @@ Reveal.js Prompt: Two-column content. Links green "Dinge, Beziehungen, Regeln, I
 Reveal.js Prompt: Content slide. Exakter Text: "Wer nutzt das System? Welche Dinge bleiben erhalten? Was passiert? Welche Regeln gelten? Welche Ausnahme tut weh?" Fragmente: Fragen einzeln, letzte amber. Visual: fünf nummerierte Karten. Notizen: "Diese Fragen liefern kein perfektes Modell. Sie liefern genug Material für den ersten Entwurf. Die schmerzhafte Ausnahme verrät oft eine vergessene Beziehung."
 ```
 
-#### Folie 01.9: Übung 0, eure Domäne in fünf Sätzen
+#### Folie 01.9: Übung A0, eure Domäne in fünf Sätzen
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "Übung 0", Timer "15 min". Dateipfad unten: `exercises/<domain>/README.md`. Mitte mit drei nummerierten Schritten: 1 "Lest die Domänenbeschreibung." 2 "Schreibt fünf Sätze und markiert Nomen einmal, Verben doppelt." 3 "Kennzeichnet eine offene Fachfrage mit ?." Abgabebox: "Abgabe: fünf markierte Sätze als README-Notiz oder Foto". Keine Fragmente. Notizen: "Schreibt zuerst Alltagssprache. Java-Wörter sind heute nicht nötig. Wählt am Ende eine Unklarheit, die ihr einer Auftraggeberin stellen würdet."
+Reveal.js Prompt: Layout .exercise-slide. Tag "Übung A0", Timer "15 min". Dateipfad unten: `exercises/<domain>/a0-domain/README.md`. Drei Stufen: Eingang "Öffnet die Gruppenkarte und notiert die Hauptentität." Kern "Schreibt fünf Sätze. Markiert Nomen einmal und Verben doppelt." Vertiefung "Ergänzt eine Ausnahme und kennzeichnet eine offene Fachfrage mit ?." Ausgang: "fünf markierte Sätze, Hauptentität und eine offene Fachfrage". Keine Fragmente. Notizen: "Starttest: Die Gruppe kann ihre Hauptentität in einem Satz benennen. Nach zehn Minuten kann eine vorbereitete Beispielsatz-Schablone freigegeben werden."
 ```
 
 #### Folie 01.10: Von Wörtern zu Modellbausteinen
@@ -218,7 +218,7 @@ Reveal.js Prompt: Layout citation-slide. Visual: blue Karten Product, Price und 
 
 ### Übung
 
-Übung 0, "Eure Domäne in fünf Sätzen", 15 Minuten. Die Gruppe liest `exercises/<domain>/README.md`, beschreibt den Auftrag in Alltagssprache, unterstreicht Nomen einmal und Verben doppelt und markiert eine unklare Regel. Sie gibt fünf markierte Sätze als Text oder Foto ab. Im Debrief frage ich: Welche Wörter waren mehrdeutig? Welches Verb wurde zur Beziehung? Welche Rückfrage verändert das Modell? Exakter Folientext steht auf Folie 01.9.
+Übung A0, "Eure Domäne in fünf Sätzen", 15 Minuten. Die Gruppe arbeitet in `exercises/<domain>/a0-domain/`, wählt ihre Hauptentität, beschreibt den Auftrag in Alltagssprache und markiert eine unklare Regel. Ausgang sind fünf markierte Sätze, die Hauptentität und eine offene Fachfrage. Im Debrief frage ich: Welche Wörter waren mehrdeutig? Welches Verb wurde zur Beziehung? Welche Rückfrage verändert das Modell? Exakter Folientext steht auf Folie 01.9.
 
 ## 02 Das ER-Modell (Dateiname decks/02-er-model.html)
 
@@ -354,10 +354,10 @@ Reveal.js Prompt: SVG Department und Course. Grundzustand falsche Crow's-Foot-Se
 Reveal.js Prompt: Content slide. Karten Email, Name, Student, Course, Farbe. Fragmente: Student/Course wandern zu Entities blue, Email/Name zu Attributes, Farbe verschwindet grau. Notizen: "Nicht jedes Nomen wird eine Entity. Fragt nach eigener Identität, Lebensdauer und Beziehungen. Eine Farbe der Oberfläche gehört gar nicht in dieses Modell."
 ```
 
-#### Folie 02.18: Übung 1, euer ER-Modell
+#### Folie 02.18: Übung A1, euer ER-Modell
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "Übung 1", Timer "40 min". Dateipfad unten: `exercises/<domain>/01-er.md`. Mitte mit vier nummerierten Schritten: 1 "Markiert Entitäten, Attribute und Beziehungen." 2 "Klärt offene Punkte oder notiert Annahmen." 3 "Zeichnet Keys, Kardinalitäten und Optionalitäten in Crow's Foot." 4 "Prüft Beziehungsattribute und eine schwache Entität." Abgabe: "Foto oder SVG plus Annahmen; danach präsentieren zwei Gruppen je 5 min". Keine Fragmente. Notizen: "Beginnt mit den fünf Sätzen aus Übung 0. Ziel sind vier bis sechs gut begründete Entities. Lest jede Beziehung in beide Richtungen laut."
+Reveal.js Prompt: Layout .exercise-slide. Tag "Übung A1", Timer "35 min". Dateipfad unten: `exercises/<domain>/a1-er-model/README.md`. Eingang: "Öffnet den Ausgang aus A0 und prüft die Hauptentität." Kern: "Zeichnet Entitäten, Attribute und Beziehungen" sowie "Ergänzt Schlüssel, Kardinalitäten und Optionalitäten." Vertiefung: "Prüft Beziehungsattribute und eine schwache Entität." Ausgang: "er.svg oder er.md plus Annahmen; jede Linie lässt sich in beide Richtungen vorlesen". Keine Fragmente. Notizen: "Nach 25 Minuten kann die Lehrperson ein vorbereitetes Zwischenmodell freigeben. Danach zeigen zwei Gruppen je eine Modellentscheidung."
 ```
 
 #### Folie 02.19: Debrief, Linien laut lesen
@@ -374,7 +374,7 @@ Reveal.js Prompt: Layout citation-slide. Visual: StudentCard und CourseCard, Enr
 
 ### Übung
 
-Übung 1, "ER-Diagramm für eure Domäne", 40 Minuten plus 15 Minuten Debrief. Die verbindliche Karte ist `exercises/<domain>/01-er.md`. Die Gruppe markiert Entitäten, Attribute und Beziehungen, notiert Annahmen und zeichnet Keys, Cardinalities und Optionality in Crow's-Foot-Notation. Sie prüft eine Beziehung mit eigenen Attributen und eine schwache Entität. Abgabe sind ein Foto oder SVG und die Annahmen. Zwei Gruppen präsentieren je fünf Minuten. Debrief-Fragen: Welche Linie lässt sich nicht eindeutig laut lesen? Wo liegen Beziehungsattribute? Welche Optionality stammt aus einer echten Regel? Exakter Folientext steht auf Folie 02.18.
+Übung A1, "ER-Diagramm für eure Domäne", 35 Minuten plus Debrief. Die verbindliche Karte liegt in `exercises/<domain>/a1-er-model/`. Die Gruppe zeichnet Entitäten, Attribute, Beziehungen, Schlüssel, Kardinalitäten und Optionalitäten. Beziehungsattribute und schwache Entitäten sind Vertiefung. Ausgang sind `er.svg` oder `er.md` und die Annahmen. Zwei Gruppen zeigen anschließend je eine Modellentscheidung. Debrief-Fragen: Welche Linie lässt sich nicht eindeutig laut lesen? Wo liegen Beziehungsattribute? Welche Optionalität stammt aus einer echten Regel? Exakter Folientext steht auf Folie 02.18.
 
 ## 03 Vom ER-Modell zu Tabellen (Dateiname decks/03-er-to-tables.html)
 
@@ -459,10 +459,10 @@ Reveal.js Prompt: Two-column content. Links blue `TEXT`, `INTEGER`, ISO-Datum al
 Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/schema.sql`, Zeilen 31 bis 38, vollständig und verbatim. Code: `CREATE TABLE IF NOT EXISTS courses (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    course_code TEXT NOT NULL UNIQUE,\n    title TEXT NOT NULL,\n    credits INTEGER NOT NULL CHECK (credits > 0),\n    lecturer_id INTEGER NOT NULL,\n    FOREIGN KEY (lecturer_id) REFERENCES lecturers(id)\n);`. Zeilen-Highlights 1|2-5|6-7. Notizen: "Der Tabellenkopf stammt aus der Entity. Constraints setzen Keys und Pflichtfelder um. Der Foreign Key ist die frühere 1:n-Linie."
 ```
 
-#### Folie 03.10: Übung 2, Modell auf Papier abbilden
+#### Folie 03.10: Übung A2, ER-Modell in Relationen übersetzen
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "Übung 2", Timer "20 min". Arbeitsstand unten: `exercises/<domain>/01-er.md`. Mitte mit vier nummerierten Schritten: 1 "Schreibt zu jeder Entity eine Tabelle." 2 "Setzt Primary Keys und Foreign Keys." 3 "Löst n:m mit einer Join Table auf." 4 "Begründet jede NULL-Spalte." Abgabe: "Tabellenliste oder Foto als Ergänzung zu 01-er.md". Keine Fragmente. Notizen: "Dafür gibt es keine eigene Karte. Arbeitet direkt am ER-Modell aus `01-er.md`. Noch ist kein SQL nötig. Prüft jede Linie gegen einen Foreign Key."
+Reveal.js Prompt: Layout .exercise-slide. Tag "Übung A2", Timer "25 min". Arbeitsstand unten: `exercises/<domain>/a2-relational-model/README.md`. Eingang: "Öffnet euer geprüftes ER-Modell aus A1." Kern: "Schreibt Tabellen mit Primär- und Fremdschlüsseln" und "Löst n:m auf und ordnet Beziehungsattribute zu." Vertiefung: "Begründet jede NULL-Spalte und ergänzt UNIQUE-Regeln." Ausgang: "relational-model.md mit Tabellen, Schlüsseln und begründeten NULL-Spalten". Keine Fragmente. Notizen: "Nach 15 Minuten kann die Lehrperson eine vorbereitete Tabellenliste freigeben. Noch ist kein SQL nötig."
 ```
 
 #### Folie 03.11: SQLite braucht den Schalter
@@ -473,13 +473,13 @@ Reveal.js Prompt: Layout citation-slide. Visual: Foreign-Key-Pfeil zunächst gra
 
 ### Übung
 
-Übung 2, "ER-Modell auf Tabellen abbilden", 20 Minuten. Die Gruppe ergänzt ihren Arbeitsstand aus `exercises/<domain>/01-er.md`. Sie schreibt für jede Entity eine Tabelle mit Spalten und Primary Key, legt Foreign Keys auf die n-Seite und baut Join Tables für n:m. Jede NULL-Spalte braucht eine Fachbegründung. Für diese Zwischenübung gibt es keine eigene Karte. Abgabe ist eine Tabellenliste oder ein Foto. Debrief-Fragen: Welche ER-Linie wurde zu welchem Foreign Key? Welche Join Table trägt eigene Attribute? Wo ist NULL erlaubt und warum? Exakter Folientext steht auf Folie 03.10.
+Übung A2, "ER-Modell in Relationen übersetzen", 25 Minuten. Die Gruppe arbeitet in `exercises/<domain>/a2-relational-model/`. Sie schreibt für jede Entität eine Tabelle, legt Fremdschlüssel auf die n-Seite und baut Zwischentabellen für n:m. Ausgang ist `relational-model.md`. Debrief-Fragen: Welche ER-Linie wurde zu welchem Fremdschlüssel? Welche Zwischentabelle trägt eigene Attribute? Wo ist NULL erlaubt und warum? Exakter Folientext steht auf Folie 03.10.
 
 ## 04 Normalisierung (Dateiname decks/04-normalization.html)
 
 ### Ziel
 
-Die Studierenden erkennen Insert-, Update- und Delete-Anomalien an einer flachen Enrollment-Tabelle. Sie leiten Functional Dependencies (funktionale Abhängigkeiten) ab und prüfen 1NF, 2NF, 3NF und BCNF. Der erste Tabellenentwurf liegt vor. Jetzt machen wir daraus Tabellen, die uns nicht anlügen. Danach können wir am zweiten Tag mit SQL verlässlich fragen.
+Die Studierenden erkennen Einfüge-, Änderungs- und Löschanomalien an einer flachen Enrollment-Tabelle. Sie leiten Functional Dependencies (funktionale Abhängigkeiten) ab und prüfen 1NF, 2NF, 3NF und BCNF. Der erste Tabellenentwurf liegt vor. Jetzt machen wir daraus Tabellen, die uns nicht anlügen. Danach können wir am zweiten Tag mit SQL verlässlich fragen.
 
 ### Position auf der roten Linie
 
@@ -493,7 +493,7 @@ Wenn der Lecturer den Namen ändert, muss jemand 80 Zeilen treffen. Trifft das U
 
 Functional Dependencies schreiben die Regeln knapp: `student_id -> student_number, first_name, last_name, email`. Der Candidate Key `(student_id, course_id)` bestimmt `enrolled_on` und `grade`. Danach sind die Normalformen nur noch Prüfungen gegen diese Regeln.
 
-3NF reicht in vielen Anwendungssystemen. BCNF findet noch Fälle, in denen ein Determinant kein Candidate Key ist. Ich normalisiere nicht aus Sport. Ich stoppe, wenn die wichtigen Anomalien weg sind, Constraints klar sind und gemessene Abfragen noch vernünftig laufen.
+3NF reicht in vielen Anwendungssystemen. BCNF findet noch Fälle, in denen ein Determinant kein Superschlüssel ist. Ich normalisiere nicht aus Sport. Ich stoppe, wenn die wichtigen Anomalien weg sind, Constraints klar sind und gemessene Abfragen noch vernünftig laufen.
 
 ### Leitfragen
 
@@ -537,13 +537,13 @@ Reveal.js Prompt: Content slide with spreadsheet SVG. Quellenhinweis unten: "Abg
 Reveal.js Prompt: Spreadsheet-Ausschnitt mit den ersten drei `INF-201`-Zeilen aus Folie 04.4. Grundzustand: `lecturer_id = 1`, `lecturer_name = Anna Weber` dreimal. Fragment 1 ändert in den ersten zwei Zeilen den Namen auf `Anna Weber-Stein` amber. Fragment 2 lässt die dritte Zeile mit `Anna Weber` red stehen. Fragment 3 zeigt die exakte Frage "Welcher Name gilt für lecturer_id 1?". Hinweis unten: "Hypothetische Namensänderung auf Seed-Daten". Notizen: "Ein ausgelassenes Update erzeugt zwei Namen für dieselbe ID. Die normalisierte Tabelle `lecturers` speichert den Namen nur einmal."
 ```
 
-#### Folie 04.6: Insert-Anomalie
+#### Folie 04.6: Einfügeanomalie
 
 ```text
 Reveal.js Prompt: Leere neue flache Zeile für den ausdrücklich hypothetischen Course `INF-260`, Titel `Datenvisualisierung`, Lecturer `Jana Vogel`, Department `Informatik`. Die Student- und Enrollment-Zellen bleiben leer. Fragment 1 `student_id`, `student_name` und `enrolled_on` leuchten red, Fragment 2 die ganze Zeile erhält red Kreuz. `grade` bleibt grau, weil eine noch unbekannte Note fehlen darf. Sichtbarer Hinweis: "Hypothetischer neuer Course, nicht in seed.sql". Text unten: "Course ohne Enrollment nicht speicherbar". Notizen: "Ein neuer Course existiert fachlich vor der ersten Belegung. Die flache Tabelle zwingt uns zu erfundenen Student-Daten oder verhindert das Insert."
 ```
 
-#### Folie 04.7: Delete-Anomalie
+#### Folie 04.7: Löschanomalie
 
 ```text
 Reveal.js Prompt: Eine einzige hypothetische flache Zeile für `INF-260`, `Datenvisualisierung`, `Jana Vogel` und eine Belegung von Lena Hoffmann. Sichtbarer Hinweis: "Fortsetzung des hypothetischen Beispiels aus 04.6". Fragment 1 die Belegungszellen werden rot gestrichen, Fragment 2 Course- und Lecturer-Zellen verblassen zugleich, Fragment 3 red Text "Course-Information unbeabsichtigt gelöscht". Notizen: "Wir wollten eine Belegung löschen. In der flachen Tabelle verlieren wir zugleich den einzigen Datensatz über diesen Course."
@@ -555,73 +555,127 @@ Reveal.js Prompt: Eine einzige hypothetische flache Zeile für `INF-260`, `Daten
 Reveal.js Prompt: Content slide. Grundzustand `student_id`. Fragmente: Pfeile zu `student_number`, `first_name`, `last_name`, `email`; dann `course_id -> course_code, title, credits, lecturer_id`; dann `lecturer_id -> lecturer_name, department_id`. Text: "Functional Dependency: X → Y". Notizen: "X bestimmt Y, wenn zu einem X-Wert genau ein Y-Wert gehört. Das ist eine Fachregel, keine zufällige Beobachtung in sechs Zeilen."
 ```
 
-#### Folie 04.9: Der Schlüssel der Belegung
+#### Folie 04.9: Funktionale Abhängigkeit, formal
+
+```text
+Reveal.js Prompt: Content slide mit Titel "Funktionale Abhängigkeit, formal". Oben eine breite blue Definitionsbox mit dem exakten Text "X → Y gilt genau dann, wenn für alle Tupel t1, t2: t1[X] = t2[X] ⇒ t1[Y] = t2[Y]" und der amber Lesart "gleicher X-Wert erzwingt gleichen Y-Wert". Darunter zwei Tabellenkarten nebeneinander. Links stehen die Zeilen `t1 | Lena Hoffmann | lecturer_id 1 | Anna Weber` und `t2 | Jonas Becker | lecturer_id 1 | Anna Weber` unter der Prüfung `lecturer_id → lecturer_name`. Fragment 1 markiert beide `lecturer_id`-Zellen amber und zeigt `t1[X] = t2[X]: 1 = 1`. Fragment 2 markiert beide `lecturer_name`-Zellen amber und zeigt green `⇒ t1[Y] = t2[Y]: Anna Weber = Anna Weber` sowie `GILT ALS FACHREGEL`. Rechts erscheint als Fragment 3 eine red Gegenbeispielkarte `student_id ↛ grade` mit den Zeilen `t1 | Lena Hoffmann | INF-201 | student_id 1 | grade 1.7` und `t2 | Lena Hoffmann | INF-202 | student_id 1 | grade 2.0`; beide `student_id`-Zellen sind red markiert und darunter steht `t1[X] = t2[X]: 1 = 1`. Fragment 4 markiert beide `grade`-Zellen red und zeigt `t1[Y] ≠ t2[Y]: 1.7 ≠ 2.0` sowie `IMPLIKATION FALSCH`. Notizen: "Eine funktionale Abhängigkeit ist eine Regel der Domäne. Die beiden Lecturer-Zeilen machen die Regel konkret, beweisen sie aber nicht. Sechs Zeilen können eine funktionale Abhängigkeit widerlegen, niemals beweisen."
+```
+
+#### Folie 04.10: Schlüsselbegriffe
+
+```text
+Reveal.js Prompt: Content slide mit Titel "Schlüsselbegriffe". Vier gleich große blue Boxen in einem 2x2-Raster, jede Box erscheint als eigenes Fragment. Fragment 1 `SUPERSCHLÜSSEL`: Definition "Attributmenge K mit K → alle Attribute." und Beispiel `(student_id, course_id, enrolled_on) ist Superschlüssel, aber nicht minimal.` Fragment 2 `KANDIDATENSCHLÜSSEL`: Definition "Minimaler Superschlüssel: kein Attribut ist entfernbar." und Beispiel `(student_id, course_id) ist Kandidatenschlüssel.` Fragment 3 `SCHLÜSSELATTRIBUT / NICHTSCHLÜSSELATTRIBUT`: Definition "kommt in mindestens einem / keinem Kandidatenschlüssel vor." und Beispiele `student_id, course_id: Schlüsselattribute` sowie red `grade: Nichtschlüsselattribut`. Fragment 4 `VOLLE / PARTIELLE ABHÄNGIGKEIT`: Definition "Y hängt voll von K ab, wenn keine echte Teilmenge von K bereits Y bestimmt." und red Beispiel `student_id → student_name ⇒ partiell abhängig vom Kandidatenschlüssel`. Notizen: "Diese vier Begriffe tragen die Definitionen von 2NF und 3NF. Minimal bedeutet, dass wirklich kein Attribut aus dem Superschlüssel entfernt werden kann. Bei einem zusammengesetzten Kandidatenschlüssel suchen wir gezielt nach Abhängigkeiten von seinen echten Teilmengen."
+```
+
+#### Folie 04.11: Der Schlüssel der Belegung
 
 ```text
 Reveal.js Prompt: SVG `(student_id, course_id)` als amber Candidate-Key-Doppelkarte. Fragmente: 1 Pfeil zu `enrolled_on`, 2 Pfeil zu `grade`, 3 einzelne `student_id` und `course_id` erhalten red Kreuz. Notizen: "Die Note gehört zur Paarung. Weder Student noch Course allein bestimmen sie. Für die 2NF-Prüfung zählt dieser zusammengesetzte Candidate Key, auch wenn `enrollments.id` der Primary Key ist."
 ```
 
-#### Folie 04.10: 1NF, ein Wert pro Zelle
+#### Folie 04.12: 1NF, die Definition
 
 ```text
-Reveal.js Prompt: Two-column content. Links red `course_codes="INF-201,INF-230"`, rechts green zwei Enrollment-Zeilen `student_id=1, course_id=1` und `student_id=1, course_id=3`. Fragment 1 Text "atomar für unseren Zweck", Fragment 2 "keine Listen in Zellen". Notizen: "1NF verlangt Werte, die wir nicht als versteckte Liste behandeln. Atomar hängt vom Zweck ab. Eine ISO-Datumszeichenkette ist für unsere Abfragen ein Wert."
+Reveal.js Prompt: Content slide mit prominentem blue Definitionskasten. Exakter Definitionstext: "Eine Relation ist in 1NF, wenn jedes Attribut in jeder Zeile genau EINEN atomaren Wert trägt: keine Listen, keine Wiederholungsgruppen, keine geschachtelten Tabellen." Das Wort "EINEN" ist amber, die drei verbotenen Formen sind red. Fragmente: 1 red Karte "1 · LISTE IN EINER ZELLE" mit `course_codes = "INF-201,INF-230"`; 2 red Karte "2 · WIEDERHOLUNGSGRUPPE" mit `course_code_1`, `course_code_2`, `course_code_3`; 3 red Karte "3 · GESCHACHTELTE TABELLE" mit einer kleinen Tabelle in einer Zelle und dem Text "EINE ZELLE ENTHÄLT ZEILEN". Notizen: "Atomar heißt: für unseren Zweck unteilbar. Eine Zelle enthält deshalb weder eine Liste noch eine Wiederholungsgruppe oder eine weitere Tabelle. Ein ISO-Datum ist trotzdem ein Wert, obwohl es aus Jahr, Monat und Tag besteht."
 ```
 
-#### Folie 04.11: 2NF, der ganze Key zählt
+#### Folie 04.13: 1NF verletzt, die Prüfung
 
 ```text
-Reveal.js Prompt: SVG zusammengesetzter Key oben. Fragment 1 `student_name` hängt nur von `student_id` ab red, Fragment 2 `course_title` nur von `course_id` red, Fragment 3 beide wandern in blue Tabellen students und courses. Notizen: "2NF entfernt partielle Abhängigkeiten von einem Teil des zusammengesetzten Keys. In enrollments bleiben nur Fakten über die Paarung."
+Reveal.js Prompt: Content slide mit Tabelle `students_flat(student_id, student_name, course_codes)`. Zwei Zeilen exakt: `1 | Lena Hoffmann | "INF-201,INF-230"` und `2 | Jonas Becker | "INF-201"`. Fragment 1 zeigt die amber Prüffrage "Trägt jede Zelle genau einen Wert?". Fragment 2 markiert `"INF-201,INF-230"` red und zeigt "zwei Werte in einer Zelle, 1NF verletzt". Fragment 3 zeigt in einem red Kasten die exakte Zeile `WHERE course_code = 'INF-230' findet die Zeile nur mit String-Tricks (LIKE '%INF-230%').`. Notizen: "Wir prüfen die Definition Zelle für Zelle. Die erste problematische Zelle enthält zwei Course-Codes und verletzt damit die 1NF. Der Verstoß fällt durch die Prüffrage auf, nicht durch Intuition."
 ```
 
-#### Folie 04.12: 3NF, keine Umleitung
+#### Folie 04.14: 1NF erfüllt
 
 ```text
-Reveal.js Prompt: Dependency chain `course_id -> lecturer_id -> department_id -> department_name`. Fragment 1 indirekter Pfeil course zu department_name red, Fragment 2 lecturers und departments als getrennte blue Tabellen, Fragment 3 green. Notizen: "3NF entfernt transitive Abhängigkeiten von Nichtschlüsselattributen. Der Department-Name gehört zum Department, nicht zum Lecturer oder Course."
+Reveal.js Prompt: Content slide mit der Grundfrage "Trägt jede Zelle genau einen Wert?". Fragment 1 zeigt die blue Tabelle `enrollments(student_id, course_code)` mit den drei Zeilen exakt `1 | INF-201`, `1 | INF-230`, `2 | INF-201`. Fragment 2 zeigt mit green Text und green Rahmen "jede Zelle genau ein Wert ✓" sowie `WHERE course_code = 'INF-230' funktioniert ohne Tricks.`. Notizen: "Jede Belegung steht jetzt in einer eigenen Zeile. Damit besteht jede Zelle die Prüffrage, und die Datenbank kann direkt nach `course_code` filtern. 1NF ist die Eintrittskarte. Erst jetzt lassen sich funktionale Abhängigkeiten über Spalten sauber definieren."
 ```
 
-#### Folie 04.13: Das Schema nach 3NF
+#### Folie 04.15: 2NF, die Definition
+
+```text
+Reveal.js Prompt: Content slide. Oben eine große amber Definitionsbox. Fragment 1 zeigt die erste Bedingung: "Eine Relation ist in 2NF, wenn sie in 1NF ist". Fragment 2 ergänzt die zweite Bedingung: "UND jedes Nichtschlüsselattribut von JEDEM Kandidatenschlüssel voll funktional abhängig ist (keine partielle Abhängigkeit)." Darunter drei Prüfkarten. Fragment 3 blue Frage 1: "Was sind die Kandidatenschlüssel?" Fragment 4 blue Frage 2: "Welche Attribute sind Nichtschlüsselattribute?" Fragment 5 red Frage 3: "Hängt eines davon schon von einem ECHTEN Teil eines Schlüssels ab?" Fragment 6 zeigt green den Kontext: "Partielle Abhängigkeiten gibt es nur bei zusammengesetzten Schlüsseln. Sind alle Kandidatenschlüssel einspaltig, ist 2NF automatisch erfüllt." Notizen: "2NF ist eine Aussage über Teile zusammengesetzter Schlüssel. Wir bestimmen zuerst alle Kandidatenschlüssel und prüfen danach die Nichtschlüsselattribute. Sind alle Kandidatenschlüssel einspaltig, gibt es keinen echten Teil, der eine partielle Abhängigkeit erzeugen könnte."
+```
+
+#### Folie 04.16: 2NF verletzt, die Prüfung
+
+```text
+Reveal.js Prompt: Content slide zur schrittweisen Prüfung von `enrollments_flat`, oben links steht "RELATION · enrollments_flat". Die visuelle Grundidee des bisherigen 2NF-Slides bleibt: oben der zusammengesetzte Schlüssel, darunter werden verletzende Attribute red herausgezogen. Fragment 1 zeigt amber "Schritt 1 · Kandidatenschlüssel" mit `(student_id, course_id)`. Fragment 2 zeigt blue "Schritt 2 · Nichtschlüsselattribute" und die vollständige Liste `student_name · course_code · course_title · lecturer_id · lecturer_name · department_name · enrolled_on · grade`. Fragment 3 zeigt links red "Schritt 3a · partiell", die FD `student_id → student_name` und den Text "nur Teilschlüssel student_id → 2NF verletzt". Fragment 4 zeigt rechts red "Schritt 3b · gleiche Verletzung", die FD `course_id → course_title` und den Text "nur Teilschlüssel course_id → 2NF verletzt". Fragment 5 kontrastiert green `(student_id, course_id) → grade` mit "voll abhängig · in Ordnung ✓". Notizen: "`student_name` und `course_title` hängen jeweils schon von einem Teil des Kandidatenschlüssels ab. Das verletzt 2NF. `grade` und `enrolled_on` bleiben bei der Paarung, weil erst Student und Course zusammen diese Werte bestimmen."
+```
+
+#### Folie 04.17: 2NF erfüllt
+
+```text
+Reveal.js Prompt: Content slide als positives Beispiel nach der Zerlegung. Fragment 1 zeigt drei blue Tabellen nebeneinander: `students(student_id, student_name)`, `courses(course_id, course_title, ...)`, `enrollments(student_id, course_id, enrolled_on, grade)`. Die Schlüssel sind amber markiert, bei `enrollments` ist der Schlüssel `(student_id, course_id)` zusammengesetzt. Fragment 2 prüft `enrollments` erneut: "Jedes Nichtschlüsselattribut (enrolled_on, grade) hängt voll vom ganzen Schlüssel ab." und green "keine partielle Abhängigkeit ✓". Fragment 3 zeigt green: "In students und courses ist der Schlüssel einspaltig. 2NF ist dort automatisch erfüllt." Notizen: "Die Fakten bleiben dieselben, bekommen aber neue Tabellen. Die Paarungstabelle behält nur Fakten über die Paarung. `student_name` liegt bei `students`, `course_title` bei `courses`."
+```
+
+#### Folie 04.18: 3NF, Intuition und Prüfbedingung
+
+```text
+Reveal.js Prompt: Content slide mit prominentem amber Kasten, beschriftet als "INTUITION". Fragment 1 zeigt: "Eine Relation ist in 3NF, wenn sie in 2NF ist UND kein Nichtschlüsselattribut transitiv von einem Kandidatenschlüssel abhängt." Fragment 2 erläutert transitiv in einem blue Kasten: "K → B und B → C", "B ist ein Nichtschlüsselattribut" und "C hängt transitiv von K ab". Fragment 3 ergänzt in einem red Kasten die Bedingung "B → K gilt nicht zurück" und "B ist kein Schlüssel". Fragment 4 zeigt die "FORMALE PRÜFBEDINGUNG" in einem amber Kasten: "Für jede nichttriviale FD X → A gilt: X ist Superschlüssel ODER A ist Schlüsselattribut. Sonst: 3NF verletzt." Fragment 5 zeigt green: "2NF verbietet Abkürzungen über Teilschlüssel. 3NF verbietet Umleitungen über Nichtschlüsselattribute." Notizen: "Die obere Box gibt die übliche Intuition. Die vollständige formale Prüfbedingung steht unten."
+```
+
+#### Folie 04.19: 3NF verletzt, die Prüfung
+
+```text
+Reveal.js Prompt: Content slide als Ersatz für "3NF, keine Umleitung". Sichtbar ist die Signatur `courses_flat(course_id, title, lecturer_id, lecturer_name, department_id, department_name)`. Fragment 1 zeigt die Dependency Chain `course_id → lecturer_id → department_id → department_name` als amber Schlüsselkarte und blue Karten mit Pfeilen sowie den Text "Jeder Pfeil ist eine funktionale Abhängigkeit." Fragment 2 prüft `lecturer_id → lecturer_name` in einem red Kasten: "lecturer_id ist kein Superschlüssel von courses_flat, lecturer_name ist kein Schlüsselattribut → 3NF verletzt." Fragment 3 prüft entsprechend `department_id → department_name`: "department_id ist kein Superschlüssel, department_name ist kein Schlüsselattribut → 3NF verletzt." Fragment 4 zeigt amber: "Fachbereich umbenennen = eine Änderung pro Kurs. Die Änderungsanomalie kehrt zurück." Notizen: "Die Prüfregel ist mechanisch anwendbar. Wir prüfen jede nichttriviale FD einzeln und markieren beide Bedingungen, wenn sie scheitern. Genau so sollen die Studierenden in der Übung vorgehen."
+```
+
+#### Folie 04.20: 3NF erfüllt
+
+```text
+Reveal.js Prompt: Content slide. Fragment 1 zeigt drei blue Tabellen: `courses(course_id, title, lecturer_id)`, `lecturers(lecturer_id, lecturer_name, department_id)` und `departments(department_id, department_name)`. Schlüssel sind amber und unterstrichen, Fremdschlüssel blue; blue Pfeile verbinden `courses.lecturer_id` mit `lecturers.lecturer_id` und `lecturers.department_id` mit `departments.department_id`. Fragment 2 prüft die FDs jeder Tabelle: `course_id → title, lecturer_id`, `lecturer_id → lecturer_name, department_id`, `department_id → department_name`. Green Ergebnis: "Linke Seite jeder FD = ganzer Schlüssel. Keine Umleitung ✓". Fragment 3 zeigt green: "Umbenennung eines Departments ist wieder genau ein Update." Notizen: "Die Zerlegung entspricht der Struktur in `java/sql/university/schema.sql`. In jeder Tabelle bestimmt der ganze Schlüssel die übrigen Attribute. Ein Department-Name steht damit nur noch an einer Stelle."
+```
+
+#### Folie 04.21: Die Prüfliste der Normalformen
+
+```text
+Reveal.js Prompt: Content slide direkt vor "Das Schema nach 3NF". Ein kompakter Überblick hat die Spalten "NORMALFORM", "PRÜFFRAGE" und "VERBOTENES MUSTER". Fragment 1 zeigt die 1NF-Zeile: "Trägt jede Zelle genau einen Wert?" und red "Listen und Wiederholungsgruppen". Fragment 2 zeigt die 2NF-Zeile: "Hängt ein Nichtschlüsselattribut nur von einem Teil eines Schlüssels ab?" und red "partielle Abhängigkeit". Fragment 3 zeigt die 3NF-Zeile: "Hängt ein Nichtschlüsselattribut über ein anderes Nichtschlüsselattribut ab?" und red "transitive Abhängigkeit". Fragment 4 zeigt in einem amber Kasten: "Diese drei Fragen sind eure Übungsanleitung." Notizen: "Diese Prüfliste ist das Werkzeug für Übung A3. Die Fragen sind kurz genug für die Arbeit am Schema. Die formalen Definitionen machen präzise, was mit Teil, Umleitung und Abhängigkeit gemeint ist."
+```
+
+#### Folie 04.22: Das Schema nach 3NF
 
 ```text
 Reveal.js Prompt: Full SVG mit den fünf Tabellen und exakten Spalten aus `java/sql/university/schema.sql`: `departments(id,name,code)`, `lecturers(id,first_name,last_name,email,department_id)`, `students(id,first_name,last_name,email,student_number,enrollment_date)`, `courses(id,course_code,title,credits,lecturer_id)`, `enrollments(id,student_id,course_id,grade,enrolled_on)`. Primary Keys amber unterstrichen, Foreign Keys blue mit Pfeil zur Zielspalte. Fragmente: 1 departments und lecturers, 2 courses, 3 students und enrollments, 4 alle Foreign-Key-Pfeile, 5 green Klammer "jede Tatsache an einem Ort". Notizen: "Das ist exakt das Schema aus `java/sql/university/schema.sql`. Enrollment behält `enrolled_on` und `grade`. Das Einschreibedatum am Student heißt `enrollment_date`."
 ```
 
-#### Folie 04.14: BCNF prüft jeden Determinanten
+#### Folie 04.23: BCNF prüft jeden Determinanten
 
 ```text
-Reveal.js Prompt: Content slide. Beispiel `course_room_timeslot(course_id, room_id, timeslot)` mit Regeln `(course_id, timeslot) -> room_id` und `room_id -> course_id` für exklusiv reservierte Räume. Fragmente: zweite FD amber, Determinant `room_id` kein Candidate Key red, Zerlegung blue. Notizen: "BCNF verschärft 3NF: Jeder Determinant muss Candidate Key sein. Das Beispiel ist bewusst klein. Merkt euch die Prüffrage, nicht die Abkürzung."
+Reveal.js Prompt: Content slide. Beispiel `course_room_timeslot(course_id, room_id, timeslot)` mit Regeln `(course_id, timeslot) -> room_id` und `room_id -> course_id` für exklusiv reservierte Räume. Fragmente: zweite FD amber, Determinant `room_id` ist kein Superschlüssel red, Zerlegung blue. Notizen: "BCNF verschärft 3NF: Jeder Determinant muss ein Superschlüssel sein. Ein Superschlüssel muss nicht minimal sein."
 ```
 
-#### Folie 04.15: 3NF oder BCNF?
+#### Folie 04.24: 3NF oder BCNF?
 
 ```text
 Reveal.js Prompt: Two-column content. Links "3NF: praktische Standardprüfung", rechts "BCNF: prüft restliche Determinanten". Fragmente: 1 green "Anomalien weg", 2 amber "Abhängigkeitserhalt prüfen". Notizen: "BCNF wird manchmal 3.5NF genannt. Eine Zerlegung kann Abhängigkeiten schwerer erzwingbar machen. Für eure Übung ist 3NF das Pflichtziel, BCNF die Kontrollfrage."
 ```
 
-#### Folie 04.16: Wann reale Systeme stoppen
+#### Folie 04.25: Wann reale Systeme stoppen
 
 ```text
-Reveal.js Prompt: Balance SVG. Links blue "Korrektheit, klare Writes, Constraints", rechts amber "gemessene Read-Latenz, Bericht, Cache". Fragment 1 green Linie bei 3NF, Fragment 2 bewusste Denormalisierung als amber Kopie mit Label. Notizen: "Wir stoppen nicht bei einer Nummer, sondern bei einem begründeten Schema. Denormalisierung folgt einer Messung und bekommt eine Aktualisierungsregel. Zufällige Duplikate sind keine Optimierung."
+Reveal.js Prompt: Balance SVG. Links blue "Korrektheit, klare Schreibwege, Constraints", rechts amber "gemessene Read-Latenz, Bericht, Cache". Fragment 1 green Linie bei 3NF, Fragment 2 bewusste Denormalisierung als amber Kopie mit Label. Notizen: "Wir stoppen nicht bei einer Nummer, sondern bei einem begründeten Schema. Denormalisierung folgt einer Messung und bekommt eine Aktualisierungsregel. Zufällige Duplikate sind keine Optimierung."
 ```
 
-#### Folie 04.17: Übung 3, die flache Tabelle zerlegen
+#### Folie 04.26: Übung A3, die flache Tabelle zerlegen
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "Übung 3", Timer "40 min". Dateipfad unten: `exercises/<domain>/02-normalization.md`. Mitte mit vier nummerierten Schritten: 1 "Bestimmt einen Schlüssel und die Functional Dependencies." 2 "Zerlegt schrittweise bis 3NF." 3 "Prüft die BCNF-Falle der Karte." 4 "Gleicht das Ergebnis mit dem ER-Modell ab." Abgabe: "Tabellen mit Primary und Foreign Keys, FDs, ein Satz zur BCNF-Falle". Keine Fragmente. Notizen: "Beginnt bei den konkreten Beobachtungen der Karte. Benennt Insert-, Update- und Delete-Anomalie im Gespräch. Ändert euer ER-Modell, wenn die Zerlegung eine vergessene Entity zeigt."
+Reveal.js Prompt: Layout .exercise-slide. Tag "Übung A3", Timer "35 min". Dateipfad unten: `exercises/<domain>/a3-normalization/README.md`. Eingang: "Öffnet flache Tabelle und Prüffragen der Gruppe." Kern: "Bestimmt Kandidatenschlüssel und Abhängigkeiten" sowie "Zerlegt bis 3NF und begründet jeden Schnitt." Vertiefung: "Prüft die BCNF-Falle und gleicht mit dem ER-Modell ab." Ausgang: "normalization.md mit Abhängigkeiten, 3NF-Tabellen und Begründung". Keine Fragmente. Notizen: "Nach 25 Minuten kann die Lehrperson einen vorbereiteten 2NF-Zwischenstand freigeben. BCNF bleibt Vertiefung, der prüfbare Kern endet bei 3NF."
 ```
 
-#### Folie 04.18: Debrief, kann die Tabelle lügen?
+#### Folie 04.27: Debrief, kann die Tabelle lügen?
 
 ```text
 Reveal.js Prompt: Content slide. Vier Prüfkarten: "ein Fakt an einem Ort?", "Insert ohne erfundene Daten?", "Update an einer Stelle?", "Delete ohne Nebenverlust?" Fragmente einzeln, letzte amber. Notizen: "Wir prüfen eine Gruppentabelle mit diesen vier Fragen. Normalformen helfen beim Denken. Die Anomalien zeigen, ob das Ergebnis praktisch besser ist."
 ```
 
-#### Folie 04.19: Tag 1 endet mit einem Schema
+#### Folie 04.28: Tag 1 endet mit einem Schema
 
 ```text
 Reveal.js Prompt: Content slide with SVG. Links fünf blue Tabellen, Mitte Datei `schema.sql`, rechts gestrichelte SQL-Sprechblase. Fragmente: 1 green Haken "Begriffe", 2 "Beziehungen", 3 "Constraints", 4 amber "morgen: Fragen". Notizen: "Heute hatten wir erst Sprache, dann Modell, dann Tabellen. Morgen führen wir das Schema in SQLite aus. Danach stellen wir ihm Fragen, zunächst direkt, später aus Java."
 ```
 
-#### Folie 04.20: BigQuery denormalisiert bewusst
+#### Folie 04.29: BigQuery denormalisiert bewusst
 
 ```text
 Reveal.js Prompt: Layout citation-slide. Visual: normalisierte blue Tabellen links, BigQuery-Tabelle mit `ARRAY<STRUCT<...>>` rechts, amber Pfeil "weniger wiederholte JOINs". Folientext: "BigQuery empfiehlt nested und repeated fields für passende Hierarchien." Quelle: "https://docs.cloud.google.com/bigquery/docs/best-practices-performance-nested". Darunter sichtbar: "Abruf: 2026-08-23". Notizen: "BigQuery dokumentiert Denormalisierung als mögliche Leseoptimierung. Nested und repeated fields halten hierarchische Daten zusammen. Das ist eine bewusste Speicherform, keine zufällige flache Eingangstabelle."
@@ -629,7 +683,7 @@ Reveal.js Prompt: Layout citation-slide. Visual: normalisierte blue Tabellen lin
 
 ### Übung
 
-Übung 3, "Flache Tabelle bis 3NF zerlegen", 40 Minuten. Die verbindliche Karte ist `exercises/<domain>/02-normalization.md`. Jede Gruppe bestimmt einen Schlüssel und die Functional Dependencies, zerlegt bis 3NF, prüft die angegebene BCNF-Falle und gleicht das Ergebnis mit dem ER-Modell ab. Abgabe enthält Tabellen mit Primary und Foreign Keys, FDs und einen Satz zur BCNF-Falle. Debrief-Fragen: Welche Operation erzeugte den Widerspruch? Welche FD war partiell oder transitiv? Musste das ER-Modell geändert werden? Exakter Folientext steht auf Folie 04.17.
+Übung A3, "Flache Tabelle bis 3NF zerlegen", 35 Minuten. Die verbindliche Karte liegt in `exercises/<domain>/a3-normalization/`. Jede Gruppe bestimmt Kandidatenschlüssel und funktionale Abhängigkeiten und zerlegt bis 3NF. BCNF ist Vertiefung. Ausgang ist `normalization.md` mit Abhängigkeiten, 3NF-Tabellen und Begründung. Debrief-Fragen: Welche Operation erzeugte den Widerspruch? Welche Abhängigkeit war partiell oder transitiv? Musste das ER-Modell geändert werden? Exakter Folientext steht auf Folie 04.26.
 
 ## 05 SQL-Grundlagen (Dateiname decks/05-sql-basics.html)
 
@@ -762,10 +816,10 @@ Reveal.js Prompt: Four-row mapping. Create→INSERT, Read→SELECT, Update→UPD
 Reveal.js Prompt: Circular SVG: `.schema` → `SELECT` → write statement → `changes()` → `SELECT`. Fragmente entlang Kreis, Schreibschritt amber. Notizen: "Wir schauen vor und nach einem Write auf die Daten. Das ist langsamer als blindes Tippen und schneller als Datenrettung. Speichert eure Befehle in Dateien. Die History reicht dafür nicht."
 ```
 
-#### Folie 05.18: Übung 4, Schema und Seed
+#### Folie 05.18: Übung B1, Schema und Constraints
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "Übung 4", Timer "40 min". Dateipfad unten: `exercises/<domain>/03-sql.md`. Mitte mit vier nummerierten Schritten: 1 "Schreibt `sql/schema.sql`." 2 "Setzt Keys, NOT NULL, UNIQUE und weitere Fach-Constraints." 3 "Schreibt `sql/seed.sql` mit 10 bis 20 Zeilen pro Tabelle." 4 "Ladet beide Dateien in eine leere SQLite-Datenbank." Abgabe: "sql/schema.sql, sql/seed.sql, erfolgreiche .tables-Ausgabe". Keine Fragmente. Notizen: "Beginnt immer mit einer leeren Datei. Ladet Eltern vor Kindern. Ein Seed muss beim ersten Lauf vollständig durchlaufen."
+Reveal.js Prompt: Layout .exercise-slide. Tag "Übung B1", Timer "35 min". Dateipfad unten: `exercises/<domain>/b1-schema/README.md`. Eingang: "Startet `schema.sql` und den vorbereiteten Seed." Kern: "Ergänzt Schlüssel, NOT NULL, UNIQUE und zwei Fachregeln" sowie "Prüft zwei ungültige INSERTs und erklärt die Fehler." Vertiefung: "Ergänzt eine weitere Fachregel und eine passende Gegenprobe." Ausgang: "schema.sql läuft mit seed.sql; zwei gezielte Gegenproben scheitern am erwarteten Constraint". Keine Fragmente. Notizen: "Nach 25 Minuten kann die Lehrperson einen vollständigen Constraint-Block freigeben. Seed-Daten werden nicht von Hand erzeugt."
 ```
 
 #### Folie 05.19: Debrief, bricht das Schema richtig?
@@ -782,7 +836,7 @@ Reveal.js Prompt: Layout citation-slide. Visual: eine blue `.db`-Datei verbindet
 
 ### Übung
 
-Übung 4, "Schema und Seed in SQLite", 40 Minuten. Die verbindliche Karte ist `exercises/<domain>/03-sql.md`, Abschnitt "Schema und Testdaten". Die Gruppe schreibt `sql/schema.sql`, aktiviert Foreign Keys, setzt Constraints und erstellt `sql/seed.sql` mit 10 bis 20 Zeilen pro Tabelle. Beide Dateien müssen eine neue SQLite-Datenbank ohne manuelle Korrektur aufbauen. Abgabe sind beide SQL-Dateien und die erfolgreiche `.tables`-Ausgabe. Debrief-Fragen: Welcher Constraint fing einen echten Fehler? In welcher Reihenfolge mussten Tabellen geladen werden? Welche Spalte erlaubt NULL? Exakter Folientext steht auf Folie 05.18.
+Übung B1, "Schema und Constraints", 35 Minuten. Die verbindliche Karte liegt in `exercises/<domain>/b1-schema/`. Die Gruppe startet das vorbereitete Schema und die Seed-Daten, ergänzt Constraints und schreibt zwei gezielte Gegenproben. Ausgang ist ein Schema, das gültige Daten lädt und beide Fehler am erwarteten Constraint zurückweist. Debrief-Fragen: Welcher Constraint fing einen echten Fehler? Welche Spalte erlaubt NULL? Exakter Folientext steht auf Folie 05.18.
 
 ## 06 JOINs und Aggregation (Dateiname decks/06-sql-joins-aggregation.html)
 
@@ -805,7 +859,7 @@ Ein JOIN ist kein Venn-Diagramm. Ich lege zwei Tabellen nebeneinander, nehme ein
 ### Leitfragen
 
 - Frage: "Was passiert beim JOIN mit einer Student-Zeile ohne passenden Enrollment?" Erwartet: Beim INNER JOIN verschwindet sie, beim LEFT JOIN bleibt sie mit NULL rechts. Typisch falsch: Sie bleibt immer; JOIN erzeugt eine leere Enrollment-Zeile in der Tabelle.
-- Frage: "Warum ist COUNT(*) nach LEFT JOIN gefährlich?" Erwartet: Es zählt auch die erhaltene linke Zeile ohne Partner. Typisch falsch: COUNT ignoriert immer NULL; COUNT(*) und COUNT(column) sind gleich.
+- Frage: "Warum ist COUNT(_) nach LEFT JOIN gefährlich?" Erwartet: Es zählt auch die erhaltene linke Zeile ohne Partner. Typisch falsch: COUNT ignoriert immer NULL; COUNT(_) und COUNT(column) sind gleich.
 - Frage: "WHERE oder HAVING für Courses mit mehr als zwei Belegungen?" Erwartet: HAVING nach GROUP BY. Typisch falsch: WHERE COUNT(*) > 2; ORDER BY.
 
 ### Realitätsbezug
@@ -916,10 +970,10 @@ Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/universit
 Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/queries.sql`, Zeilen 101 bis 108, vollständig und verbatim. Highlights 101-102|103|104-107|108. Fragment 1 zeigt vor DISTINCT drei mehrfach wiederkehrende Codes als graue Karten. Fragment 2 zeigt exakt drei Ergebniszeilen: `INF · Informatik`, `MAT · Mathematik`, `WI · Wirtschaftswissenschaften`. Fragment 3 amber Hinweis "DISTINCT entfernt Ergebnisduplikate, keinen falschen JOIN". Notizen: "Query 12 verbindet alle fünf Tabellen und liefert genau drei Fachbereiche. DISTINCT ist hier fachlich gewollt, weil jeder Department-Code einmal erscheinen soll."
 ```
 
-#### Folie 06.18: Übung 5, acht Fragen
+#### Folie 06.18: Übung B2, vier geprüfte Fragen
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "Übung 5", Timer "50 min". Dateipfad unten: `exercises/<domain>/03-sql.md`. Mitte mit vier nummerierten Schritten: 1 "Schreibt die acht vorgegebenen Fragen in `sql/queries.sql`." 2 "Nutzt JOIN, LEFT JOIN und den Datumsvergleich der Karte." 3 "Nutzt in Query 7 GROUP BY plus HAVING." 4 "Nutzt in Query 8 eine Subquery mit GROUP BY plus HAVING." Abgabe: "sql/queries.sql mit Nummer und erwartetem Ergebnis über jeder Query". Keine Fragmente. Notizen: "Führt jede Query einzeln aus. Die Karte gibt die fachlichen Fragen vor. Prüft einen Fall ohne passenden rechten Datensatz."
+Reveal.js Prompt: Layout .exercise-slide. Tag "Übung B2", Timer "45 min". Dateipfad unten: `exercises/<domain>/b2-sql/README.md`. Eingang: "Startet Schema und Seed aus B1. Prüft mindestens zehn Zeilen." Kern: "Schreibt zwei JOIN-Abfragen und eine Aggregation" sowie "Ergänzt eine LEFT-JOIN-Abfrage mit einem fehlenden Partner." Vertiefung: "Ergänzt HAVING oder eine Subquery aus der Gruppenkarte." Ausgang: "queries.sql läuft ohne Fehler; die Gruppe erklärt, warum eine Zeile beim LEFT JOIN erhalten bleibt". Keine Fragmente. Notizen: "Nach 35 Minuten kann die Lehrperson eine vorbereitete JOIN-Abfrage freigeben. Danach folgen fünf Minuten gemeinsame Auswertung."
 ```
 
 #### Folie 06.19: (Reserve) Ein Fenster behält jede Zeile
@@ -936,13 +990,13 @@ Reveal.js Prompt: Layout citation-slide. Visual: viele Commit-Karten mit Autor l
 
 ### Übung
 
-Übung 5, "Acht SQL-Fragen", 50 Minuten. Die verbindliche Karte ist `exercises/<domain>/03-sql.md`, Abschnitt "Acht Abfragen". Die Gruppe übernimmt genau diese acht Fragen. Query 7 nutzt `GROUP BY` und `HAVING`. Query 8 nutzt eine Subquery sowie `GROUP BY` und `HAVING`. Abgabe ist `sql/queries.sql` mit Nummer und erwartetem Ergebnis über jeder Query. Debrief-Fragen: Welche Query brauchte LEFT JOIN? Wo hätte COUNT(*) gelogen? Was beantwortet die Subquery allein? Exakter Folientext steht auf Folie 06.18.
+Übung B2, "Vier geprüfte SQL-Fragen", 45 Minuten. Die verbindliche Karte liegt in `exercises/<domain>/b2-sql/`. Die Gruppe schreibt zwei JOIN-Abfragen, eine Aggregation und eine LEFT-JOIN-Abfrage mit fehlendem Partner. HAVING oder eine Subquery ist Vertiefung. Ausgang ist `queries.sql`; die Gruppe erklärt, warum eine Zeile beim LEFT JOIN erhalten bleibt. Debrief-Fragen: Welche Abfrage brauchte LEFT JOIN? Wo hätte COUNT(*) falsch gezählt? Exakter Folientext steht auf Folie 06.18.
 
 ## 07 JDBC und Cursor (Dateiname decks/07-jdbc-cursor.html)
 
 ### Ziel
 
-Die Studierenden erklären den Weg von Java über den JDBC Driver (Treiber) zur SQLite-Datei. Sie öffnen Ressourcen sicher, binden Werte mit `PreparedStatement` (vorbereitetem Statement), bewegen einen `ResultSet`-Cursor und bilden Zeilen auf `Student` ab. SQL liegt hinter uns. Jetzt fragt Java dieselben Tabellen. Danach kapseln wir wiederholten CRUD-Code in einem Repository.
+Die Studierenden erklären den Weg von Java über den JDBC Driver (Treiber) zur SQLite-Datei. Sie öffnen Ressourcen sicher, binden Werte mit `PreparedStatement` (vorbereitetem Statement), bewegen einen `ResultSet`-Cursor und bilden Zeilen auf ihre Hauptressource ab. Der Kern sind `findById`, `findAll` und sichtbares Row Mapping. Schreiben mit `save` ist Vertiefung. Danach kapseln wir SQL und Mapping hinter einem Repository.
 
 ### Position auf der roten Linie
 
@@ -973,7 +1027,7 @@ Der PostgreSQL JDBC Driver erlaubt Java-Programmen den Zugriff auf PostgreSQL mi
 #### Folie 07.1: JDBC und Cursor
 
 ```text
-Reveal.js Prompt: Layout chapter-slide. Titel "JDBC und Cursor", Untertitel "SQL aus Java". Visual: Java-Kaffeetasse → blue Driver-Box → SQLite-Datei. Notizen: "Wir ändern nicht die Abfragen, sondern ihren Absender. Java übernimmt Terminalarbeit und Objektabbildung."
+Reveal.js Prompt: Layout chapter-slide. Titel "JDBC und Cursor", Untertitel "SQL aus Java". Sichtbares Label "Leitfragen", darunter: "Wie wird aus einer Tabellenzeile ein Java-Objekt?" und "Wo bündeln wir SQL und Row Mapping, damit beides nur einmal vorkommt?" Visual: Java-Kaffeetasse → blue Driver-Box → SQLite-Datei. Notizen: "Wir ändern nicht die Abfragen, sondern ihren Absender. Java übernimmt Terminalarbeit und Objektabbildung."
 ```
 
 #### Folie 07.2: Java fragt die Tabellen
@@ -1045,7 +1099,7 @@ Reveal.js Prompt: SVG verschachtelte Rahmen Connection, PreparedStatement, Resul
 #### Folie 07.13: INSERT mit gebundenen Werten
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/cursor-simple/src/main/java/org/lecture/Main.java`, Zeilen 82 bis 95, vollständig und verbatim. Highlights 82-85|87-88|89-93|94-95. Annotation rechts: "SQL · PreparedStatement · fünf Bindings · executeUpdate". Notizen: "Parameterpositionen beginnen bei 1. Ihre Reihenfolge folgt den Fragezeichen. Das Datum wird im vereinbarten ISO-Format gebunden."
+Reveal.js Prompt: Layout .code-slide. Sichtbares Label "Vertiefung · Schreiben". Quelle sichtbar unten: `java/cursor-simple/src/main/java/org/lecture/Main.java`, Zeilen 82 bis 95, vollständig und verbatim. Highlights 82-85|87-88|89-93|94-95. Annotation rechts: "SQL · PreparedStatement · fünf Bindings · executeUpdate". Notizen: "Parameterpositionen beginnen bei 1. Ihre Reihenfolge folgt den Fragezeichen. Das Datum wird im vereinbarten ISO-Format gebunden."
 ```
 
 #### Folie 07.14: executeQuery oder executeUpdate
@@ -1078,16 +1132,16 @@ Reveal.js Prompt: Two-column content. Links red `catch (SQLException e)`, rechts
 Reveal.js Prompt: Content slide mit Dateipfad `java/cursor-simple/src/main/java/org/lecture/Main.java`. Fünf gleich große Ablaufkarten: `initializeDatabase`, `createStudent`, `listAllStudents`, `readStudent`, `updateStudent/deleteStudent`; darunter kleine Karte `Input-Helfer`. Fragmente entlang blue Pfeil. Notizen: "Die Datei hat 248 Zeilen. Wir folgen einem Create und einem Read. Danach markieren wir die beiden Row-Mapping-Blöcke für das nächste Kapitel."
 ```
 
-#### Folie 07.19: Übung 6A, StudentRepositoryImpl
+#### Folie 07.19: B3, eure Hauptressource lesen
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "Übung 6A", Timer "45 min". Dateipfade unten: `exercises/<domain>/04-jdbc.md` und `java/repository-simple-exercise/README.md`. Mitte mit vier nummerierten Schritten: 1 "Implementiert Initialisierung, Create, Read, Update, Delete und Existenzprüfung." 2 "Nutzt PreparedStatement und try-with-resources." 3 "Übernehmt IDs und behandelt leere Ergebnisse mit Optional." 4 "Aktiviert die CLI-TODOs und führt `./verify-exercise.sh` aus." Abgabe: "StudentRepositoryImpl.java, aktive CLI, grüner Verify-Lauf". Keine Fragmente. Notizen: "Folgt dem README und der Karte, nicht dem fertigen Repository. Bindet jeden externen Wert. Testet auch eine doppelte E-Mail-Adresse oder Studierendennummer."
+Reveal.js Prompt: Layout .exercise-slide. Tag "B3 · Kernauftrag", Timer "45 min". Dateipfad unten: `exercises/<domain>/b3-jdbc/`. Mitte mit vier nummerierten Schritten: 1 "Startet das vorbereitete Projekt und führt den Starttest aus." 2 "Implementiert findById mit Optional." 3 "Implementiert findAll mit sichtbarem Row Mapping." 4 "Prüft einen Treffer, eine fehlende ID und die Seed-Daten." Abgabe: "grüner Testlauf und Ausgabe eines vorhandenen Datensatzes". Keine Fragmente. Notizen: "Model, Connection und Tests sind vorbereitet. Nach der Kernzeit kann die Lehrperson den vorbereiteten Zwischenstand freigeben."
 ```
 
-#### Folie 07.20: Übung 6B, eine Entity eurer Domäne
+#### Folie 07.20: B3, Schreiben als Vertiefung
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "Übung 6B", Timer "30 min". Dateipfad unten: `exercises/<domain>/04-jdbc.md`. Mitte mit vier nummerierten Schritten: 1 "Nehmt die Entity und Felder aus der Karte." 2 "Legt Model, Repository-Interface und Implementierung an." 3 "Ergänzt genau zwei CLI-Punkte: anlegen und auflisten." 4 "Testet gültige Daten und die zwei Fehlerfälle der Karte." Abgabe: "ausführbares repository-simple-exercise plus kurze Testnotiz". Keine Fragmente. Notizen: "Die konkrete Entity steht in der Domänenkarte. Für die Bibliothek ist es Book. Erfindet auf der Folie keine generische Haupttabelle."
+Reveal.js Prompt: Layout .exercise-slide. Tag "B3 · Vertiefung", Timer "20 min". Dateipfad unten: `exercises/<domain>/b3-jdbc/`. Mitte mit vier nummerierten Schritten: 1 "Implementiert save für dieselbe Hauptressource." 2 "Bindet jeden Wert mit PreparedStatement." 3 "Prüft die betroffene Zeilenzahl und die erzeugte ID." 4 "Lest den neuen Datensatz wieder mit findById." Abgabe: "grüner Schreibtest und gelesener Datensatz". Keine Fragmente. Notizen: "Schreiben ist Vertiefung. Der vorbereitete Zwischenstand stellt sicher, dass jede Gruppe mit einem lesenden Repository in B4 weiterarbeiten kann."
 ```
 
 #### Folie 07.21: Debrief, wo wiederholt sich CRUD?
@@ -1104,7 +1158,7 @@ Reveal.js Prompt: Layout citation-slide. Visual: Java-Anwendung oben, JDBC-API i
 
 ### Übung
 
-Übung 6, "JDBC-Repository", dauert 45 plus 30 Minuten. Die verbindliche Karte ist `exercises/<domain>/04-jdbc.md`; das Skeleton erklärt `java/repository-simple-exercise/README.md`. Teil A vervollständigt `StudentRepositoryImpl`, aktiviert die CLI-TODOs, testet CRUD und einen UNIQUE-Fehler und führt `verify-exercise.sh` aus. Teil B setzt die in der Domänenkarte genannte Entity mit Model, Repository und genau zwei CLI-Punkten um. Abgabe sind das ausführbare Projekt und eine kurze Notiz mit den getesteten Abläufen. Debrief-Fragen: Welche Teile waren in beiden Repositories gleich? Wo passiert Row Mapping? Welcher Input wird gebunden? Exakte Folientexte stehen auf 07.19 und 07.20.
+B3, "Eure Hauptressource mit JDBC lesen", dauert 45 Minuten. Die Gruppe arbeitet im vorbereiteten Projekt unter `exercises/<domain>/b3-jdbc/` und implementiert `findById` sowie `findAll`. Das Row Mapping bleibt sichtbar. Ein Treffer, eine fehlende ID und die Seed-Daten werden getestet. `save` ist eine 20-minütige Vertiefung. Ausgang sind ein grüner Testlauf und ein gelesener Datensatz. Debrief-Fragen: Wo passiert Row Mapping? Welcher Input wird gebunden? Welche Teile wiederholen sich? Exakte Folientexte stehen auf 07.19 und 07.20.
 
 ### Code
 
@@ -1157,7 +1211,7 @@ Die sichere Fassung auf Folie 07.8 ist ein gekürzter, mit `…` markierter Auss
 
 ### Ziel
 
-Die Studierenden kapseln Datenzugriff hinter einem fachlich typisierten Repository (Datenzugriffsschnittstelle) und erkennen wiederkehrendes CRUD. Sie erklären, wie Reflection (Laufzeitinspektion) und eigene Annotationen das einfache `AbstractRepository<T>` antreiben und wie Spring Data dieselbe Idee übernimmt. JDBC liegt direkt hinter uns. Das Repository beendet Wiederholung. Als Nächstes öffnen wir die Anwendung über HTTP und Spring.
+Die Studierenden ziehen SQL und Row Mapping aus dem Aufrufer hinter ein fachlich typisiertes Repository. `findById` und `findAll` bleiben der prüfbare Kern. Reflection (Laufzeitinspektion), eigene Annotationen und das generische `AbstractRepository<T>` stehen im Anhang. Als Nächstes übernehmen wir Repository und Migration in die Spring-Anwendung.
 
 ### Position auf der roten Linie
 
@@ -1169,7 +1223,7 @@ Gestern endeten wir mit fünf fast gleichen Abläufen. SQL bauen, Werte binden, 
 
 Ein Repository gibt dem Rest der Anwendung eine Sprache für gespeicherte Objekte. `findById`, `findAll`, `save`, `delete`. Die aufrufende Klasse muss nicht wissen, ob dahinter SQLite, eine andere Datenbank oder ein Test-Doppel steckt.
 
-Unser `AbstractRepository<T>` ist bewusst klein und etwas frech. Reflection liest Felder, `@Entity` liefert den Tabellennamen, `@Column` den Spaltennamen. Damit sehen wir, welche Arbeit ein Framework übernimmt. Danach ist `JpaRepository<Student, Long>` keine Magie mehr.
+Der Kern endet an einer klaren Grenze: Der Aufrufer kennt das Repository-Interface, aber weder SQL noch Spaltennamen. Im Anhang zeigt `AbstractRepository<T>`, wie Reflection Felder liest und eigene Annotationen Tabellen- und Spaltennamen liefern. Das erklärt Framework-Mechanik, ist aber keine Voraussetzung für C2.
 
 Eine laufende Datenbank braucht zudem Geschichte. `CREATE TABLE IF NOT EXISTS` kann eine neue Spalte nicht sauber auf bereits bestehende Installationen verteilen. Das größere Spring-Beispiel hat `V1__Create_student_table.sql`, `V2__Create_admin_table.sql` und `V3__Create_refresh_token_table.sql`. Flyway protokolliert Version und Checksumme.
 
@@ -1188,7 +1242,7 @@ Spring Data beschreibt sein Repository-Konzept als Weg, wiederholten Datenzugrif
 #### Folie 08.1: Das Repository Pattern
 
 ```text
-Reveal.js Prompt: Layout chapter-slide. Titel und Untertitel "Datenzugriff einmal schreiben". Visual: drei Entity-Karten laufen durch ein blue Repository-Tor zur Datenbank. Notizen: "Das Kapitel beginnt mit unserem eigenen Schmerz. Wiederholter JDBC-Code wird zu einer gemeinsamen Abstraktion."
+Reveal.js Prompt: Layout chapter-slide. Titel und Untertitel "Datenzugriff einmal schreiben". Sichtbares Label "Leitfragen", darunter: "Welche Klasse kennt SQL und Spaltennamen?" und "Wie bleibt der Aufrufer unabhängig von JDBC?" Visual: drei Entity-Karten laufen durch ein blue Repository-Tor zur Datenbank. Notizen: "Das Kapitel beginnt mit unserem eigenen Schmerz. Wiederholter JDBC-Code wird zu einer gemeinsamen Abstraktion."
 ```
 
 #### Folie 08.2: Wiederholungen beenden
@@ -1218,31 +1272,31 @@ Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/cursor-simple
 #### Folie 08.6: AbstractRepository<T>
 
 ```text
-Reveal.js Prompt: Content slide with SVG. Oben `AbstractRepository<T>`, darunter blue Methoden all/get/create/update/delete; rechts konkrete `StudentRepository` liefert Connection und `Student.class`. Fragmente: generischer Ablauf, konkrete Typinfo, Datenbank. Notizen: "Der generische Typ hält Rückgaben typisiert. Zwei konkrete Methoden liefern die fehlende Laufzeitinformation. Der Rest kommt aus Default-Methoden."
+Reveal.js Prompt: Content slide with SVG, sichtbar als "Anhang" markiert. Oben `AbstractRepository<T>`, darunter blue Methoden all/get/create/update/delete; rechts konkrete `StudentRepository` liefert Connection und `Student.class`. Fragmente: generischer Ablauf, konkrete Typinfo, Datenbank. Notizen: "Der generische Typ hält Rückgaben typisiert. Zwei konkrete Methoden liefern die fehlende Laufzeitinformation. Der Rest kommt aus Default-Methoden. Dieser Weg ist keine Voraussetzung für C2."
 ```
 
 #### Folie 08.7: Reflection liest die Felder
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/repository-simple/src/main/java/org/lecture/AbstractRepository.java`, Zeilen 126 bis 138, vollständig und verbatim. Highlights 126-127|129-131|132-134|137. Annotation rechts: "Instanz bauen · Annotation lesen · Spaltenwert setzen". Notizen: "Reflection untersucht Klassen zur Laufzeit. Unsere Annotation sagt, welche Felder Datenbankspalten sind. Das spart Code, verschiebt Fehler aber zur Laufzeit."
+Reveal.js Prompt: Layout .code-slide, sichtbar als "Anhang · nicht Teil des Kernpfads" markiert. Quelle sichtbar unten: `java/repository-simple/src/main/java/org/lecture/AbstractRepository.java`, Zeilen 126 bis 138, vollständig und verbatim. Highlights 126-127|129-131|132-134|137. Annotation rechts: "Instanz bauen · Annotation lesen · Spaltenwert setzen". Notizen: "Reflection untersucht Klassen zur Laufzeit. Unsere Annotation sagt, welche Felder Datenbankspalten sind. Das spart Code, verschiebt Fehler aber zur Laufzeit."
 ```
 
 #### Folie 08.8: @Entity und @Column
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/repository-simple/src/main/java/org/lecture/Student.java`, Zeilen 3 bis 21, vollständig und verbatim. Highlights 3|5-9|11-15|17-21. Rechte Annotationen: "Klasse → students", "Felder → id, first_name, last_name, email, student_number, enrollment_date". Notizen: "Die Annotation ist Metadaten. Sie führt keinen SQL-Befehl aus. AbstractRepository liest alle sechs Spaltennamen später mit Reflection."
+Reveal.js Prompt: Layout .code-slide, sichtbar als "Anhang · Reflection" markiert. Quelle sichtbar unten: `java/repository-simple/src/main/java/org/lecture/Student.java`, Zeilen 3 bis 21, vollständig und verbatim. Highlights 3|5-9|11-15|17-21. Rechte Annotationen: "Klasse → students", "Felder → id, first_name, last_name, email, student_number, enrollment_date". Notizen: "Die Annotation ist Metadaten. Sie führt keinen SQL-Befehl aus. AbstractRepository liest alle sechs Spaltennamen später mit Reflection."
 ```
 
 #### Folie 08.9: Generisches create
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/repository-simple/src/main/java/org/lecture/AbstractRepository.java`, Zeilen 43 bis 64, vollständig und verbatim. Highlights 43-46|48-51|53-54|56-63. Annotation rechts: "Felder · Spalten und ? · Bindung · Write". Notizen: "Der Ablauf hängt nicht mehr von Student ab. Reflection liefert Feldnamen und Werte. In Produktionscode müssten wir Typkonvertierung und weitere Fehlerfälle sauberer lösen."
+Reveal.js Prompt: Layout .code-slide, sichtbar als "Anhang · Reflection" markiert. Quelle sichtbar unten: `java/repository-simple/src/main/java/org/lecture/AbstractRepository.java`, Zeilen 43 bis 64, vollständig und verbatim. Highlights 43-46|48-51|53-54|56-63. Annotation rechts: "Felder · Spalten und ? · Bindung · Write". Notizen: "Der Ablauf hängt nicht mehr von Student ab. Reflection liefert Feldnamen und Werte. In Produktionscode müssten wir Typkonvertierung und weitere Fehlerfälle sauberer lösen."
 ```
 
 #### Folie 08.10: Die Kosten der Reflection
 
 ```text
-Reveal.js Prompt: Two-column content. Links green "weniger CRUD-Code, einheitliches Mapping". Rechts amber/red "Laufzeitfehler, private Felder, Typkonvertierung, verstecktes SQL". Fragmente einzeln. Notizen: "Das Beispiel soll Mechanik zeigen, nicht Hibernate nachbauen. Reflection tauscht sichtbaren Code gegen Konventionen. Frameworks investieren viel Arbeit in die schwierigen Ränder."
+Reveal.js Prompt: Two-column content, sichtbar als "Anhang · Reflection" markiert. Links green "weniger CRUD-Code, einheitliches Mapping". Rechts amber/red "Laufzeitfehler, private Felder, Typkonvertierung, verstecktes SQL". Fragmente einzeln. Notizen: "Das Beispiel soll Mechanik zeigen, nicht Hibernate nachbauen. Reflection tauscht sichtbaren Code gegen Konventionen. Frameworks investieren viel Arbeit in die schwierigen Ränder."
 ```
 
 #### Folie 08.11: Das macht Spring Data für euch
@@ -1275,10 +1329,10 @@ Reveal.js Prompt: Content slide with file timeline. Quelle sichtbar unten: `java
 Reveal.js Prompt: Content slide mit SVG, markiert "(Reserve)". Sichtbarer Hinweis: "Hypothetischer Fachfall, `course capacity` steht nicht im Repository-Schema". Grundzustand: zwei blue Writes `INSERT enrollment` und `UPDATE course capacity` innerhalb eines amber Rahmens `BEGIN ... COMMIT`. Fragmente: 1 erster Write green, 2 zweiter Write red, 3 `ROLLBACK` nimmt beide zurück, 4 beide erfolgreich und `COMMIT` green. Folientext: "ganz oder gar nicht". Notizen: "Eine Transaktion verbindet mehrere Writes zu einer Einheit. Bei einem Fehler macht ROLLBACK die bisherigen Änderungen rückgängig. Diese Folie entfällt zuerst und wird nicht geübt."
 ```
 
-#### Folie 08.16: Übung 7, Suche und zweite Entity
+#### Folie 08.16: B4, Repository-Grenze freiziehen
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "Übung 7", Timer "30 min". Dateipfad unten: `exercises/<domain>/05-repository.md`. Mitte mit vier nummerierten Schritten: 1 "Implementiert die konkrete findBy-Methode der Karte mit PreparedStatement und Optional." 2 "Ergänzt die zweite Entity samt Tabelle und Repository." 3 "Setzt den beschriebenen Foreign Key." 4 "Zeigt Suche und zugehörige Datensätze im CLI." Abgabe: "beide Repositories und Models, CREATE SQL, Beispielaufruf mit Ausgabe". Keine Fragmente. Notizen: "Die Karte nennt Suchfeld, Beispielwert und zweite Entity. Für die Bibliothek sind das `findByIsbn` und `Copy`. Diese Übung entfällt zuerst, wenn Tag 2 zu lang wird."
+Reveal.js Prompt: Layout .exercise-slide. Tag "B4 · Kernauftrag", Timer "15 min". Dateipfad unten: `exercises/<domain>/b4-repository/`. Mitte mit vier nummerierten Schritten: 1 "Verschiebt SQL und Row Mapping aus dem Aufrufer ins Repository." 2 "Lasst den Aufrufer nur das Repository-Interface kennen." 3 "Prüft findById und findAll erneut." 4 "Sichert Repository und Migration für C2." Abgabe: "Aufrufer ohne SQL, grüner Test und Übergabestand". Keine Fragmente. Notizen: "Diese Übung ist verpflichtend. Der vorbereitete Zwischenstand enthält das fertige Refactoring, falls eine Gruppe blockiert ist. Reflection bleibt Anhang und ist keine Voraussetzung für C2."
 ```
 
 #### Folie 08.17: Spring Data und Flyway bauen auf derselben Idee
@@ -1289,7 +1343,7 @@ Reveal.js Prompt: Layout citation-slide. Visual: eigenes AbstractRepository link
 
 ### Übung
 
-Übung 7, "Fachspezifische Suche und zweite Entity", 30 Minuten. Die verbindliche Karte ist `exercises/<domain>/05-repository.md`. Sie nennt die konkrete findBy-Methode, den Beispielwert, die zweite Entity und den Foreign Key. Die Gruppe implementiert diese Vorgaben und zeigt den Beispielaufruf im CLI. Abgabe sind beide Repository-Implementierungen und Models, das CREATE SQL und die Ausgabe. Debrief-Fragen: Welcher Teil blieb generisch? Was musste fachlich bleiben? Welche Migration bräuchte eine bereits verteilte Datenbank? Exakter Folientext steht auf Folie 08.16. Die Übung entfällt zuerst, wenn Tag 2 zu lang wird.
+B4, "Repository-Grenze freiziehen", ist ein verpflichtender 15-minütiger Kernauftrag in `exercises/<domain>/b4-repository/`. Die Gruppe verschiebt SQL und Row Mapping aus dem Aufrufer ins Repository, lässt den Aufrufer nur das Interface kennen und prüft `findById` und `findAll`. Repository und Migration werden als Übergabestand für C2 gesichert. Ein vorbereiteter Zwischenstand verhindert, dass eine blockierte Gruppe den Anschluss verliert. Debrief-Fragen: Welche Klasse kennt SQL? Was musste fachlich bleiben? Welche Dateien gehen in C2 mit? Exakter Folientext steht auf Folie 08.16.
 
 ### Code
 
@@ -1351,7 +1405,7 @@ Vorher: `Wiederholungen beenden: Repository Pattern`. Aktuell: `Andere zugreifen
 
 Bis gestern musste jemand unser Java-Programm auf demselben Rechner starten. Heute sitzt der Client auf der anderen Seite einer Verbindung. Er kennt unsere Klassen nicht. Er kennt Methode, URL, Header und Body.
 
-Ich schreibe nicht `/getAllStudents` in die URL. Die Ressource heißt `/students`, das HTTP-Verb trägt die Aktion. Das hält Namen stabil und lässt Statuscodes ihre Arbeit tun. Ein erfolgreiches `POST` liefert 201, ein erfolgreiches `DELETE` meist 204.
+Ich schreibe nicht `/getAllStudents` in die URL. Die Ressource heißt `/api/students`, das HTTP-Verb trägt die Aktion. Das hält Namen stabil und lässt Statuscodes ihre Arbeit tun. Ein erfolgreiches `POST` liefert 201, ein erfolgreiches `DELETE` meist 204.
 
 REST ist kein Synonym für "JSON über HTTP". Wir modellieren Ressourcen, nutzen die Semantik von Methoden und halten Requests zustandslos. Für diesen Kurs reicht diese praktische Linie. Wir bauen keine Debatte über den perfekten REST-Reifegrad.
 
@@ -1359,7 +1413,7 @@ OpenAPI ist der Vertrag. Ein Client kann Endpoints sehen, Schemas prüfen und Re
 
 ### Leitfragen
 
-- Frage: "Was unterscheidet GET /students/7 von GET /students?" Erwartet: Einzelressource gegen Collection. Typisch falsch: nur die Antwortgröße; die erste URL ist eine Aktion.
+- Frage: "Was unterscheidet GET /api/students/7 von GET /api/students?" Erwartet: Einzelressource gegen Collection. Typisch falsch: nur die Antwortgröße; die erste URL ist eine Aktion.
 - Frage: "Welcher Status passt zu einem neu angelegten Student?" Erwartet: 201 Created. Typisch falsch: immer 200; 204 mit JSON-Body.
 - Frage: "Ist PUT idempotent?" Erwartet: Derselbe Request hat bei Wiederholung denselben beabsichtigten Zustand. Typisch falsch: PUT darf nur einmal gesendet werden; idempotent heißt ohne Datenbankwrite.
 
@@ -1372,7 +1426,7 @@ GitHub beschreibt seine REST API vollständig mit einem öffentlich verfügbaren
 #### Folie 09.1: HTTP, REST und OpenAPI
 
 ```text
-Reveal.js Prompt: Layout chapter-slide. Titel und Untertitel "Andere Programme greifen zu". Visual: Client links, HTTP-Umschlag amber, API und Datenbank blue rechts. Notizen: "Heute verlässt unsere Anwendung den lokalen Prozess. Wir entwerfen erst den Vertrag und implementieren ihn danach mit Spring."
+Reveal.js Prompt: Layout chapter-slide. Titel und Untertitel "Andere Programme greifen zu". Sichtbares Label "Leitfragen", darunter: "Wie wird unser Repository zu einem Vertrag für Clients?" und "Welche Antwort gilt bei Erfolg und bei Fehlern?" Visual: Client links, HTTP-Umschlag amber, API und Datenbank blue rechts. Notizen: "Heute verlässt unsere Anwendung den lokalen Prozess. Wir entwerfen erst den Vertrag und implementieren ihn danach mit Spring."
 ```
 
 #### Folie 09.2: Andere dürfen zugreifen
@@ -1390,7 +1444,7 @@ Reveal.js Prompt: Layout .lead-question. Frage "Welche vier Teile braucht ein HT
 #### Folie 09.4: Request und Response
 
 ```text
-Reveal.js Prompt: Two-lane SVG. Oben Client → Server mit `POST /students`, `Content-Type`, JSON. Unten Server → Client mit `201`, `Location`, JSON. Fragmente: Requestteile, Verarbeitung, Responseteile. Notizen: "HTTP ist ein Austausch klarer Nachrichten. Status und Header gehören genauso zum Vertrag wie JSON. Die Datenbank bleibt hinter dem Server."
+Reveal.js Prompt: Two-lane SVG. Oben Client → Server mit `POST /api/students`, `Content-Type`, JSON. Unten Server → Client mit `201`, `Location: /api/students/42`, JSON. Fragmente: Requestteile, Verarbeitung, Responseteile. Notizen: "HTTP ist ein Austausch klarer Nachrichten. Status und Header gehören genauso zum Vertrag wie JSON. Die Datenbank bleibt hinter dem Server."
 ```
 
 #### Folie 09.5: Methoden tragen Absicht
@@ -1402,13 +1456,13 @@ Reveal.js Prompt: Five-card content: GET lesen, POST anlegen, PUT vollständig e
 #### Folie 09.6: Ressourcen sind Nomen
 
 ```text
-Reveal.js Prompt: Two-column content. Green `/students`, `/students/42`, `/courses/7/enrollments`; red `/getStudents`, `/createStudent`, `/doDelete`. Fragmente paarweise. Notizen: "URLs benennen Ressourcen und Collections. Das Verb steht bereits in HTTP. Verschachtelte URLs nutzen wir nur, wenn die Beziehung fachlich klar ist."
+Reveal.js Prompt: Two-column content. Green `/api/students`, `/api/students/42`, `/api/courses/7/enrollments`; red `/getStudents`, `/createStudent`, `/doDelete`. Fragmente paarweise. Notizen: "URLs benennen Ressourcen und Collections. Das Verb steht bereits in HTTP. Verschachtelte URLs nutzen wir nur, wenn die Beziehung fachlich klar ist."
 ```
 
 #### Folie 09.7: Collection und Einzelressource
 
 ```text
-Reveal.js Prompt: SVG `/students` als blue Stapel, `/students/42` als einzelne Karte. Fragmente: GET Collection, POST Collection, GET/PUT/DELETE Einzelressource. Notizen: "POST geht an die Collection, weil der Server die neue Identität erzeugt. Operationen an einer bekannten Identität gehen an die Einzelressource."
+Reveal.js Prompt: SVG `/api/students` als blue Stapel, `/api/students/42` als einzelne Karte. Fragmente: GET Collection, POST Collection, GET/PUT/DELETE Einzelressource. Notizen: "POST geht an die Collection, weil der Server die neue Identität erzeugt. Operationen an einer bekannten Identität gehen an die Einzelressource."
 ```
 
 #### Folie 09.8: Statuscodes sind Teil des Vertrags
@@ -1450,7 +1504,7 @@ Reveal.js Prompt: SVG OpenAPI-Datei in Mitte, Pfeile zu Swagger UI, Clientgenera
 #### Folie 09.14: Ein kleiner OpenAPI-Ausschnitt
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quellenhinweis sichtbar: "Gekürztes Lehrbeispiel zum OpenAPI-Endpunkt aus `java/rest-simple-exercise/README.md`, Zeilen 30 bis 35. Kein gespeicherter Repo-Ausschnitt." YAML: `paths:\n  /students:\n    post:\n      responses:\n        '201':\n          description: Student created\n        '400':\n          description: Invalid request`. Highlights 1-3|4-8. Notizen: "Der Vertrag zeigt zwei Ausgänge. Das Skeleton liefert OpenAPI unter `/v3/api-docs`. SpringDoc erzeugt die Beschreibung zur Laufzeit, deshalb gibt es dafür keine YAML-Datei im Repository."
+Reveal.js Prompt: Layout .code-slide. Quellenhinweis sichtbar: "Gekürztes Lehrbeispiel zum OpenAPI-Endpunkt aus `java/rest-simple-exercise/README.md`, Zeilen 30 bis 35. Kein gespeicherter Repo-Ausschnitt." YAML: `paths:\n  /api/students:\n    post:\n      responses:\n        '201':\n          description: Student created\n        '400':\n          description: Invalid request`. Highlights 1-3|4-8. Notizen: "Der Vertrag zeigt zwei Ausgänge. Das Skeleton liefert OpenAPI unter `/v3/api-docs`. SpringDoc erzeugt die Beschreibung zur Laufzeit, deshalb gibt es dafür keine YAML-Datei im Repository."
 ```
 
 #### Folie 09.15: GitHub und Stripe
@@ -1459,10 +1513,10 @@ Reveal.js Prompt: Layout .code-slide. Quellenhinweis sichtbar: "Gekürztes Lehrb
 Reveal.js Prompt: Two-column content. Links GitHub OpenAPI → docs und Octokit; rechts Stripe POST mit `Idempotency-Key` → sicherer Retry. Fragmente: GitHub, Stripe, amber Satz "Vertrag und Wiederholung sind Produktionsfragen". Notizen: "GitHub veröffentlicht seine OpenAPI-Beschreibung und erzeugt daraus Dokumentation und SDKs. Stripe speichert das erste Ergebnis pro Idempotency Key, damit ein Retry kein Doppelobjekt anlegt."
 ```
 
-#### Folie 09.16: Übung 8, API auf Papier
+#### Folie 09.16: C1, GET und POST auf Papier
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "Übung 8", Timer "25 min". Dateipfad unten: `exercises/<domain>/06-rest.md`. Mitte mit vier nummerierten Schritten: 1 "Übernehmt Hauptressource und Beziehungsendpunkt aus der Karte." 2 "Plant die vorgegebenen Methoden und Pfade." 3 "Schreibt Request- und Response-JSON." 4 "Tragt alle Erfolgs- und Fehlerstatus aus der Karte ein." Abgabe: "Endpoint-Tabelle und JSON-Beispiele". Keine Fragmente. Notizen: "Schreibt noch keinen Controller. Die Karte ist verbindlich. Für die Bibliothek sind `/loans` und `/loans/{id}/reservation` vorgegeben."
+Reveal.js Prompt: Layout .exercise-slide. Tag "C1 · Kernauftrag", Timer "25 min". Dateipfad unten: `exercises/<domain>/c1-http-contract/`. Mitte mit vier nummerierten Schritten: 1 "Verwendet dieselbe flache Hauptressource wie in B3 und B4." 2 "Plant GET /api/<resources> und POST /api/<resources>." 3 "Schreibt Request- und Response-JSON." 4 "Legt 200, 201, 400 und genau einen 409-Fachkonflikt fest." Abgabe: "Endpoint-Tabelle und JSON-Beispiele". Keine Fragmente. Notizen: "Schreibt noch keinen Controller. Beziehungen und weitere Methoden sind Vertiefung. Der Fehlerkörper enthält mindestens code und message."
 ```
 
 #### Folie 09.17: Debrief, Vertrag ohne Java
@@ -1479,13 +1533,13 @@ Reveal.js Prompt: Layout citation-slide. Visual: `openapi.yaml` in amber, Pfeile
 
 ### Übung
 
-Übung 8, "REST API auf Papier", 25 Minuten. Die verbindliche Karte ist `exercises/<domain>/06-rest.md`, Abschnitt "API auf Papier". Die Gruppe übernimmt Hauptressource, Beziehungsendpunkt, Methoden und Pfade aus der Karte. Sie entwirft Request- und Response-JSON sowie die angegebenen Statuscodes. Abgabe sind die Endpoint-Tabelle und JSON-Beispiele. Debrief-Fragen: Ist jede URL ein Nomen? Welche Operation ist idempotent? Wo unterscheiden sich Request und Response? Exakter Folientext steht auf Folie 09.16.
+C1, "GET und POST auf Papier", dauert 25 Minuten. Die verbindliche Karte liegt in `exercises/<domain>/c1-http-contract/`. Die Gruppe verwendet dieselbe flache Hauptressource wie in B3 und B4 und entwirft GET und POST unter `/api`. Der Vertrag enthält Request- und Response-JSON, 200, 201, 400 und genau einen 409-Fachkonflikt. Beziehungen und weitere Methoden sind Vertiefung. Abgabe sind die Endpoint-Tabelle und JSON-Beispiele. Debrief-Fragen: Ist jede URL ein Nomen? Wo unterscheiden sich Request und Response? Ist der Fehlerkörper stabil? Exakter Folientext steht auf Folie 09.16.
 
 ## 10 Spring Boot (Dateiname decks/10-spring-boot.html)
 
 ### Ziel
 
-Die Studierenden starten die Übungsanwendung, bauen einen Health-Endpoint und implementieren Listing und Anlegen einer JPA-Entity. Sie erklären Dependency Injection (Abhängigkeitsinjektion) in einem Diagramm und ordnen Spring-Annotationen den Konzepten der ersten zwei Tage zu. Der HTTP-Vertrag ist entworfen. Spring setzt ihn jetzt um. Danach trennen wir Verantwortungen und schützen die öffentliche Grenze.
+Die Studierenden übernehmen Migration, Repository und Row Mapping aus B4 in die Spring-Anwendung. Sie starten einen Health-Endpoint und implementieren GET für Collection und vorhandene ID mit `findAll` und `findById`. Sie erklären Dependency Injection (Abhängigkeitsinjektion) und ordnen Spring-Annotationen den bekannten Grenzen zu. POST folgt erst in C3.
 
 ### Position auf der roten Linie
 
@@ -1497,15 +1551,15 @@ Ein Framework nimmt uns wiederkehrende Verkabelung ab. Es startet einen Webserve
 
 Dependency Injection ist in einem Bild erklärt: Der Controller braucht ein Repository. Er baut es nicht selbst. Spring erstellt beide und übergibt das Repository im Konstruktor. Dadurch kann ein Test später ein anderes Objekt einsetzen.
 
-Die Annotationen sind Etiketten auf bekannten Ideen. `@RestController` markiert den HTTP-Rand. `@Entity` beschreibt die Tabellenabbildung. `JpaRepository` liefert die Repository-Operationen, die wir gestern selbst in `AbstractRepository` gebaut haben. `application.properties` legt Port und Datenbank fest.
+Die Annotationen sind Etiketten auf bekannten Ideen. `@RestController` markiert den HTTP-Rand, `@GetMapping` verbindet Methode und Pfad, `@Repository` markiert den Datenzugriff. Row Mapper und Repository-Port stammen unverändert aus B4. JPA und `JpaRepository` bleiben als alternativer Adapter in der Vertiefung sichtbar.
 
-Im Live-Teil gehe ich in kleinen Schritten: Anwendung starten, Health lesen, ersten GET bauen, Entity und Repository ergänzen, ersten POST über Swagger UI senden. Nach jedem Schritt gibt es eine sichtbare Antwort.
+Im Live-Teil gehe ich in kleinen Schritten: Anwendung starten, Migration und Repository übernehmen, Seed-Datensatz lesen, GET Collection und GET per ID über Swagger UI prüfen. Nach jedem Schritt gibt es eine sichtbare Antwort.
 
 ### Leitfragen
 
-- Frage: "Wer ruft den Konstruktor von StudentController auf?" Erwartet: Spring erstellt und verbindet die Beans. Typisch falsch: der Browser; JpaRepository.
-- Frage: "Ersetzt @Entity unser Schema?" Erwartet: Nein, es beschreibt ORM-Mapping, Migrationen und Constraints bleiben nötig. Typisch falsch: Ja; @Entity erzeugt immer die richtige Tabelle.
-- Frage: "Was ist JpaRepository im Vergleich zu gestern?" Erwartet: dieselbe Repository-Idee mit generierter Implementierung und JPA. Typisch falsch: ein Controller; eine Datenbank.
+- Frage: "Wer ruft den Konstruktor von StudentController auf?" Erwartet: Spring erstellt und verbindet die Beans. Typisch falsch: der Browser; das Repository selbst.
+- Frage: "Welche Teile aus B4 bleiben erhalten?" Erwartet: Migration, Repository-Port, JDBC-Adapter und Row Mapping. Typisch falsch: Wir beginnen mit einer neuen JPA-Entity.
+- Frage: "Welche Repository-Methode gehört zu GET Collection und GET per ID?" Erwartet: `findAll` und `findById`. Typisch falsch: `save` für beide.
 
 ### Realitätsbezug
 
@@ -1516,7 +1570,7 @@ Spring Data JPA erzeugt Implementierungen für Repository-Interfaces. Die offizi
 #### Folie 10.1: Spring Boot
 
 ```text
-Reveal.js Prompt: Layout chapter-slide. Titel und Untertitel "Vom Vertrag zum laufenden Endpoint". Visual: Spring-Box verbindet HTTP, Java und blue Datenbank. Notizen: "Heute starten wir mit einem leeren Health-Endpoint und enden mit POST und GET über Swagger UI."
+Reveal.js Prompt: Layout chapter-slide. Titel und Untertitel "Vom Vertrag zum laufenden Endpoint". Sichtbares Label "Leitfragen", darunter: "Wie übernehmen wir Migration und Repository aus dem letzten Stand?" und "Welche Spring-Bausteine machen daraus zwei GET-Endpunkte?" Visual: Spring-Box verbindet HTTP, Java und blue Datenbank. Notizen: "Heute starten wir mit einem leeren Health-Endpoint. Danach binden wir Migration und Repository aus B4 ein und lesen dieselbe Ressource über zwei GET-Endpunkte."
 ```
 
 #### Folie 10.2: REST mit Spring
@@ -1531,103 +1585,109 @@ Reveal.js Prompt: Rote-Linie-SVG mit allen acht exakten Beschriftungen. Status: 
 Reveal.js Prompt: Layout .lead-question. Frage "Welche Arbeit soll Spring für uns wiederholen?" Fragment 1 "Server starten · Objekte bauen · Requests routen · JSON wandeln". Notizen: "Erwartet ist Infrastrukturarbeit. Typisch falsch sind Fachregeln und Datenmodell. Spring nimmt Mechanik ab, nicht Entscheidungen."
 ```
 
-#### Folie 10.4: Ohne und mit Spring
+#### Folie 10.4: Der Stand aus B4 kommt mit
+
+```text
+Reveal.js Prompt: Drei Karten mit dem sichtbaren Label "Übergabe statt Neustart": 1 "Migration: V1__schema.sql und Seed-Daten übernehmen", 2 "Repository: Interface, JDBC-Implementierung und Row Mapping kopieren", 3 "Starttest: vorhandenen Datensatz mit findById lesen". Notizen: "Der Spring-Starter setzt auf dem B4-Stand auf. Erst wenn Migration und Repository denselben Seed-Datensatz lesen, ergänzen wir den Controller."
+```
+
+#### Folie 10.5: Ohne und mit Spring
 
 ```text
 Reveal.js Prompt: Two-column content. Links graue Liste Socket, HTTP parser, routing, JSON, lifecycle; rechts blue `@RestController`, `@GetMapping`, Jackson, Bean lifecycle. Fragmente paarweise. Notizen: "Wir könnten alles selbst bauen. Das wäre für diesen Kurs nur Arbeit an der falschen Stelle. Das Framework standardisiert die wiederkehrenden Teile."
 ```
 
-#### Folie 10.5: Dependency Injection in einem Diagramm
+#### Folie 10.6: Dependency Injection
 
 ```text
-Reveal.js Prompt: Precise SVG. Box Spring Container oben. Er erzeugt `StudentJpaRepository` und `StudentController`, dann amber Pfeil "constructor argument" vom Repository zum Controller. Controller zeigt keine `new`-Anweisung. Fragmente: Bedarf, Erzeugung, Injection, Request. Notizen: "Dependency Injection bedeutet hier: Der Controller erhält seine Abhängigkeit. Er entscheidet nicht über deren Bau. Diese Trennung macht Austausch und Tests möglich."
+Reveal.js Prompt: Precise SVG. Box Spring Container oben. Er erzeugt `StudentRepository` und `StudentController`, dann amber Pfeil "Konstruktorparameter" vom Repository zum Controller. Controller zeigt keine `new`-Anweisung. Fragmente: Bedarf, Erzeugung, Injection, Request. Notizen: "Dependency Injection bedeutet hier: Der Controller erhält seine Abhängigkeit. Er entscheidet nicht über deren Bau. Diese Trennung macht Austausch und Tests möglich."
 ```
 
-#### Folie 10.6: Der Startpunkt
+#### Folie 10.7: Der Startpunkt
 
 ```text
 Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/rest-simple-exercise/src/main/java/com/example/restsimple/DemoApplication.java`, Zeilen 6 bis 13, gekürzt um Leerzeilen und mit diesem Hinweis markiert. Code verbatim ohne Leerzeilen: `@SpringBootApplication\npublic class DemoApplication {\n    public static void main(String[] args) {\n        SpringApplication.run(DemoApplication.class, args);\n    }\n}`. Highlights 1|2-5|4. Notizen: "Diese Annotation bündelt Konfiguration und Component Scan. `run` baut den Application Context und startet den Webserver. Der Package-Ort bestimmt, was gefunden wird."
 ```
 
-#### Folie 10.7: Annotationen auf gestern abbilden
+#### Folie 10.8: Annotationen auf gestern abbilden
 
 ```text
-Reveal.js Prompt: Two-column mapping. `@RestController`→HTTP-Rand, `@GetMapping`→Methode+Pfad, `@Service`→Use Case, `@Repository`→Datenzugriff, `@Entity`→Tabellenabbildung, `JpaRepository`→AbstractRepository. Fragmente Zeile für Zeile. Notizen: "Keine Annotation erfindet ein neues Fachkonzept. Wir hängen bekannte Aufgaben an Springs Laufzeit. Diese Karte bleibt für Deck 11 sichtbar."
+Reveal.js Prompt: Two-column mapping. `@RestController`→HTTP-Rand, `@GetMapping`→Methode+Pfad, `@Service`→Use Case, `@Repository`→Datenzugriff, `Row Mapper`→Zeile zu Objekt, `Repository-Port`→Grenze zum Adapter. Fragmente Zeile für Zeile. Notizen: "Keine Annotation erfindet ein neues Fachkonzept. Wir hängen bekannte Aufgaben an Springs Laufzeit. Diese Karte bleibt für Deck 11 sichtbar."
 ```
 
-#### Folie 10.8: Ein Health-Endpoint
+#### Folie 10.9: Ein Health-Endpoint
 
 ```text
 Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/rest-simple-exercise/src/main/java/com/example/restsimple/controller/StudentController.java`, Zeilen 17 bis 29, vollständig und verbatim. Code zeigt `@GetMapping("/health")`, OpenAPI-Annotationen und die Response-Map. Highlights 17|18-22|23-29. Notizen: "Der Endpoint braucht noch keine Datenbank. Wir prüfen Routing, JSON und Port. Sein vollständiger Pfad ist `/api/students/health`, weil die Klasse in Zeile 13 das Präfix setzt."
 ```
 
-#### Folie 10.9: application.properties
+#### Folie 10.10: application.properties
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/rest-simple-exercise/src/main/resources/application.properties`, Zeilen 1 bis 12, vollständig und verbatim. Highlights 1-4|5-7|9-12. Rechte Annotationen: `SQLite + Hibernate`, `Port 8081 als Default`, `OpenAPI und Swagger UI`. Notizen: "Die Datei setzt `server.port=${SERVER_PORT:8081}`, nicht einen starren Wert. Ohne Umgebungsvariable läuft der Kurs auf 8081. Swagger UI liegt unter `/swagger-ui.html`."
+Reveal.js Prompt: Layout .code-slide. Zeige `spring.datasource.url`, SQLite-Treiber, `spring.datasource.hikari.connection-init-sql=PRAGMA foreign_keys=ON`, Zugangsdaten, `spring.flyway.enabled=true`, `server.port=${SERVER_PORT:8081}` sowie die drei SpringDoc-Einstellungen. Rechte Annotationen: `Flyway für die vorhandene Migration`, `Fremdschlüssel pro Connection`, `Port 8081 als Default`, `OpenAPI und Swagger UI`. Notizen: "Flyway spielt die vorhandene Migration ein. Hikari führt das SQLite-PRAGMA für jede neue Connection aus. Swagger UI liegt unter `/swagger-ui.html`."
 ```
 
-#### Folie 10.10: Starten und prüfen
+#### Folie 10.11: Starten und prüfen
 
 ```text
 Reveal.js Prompt: Terminal-Content-Slide. Quellen sichtbar unten: `java/rest-simple-exercise/README.md`, Zeilen 14 bis 35. Grundzustand exakt `cd java/rest-simple-exercise` und `make run`; der zweite Befehl steht verbatim in README-Zeile 18, der Verzeichniswechsel ist als Arbeitskontext markiert. Fragment 1 green Label `Server auf :8081`. Fragment 2 exakte URL `http://localhost:8081/api/students/health`. Fragment 3 Response-JSON mit `status`, `service` und `timestamp`, ohne erfundene feste Timestamp. Notizen: "Wir warten auf den gestarteten Server. Das README nennt `make run` und die Health-URL. Erst nach der Health-Antwort öffnen wir Swagger UI."
 ```
 
-#### Folie 10.11: Der erste GET
+#### Folie 10.12: Der erste GET
 
 ```text
 Reveal.js Prompt: Layout .code-slide. Quellenhinweis sichtbar: "Gekürztes Zielbild aus `java/rest-simple-exercise/README.md`, Zeilen 97 bis 147. Im Skeleton noch nicht vorhanden." Zeige nur die drei Zielkarten `@GetMapping`, `repository.findAll()`, `StudentResponse`, verbunden durch blue Pfeile. Darunter exakter Pfad `GET /api/students` aus README-Zeilen 99 und 147. Keine frei erfundene Methodensignatur. Notizen: "Phase 1 verlangt zunächst zwei bis drei feste Students und ein Response-DTO. Phase 2 ersetzt die feste Liste durch `repository.findAll()`. Der Controller gibt im Kursstandard ein DTO zurück, nicht die Entity."
 ```
 
-#### Folie 10.12: JPA-Entity
+#### Folie 10.13: JPA-Entity
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quellenhinweis sichtbar: "Gekürztes und auf Student angepasstes Zielbild aus `java/rest-simple-exercise/README.md`, Zeilen 149 bis 208. Im Skeleton noch nicht vorhanden." Code: `@Entity\n@Table(name = "students")\nclass Student {\n    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)\n    private Long id;\n    @Column(name = "email", nullable = false, unique = true)\n    private String email;\n}`. Highlights 1-2|3-5|6-7. Rechte Feldliste für den Kurs: `firstName, lastName, email, studentNumber, enrollmentDate`. Notizen: "Das README zeigt das Muster an Book und nennt beim Student noch `registrationDate`. Für die Decks gilt der Kursstandard `enrollmentDate`. Das Snippet ist als Anpassung markiert und kein vorhandener Skeleton-Code."
+Reveal.js Prompt: Layout .code-slide mit sichtbarem Label "Vertiefung · alternativer Adapter". Quellenhinweis sichtbar: "Gekürztes und auf Student angepasstes Zielbild aus `java/rest-simple-exercise/README.md`, Zeilen 149 bis 208. Im Skeleton noch nicht vorhanden." Code: `@Entity\n@Table(name = "students")\nclass Student {\n    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)\n    private Long id;\n    @Column(name = "email", nullable = false, unique = true)\n    private String email;\n}`. Highlights 1-2|3-5|6-7. Rechte Feldliste für den Kurs: `firstName, lastName, email, studentNumber, enrollmentDate`. Notizen: "Das Snippet ist ein alternativer JPA-Adapter, nicht der C2-Kernpfad."
 ```
 
-#### Folie 10.13: JpaRepository = AbstractRepository
+#### Folie 10.14: JpaRepository = AbstractRepository
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quellenhinweis sichtbar: "Auf Student angepasstes Zielbild aus `java/rest-simple-exercise/README.md`, Zeilen 211 bis 221. Im Skeleton noch nicht vorhanden." Code: `@Repository\npublic interface StudentRepository extends JpaRepository<Student, Long> {\n}`. Fragment 1 ererbte Methoden `findAll`, `findById`, `save`, `deleteById`, `existsById`. Fragment 2 zeigt `AbstractRepository<Student>` als kleine blue Karte. Notizen: "Das README zeigt dieselbe Interface-Form an Book. Die Übung passt sie an Student oder die eigene Domäne an. Spring Data stellt die Implementierung bereit."
+Reveal.js Prompt: Layout .code-slide mit sichtbarem Label "Vertiefung · statt JDBC-Adapter". Quellenhinweis sichtbar: "Auf Student angepasstes Zielbild aus `java/rest-simple-exercise/README.md`, Zeilen 211 bis 221. Im Skeleton noch nicht vorhanden." Code: `@Repository\npublic interface StudentRepository extends JpaRepository<Student, Long> {\n}`. Fragment 1 ererbte Methoden `findAll`, `findById`, `save`, `deleteById`, `existsById`. Fragment 2 zeigt `AbstractRepository<Student>` als kleine blue Karte. Notizen: "Spring Data stellt die alternative Implementierung bereit. C2 verwendet den übernommenen JDBC-Adapter."
 ```
 
-#### Folie 10.14: Der erste POST
+#### Folie 10.15: GET per ID
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quellenhinweis sichtbar: "Auf Student angepasstes und gekürztes Zielbild aus `java/rest-simple-exercise/README.md`, Zeilen 250 bis 318. Im Skeleton noch nicht vorhanden." Zeige vier Ablaufzeilen statt einer erfundenen vollständigen Methode: `@PostMapping` → `CreateStudentRequest` → `repository.save(...)` → `201 StudentResponse`. Highlights nacheinander. Notizen: "Das README zeigt den vollständigen Ablauf an Book. Für den Kurs nehmen Request und Response die standardisierten Student-Felder. Der POST beweist den Datenweg und gibt keine JPA-Entity zurück."
+Reveal.js Prompt: Layout .code-slide mit sichtbarem Label "C2 · Kernpfad". Code: `@GetMapping("/{id}")\nStudentResponse findById(@PathVariable long id) {\n    return repository.findById(id)\n            .map(StudentResponse::from).orElseThrow();\n}`. Quellenhinweis: "Zielbild für den vorhandenen Repository-Port aus B4. Das Starterprojekt enthält die Methodengerüste." Notizen: "Der Controller delegiert die Suche an findById. Das Row Mapping bleibt im JDBC-Adapter aus B4. Nach außen geht ein Response-DTO."
 ```
 
-#### Folie 10.15: Request durch die Anwendung
+#### Folie 10.16: Request durch die Anwendung
 
 ```text
-Reveal.js Prompt: SVG Swagger UI → Controller → JpaRepository → Hibernate/JPA → SQLite. Fragmente je Pfeil blue, Rückweg JSON green. Notizen: "Jeder Pfeil entspricht einem Begriff von gestern. Hibernate erzeugt SQL. Der Controller sieht ein Repository, nicht die JDBC-Details."
+Reveal.js Prompt: SVG Swagger UI → Controller → Repository → JDBC-Adapter → SQLite. Fragmente je Pfeil blue, Rückweg JSON green. Notizen: "Jeder Pfeil entspricht einem bekannten Begriff. Der JDBC-Adapter erzeugt SQL. Der Controller sieht den Repository-Port, nicht die JDBC-Details."
 ```
 
-#### Folie 10.16: Swagger UI ist ein Client
+#### Folie 10.17: Swagger UI ist ein Client
 
 ```text
-Reveal.js Prompt: Content slide with browser wireframe `localhost:8081/swagger-ui.html`. Fragmente: Endpoint aufklappen, Request JSON, Execute, 201 Response. Amber Hinweis "Vertrag testen, nicht Datenbank ansehen". Notizen: "Swagger UI liest OpenAPI und sendet echte HTTP-Requests. Es ist unser erster Client. Prüft Status und Body. Der grüne Response-Rahmen allein reicht nicht."
+Reveal.js Prompt: Content slide with browser wireframe `localhost:8081/swagger-ui.html`. Fragmente: `GET /api/students/42` aufklappen, Response-JSON mit ID und Fachfeldern, Execute, 200 Response. Amber Hinweis "Vertrag testen, nicht Datenbank ansehen". Notizen: "Swagger UI liest OpenAPI und sendet echte HTTP-Requests. Es ist unser erster Client. Prüft Status und Body."
 ```
 
-#### Folie 10.17: Vier Live-Checkpoints
+#### Folie 10.18: Vier Live-Checkpoints
 
 ```text
-Reveal.js Prompt: Timeline "health 200" → "GET []" → "POST 201" → "GET [Student]". Fragmente mit green Haken. Fehlerabzweig Port belegt red. Notizen: "Nach jedem kleinen Schritt gibt es ein sichtbares Ergebnis. Wenn POST scheitert, wissen wir, dass Health und GET bereits funktionieren. Das verkürzt Fehlersuche."
+Reveal.js Prompt: Timeline "health 200" → "Seed 42" → "GET Liste" → "GET /42 200". Fragmente mit green Haken. Fehlerabzweig Port belegt red. Notizen: "Erst startet die Anwendung, dann lesen Collection und Einzelpfad denselben Seed-Datensatz. Das verkürzt die Fehlersuche."
 ```
 
-#### Folie 10.18: Übung 9, erste Ressource
+#### Folie 10.19: C2, vorhandene Ressource lesen
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "Übung 9", Timer "45 min". Dateipfade unten: `exercises/<domain>/06-rest.md` und `java/rest-simple-exercise/README.md`, Phasen 1 und 2. Mitte mit vier nummerierten Schritten: 1 "Startet auf Port 8081 und prüft Health." 2 "Baut Model, Response-DTO und GET-Collection." 3 "Ergänzt Migration, JPA-Entity und JpaRepository." 4 "Baut POST und prüft GET 200 sowie POST 201 in Swagger UI." Abgabe: "laufendes Projekt, Swagger-Screenshot, gespeicherter Datensatz". Keine Fragmente. Notizen: "Nutzt den API-Entwurf aus Übung 8. Für den Kursvertrag heißen die Student-Felder firstName, lastName, email, studentNumber und enrollmentDate. Validation und Fehlerfälle folgen in Übung 10."
+Reveal.js Prompt: Layout .exercise-slide. Tag "C2 · Kernauftrag", Timer "50 min". Dateipfad unten: `exercises/<domain>/c2-spring-resource/`. Mitte mit vier nummerierten Schritten: 1 "Übernehmt Migration und Repository aus B4." 2 "Startet den Test, der einen Seed-Datensatz liest." 3 "Implementiert GET Collection mit findAll." 4 "Implementiert GET per ID mit findById." Abgabe: "GET 200 für Collection und vorhandene ID". Keine Fragmente. Notizen: "Das Starterprojekt enthält Controller- und Response-DTO-Gerüste. Nach der Kernzeit kann der vorbereitete Zwischenstand freigegeben werden. POST folgt in C3."
 ```
 
-#### Folie 10.19: Debrief, welche Annotation ersetzt was?
+#### Folie 10.20: Debrief, welche Annotation ersetzt was?
 
 ```text
-Reveal.js Prompt: Content slide. Sechs Annotationkarten ohne Erklärung; Fragmente decken Zuordnung aus 10.7 auf. Schlussfrage amber "Welche SQL-Query lief?". Notizen: "Eine Gruppe verfolgt ihren POST vom Mapping bis SQLite. Wir nennen für jede Annotation das bekannte Konzept. Wer kann, schaltet SQL-Logging ein und zeigt das INSERT."
+Reveal.js Prompt: Content slide. Sechs Karten ohne Erklärung; Fragmente decken Zuordnung aus 10.8 auf. Schlussfrage amber "Welche SQL-Query lief?". Notizen: "Eine Gruppe verfolgt GET per ID vom Mapping bis SQLite. Wer kann, loggt die SELECT-Abfrage und gleicht sie mit findById ab."
 ```
 
-#### Folie 10.20: Spring Data erzeugt Repository-Implementierungen
+#### Folie 10.21: Spring Data erzeugt Repository-Implementierungen
 
 ```text
 Reveal.js Prompt: Layout citation-slide. Visual: einzeiliges `JpaRepository<Student, Long>` links, `SimpleJpaRepository` als erzeugte blue Implementierung rechts. Text: "CRUD-Methoden kommen aus den Repository-Basisschnittstellen." Quelle: "https://docs.spring.io/spring-data/jpa/reference/repositories/definition.html". Darunter sichtbar: "Abruf: 2026-08-23". Notizen: "Die Spring-Dokumentation beschreibt, wie passende Methoden an die Basisimplementierung geroutet werden. Unser AbstractRepository war das Modell in klein. Jetzt ordnen wir den Code in klare Verantwortungen."
@@ -1635,13 +1695,13 @@ Reveal.js Prompt: Layout citation-slide. Visual: einzeiliges `JpaRepository<Stud
 
 ### Übung
 
-Übung 9, "Erste Ressource in Spring", 45 Minuten. Die verbindliche Karte ist `exercises/<domain>/06-rest.md`; die technischen Schritte stehen in `java/rest-simple-exercise/README.md`, Phasen 1 und 2. Die Gruppe startet auf Port 8081, baut Model, Response-DTO, GET, Migration, JPA-Entity, `JpaRepository` und POST. Sie prüft GET 200 und POST 201 in Swagger UI. Abgabe sind das laufende Projekt, ein Swagger-Screenshot und der gespeicherte Datensatz. Debrief-Fragen: Welche Annotation routet HTTP? Wer erzeugt das Repository? Welche SQL-Operation lief? Exakter Folientext steht auf Folie 10.18.
+C2, "Vorhandene Ressource lesen", dauert 50 Minuten. Die Gruppe arbeitet in `exercises/<domain>/c2-spring-resource/`, übernimmt Migration und Repository aus B4 und startet mit einem Test gegen den Seed-Datensatz. Danach implementiert sie GET Collection mit `findAll` und GET per ID mit `findById`. Abgabe sind zwei 200-Antworten für Collection und vorhandene ID. POST, Beziehungen und weitere Methoden folgen später oder bleiben Vertiefung. Debrief-Fragen: Welche Annotation routet HTTP? Wer stellt das Repository bereit? Welche SELECT-Abfrage lief? Exakter Folientext steht auf Folie 10.19.
 
 ### Code
 
-Gezeigt werden in dieser Reihenfolge: `java/rest-simple-exercise/src/main/java/com/example/restsimple/DemoApplication.java` Zeilen 1 bis 13 vollständig; `java/rest-simple-exercise/src/main/java/com/example/restsimple/controller/StudentController.java` Zeilen 12 bis 29 für Health; `java/rest-simple-exercise/src/main/resources/application.properties` Zeilen 1 bis 12 für JPA, Datasource, Port und Swagger; danach die Dateien, welche die Studierenden in den Phasen 1 und 2 ergänzen. Der bestehende Health-Ausschnitt wird verbatim wie auf Folie 10.8 gezeigt.
+Gezeigt werden in dieser Reihenfolge: `java/rest-simple-exercise/src/main/java/com/example/restsimple/DemoApplication.java` Zeilen 1 bis 13 vollständig; `java/rest-simple-exercise/src/main/java/com/example/restsimple/controller/StudentController.java` Zeilen 12 bis 29 für Health; die Datasource-, Flyway-, Port- und SpringDoc-Einstellungen aus `application.properties`; danach die Controller- und Response-DTO-Gerüste aus `exercises/<domain>/c2-spring-resource/starter/`. Migration, Repository-Port, JDBC-Adapter und Row Mapping stammen aus B4.
 
-Als größeres Zielbild wird `java/rest-simple/src/main/java/com/example/restsimple/adapter/out/persistence/StudentJpaRepository.java`, Zeilen 1 bis 17, gezeigt. Der Kern steht bereits im Code-Abschnitt von Deck 08. Die Folien 10.11 bis 10.14 nutzen klar markierte, gekürzte Zielbilder aus `java/rest-simple-exercise/README.md`. Diese Dateien und Methoden existieren im Skeleton noch nicht. Der Deck-Agent zeigt sie als Arbeitsauftrag. Der Kursvertrag verwendet `firstName`, `lastName`, `email`, `studentNumber` und `enrollmentDate`. Das README nennt in Phase 1 noch `registrationDate`; diese Abweichung wird nicht in die Decks übernommen. Deck 11 behandelt Phase 3 mit Validation, Fachregeln und Service.
+`StudentJpaRepository` und die JPA-Entity bleiben als klar markierter alternativer Adapter in der Vertiefung. Sie ersetzen nicht den C2-Übergabestand. Der Kursvertrag verwendet `firstName`, `lastName`, `email`, `studentNumber` und `enrollmentDate`. Deck 11 ergänzt POST, DTOs, Validation und genau einen 409-Konflikt.
 
 ## 11 Gutes Anwendungsdesign (Dateiname decks/11-good-design.html)
 
@@ -1655,11 +1715,11 @@ Vorher: `Andere zugreifen lassen: REST API mit Spring`. Aktuell: `Solide machen:
 
 ### Erzählung
 
-Unser erster POST funktioniert und ist trotzdem zu offen. Er nimmt eine JPA-Entity entgegen und gibt sie zurück. Ein neues internes Feld würde damit versehentlich Teil des Vertrags. Ein Client könnte Felder setzen, die der Server besitzen sollte.
+Die beiden GET-Endpunkte aus C2 funktionieren. Jetzt ergänzen wir POST für dieselbe flache Hauptressource. Request und Response dürfen dabei nicht an das Persistenzmodell gekoppelt sein. Ein neues internes Feld würde sonst versehentlich Teil des Vertrags.
 
 Drei Schichten reichen für den Kurs: Presentation verarbeitet HTTP, Service koordiniert Fachregeln, Repository speichert. Ich baue aber keine Service-Klasse, die nur `repository.save` weiterreicht und nie eine Regel bekommt. Für kleines CRUD darf der Controller validieren und speichern. Sobald mehrere Repositories, Transaktionen oder Regeln zusammenkommen, lohnt der Service.
 
-DTOs schützen den Vertrag. `CreateStudentRequest` enthält nur erlaubte Eingaben. `StudentResponse` enthält nur zugesagte Ausgaben. `@Valid` stoppt ungültige Daten am Rand. `@ControllerAdvice` übersetzt erwartete Exceptions in ein einheitliches `ErrorResponse`.
+DTOs schützen den Vertrag. `CreateStudentRequest` enthält nur erlaubte Eingaben. `StudentResponse` enthält nur zugesagte Ausgaben. `@Valid` stoppt ungültige Daten am Rand. `@ControllerAdvice` übersetzt erwartete Exceptions in ein stabiles `ErrorResponse` mit `code`, `message` und `correlationId`. Der C3-Kern enthält genau einen fachlichen 409-Konflikt.
 
 Das vollständige `rest-simple` zeigt das größere Bild als hexagonale Architektur. Ports sind Interfaces, Adapter verbinden HTTP und JPA. Wir schauen darauf, verlangen es aber nicht in der Übung.
 
@@ -1678,7 +1738,7 @@ Stripe- und GitHub-APIs veröffentlichen stabile Request- und Response-Schemas, 
 #### Folie 11.1: Gutes Anwendungsdesign
 
 ```text
-Reveal.js Prompt: Layout chapter-slide. Titel und Untertitel "Klare Grenzen statt mehr Klassen". Visual: drei gestapelte blue Schichten, HTTP oben, Datenbank unten. Notizen: "Wir verbessern eine laufende API. Jede neue Klasse braucht eine konkrete Verantwortung."
+Reveal.js Prompt: Layout chapter-slide. Titel und Untertitel "Klare Grenzen statt mehr Klassen". Sichtbares Label "Leitfragen", darunter: "Welche Schicht entscheidet über HTTP, Fachregel und SQL?" und "Wie ergänzen wir POST für dieselbe Ressource, die GET bereits liefert?" Visual: drei gestapelte blue Schichten, HTTP oben, Datenbank unten. Notizen: "Wir verbessern eine laufende API. Jede neue Klasse braucht eine konkrete Verantwortung."
 ```
 
 #### Folie 11.2: Die API solide machen
@@ -1738,13 +1798,13 @@ Reveal.js Prompt: SVG `StudentNotFoundException` → `@ControllerAdvice` → `40
 #### Folie 11.11: @ControllerAdvice
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/rest-simple-exercise/src/main/java/com/example/restsimple/exception/GlobalExceptionHandler.java`, Zeilen 33 bis 37, vollständig und verbatim. Code: `@ExceptionHandler(ResourceNotFoundException.class)\npublic ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex) {\n    ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());\n    return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);\n}`. Highlights 33|34|35-36. Notizen: "Die Handler-Methode verbindet Exception-Typ, Body und Status. Alle Controller erhalten dasselbe Verhalten. Das vorhandene ErrorResponse hat message und optional details."
+Reveal.js Prompt: Layout .code-slide. Quellenhinweis sichtbar: "Zielcode im C3-Starter: GlobalExceptionHandler.java". Code: `@ExceptionHandler(ResourceNotFoundException.class)\nResponseEntity<ErrorResponse> notFound(ResourceNotFoundException ex) {\n    var body = new ErrorResponse(\n            "RESOURCE_NOT_FOUND", ex.getMessage(), correlationId());\n    return ResponseEntity.status(404).body(body);\n}`. Highlights 1|2-4|5. Notizen: "Die Handler-Methode verbindet Exception-Typ, stabilen Body und Status. Ein 500-Handler loggt die technische Ursache, gibt sie aber nicht an den Client zurück."
 ```
 
-#### Folie 11.12: Das vorhandene ErrorResponse hat zwei Felder
+#### Folie 11.12: Ein stabiler Fehlerkörper
 
 ```text
-Reveal.js Prompt: Two-column content. Quelle sichtbar unten: `java/rest-simple/src/main/java/com/example/restsimple/response/ErrorResponse.java`, Zeilen 5 bis 34. Links blue JSON des vorhandenen Typs: `{"message":"Student 42 not found","details":null}`. Rechts amber Kursziel: `{"message":"Student 42 not found","code":"STUDENT_NOT_FOUND"}`. Fragmente: 1 vorhandenes Feld `message`, 2 vorhandenes Feld `details`, 3 gewünschter stabiler `code`, 4 red Kreuz über Stacktrace. Notizen: "Der Repo-Typ hat nur `message` und `details`. Die Domänenkarte für Ex 11 verlangt einen Fehlercode im 409-Response. Die Gruppen dürfen den Typ deshalb um `code` erweitern. Wir behaupten nicht, dass das Feld schon existiert."
+Reveal.js Prompt: Two-column content. Quellenhinweis sichtbar: "C3-Starter · ErrorResponse.java". Links als instabil markiert: `{"message":"Student 42 not found","details":null}`. Rechts als stabiler Vertrag: `{"code":"STUDENT_NOT_FOUND","message":"Student 42 not found","correlationId":"4d2a..."}`. Fragmente: Felder nacheinander, danach red Kreuz über Stacktrace. Notizen: "code ist der maschinenlesbare Vertrag. message bleibt für Menschen. Die Correlation ID verbindet Antwort und Log. Bei 500 bleibt die technische Exception ausschließlich im Log."
 ```
 
 #### Folie 11.13: Statuscodes aus Fachfällen
@@ -1771,10 +1831,10 @@ Reveal.js Prompt: SVG Hexagon Domain/Application innen; Ports als blue Buchsen; 
 Reveal.js Prompt: Sequence SVG Client → Controller validates/maps → Service checks/coordinates → Repository saves → Response DTO. Fragmente je Hop, Fehlerzweige 400/409/500. Notizen: "Jede Schicht übersetzt eine andere Grenze. Der Controller spricht HTTP, der Service Fachfall, das Repository Persistenz. Bei trivialem CRUD kann der mittlere Hop entfallen."
 ```
 
-#### Folie 11.17: Übung 10, vollständiges CRUD
+#### Folie 11.17: C3, POST für dieselbe Hauptressource
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "Übung 10", Timer "55 min". Dateipfade unten: `exercises/<domain>/06-rest.md` und `java/rest-simple-exercise/README.md`, Phase 3. Mitte mit vier nummerierten Schritten: 1 "Vervollständigt CRUD mit Request- und Response-DTOs." 2 "Ergänzt Bean Validation und @Valid." 3 "Setzt die Fachregeln und 400, 404, 409 um." 4 "Verschiebt die Fachlogik in einen @Service." Abgabe: "laufendes Projekt, Endpoint-Liste, Swagger-Screenshot". Keine Fragmente. Notizen: "Beginnt mit der Hauptressource. Der Beziehungsendpunkt aus der Karte ist freiwillige Zusatzarbeit. Die Karte nennt die konkrete Konfliktregel."
+Reveal.js Prompt: Layout .exercise-slide. Tag "C3 · Kernauftrag", Timer "45 min". Dateipfad unten: `exercises/<domain>/c3-tests-errors/`. Mitte mit vier nummerierten Schritten: 1 "Ergänzt Request- und Response-DTO für POST." 2 "Ergänzt Bean Validation und @Valid." 3 "Setzt genau eine Fachregel als 409 um." 4 "Gebt Fehler als code, message und correlationId aus." Abgabe: "POST 201 sowie ein reproduzierbarer 409". Keine Fragmente. Notizen: "POST verwendet dieselbe flache Hauptressource wie die GET-Endpunkte aus C2. PUT, DELETE und Beziehungen sind Vertiefung. Der vorbereitete Zwischenstand enthält den vollständigen POST-Kernpfad."
 ```
 
 #### Folie 11.18: Debrief, ein Request durch alle Schichten
@@ -1797,11 +1857,11 @@ Reveal.js Prompt: Layout citation-slide. Visual: GitHub und Stripe als Clientkar
 
 ### Übung
 
-Übung 10, "Vollständiges CRUD mit sauberem Rand", 55 Minuten. Die verbindliche Karte ist `exercises/<domain>/06-rest.md`; die technische Stufe ist Phase 3 aus `java/rest-simple-exercise/README.md`. Die Gruppe vervollständigt CRUD, trennt Request und Response DTO, ergänzt Validation, Fachregeln und Service. Der Beziehungsendpunkt aus der Karte ist freiwillige Zusatzarbeit. Sie setzt die in der Karte genannten Fälle für 400, 404 und 409 um. Abgabe sind das laufende Projekt, die Endpoint-Liste und ein Swagger-Screenshot. Debrief-Fragen: Wo lohnt ein Service? Welches Entity-Feld bleibt intern? Welche Exception erzeugt welchen Status? Wenn Zeit fehlt, wird auf die Hauptressource gekürzt. Exakter Folientext steht auf Folie 11.17.
+C3, "POST für dieselbe Hauptressource", dauert 45 Minuten. Die Gruppe arbeitet in `exercises/<domain>/c3-tests-errors/` auf dem C2-Stand weiter. Sie ergänzt Request- und Response-DTO, Bean Validation, `@Valid` und genau eine Fachregel als 409. Der Fehlerkörper enthält `code`, `message` und `correlationId`. PUT, DELETE und Beziehungen sind Vertiefung. Abgabe sind POST 201 und ein reproduzierbarer 409. Debrief-Fragen: Wo lohnt ein Service? Welches Persistenzfeld bleibt intern? Welche Exception erzeugt welchen Status? Exakter Folientext steht auf Folie 11.17.
 
 ### Code
 
-Gezeigt werden zuerst Ausschnitte aus `java/rest-simple/src/main/java/com/example/restsimple/adapter/in/web/StudentController.java`: Konstruktorinjektion in den Zeilen 36 bis 44, GET 52 bis 67, POST 69 bis 91 und DELETE 118 bis 136. Danach folgen `java/rest-simple/src/main/java/com/example/restsimple/adapter/in/dto/CreateStudentRequest.java` Zeilen 7 bis 18, `adapter/in/dto/StudentResponse.java` 8 bis 24, `application/service/StudentService.java` 23 bis 66, `exception/GlobalExceptionHandler.java` 19 bis 59 und `response/ErrorResponse.java` 5 bis 34. Diese Ausschnitte verwenden die vorhandenen Namen `name`, `mnr` und `createdOn`. Ein sichtbarer Hinweis trennt sie vom Kursstandard.
+Gezeigt werden zuerst Ausschnitte aus `java/rest-simple/src/main/java/com/example/restsimple/adapter/in/web/StudentController.java`: Konstruktorinjektion, GET und POST. Danach folgen `CreateStudentRequest`, `StudentResponse`, `StudentService`, `GlobalExceptionHandler` und `ErrorResponse`. Die C3-Zielstruktur des Fehlerkörpers ist `code`, `message`, `correlationId` und optional `fields`. Ein sichtbarer Hinweis trennt vorhandene Namen des größeren Beispiels vom Kursstandard.
 
 Die Konstruktorinjektion aus `StudentController.java`, Zeilen 36 bis 44, wird verbatim gezeigt:
 
@@ -1817,26 +1877,26 @@ public StudentController(CreateStudentUseCase createStudentUseCase,
 }
 ```
 
-Die vorhandene POST-Methode aus `StudentController.java`, Zeilen 77 bis 91, wird verbatim gezeigt:
+Das auf den Kursvertrag mit `/api` angepasste Zielbild der POST-Methode lautet:
 
 ```java
 public ResponseEntity<StudentResponse> createStudent(@Valid @RequestBody CreateStudentRequest request) {
-    logger.info("POST /students - Creating student: {} {}", request.name(), request.lastName());
+    logger.info("POST /api/students - Creating student: {} {}", request.name(), request.lastName());
 
     try {
         Student student = createStudentUseCase.createStudent(request.toCommand());
         StudentResponse response = StudentResponse.fromDomain(student);
 
-        logger.info("POST /students - Successfully created student with ID: {}", student.getId());
+        logger.info("POST /api/students - Successfully created student with ID: {}", student.getId());
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     } catch (Exception e) {
-        logger.error("POST /students - Failed to create student: {} {} - Error: {}",
+        logger.error("POST /api/students - Failed to create student: {} {} - Error: {}",
                     request.name(), request.lastName(), e.getMessage());
         throw e;
     }
 ```
 
-Der vorhandene Exception-Handler wird aus `java/rest-simple-exercise/src/main/java/com/example/restsimple/exception/GlobalExceptionHandler.java`, Zeilen 33 bis 37, verbatim gezeigt. Für das hexagonale Zielbild werden nur die Pfade `domain`, `application/port`, `application/service`, `adapter/in/web` und `adapter/out/persistence` aus `java/rest-simple` eingeblendet, in dieser Reihenfolge. Das Deck verlangt keine Übernahme dieser Struktur.
+Der Exception-Handler wird als C3-Zielcode gezeigt und verbindet Exception-Typ, Status und stabilen Fehlerkörper. Für das hexagonale Zielbild werden nur die Pfade `domain`, `application/port`, `application/service`, `adapter/in/web` und `adapter/out/persistence` aus `java/rest-simple` eingeblendet. Das Deck verlangt keine Übernahme dieser Struktur.
 
 ## 12 Die Anwendung absichern (Dateiname decks/12-making-it-solid.html)
 
@@ -1850,7 +1910,7 @@ Vorher: `Andere zugreifen lassen: REST API mit Spring`. Aktuell: `Solide machen:
 
 ### Erzählung
 
-Eine API ist nicht fertig, weil Swagger einmal grün war. Ich will einen Test, der beim nächsten Umbau beweist: `POST /students` liefert 201 und das vereinbarte JSON. MockMvc startet dafür den Web-Rand ohne echten Browser.
+Eine API ist nicht fertig, weil Swagger einmal grün war. Ich will einen Test, der beim nächsten Umbau beweist: `POST /api/students` liefert 201 und das vereinbarte JSON. MockMvc startet dafür den Web-Rand ohne echten Browser.
 
 Der Service-Test braucht keine Datenbank. Mockito stellt Ports als Test-Doubles bereit. Wir prüfen eine Fachentscheidung und ob der richtige Port aufgerufen wurde. Wir testen nicht private Methoden und nicht, ob Spring seine eigenen Annotationen versteht.
 
@@ -1873,7 +1933,7 @@ Spring Boot Actuator stellt standardmäßig einen Health-Endpoint unter `/actuat
 #### Folie 12.1: Die Anwendung absichern
 
 ```text
-Reveal.js Prompt: Layout chapter-slide. Titel und Untertitel "Tests, Logs, Betrieb". Visual: API-Box mit green Testhaken, amber Correlation ID und blue Health-Puls. Notizen: "Wir machen aus einer laufenden Demo ein System, dessen Verhalten prüfbar und beobachtbar ist."
+Reveal.js Prompt: Layout chapter-slide. Titel und Untertitel "Tests, Logs, Betrieb". Sichtbares Label "Leitfragen", darunter: "Welcher Test beweist unseren HTTP-Vertrag?" und "Wie bleibt ein Fehler für Client und Log eindeutig?" Visual: API-Box mit green Testhaken, amber Correlation ID und blue Health-Puls. Notizen: "Wir machen aus einer laufenden Demo ein System, dessen Verhalten prüfbar und beobachtbar ist."
 ```
 
 #### Folie 12.2: Der letzte Schritt
@@ -1957,7 +2017,7 @@ Reveal.js Prompt: Content SVG. Sichtbarer amber Hinweis oben: "Architekturdiagra
 #### Folie 12.15: (Reserve) Pagination begrenzt Collections
 
 ```text
-Reveal.js Prompt: Content slide mit SVG, markiert "(Reserve)". Grundzustand: Collection mit 10.000 Student-Karten. Fragmente: 1 Request `GET /students?page=2&size=20`, 2 nur Karten 21 bis 40 blue, 3 Response-Metadaten `page`, `size`, `totalElements` amber. Folientext: "Nicht jede Collection in einer Antwort". Notizen: "Pagination begrenzt Antwortgröße und Datenbankarbeit. Eine stabile Sortierung gehört dazu. Diese Reservefolie enthält keine Übungsanforderung."
+Reveal.js Prompt: Content slide mit SVG, markiert "(Reserve)". Grundzustand: Collection mit 10.000 Student-Karten. Fragmente: 1 Request `GET /api/students?page=2&size=20`, 2 nur Karten 21 bis 40 blue, 3 Response-Metadaten `page`, `size`, `totalElements` amber. Folientext: "Nicht jede Collection in einer Antwort". Notizen: "Pagination begrenzt Antwortgröße und Datenbankarbeit. Eine stabile Sortierung gehört dazu. Diese Reservefolie enthält keine Übungsanforderung."
 ```
 
 #### Folie 12.16: (Reserve) PATCH ändert einen Teil
@@ -1966,10 +2026,10 @@ Reveal.js Prompt: Content slide mit SVG, markiert "(Reserve)". Grundzustand: Col
 Reveal.js Prompt: Two-column content, markiert "(Reserve)". Links PUT mit vollständigem Student-DTO, rechts PATCH `{"email":"neu@uni.example"}`. Fragmente: 1 fehlende PUT-Felder red, 2 einzelnes PATCH-Feld amber, 3 Validierung und Konfliktprüfung green. Folientext: "PUT ersetzt · PATCH ändert teilweise". Notizen: "PATCH braucht klare Regeln für fehlend, NULL und unverändert. Es ist deshalb mehr als ein kleiner PUT. Diese Reservefolie wird nicht geübt."
 ```
 
-#### Folie 12.17: Übung 11, zwei Tests und ein Filter
+#### Folie 12.17: C3, Vertrag und Fehler testen
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "Übung 11, falls Zeit", Timer "40 min". Dateipfad unten: `exercises/<domain>/06-rest.md`, Abschnitt "Schreibt genau zwei Tests". Mitte mit drei nummerierten Schritten: 1 "Testet den POST-Erfolg der Karte mit 201, Response-ID und dem dort genannten Fachfeld." 2 "Testet den Konflikt der Karte mit 409 und Fehlercode." 3 "Ergänzt einen LoggingFilter mit X-Correlation-ID in Response und Log." Abgabe: "genau zwei grüne Tests plus passender Response-Header und Logeintrag". Keine Fragmente. Notizen: "Die zwei Testfälle der eigenen Domänenkarte sind verbindlich. Auf der Bibliothekskarte prüft Test 1 `dueOn`; Test 2 prüft die zweite offene Ausleihe desselben Exemplars. Der Mockito-Test aus 12.7 gehört zur Demonstration, nicht zur Abgabe."
+Reveal.js Prompt: Layout .exercise-slide. Tag "C3 · Kernauftrag", Timer "35 min". Dateipfad unten: `exercises/<domain>/c3-tests-errors/`. Mitte mit drei nummerierten Schritten: 1 "Testet den POST-Erfolg mit 201, ID und einem Fachfeld." 2 "Testet 409 sowie code, message und correlationId." 3 "Vertiefung: ergänzt X-Correlation-ID in Response und Log." Abgabe: "zwei grüne Tests und ein stabiler 409-Fehlerkörper". Keine Fragmente. Notizen: "Die beiden Testfälle gehören zum Kernauftrag. Ein vorbereiteter Zwischenstand enthält den laufenden POST-Pfad. Der Filter ist Vertiefung, falls die Correlation ID im Starter noch nicht gesetzt wird."
 ```
 
 #### Folie 12.18: Actuator liefert eingebaute Betriebsendpunkte
@@ -1980,7 +2040,7 @@ Reveal.js Prompt: Layout citation-slide. Visual: laufende Spring-App mit `/actua
 
 ### Übung
 
-Übung 11, "Zwei Tests und ein Logging-Filter", optional, 40 Minuten. Die verbindliche Karte ist `exercises/<domain>/06-rest.md`, Abschnitt "Schreibt genau zwei Tests". Die Gruppe implementiert genau die beiden dort beschriebenen HTTP-Tests und ergänzt `X-Correlation-ID` im Filter, Log und Response. Abgabe sind zwei grüne Tests und ein Response-Header mit passender Logzeile. Debrief-Fragen: Welche Grenze prüft der Test? Welcher Port wurde im Test ersetzt? Wie findet man einen Request im Log? Exakter Folientext steht auf Folie 12.17.
+C3, "Vertrag und Fehler testen", dauert 35 Minuten. Die Gruppe arbeitet in `exercises/<domain>/c3-tests-errors/` und schreibt zwei verbindliche Tests: POST-Erfolg mit 201 sowie 409 mit `code`, `message` und `correlationId`. Der Correlation-ID-Filter ist Vertiefung, falls der Starter die ID noch nicht setzt. Abgabe sind zwei grüne Tests und ein stabiler 409-Fehlerkörper. Debrief-Fragen: Welche Grenze prüft der Test? Welcher Port wurde ersetzt? Welche Felder bilden den stabilen Fehlervertrag? Exakter Folientext steht auf Folie 12.17.
 
 ### Code
 
@@ -1992,7 +2052,7 @@ Danach folgt `java/rest-simple/src/main/java/com/example/restsimple/config/Loggi
 
 ### Ziel
 
-Die Studierenden ordnen ihre Dateien allen acht Schritten der roten Linie zu und erklären den vollständigen Request-Weg. Alle Schritte liegen hinter uns. Jetzt wird aus den einzelnen Übungen ein zusammenhängendes Backend. Der nächste Schritt liegt außerhalb des Kurses: Deployment, Security, Frontend oder vertiefte Datenbankarbeit.
+Die Studierenden ordnen ihre Dateien allen acht Schritten der roten Linie zu und verfolgen einen vorhandenen Datensatz durch Controller, optionalen Service, Repository, SQLite und JSON-Antwort. Nicht jede Vertiefung muss fertig sein. Entscheidend ist der nachweisbare Kernpfad der eigenen Gruppe.
 
 ### Position auf der roten Linie
 
@@ -2000,7 +2060,7 @@ Vorher: `Solide machen: Schichten, Validierung, Fehler, OpenAPI, Tests, Middlewa
 
 ### Erzählung
 
-Am ersten Morgen hatten wir einen Satz über eine App. Jetzt kann ich auf jede Box der roten Linie zeigen und eine Datei nennen: fünf Sätze, ER-Diagramm, `schema.sql`, `queries.sql`, JDBC-Repository, Spring Repository, Controller, DTOs und Tests.
+Am ersten Morgen hatten wir einen Satz über eine App. Jetzt kann jede Gruppe auf ihren Arbeitsstand zeigen: Domänenbeschreibung, ER-Modell, normalisiertes Schema, SQL, JDBC-Repository, Spring-Controller, DTOs und Tests.
 
 Wenn jemand in einer echten Anwendung auf "Buchen" klickt, sieht der Weg erstaunlich ähnlich aus. Ein Client sendet HTTP. Ein Controller prüft den Vertrag. Fachlogik entscheidet. Ein Repository schreibt in Tabellen. Tests und Logs helfen, wenn etwas schiefgeht.
 
@@ -2022,25 +2082,25 @@ GitHubs veröffentlichte OpenAPI-Beschreibung verbindet Ressourcen, Statuscodes,
 #### Folie 13.1: Was ihr gebaut habt
 
 ```text
-Reveal.js Prompt: Layout chapter-slide. Titel "Was ihr gebaut habt", Untertitel "Eine Idee, ein Schema, eine API". Visual: acht kleine Artefakte entlang blue Linie, letzter Haken green. Notizen: "Wir schließen nicht mit neuen Begriffen. Wir verbinden die Arbeit der drei Tage zu einem System."
+Reveal.js Prompt: Layout chapter-slide. Titel "Was euer Arbeitsstand zeigt", Untertitel "Ein Datensatz, ein Repository, eine API". Sichtbares Label "Leitfragen", darunter: "Wie kommt ein vorhandener Datensatz bis zur JSON-Antwort?" und "Welcher Teil der Kette ist in eurer Gruppe bereits nachweisbar?" Visual: acht kleine Artefakte entlang blue Linie, letzter Haken green. Notizen: "Wir schließen nicht mit neuen Begriffen. Wir verbinden den Arbeitsstand zu einem System."
 ```
 
-#### Folie 13.2: Die rote Linie ist vollständig
+#### Folie 13.2: Der Kernpfad ist sichtbar
 
 ```text
-Reveal.js Prompt: Rote-Linie-SVG mit allen acht exakten Beschriftungen. Status: alle acht Schritte erledigt in blue, jeder mit green Haken; kein Schritt aktiv; kein Schritt als nächster innerhalb der Linie. Unter dem SVG steht ein gestrichelter blue Kasten mit dem exakten Text `Als Nächstes außerhalb des Kurses: euren nächsten Engpass bearbeiten`. Fragmente: 1 Haken auf Schritten 1 und 2, 2 Haken auf 3 und 4, 3 Haken auf 5 und 6, 4 Haken auf 7 und 8, 5 der Kasten außerhalb des Kurses. Notizen: "Die rote Linie ist abgeschlossen. Jede Gruppe hat alle acht Probleme einmal bearbeitet. Auf der nächsten Folie ordnen wir jedem Schritt die vorhandenen Dateien zu."
+Reveal.js Prompt: Rote-Linie-SVG mit allen acht exakten Beschriftungen. Der Kernpfad durch alle acht Schritte ist blue markiert; Vertiefungen werden nicht als zwingend fertig behauptet. Unter dem SVG steht ein gestrichelter blue Kasten mit dem exakten Text `Als Nächstes außerhalb des Kurses: euren nächsten Engpass bearbeiten`. Fragmente entlang der Schritte. Notizen: "Nicht jede Vertiefung muss fertig sein. Entscheidend ist, dass die Gruppe ihren durchgängigen Kernpfad an vorhandenen Dateien und einem Datensatz zeigen kann."
 ```
 
 #### Folie 13.3: Acht Schritte, vorhandene Dateien
 
 ```text
-Reveal.js Prompt: Two-column content. Beide Spalten enthalten je vier gleich hohe Zeilen. Jede Zeile zeigt links eine blue Schrittnummer, daneben den exakten Schritttext aus `## Die rote Linie` und darunter die Pfade in Monospace mit mindestens 22 px. Linke Spalte: 1 `Idee im Kopf` mit `exercises/<domain>/README.md`; 2 `Darüber sprechen: Abstraktion und ER-Modell` mit `exercises/<domain>/01-er.md`; 3 `Tabellen, die uns nicht anlügen: Normalisierung` mit `java/sql/university/schema.sql` und `exercises/<domain>/02-normalization.md`; 4 `Den Tabellen Fragen stellen: SQL` mit `java/sql/university/queries.sql` und `exercises/<domain>/03-sql.md`. Rechte Spalte: 5 `Aus Java fragen: JDBC, Cursor, Statements` mit `java/cursor-simple/src/main/java/org/lecture/Main.java` und `exercises/<domain>/04-jdbc.md`; 6 `Wiederholungen beenden: Repository Pattern` mit `java/repository-simple/src/main/java/org/lecture/AbstractRepository.java` und `exercises/<domain>/05-repository.md`; 7 `Andere zugreifen lassen: REST API mit Spring` mit `java/rest-simple-exercise/README.md` und `exercises/<domain>/06-rest.md`; 8 `Solide machen: Schichten, Validierung, Fehler, OpenAPI, Tests, Middleware` mit `java/rest-simple/src/main/java/com/example/restsimple/adapter/in/web/StudentController.java`, `java/rest-simple/src/test/java/com/example/restsimple/adapter/in/web/StudentControllerTest.java` und `java/rest-simple/src/main/java/com/example/restsimple/config/LoggingFilter.java`. Fragmente: Zeilen 1 bis 8 einzeln. Notizen: "Alle gezeigten Pfade existieren im Repository. Die Domänenkarten begleiten das gemeinsame Java- und SQL-Beispiel. Schritt 8 zeigt Produktion, Test und Middleware als getrennte Dateien."
+Reveal.js Prompt: Two-column content mit acht gleich hohen Zeilen. Jede Zeile zeigt Schrittnummer, exakten Schritttext und den Gruppenpfad. Schritt 1 `exercises/<domain>/a0-domain/`; 2 `a1-er-model/`; 3 `a3-normalization/`; 4 `b2-sql/`; 5 `b3-jdbc/`; 6 `b4-repository/`; 7 `c2-spring-resource/`; 8 `c3-tests-errors/`. Fragmente: Zeilen 1 bis 8 einzeln. Notizen: "Jede Phase hat einen eigenen Ordner. Die Dateien bleiben über die Tage bei derselben Hauptressource und werden nicht durch ein neues Beispiel ersetzt."
 ```
 
-#### Folie 13.4: Ein Request durch das ganze Backend
+#### Folie 13.4: Datensatz 42 durch das ganze Backend
 
 ```text
-Reveal.js Prompt: Sequence SVG Client POST → Controller/@Valid → optional Service → JpaRepository → SQLite → Response 201. Fragmente je Schritt; Fehlerzweige 400,409,500; Correlation ID amber durchgehend. Notizen: "Das ist die Antwort auf 'Wie funktioniert das Backend von X?'. In realen Systemen kommen mehr Dienste und Ausfälle hinzu. Die Grundgrenzen bleiben erkennbar."
+Reveal.js Prompt: Sequence SVG `GET /api/.../42` → Controller/@Valid → optionaler Service → Repository → SQLite-Zeile 42 → JSON 200. Fragmente je Schritt; Fehlerzweige 400, 404 und 500; Correlation ID amber durchgehend. Notizen: "Wir verfolgen einen vorhandenen Datensatz durch genau die Grenzen, die in den Übungen entstanden sind. Jede Gruppe benennt an jedem Kasten ihre konkrete Datei oder Klasse."
 ```
 
 #### Folie 13.5: Was als Nächstes Sinn ergibt
@@ -2049,19 +2109,13 @@ Reveal.js Prompt: Sequence SVG Client POST → Controller/@Valid → optional Se
 Reveal.js Prompt: Four-way content: "mehr Datenbank: Indexe, Transaktionen", "mehr API: Pagination, Versionierung", "mehr Betrieb: Deployment, Metrics", "mehr Schutz: Auth, Threat Modeling". Fragmente einzeln, kein Ranking. Notizen: "Wählt nach dem Engpass eures Projekts. Ein langsamer Bericht braucht eher Query-Plan und Index als Microservices. Eine öffentliche API braucht zuerst Auth und saubere Rechte."
 ```
 
-#### Folie 13.6: Eine konkrete nächste Entscheidung
-
-```text
-Reveal.js Prompt: Layout .lead-question. Frage "Welche Grenze eurer App würdet ihr morgen als Erste verbessern, und woran merkt ihr das?" Fragment 1 "Datei · Symptom · nächster Test" amber. Notizen: "Erwartet ist eine konkrete Grenze mit Beleg. Typisch falsch sind 'mehr Features' und 'alles neu machen'. Jede Gruppe nennt in einem Satz Datei, Symptom und nächsten Test."
-```
-
-#### Folie 13.7: Rückblick und Feedback
+#### Folie 13.6: Rückblick und Feedback
 
 ```text
 Reveal.js Prompt: Content slide. Drei kurze Fragen: "Wo hat es geklickt?", "Wo fehlt ein Zwischenschritt?", "Welche Übung würdet ihr kürzen?" Fragmente einzeln. QR-Platzhalter amber ohne externe URL. Notizen: "Ich sammle zuerst still, dann mündlich. Die Fragen zielen auf konkrete Kursstellen. Es gibt keine Bewertung der Studierenden."
 ```
 
-#### Folie 13.8: GitHubs Backend beginnt mit denselben Verträgen
+#### Folie 13.7: GitHubs Backend beginnt mit denselben Verträgen
 
 ```text
 Reveal.js Prompt: Layout citation-slide. Visual: Kurskette Ressource → Schema → Repository → HTTP → OpenAPI, daneben GitHub-Silhouette größer, gleiche Kette blue. Text: "Andere Größenordnung, dieselben Grundfragen." Quelle: "https://docs.github.com/en/rest/about-the-rest-api/about-the-openapi-description-for-the-rest-api". Darunter sichtbar: "Abruf: 2026-08-23". Notizen: "GitHub beschreibt seine REST API vollständig mit OpenAPI und erzeugt daraus Dokumentation und SDKs. Euer System ist kleiner, aber Ressourcen, Datenregeln und Verträge sind dieselbe Art Arbeit. Das ist der konkrete Abschluss der roten Linie."

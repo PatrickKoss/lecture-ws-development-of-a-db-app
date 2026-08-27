@@ -1,6 +1,5 @@
 package com.example.restsimple.adapter.out.dto;
 
-import com.example.restsimple.converter.LocalDateTimeAttributeConverter;
 import com.example.restsimple.domain.model.Student;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -31,7 +30,6 @@ public class StudentJpaEntity {
     
     @Column(name = "created_on", nullable = false)
     @NotNull(message = "created is required")
-    @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime createdOn;
 
     public StudentJpaEntity() {}

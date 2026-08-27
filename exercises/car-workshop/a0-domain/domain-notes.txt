@@ -1,0 +1,5 @@
+Auftraggeber:
+Problem:
+Hauptentität: Ersatzteil
+Offene Annahme:
+Begriffe:

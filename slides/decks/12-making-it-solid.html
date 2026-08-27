@@ -285,6 +285,33 @@
     <div class="chapter-eyebrow">Kapitel 12</div>
     <h1 class="chapter-title-big">Die Anwendung absichern</h1>
     <div class="chapter-subtitle">Tests, Logs, Betrieb</div>
+    <div
+      style="
+        position: absolute;
+        top: 130px;
+        left: 0;
+        width: 760px;
+        color: var(--color-amber);
+        font-size: 28px;
+        line-height: 1.45;
+      "
+    >
+      <div
+        style="
+          font-size: 18px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+        "
+      >
+        Leitfragen
+      </div>
+      <p style="margin: 0.35rem 0">
+        Welcher Test beweist unseren HTTP-Vertrag?
+      </p>
+      <p style="margin: 0.35rem 0">
+        Wie bleibt ein Fehler für Client und Log eindeutig?
+      </p>
+    </div>
     <svg
       class="d12-chapter-visual d12-svg"
       viewBox="0 0 700 570"
@@ -754,7 +781,7 @@
 <section class="code-slide d12-code-short">
   <h2 class="slide-title">Ein MockMvc-Test</h2>
   <div class="code-slide__content">
-    <pre><code class="language-java" data-trim data-ln-start-from="70" data-line-numbers="70|71|72-74">mockMvc.perform(get("/students"))
+    <pre><code class="language-java" data-trim data-ln-start-from="70" data-line-numbers="70|71|72-74">mockMvc.perform(get("/api/students"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.students.length()").value(2))
         .andExpect(jsonPath("$.students[0].firstName").value("John"))
@@ -1112,6 +1139,7 @@ try {
 
 <section class="d12-content">
   <h2 class="slide-title">Actuator zeigt Gesundheit und Messwerte</h2>
+  <div class="slide-context amber">Anhang · Nachschlagen</div>
   <svg
     class="slide-svg d12-svg"
     viewBox="0 0 1920 1080"
@@ -1217,6 +1245,7 @@ try {
 
 <section class="d12-content">
   <h2 class="slide-title">CORS ist eine Browserregel</h2>
+  <div class="slide-context amber">Anhang · Nachschlagen</div>
   <svg
     class="slide-svg d12-svg"
     viewBox="0 0 1920 1080"
@@ -1299,6 +1328,7 @@ try {
 
 <section class="d12-content">
   <h2 class="slide-title">Security als Filter Chain</h2>
+  <div class="slide-context amber">Anhang · Nachschlagen</div>
   <div class="slide-context">Überblick, keine Übung</div>
   <svg
     class="slide-svg d12-svg"
@@ -1443,6 +1473,7 @@ try {
 
 <section class="d12-content">
   <h2 class="slide-title">Docker in einer Folie</h2>
+  <div class="slide-context amber">Anhang · Nachschlagen</div>
   <svg
     class="slide-svg d12-svg"
     viewBox="0 0 1920 1080"
@@ -1633,7 +1664,7 @@ try {
         rx="10"
       ></rect>
       <text class="d12-amber" x="1560" y="325" text-anchor="middle">
-        GET /students?page=2&amp;size=20
+        GET /api/students?page=2&amp;size=20
       </text>
     </g>
     <g class="fragment fade-in" data-fragment-index="2">
@@ -1717,34 +1748,29 @@ try {
 </section>
 
 <section class="exercise-slide">
-  <div class="exercise-slide__tag">Übung 11, falls Zeit</div>
-  <div class="exercise-slide__time">40 min</div>
-  <p class="exercise-slide__task">Zwei Tests und ein Filter</p>
+  <div class="exercise-slide__tag">C3 · Kernauftrag</div>
+  <div class="exercise-slide__time">35 min</div>
+  <p class="exercise-slide__task">Vertrag und Fehler testen</p>
   <div class="d12-exercise-steps">
     <div class="d12-exercise-step">
-      <strong>1</strong>Testet den POST-Erfolg der Karte mit 201, Response-ID
-      und dem dort genannten Fachfeld.
+      <strong>1</strong>Testet den POST-Erfolg mit 201, ID und einem Fachfeld.
     </div>
     <div class="d12-exercise-step">
-      <strong>2</strong>Testet den Konflikt der Karte mit 409 und Fehlercode.
+      <strong>2</strong>Testet 409 sowie code, message und correlationId.
     </div>
     <div class="d12-exercise-step">
-      <strong>3</strong>Ergänzt einen LoggingFilter mit X-Correlation-ID in
-      Response und Log.
+      <strong>3</strong>Vertiefung: ergänzt X-Correlation-ID in Response und
+      Log.
     </div>
   </div>
+  <div class="d12-exercise-path">exercises/&lt;domain&gt;/c3-tests-errors/</div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> genau zwei grüne Tests plus passender
-    Response-Header und Logeintrag
-  </div>
-  <div class="d12-exercise-path">
-    exercises/&lt;domain&gt;/06-rest.md, Abschnitt "Schreibt genau zwei Tests"
+    <strong>Abgabe:</strong> zwei grüne Tests und ein stabiler 409-Fehlerkörper
   </div>
   <aside class="notes">
-    Die zwei Testfälle der eigenen Domänenkarte sind verbindlich. Auf der
-    Bibliothekskarte prüft Test 1 `dueOn`; Test 2 prüft die zweite offene
-    Ausleihe desselben Exemplars. Der Mockito-Test aus 12.7 gehört zur
-    Demonstration, nicht zur Abgabe.
+    Die beiden Testfälle gehören zum Kernauftrag. Ein vorbereiteter
+    Zwischenstand enthält den laufenden POST-Pfad. Der Filter ist Vertiefung,
+    falls die Correlation ID im Starter noch nicht gesetzt wird.
   </aside>
 </section>
 
@@ -1808,7 +1834,7 @@ try {
   </div>
   <aside class="notes">
     Spring Boot nennt Health, Metrics und viele weitere Endpoints. Die
-    Dokumentation warnt vor sensiblen Informationen. Jetzt haben wir den Kursweg
-    vollständig gebaut und geprüft.
+    Dokumentation warnt vor sensiblen Informationen. Im Kernpfad bleiben zwei
+    Tests, der stabile Fehlerkörper und eine Correlation ID.
   </aside>
 </section>

@@ -1,0 +1,5 @@
+Auftraggeber:
+Problem:
+Hauptentität: Buch
+Offene Annahme:
+Begriffe:

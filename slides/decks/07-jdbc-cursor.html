@@ -382,6 +382,20 @@
   .d07-date .d07-svg .small {
     font-size: 28px;
   }
+
+  .d07-chapter-guides {
+    position: absolute;
+    top: 150px;
+    left: 96px;
+    width: 860px;
+    color: var(--color-amber);
+    font-size: 30px;
+    line-height: 1.45;
+  }
+
+  .d07-chapter-guides p {
+    margin: 0.35rem 0;
+  }
 </style>
 
 <section class="chapter-slide">
@@ -389,6 +403,15 @@
   <div class="chapter-eyebrow">Kapitel 07</div>
   <h1 class="chapter-title-big">JDBC und Cursor</h1>
   <p class="chapter-subtitle">SQL aus Java</p>
+  <div class="d07-chapter-guides">
+    <div
+      style="font-size: 18px; letter-spacing: 0.16em; text-transform: uppercase"
+    >
+      Leitfragen
+    </div>
+    <p>Wie wird aus einer Tabellenzeile ein Java-Objekt?</p>
+    <p>Wo bündeln wir SQL und Row Mapping, damit beides nur einmal vorkommt?</p>
+  </div>
   <svg
     class="slide-svg d07-svg"
     viewBox="0 0 1920 1080"
@@ -533,8 +556,9 @@
     Vorher: SQL im Terminal · Jetzt: JDBC · Danach: Repository Pattern
   </p>
   <aside class="notes">
-    JDBC ist die Brücke. Am Ende funktioniert CRUD aus Java. Die Wiederholung im
-    Code liefert morgen früh den Grund für das Repository Pattern.
+    JDBC ist die Brücke. Im Kern lesen wir Daten aus Java und machen das Row
+    Mapping sichtbar. Schreiben ist Vertiefung. Die Wiederholung im Code liefert
+    den Grund für das Repository Pattern.
   </aside>
 </section>
 
@@ -1053,6 +1077,7 @@ try (Connection connection = DriverManager.getConnection(DATABASE_URL);
 
 <section class="code-slide">
   <h2 class="slide-title">INSERT mit gebundenen Werten</h2>
+  <span class="slide-context amber">Vertiefung</span>
   <div class="code-slide__content">
     <pre
       class="d07-code-compact d07-code-fit"
@@ -1357,73 +1382,68 @@ try (Connection connection = DriverManager.getConnection(DATABASE_URL);
 </section>
 
 <section class="exercise-slide">
-  <div class="exercise-slide__tag">Übung 6A</div>
+  <div class="exercise-slide__tag">B3 · Kernauftrag</div>
   <div class="exercise-slide__time">45 min</div>
-  <p class="exercise-slide__task">StudentRepositoryImpl</p>
+  <p class="exercise-slide__task">Eure Hauptressource lesen</p>
   <div class="d07-steps">
     <div class="d07-step">
       <span class="d07-step__number">1</span>
-      Implementiert Initialisierung, Create, Read, Update, Delete und
-      Existenzprüfung.
+      Startet das vorbereitete Projekt und führt den Starttest aus.
     </div>
     <div class="d07-step">
       <span class="d07-step__number">2</span>
-      Nutzt PreparedStatement und try-with-resources.
+      Implementiert <code>findById</code> mit <code>Optional</code>.
     </div>
     <div class="d07-step">
       <span class="d07-step__number">3</span>
-      Übernehmt IDs und behandelt leere Ergebnisse mit Optional.
+      Implementiert <code>findAll</code> mit sichtbarem Row Mapping.
     </div>
     <div class="d07-step">
       <span class="d07-step__number">4</span>
-      Aktiviert die CLI-TODOs und führt ./verify-exercise.sh aus.
+      Prüft einen Treffer, eine fehlende ID und die Seed-Daten.
     </div>
   </div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> StudentRepositoryImpl.java, aktive CLI, grüner
-    Verify-Lauf
+    <strong>Abgabe:</strong> grüner Testlauf und Ausgabe eines vorhandenen
+    Datensatzes
   </div>
-  <div class="d07-exercise-path">
-    exercises/&lt;domain&gt;/04-jdbc.md ·
-    java/repository-simple-exercise/README.md
-  </div>
+  <div class="d07-exercise-path">exercises/&lt;domain&gt;/b3-jdbc/</div>
   <aside class="notes">
-    Folgt dem README und der Karte, nicht dem fertigen Repository. Bindet jeden
-    externen Wert. Testet auch eine doppelte E-Mail-Adresse oder
-    Studierendennummer.
+    Die Gruppe startet nicht bei null. Model, Connection und Tests sind im
+    Starter vorhanden. Nach der Kernzeit kann die Lehrperson den vorbereiteten
+    Zwischenstand freigeben.
   </aside>
 </section>
 
 <section class="exercise-slide">
-  <div class="exercise-slide__tag">Übung 6B</div>
-  <div class="exercise-slide__time">30 min</div>
-  <p class="exercise-slide__task">Eine Entity eurer Domäne</p>
+  <div class="exercise-slide__tag">B3 · Vertiefung</div>
+  <div class="exercise-slide__time">20 min</div>
+  <p class="exercise-slide__task">Schreiben mit gebundenen Werten</p>
   <div class="d07-steps">
     <div class="d07-step">
       <span class="d07-step__number">1</span>
-      Nehmt die Entity und Felder aus der Karte.
+      Implementiert <code>save</code> für dieselbe Hauptressource.
     </div>
     <div class="d07-step">
       <span class="d07-step__number">2</span>
-      Legt Model, Repository-Interface und Implementierung an.
+      Bindet jeden Wert mit <code>PreparedStatement</code>.
     </div>
     <div class="d07-step">
       <span class="d07-step__number">3</span>
-      Ergänzt genau zwei CLI-Punkte: anlegen und auflisten.
+      Prüft die betroffene Zeilenzahl und die erzeugte ID.
     </div>
     <div class="d07-step">
       <span class="d07-step__number">4</span>
-      Testet gültige Daten und die zwei Fehlerfälle der Karte.
+      Lest den neuen Datensatz wieder mit <code>findById</code>.
     </div>
   </div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> ausführbares repository-simple-exercise plus kurze
-    Testnotiz
+    <strong>Abgabe:</strong> grüner Schreibtest und gelesener Datensatz
   </div>
-  <div class="d07-exercise-path">exercises/&lt;domain&gt;/04-jdbc.md</div>
+  <div class="d07-exercise-path">exercises/&lt;domain&gt;/b3-jdbc/</div>
   <aside class="notes">
-    Die konkrete Entity steht in der Domänenkarte. Für die Bibliothek ist es
-    Book. Erfindet auf der Folie keine generische Haupttabelle.
+    Schreiben ist Vertiefung. Der vorbereitete Zwischenstand stellt sicher, dass
+    jede Gruppe mit einem lesenden Repository in B4 weiterarbeiten kann.
   </aside>
 </section>
 

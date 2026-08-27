@@ -1,0 +1,5 @@
+Auftraggeber:
+Problem:
+Hauptentität: Pizza
+Offene Annahme:
+Begriffe:

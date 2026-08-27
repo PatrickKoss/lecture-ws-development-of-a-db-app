@@ -1,0 +1,8 @@
+Ausgangsrelation:
+COURSE_EXPORT(id, course_code, title, duration_minutes, ...)
+
+Funktionale Abhängigkeiten:
+TODO(A3)
+
+Zerlegung bis 3NF:
+TODO(A3)

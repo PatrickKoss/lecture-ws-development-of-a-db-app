@@ -1,0 +1,8 @@
+Ausgangsrelation:
+ROOMTYPE_EXPORT(id, type_code, name, standard_price_cents, ...)
+
+Funktionale Abhängigkeiten:
+TODO(A3)
+
+Zerlegung bis 3NF:
+TODO(A3)

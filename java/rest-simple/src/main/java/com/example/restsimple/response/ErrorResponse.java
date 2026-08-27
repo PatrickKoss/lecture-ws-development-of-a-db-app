@@ -1,19 +1,33 @@
 package com.example.restsimple.response;
 
 import jakarta.validation.constraints.NotNull;
+import java.util.Map;
 
 public class ErrorResponse {
+    @NotNull(message = "code is required")
+    private String code;
     @NotNull(message = "message is required")
     private String message;
-    private String details;
+    private String correlationId;
+    private Map<String, String> fields;
 
-    public ErrorResponse(String message) {
-        this.message = message;
+    public ErrorResponse(String code, String message, String correlationId) {
+        this(code, message, correlationId, Map.of());
     }
 
-    public ErrorResponse(String message, String details) {
+    public ErrorResponse(String code, String message, String correlationId, Map<String, String> fields) {
+        this.code = code;
         this.message = message;
-        this.details = details;
+        this.correlationId = correlationId;
+        this.fields = fields;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getMessage() {
@@ -24,11 +38,19 @@ public class ErrorResponse {
         this.message = message;
     }
 
-    public String getDetails() {
-        return details;
+    public String getCorrelationId() {
+        return correlationId;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setCorrelationId(String correlationId) {
+        this.correlationId = correlationId;
+    }
+
+    public Map<String, String> getFields() {
+        return fields;
+    }
+
+    public void setFields(Map<String, String> fields) {
+        this.fields = fields;
     }
 }

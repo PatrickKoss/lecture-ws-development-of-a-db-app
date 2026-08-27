@@ -7,11 +7,11 @@ Dies ist die ausgearbeitete Lösung der REST-Übung am Beispiel der Domäne `Zon
 - `ZoneController` mit vollständigem CRUD unter `/api/zones`
 - Request- und Response-DTOs in `request/` und `response/`, die Entity `Zone` verlässt die API nie
 - Bean Validation an den Request-DTOs und `@Valid` im Controller
-- `GlobalExceptionHandler` mit `ErrorResponse` für 400, 404 und 500
+- `GlobalExceptionHandler` mit stabilem Fehlercode und Korrelations-ID für 400, 404, 409 und 500
 - JPA-Entity, `ZoneRepository` als `JpaRepository` und eine Flyway-Migration unter `src/main/resources/db/migration`
 - Swagger UI über springdoc
 
-Das entspricht dem Stand nach Übung 10. Ein separater Service-Layer und die hexagonale Architektur sind bewusst nicht enthalten; die zeigt `../rest-simple`.
+Das entspricht einem ausgearbeiteten Stand nach C3. Ein separater Service-Layer und die hexagonale Architektur sind hier nicht enthalten. Das Referenzprojekt `../rest-simple` zeigt diese Aufteilung.
 
 ## Starten
 
@@ -30,6 +30,6 @@ Build prüfen:
 ./gradlew build
 ```
 
-## Bekannte Eigenheit
+## Schemaquelle
 
-Die Flyway-Datei heißt `V1_Create_zone.sql`. Flyway erwartet zwei Unterstriche nach der Version und überspringt die Datei deshalb. Das Schema entsteht trotzdem, weil `spring.jpa.hibernate.ddl-auto=update` gesetzt ist. Im Unterricht ist das ein brauchbares Beispiel dafür, dass Namenskonventionen Teil des Vertrags sind.
+Flyway führt `V1__Create_zone.sql` aus. Hibernate steht auf `ddl-auto=validate` und prüft nur, ob Entity und Migration zusammenpassen. SQLite prüft Fremdschlüssel auf jeder Verbindung des Pools.

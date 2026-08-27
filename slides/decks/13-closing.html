@@ -299,13 +299,36 @@
     font-size: 22px;
     text-align: center;
   }
+
+  .d13-chapter-guides {
+    position: absolute;
+    top: 150px;
+    left: 96px;
+    width: 1120px;
+    color: var(--color-amber);
+    font-size: 30px;
+    line-height: 1.45;
+  }
+
+  .d13-chapter-guides p {
+    margin: 0.35rem 0;
+  }
 </style>
 
 <section class="chapter-slide">
   <div class="chapter-number">13</div>
   <div class="chapter-eyebrow">Kapitel 13 · Abschluss</div>
-  <h1 class="chapter-title-big">Was ihr gebaut habt</h1>
-  <p class="chapter-subtitle">Eine Idee, ein Schema, eine API</p>
+  <h1 class="chapter-title-big">Was euer Arbeitsstand zeigt</h1>
+  <p class="chapter-subtitle">Ein Datensatz, ein Repository, eine API</p>
+  <div class="d13-chapter-guides">
+    <div
+      style="font-size: 18px; letter-spacing: 0.16em; text-transform: uppercase"
+    >
+      Leitfragen
+    </div>
+    <p>Wie kommt ein vorhandener Datensatz bis zur JSON-Antwort?</p>
+    <p>Welcher Teil der Kette ist in eurer Gruppe bereits nachweisbar?</p>
+  </div>
 
   <div class="d13-artifact-line" aria-label="Acht verbundene Artefakte">
     <span class="d13-artifact d13-artifact--round"></span>
@@ -325,13 +348,13 @@
 </section>
 
 <section class="d13-complete-slide">
-  <h2 class="slide-title">Der Kursweg ist vollständig</h2>
+  <h2 class="slide-title">Der Kernpfad ist sichtbar</h2>
 
   <svg
     class="slide-svg redline"
     viewBox="0 0 1920 1080"
     preserveAspectRatio="xMidYMid meet"
-    aria-label="Der vollständige Kursweg"
+    aria-label="Der Kernpfad des Kurses"
   >
     <defs>
       <marker
@@ -457,9 +480,9 @@
   </svg>
 
   <aside class="notes">
-    Der Kursweg ist abgeschlossen. Jede Gruppe hat alle acht Probleme einmal
-    bearbeitet. Auf der nächsten Folie ordnen wir jedem Schritt die vorhandenen
-    Dateien zu.
+    Nicht jede Vertiefung muss fertig sein. Entscheidend ist, dass die Gruppe
+    ihren durchgängigen Kernpfad an vorhandenen Dateien und einem Datensatz
+    zeigen kann.
   </aside>
 </section>
 
@@ -472,7 +495,7 @@
       <div>
         <p class="d13-map__step">Idee im Kopf</p>
         <div class="d13-map__paths">
-          <span>exercises/&lt;domain&gt;/README.md</span>
+          <span>exercises/&lt;domain&gt;/a0-domain/</span>
         </div>
       </div>
     </div>
@@ -481,9 +504,7 @@
       <div>
         <p class="d13-map__step">Aus Java fragen: JDBC, Cursor, Statements</p>
         <div class="d13-map__paths">
-          <span>java/cursor-simple/src/main/java/</span>
-          <span>org/lecture/Main.java</span>
-          <span>exercises/&lt;domain&gt;/04-jdbc.md</span>
+          <span>exercises/&lt;domain&gt;/b3-jdbc/</span>
         </div>
       </div>
     </div>
@@ -492,7 +513,7 @@
       <div>
         <p class="d13-map__step">Darüber sprechen: Abstraktion und ER-Modell</p>
         <div class="d13-map__paths">
-          <span>exercises/&lt;domain&gt;/01-er.md</span>
+          <span>exercises/&lt;domain&gt;/a1-er-model/</span>
         </div>
       </div>
     </div>
@@ -501,9 +522,7 @@
       <div>
         <p class="d13-map__step">Wiederholungen beenden: Repository Pattern</p>
         <div class="d13-map__paths">
-          <span>java/repository-simple/src/main/java/</span>
-          <span>org/lecture/AbstractRepository.java</span>
-          <span>exercises/&lt;domain&gt;/05-repository.md</span>
+          <span>exercises/&lt;domain&gt;/b4-repository/</span>
         </div>
       </div>
     </div>
@@ -514,8 +533,7 @@
           Tabellen, die uns nicht anlügen: Normalisierung
         </p>
         <div class="d13-map__paths">
-          <span>java/sql/university/schema.sql</span>
-          <span>exercises/&lt;domain&gt;/02-normalization.md</span>
+          <span>exercises/&lt;domain&gt;/a3-normalization/</span>
         </div>
       </div>
     </div>
@@ -526,8 +544,7 @@
           Andere zugreifen lassen: REST API mit Spring
         </p>
         <div class="d13-map__paths">
-          <span>java/rest-simple-exercise/README.md</span>
-          <span>exercises/&lt;domain&gt;/06-rest.md</span>
+          <span>exercises/&lt;domain&gt;/c2-spring-resource/</span>
         </div>
       </div>
     </div>
@@ -536,8 +553,7 @@
       <div>
         <p class="d13-map__step">Den Tabellen Fragen stellen: SQL</p>
         <div class="d13-map__paths">
-          <span>java/sql/university/queries.sql</span>
-          <span>exercises/&lt;domain&gt;/03-sql.md</span>
+          <span>exercises/&lt;domain&gt;/b2-sql/</span>
         </div>
       </div>
     </div>
@@ -549,26 +565,20 @@
           Middleware
         </p>
         <div class="d13-map__paths">
-          <span>java/rest-simple/src/main/java/com/example/restsimple/</span>
-          <span>adapter/in/web/StudentController.java</span>
-          <span>java/rest-simple/src/test/java/com/example/restsimple/</span>
-          <span>adapter/in/web/StudentControllerTest.java</span>
-          <span>java/rest-simple/src/main/java/com/example/restsimple/</span>
-          <span>config/LoggingFilter.java</span>
+          <span>exercises/&lt;domain&gt;/c3-tests-errors/</span>
         </div>
       </div>
     </div>
   </div>
 
   <aside class="notes">
-    Alle gezeigten Pfade existieren im Repository. Die Domänenkarten begleiten
-    das gemeinsame Java- und SQL-Beispiel. Schritt 8 zeigt Produktion, Test und
-    Middleware als getrennte Dateien.
+    Jede Phase hat einen eigenen Ordner. Die Dateien bleiben über die Tage bei
+    derselben Hauptressource und werden nicht durch ein neues Beispiel ersetzt.
   </aside>
 </section>
 
 <section>
-  <h2 class="slide-title">Ein Request durch das ganze Backend</h2>
+  <h2 class="slide-title">Datensatz 42 durch das ganze Backend</h2>
 
   <svg
     class="slide-svg"
@@ -631,13 +641,14 @@
       ></rect>
       <text
         x="190"
-        y="410"
+        y="390"
         fill="var(--color-white)"
-        font-size="30"
+        font-size="26"
         font-weight="700"
         text-anchor="middle"
       >
-        Client POST
+        <tspan x="190">GET</tspan>
+        <tspan x="190" dy="38">/api/.../42</tspan>
       </text>
     </g>
 
@@ -736,7 +747,7 @@
         font-weight="700"
         text-anchor="middle"
       >
-        JpaRepository
+        Repository
       </text>
     </g>
 
@@ -762,13 +773,14 @@
       ></rect>
       <text
         x="1350"
-        y="410"
+        y="390"
         fill="var(--color-white)"
-        font-size="30"
+        font-size="26"
         font-weight="700"
         text-anchor="middle"
       >
-        SQLite
+        <tspan x="1350">SQLite</tspan>
+        <tspan x="1350" dy="38">Zeile 42</tspan>
       </text>
     </g>
 
@@ -800,7 +812,7 @@
         font-weight="700"
         text-anchor="middle"
       >
-        Response 201
+        JSON · 200
       </text>
     </g>
 
@@ -864,7 +876,7 @@
         font-weight="700"
         text-anchor="middle"
       >
-        409
+        404
       </text>
     </g>
 
@@ -902,9 +914,9 @@
   </svg>
 
   <aside class="notes">
-    Das ist die Antwort auf "Wie funktioniert das Backend von X?". In realen
-    Systemen kommen mehr Dienste und Ausfälle hinzu. Die Grundgrenzen bleiben
-    erkennbar.
+    Die Gruppe wählt eine ID aus ihren Seed-Daten. Sie zeigt dieselbe ID in
+    SQLite, im Row Mapping, im Repository-Ergebnis, im Controller und in der
+    JSON-Antwort. Ein fehlender Datensatz führt über denselben Pfad zu 404.
   </aside>
 </section>
 

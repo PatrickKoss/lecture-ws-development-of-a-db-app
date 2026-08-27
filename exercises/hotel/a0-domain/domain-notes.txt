@@ -1,0 +1,5 @@
+Auftraggeber:
+Problem:
+Hauptentität: Zimmertyp
+Offene Annahme:
+Begriffe:

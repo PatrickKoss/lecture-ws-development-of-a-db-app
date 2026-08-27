@@ -1,0 +1,10 @@
+@base = http://localhost:8081
+GET {{base}}/api/parts
+
+### gültiger POST
+POST {{base}}/api/parts
+Content-Type: application/json
+
+{"partNumber": "P-1999", "name": "Kursfilter", "category": "Filter", "shelfCode": "Z-99", "stockQuantity": 10, "reorderLevel": 4, "listPrice": 12.5}
+
+### TODO(C3): denselben Wert für part_number erneut senden und 409 prüfen
