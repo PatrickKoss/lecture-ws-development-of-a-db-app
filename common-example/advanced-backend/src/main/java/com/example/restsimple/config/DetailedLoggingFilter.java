@@ -61,7 +61,8 @@ public class DetailedLoggingFilter extends OncePerRequestFilter {
         
         String correlationId = getOrGenerateCorrelationId(request);
         
-        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
+        ContentCachingRequestWrapper requestWrapper =
+                new ContentCachingRequestWrapper(request, loggingConfig.getMaxBodySize());
         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
         
         try {

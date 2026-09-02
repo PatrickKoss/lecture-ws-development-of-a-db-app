@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Spring Boot REST API demonstrating **Hexagonal Architecture (Ports & Adapters)** for a simple student management system. The application is built with Java 21, Spring Boot 3.4.5, and uses SQLite for persistence with Flyway migrations.
+This is a Spring Boot REST API demonstrating **Hexagonal Architecture (Ports & Adapters)** for a simple student management system. The application is built with Java 21, Spring Boot 4.1.1, and uses SQLite for persistence with Flyway migrations.
 
 ## Build System & Development Commands
 

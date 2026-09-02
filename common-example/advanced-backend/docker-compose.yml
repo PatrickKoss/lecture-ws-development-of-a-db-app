@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Template service - copy this for each student
   student-template:
@@ -11,7 +9,7 @@ services:
       - "../:/home/student/workspace"
     environment:
       - JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
-      - GRADLE_HOME=/opt/gradle/gradle-8.5
+      - GRADLE_HOME=/opt/gradle/gradle-9.7.1
     restart: unless-stopped
     profiles:
       - template  # This prevents it from starting by default
@@ -26,7 +24,7 @@ services:
       - "/home/student1:/home/student/workspace"
     environment:
       - JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
-      - GRADLE_HOME=/opt/gradle/gradle-8.5
+      - GRADLE_HOME=/opt/gradle/gradle-9.7.1
     restart: unless-stopped
     container_name: student1-env
 
@@ -39,7 +37,7 @@ services:
       - "/home/student2:/home/student/workspace"
     environment:
       - JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
-      - GRADLE_HOME=/opt/gradle/gradle-8.5
+      - GRADLE_HOME=/opt/gradle/gradle-9.7.1
     restart: unless-stopped
     container_name: student2-env
 

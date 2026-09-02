@@ -13,8 +13,8 @@
   },
   "devDependencies": {
     "http-server": "^14.1.1",
-    "playwright": "^1.49.0",
-    "prettier": "^3.4.2",
-    "reveal.js": "^5.1.0"
+    "playwright": "^1.62.1",
+    "prettier": "^3.9.6",
+    "reveal.js": "^6.0.1"
   }
 }

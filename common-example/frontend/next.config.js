@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // No experimental config needed for Next.js 15
+  // No experimental config is needed.
 }
 
 module.exports = nextConfig

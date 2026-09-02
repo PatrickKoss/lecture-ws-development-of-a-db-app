@@ -9,11 +9,11 @@ import com.example.restsimple.config.JwtAuthenticationFilter;
 import com.example.restsimple.config.SecurityConfig;
 import com.example.restsimple.domain.exception.StudentNotFoundException;
 import com.example.restsimple.domain.model.Student;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
@@ -45,16 +45,16 @@ class StudentControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @MockBean
+    @MockitoBean
     private CreateStudentUseCase createStudentUseCase;
 
-    @MockBean
+    @MockitoBean
     private GetStudentUseCase getStudentUseCase;
 
-    @MockBean
+    @MockitoBean
     private UpdateStudentUseCase updateStudentUseCase;
 
-    @MockBean
+    @MockitoBean
     private DeleteStudentUseCase deleteStudentUseCase;
 
     @Test

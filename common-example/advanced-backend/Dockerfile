@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:26.04
 
 # Avoid prompts from apt
 ENV DEBIAN_FRONTEND=noninteractive
@@ -23,8 +23,9 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Java 21
-RUN wget -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | apt-key add - \
-    && echo "deb https://packages.adoptium.net/artifactory/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/adoptium.list \
+RUN install -d /etc/apt/keyrings \
+    && wget -O /etc/apt/keyrings/adoptium.asc https://packages.adoptium.net/artifactory/api/gpg/key/public \
+    && echo "deb [signed-by=/etc/apt/keyrings/adoptium.asc] https://packages.adoptium.net/artifactory/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/adoptium.list \
     && apt-get update \
     && apt-get install -y temurin-21-jdk \
     && rm -rf /var/lib/apt/lists/*
@@ -34,7 +35,7 @@ ENV JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
 ENV PATH=$JAVA_HOME/bin:$PATH
 
 # Install Gradle
-ENV GRADLE_VERSION=8.14
+ENV GRADLE_VERSION=9.7.1
 RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -P /tmp \
     && unzip -d /opt/gradle /tmp/gradle-${GRADLE_VERSION}-bin.zip \
     && rm /tmp/gradle-${GRADLE_VERSION}-bin.zip
@@ -59,7 +60,7 @@ RUN rm -f /usr/bin/wget /usr/bin/curl /bin/wget /bin/curl \
 
 # Create restricted PATH for student user
 # RUN echo '#!/bin/bash' > /usr/local/bin/restricted-shell \
-#     && echo 'export PATH=/usr/lib/jvm/temurin-21-jdk-amd64/bin:/opt/gradle/gradle-8.5/bin:/usr/bin:/bin:/usr/local/bin' >> /usr/local/bin/restricted-shell \
+#     && echo 'export PATH=/usr/lib/jvm/temurin-21-jdk-amd64/bin:/opt/gradle/gradle-9.7.1/bin:/usr/bin:/bin:/usr/local/bin' >> /usr/local/bin/restricted-shell \
 #     && echo 'export SHELL=/bin/bash' >> /usr/local/bin/restricted-shell \
 #     && echo 'cd /home/student/workspace' >> /usr/local/bin/restricted-shell \
 #     && echo 'exec /bin/bash "$@"' >> /usr/local/bin/restricted-shell \
@@ -71,7 +72,7 @@ WORKDIR /home/$USERNAME
 
 # Set Java environment for the student user
 ENV JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64
-ENV GRADLE_HOME=/opt/gradle/gradle-8.14
+ENV GRADLE_HOME=/opt/gradle/gradle-9.7.1
 ENV PATH=$JAVA_HOME/bin:$GRADLE_HOME/bin:$PATH
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
@@ -170,7 +171,7 @@ RUN echo '{\
     "java.import.gradle.offline.enabled": false,\
     "java.import.gradle.arguments": "",\
     "java.import.gradle.jvmArguments": "",\
-    "java.import.gradle.home": "/opt/gradle/gradle-8.14",\
+    "java.import.gradle.home": "/opt/gradle/gradle-9.7.1",\
     "java.import.gradle.java.home": "/usr/lib/jvm/temurin-21-jdk-amd64",\
     "java.import.maven.enabled": true,\
     "java.configuration.detectProjectsInWorkspace": true,\
