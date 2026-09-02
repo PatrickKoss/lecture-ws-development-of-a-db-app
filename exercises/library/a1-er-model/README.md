@@ -4,7 +4,7 @@ Zeitbox: etwa 35 Minuten für den Kernauftrag. Die Vertiefung beginnt erst danac
 
 ## Eingang
 
-Übernehmt Begriffe und Annahme aus `../a0-domain/domain-notes.txt`. `er.mmd` enthält die markierte Hauptentität.
+Diese Phase bearbeitet ihr in zwei Teilteams. Für Thema A übernehmt ihr Begriffe und Annahme aus `../a0-domain/domain-notes.txt`. Für Thema B startet ihr mit der Domänengeschichte in `../README.md`. `er.mmd` enthält jeweils die markierte Hauptentität.
 
 Starttest:
 

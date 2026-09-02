@@ -18,7 +18,7 @@ make run DECK=day1
 make lint
 make format
 make debug DECK=day2
-make shot DECK=day1 SLIDE=0/2/1
+make shot DECK=day1 SLIDE=2/0/1
 make pdf DECK=day1 PDF=day1.pdf
 make pdf-all
 ```
@@ -43,8 +43,10 @@ slide and does not stop the rest of the deck.
 
 ### Navigation model
 
-Reveal uses `(h, v, f)`: chapter, slide, fragment. For example, `0/2/1` opens
-the third slide of chapter 00 at its second visible code state.
+The chapter loader places every slide in one horizontal sequence. Use the left
+and right arrow keys to move through it. The debug commands still accept
+Reveal's `(h, v, f)` coordinates, but `v` is always `0`. For example, `2/0/1`
+opens the third slide at its second visible fragment state.
 
 ### Theme tokens and layouts
 

@@ -23,7 +23,7 @@ make lint
 make format
 make debug
 make debug DECK=day1
-make shot DECK=day1 SLIDE=0/2/1
+make shot DECK=day1 SLIDE=2/0/1
 make pdf DECK=day1 PDF=day1.pdf
 make pdf-all
 make clean
@@ -52,15 +52,17 @@ specification when a content decision changes, then update the deck.
 list only the chapters taught on that day. Each placeholder names one
 `decks/NN-name.html` file.
 
-`assets/deck.js` fetches each chapter before Reveal initializes. It places the
-chapter's top-level sections inside one horizontal stack. A missing file becomes
-a red "Failed to load" slide, while the remaining chapters still load.
+`assets/deck.js` fetches each chapter before Reveal initializes. It replaces the
+placeholders with the chapter's slides. The result is one horizontal sequence. A
+missing file becomes a red "Failed to load" slide, while the remaining chapters
+still load.
 
 ### Reveal navigation model
 
-Reveal addresses a state as `(h, v, f)`: chapter, slide inside that chapter, and
-fragment. A chapter file contains top-level `<section>` elements. The loader
-nests them under the chapter placeholder, so they become vertical slides.
+Reveal addresses a state as `(h, v, f)`: horizontal slide, vertical slide, and
+fragment. This deck has no vertical slides, so `v` is always `0`. A chapter file
+contains top-level `<section>` elements, and the loader inserts them directly
+into the horizontal sequence.
 
 `Reveal.getTotalSlides()` returns a linear count. The debug script resolves the
 real `(h, v)` pair for every slide with `Reveal.getIndices()` before navigating.

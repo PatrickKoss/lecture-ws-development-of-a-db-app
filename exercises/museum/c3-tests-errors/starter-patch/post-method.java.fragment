@@ -1,0 +1,5 @@
+@PostMapping
+@ResponseStatus(HttpStatus.CREATED)
+public ExhibitResponse create(@Valid @RequestBody CreateExhibitRequest request) {
+    return ExhibitResponse.from(service.create(request));
+}

@@ -1,9 +1,9 @@
 async function loadExternals() {
-  const stacks = document.querySelectorAll("[data-external-replace]");
+  const placeholders = document.querySelectorAll("[data-external-replace]");
 
   await Promise.all(
-    Array.from(stacks).map(async (stack) => {
-      const path = stack.getAttribute("data-external-replace");
+    Array.from(placeholders).map(async (placeholder) => {
+      const path = placeholder.getAttribute("data-external-replace");
 
       try {
         const response = await fetch(path);
@@ -13,19 +13,24 @@ async function loadExternals() {
 
         const template = document.createElement("template");
         template.innerHTML = (await response.text()).trim();
-        const slides = template.content.querySelectorAll(":scope > section");
+        const elements = Array.from(template.content.children);
+        const slides = elements.filter((element) => element.matches("section"));
 
-        if (slides.length > 0) {
-          stack.replaceChildren(...slides);
-        } else {
-          stack.replaceChildren(template.content.cloneNode(true));
+        if (slides.length === 0) {
+          throw new Error("chapter contains no slides");
         }
-        stack.removeAttribute("data-external-replace");
+
+        elements
+          .filter((element) => element.matches("style, link[rel='stylesheet']"))
+          .forEach((stylesheet) => document.head.append(stylesheet));
+
+        placeholder.replaceWith(...slides);
       } catch (error) {
         const message = document.createElement("div");
         message.className = "external-load-error";
         message.textContent = `Failed to load ${path}: ${error.message}`;
-        stack.replaceChildren(message);
+        placeholder.replaceChildren(message);
+        placeholder.removeAttribute("data-external-replace");
       }
     }),
   );

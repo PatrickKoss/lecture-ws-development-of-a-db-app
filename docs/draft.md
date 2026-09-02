@@ -48,7 +48,7 @@ Die Deck-Agenten übernehmen diese Namen und Zahlen unverändert.
 
 ### Ziel
 
-Die Studierenden kennen Ziel, Arbeitsweise und Tagesstruktur. Sie sehen alle acht Schritte der roten Linie, wählen eine Gruppendomäne und wissen, dass sie dieselbe Anwendung drei Tage lang weiterbauen. Vorher gibt es nur ihre Java-Erfahrung. Danach klären wir, wie aus einer Idee ein gemeinsames Modell wird.
+Die Studierenden kennen Ziel, Arbeitsweise und Tagesstruktur. Sie sehen alle acht Schritte der roten Linie und übernehmen zwei Themen für A1 und A3. Danach bauen sie die Anwendung aus Thema A weiter. Vorher gibt es nur ihre Java-Erfahrung. Danach klären wir, wie aus einer Idee ein gemeinsames Modell wird.
 
 ### Position auf der roten Linie
 
@@ -60,7 +60,7 @@ Ich beginne nicht mit Datenbankbegriffen. Ich frage, welche Apps heute vor dem F
 
 In drei Tagen bauen wir diesen Weg rückwärts sichtbar. Wir starten mit einer vagen Idee, zeichnen sie, bauen Tabellen, stellen SQL-Fragen und greifen aus Java darauf zu. Am dritten Tag kann ein anderer Rechner unsere Daten über HTTP verwenden.
 
-Jede Gruppe bekommt eine andere Domäne. Das ist Absicht. Acht identische Lösungen würden nur zeigen, dass jemand mein Beispiel kopieren kann. Acht verschiedene Lösungen zeigen, ob die Methode trägt.
+Die Gruppen bekommen unterschiedliche Themenpaare. Das ist Absicht. Zehn identische Lösungen würden nur zeigen, dass jemand mein Beispiel kopieren kann. Die verschiedenen Modelle zeigen, ob die Methode auch bei anderen Fachregeln trägt.
 
 ### Leitfragen
 
@@ -97,10 +97,10 @@ Reveal.js Prompt: Three-column content. Grundzustand: Spalten "Tag 1: schema.sql
 Reveal.js Prompt: Two-column content. Grundzustand links "Frage → Versuch → Modell", rechts "Modell → Übung → Debrief". Fragmente: 1 "VS Code", 2 "Gruppenarbeit", 3 "nichts benotet". Visual: zwei blue Schleifen, Übungsphase amber. Notizen: "Ich werde oft erst fragen und später erklären. Falsche Antworten sind Material für die nächste Folie. Öffnet VS Code erst, wenn wir wirklich Code brauchen."
 ```
 
-#### Folie 00.5: Welche Domäne gehört euch?
+#### Folie 00.5: Welche Themen gehören euch?
 
 ```text
-Reveal.js Prompt: Content slide with table. Grundzustand: acht Zeilen: 1 library, 2 pizza-delivery, 3 gym, 4 cinema, 5 bike-rental, 6 vet-clinic, 7 car-workshop, 8 event-tickets. Spalten "Gruppe", "Domäne", "Namen". Fragmente: 1 amber Hinweis "Eine Domäne für alle drei Tage". Notizen: "Tragt eure Namen ein. Die Ersatzdomänen hotel und food-marketplace bleiben heute frei. Eure Aufgaben liegen unter exercises/<domain>/."
+Reveal.js Prompt: Content slide with zehn Zeilen und den Spalten "Gruppe", "Thema A", "Thema B", "Namen". Zuordnung: Gruppe 1 bearbeitet 1 library und 10 food-marketplace, Gruppe 2 bearbeitet 2 pizza-delivery und 9 hotel. Die weiteren Paare laufen spiegelbildlich bis Gruppe 10 mit 10 food-marketplace und 1 library. Fragmente: 1 amber Hinweis "A1 und A3: beide Themen · danach Thema A · Reserve: R1 museum · R2 parcel-delivery". Notizen: "Tragt eure Namen ein. Für A1 und A3 teilt sich jede Gruppe in zwei Teilteams. Danach arbeitet sie mit Thema A weiter. museum und parcel-delivery bleiben als Reserve frei. Die Aufgaben liegen unter exercises/<domain>/."
 ```
 
 #### Folie 00.6: Was kann dabei schiefgehen?
@@ -354,10 +354,10 @@ Reveal.js Prompt: SVG Department und Course. Grundzustand falsche Crow's-Foot-Se
 Reveal.js Prompt: Content slide. Karten Email, Name, Student, Course, Farbe. Fragmente: Student/Course wandern zu Entities blue, Email/Name zu Attributes, Farbe verschwindet grau. Notizen: "Nicht jedes Nomen wird eine Entity. Fragt nach eigener Identität, Lebensdauer und Beziehungen. Eine Farbe der Oberfläche gehört gar nicht in dieses Modell."
 ```
 
-#### Folie 02.18: Übung A1, euer ER-Modell
+#### Folie 02.18: Übung A1, zwei ER-Modelle im Vergleich
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "Übung A1", Timer "35 min". Dateipfad unten: `exercises/<domain>/a1-er-model/README.md`. Eingang: "Öffnet den Ausgang aus A0 und prüft die Hauptentität." Kern: "Zeichnet Entitäten, Attribute und Beziehungen" sowie "Ergänzt Schlüssel, Kardinalitäten und Optionalitäten." Vertiefung: "Prüft Beziehungsattribute und eine schwache Entität." Ausgang: "er.svg oder er.md plus Annahmen; jede Linie lässt sich in beide Richtungen vorlesen". Keine Fragmente. Notizen: "Nach 25 Minuten kann die Lehrperson ein vorbereitetes Zwischenmodell freigeben. Danach zeigen zwei Gruppen je eine Modellentscheidung."
+Reveal.js Prompt: Layout .exercise-slide. Tag "Übung A1", Timer "35 min". Dateipfad unten: `exercises/<thema-a|thema-b>/a1-er-model/README.md`. Eingang: "Teilt euch auf Thema A und Thema B auf." Kern: "Zeichnet je Thema Entitäten und Beziehungen" sowie "Ergänzt je Modell Schlüssel und Kardinalitäten." Vertiefung: "Tauscht die Modelle und prüft eine strittige Linie." Ausgang: "zwei ER-Modelle plus Annahmen; je Modell lässt sich eine strittige Linie in beide Richtungen vorlesen". Keine Fragmente. Notizen: "Thema A übernimmt die Sätze aus A0. Thema B startet mit der Domänengeschichte im Gruppen-README. Nach 25 Minuten tauschen die Teilteams ihre Modelle. Im Debrief zeigt jede aufgerufene Gruppe je eine abweichende Entscheidung."
 ```
 
 #### Folie 02.19: Debrief, Linien laut lesen
@@ -374,7 +374,7 @@ Reveal.js Prompt: Layout citation-slide. Visual: StudentCard und CourseCard, Enr
 
 ### Übung
 
-Übung A1, "ER-Diagramm für eure Domäne", 35 Minuten plus Debrief. Die verbindliche Karte liegt in `exercises/<domain>/a1-er-model/`. Die Gruppe zeichnet Entitäten, Attribute, Beziehungen, Schlüssel, Kardinalitäten und Optionalitäten. Beziehungsattribute und schwache Entitäten sind Vertiefung. Ausgang sind `er.svg` oder `er.md` und die Annahmen. Zwei Gruppen zeigen anschließend je eine Modellentscheidung. Debrief-Fragen: Welche Linie lässt sich nicht eindeutig laut lesen? Wo liegen Beziehungsattribute? Welche Optionalität stammt aus einer echten Regel? Exakter Folientext steht auf Folie 02.18.
+Übung A1, "Zwei ER-Modelle im Vergleich", 35 Minuten plus Debrief. Die Gruppe teilt sich auf ihre beiden Themen auf. Jedes Teilteam zeichnet Entitäten, Attribute, Beziehungen, Schlüssel und Kardinalitäten. Danach tauschen die Teilteams ihre Modelle und prüfen eine strittige Linie. Debrief-Fragen: Welche Linie lässt sich nicht eindeutig laut lesen? Wo liegen Beziehungsattribute? Welche Optionalität stammt aus einer echten Regel? Exakter Folientext steht auf Folie 02.18.
 
 ## 03 Vom ER-Modell zu Tabellen (Dateiname decks/03-er-to-tables.html)
 
@@ -657,10 +657,10 @@ Reveal.js Prompt: Two-column content. Links "3NF: praktische Standardprüfung", 
 Reveal.js Prompt: Balance SVG. Links blue "Korrektheit, klare Schreibwege, Constraints", rechts amber "gemessene Read-Latenz, Bericht, Cache". Fragment 1 green Linie bei 3NF, Fragment 2 bewusste Denormalisierung als amber Kopie mit Label. Notizen: "Wir stoppen nicht bei einer Nummer, sondern bei einem begründeten Schema. Denormalisierung folgt einer Messung und bekommt eine Aktualisierungsregel. Zufällige Duplikate sind keine Optimierung."
 ```
 
-#### Folie 04.26: Übung A3, die flache Tabelle zerlegen
+#### Folie 04.26: Übung A3, zwei flache Tabellen zerlegen
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "Übung A3", Timer "35 min". Dateipfad unten: `exercises/<domain>/a3-normalization/README.md`. Eingang: "Öffnet flache Tabelle und Prüffragen der Gruppe." Kern: "Bestimmt Kandidatenschlüssel und Abhängigkeiten" sowie "Zerlegt bis 3NF und begründet jeden Schnitt." Vertiefung: "Prüft die BCNF-Falle und gleicht mit dem ER-Modell ab." Ausgang: "normalization.md mit Abhängigkeiten, 3NF-Tabellen und Begründung". Keine Fragmente. Notizen: "Nach 25 Minuten kann die Lehrperson einen vorbereiteten 2NF-Zwischenstand freigeben. BCNF bleibt Vertiefung, der prüfbare Kern endet bei 3NF."
+Reveal.js Prompt: Layout .exercise-slide. Tag "Übung A3", Timer "35 min". Dateipfad unten: `exercises/<thema-a|thema-b>/a3-normalization/README.md`. Eingang: "Teilt euch wieder auf Thema A und Thema B auf." Kern: "Bestimmt je Thema Schlüssel und Abhängigkeiten" sowie "Zerlegt beide Tabellen bis 3NF." Vertiefung: "Tauscht die Ergebnisse und prüft eine Zerlegung." Ausgang: "zwei Dateien mit Abhängigkeiten, 3NF-Tabellen und je einer begründeten Zerlegung". Keine Fragmente. Notizen: "Thema A nutzt A2. Thema B startet mit der Exportrelation aus functional-dependencies.txt. Nach 25 Minuten tauschen die Teilteams ihre Ergebnisse. BCNF bleibt Vertiefung, der prüfbare Kern endet bei 3NF."
 ```
 
 #### Folie 04.27: Debrief, kann die Tabelle lügen?
@@ -683,7 +683,7 @@ Reveal.js Prompt: Layout citation-slide. Visual: normalisierte blue Tabellen lin
 
 ### Übung
 
-Übung A3, "Flache Tabelle bis 3NF zerlegen", 35 Minuten. Die verbindliche Karte liegt in `exercises/<domain>/a3-normalization/`. Jede Gruppe bestimmt Kandidatenschlüssel und funktionale Abhängigkeiten und zerlegt bis 3NF. BCNF ist Vertiefung. Ausgang ist `normalization.md` mit Abhängigkeiten, 3NF-Tabellen und Begründung. Debrief-Fragen: Welche Operation erzeugte den Widerspruch? Welche Abhängigkeit war partiell oder transitiv? Musste das ER-Modell geändert werden? Exakter Folientext steht auf Folie 04.26.
+Übung A3, "Zwei flache Tabellen bis 3NF zerlegen", 35 Minuten. Die Gruppe arbeitet wieder in ihren beiden Teilteams. Jedes Teilteam bestimmt Schlüssel und funktionale Abhängigkeiten und zerlegt bis 3NF. Danach prüfen die Teilteams gegenseitig eine Zerlegung. BCNF ist Vertiefung. Debrief-Fragen: Welche Operation erzeugte den Widerspruch? Welche Abhängigkeit war partiell oder transitiv? Musste das ER-Modell geändert werden? Exakter Folientext steht auf Folie 04.26.
 
 ## 05 SQL-Grundlagen (Dateiname decks/05-sql-basics.html)
 

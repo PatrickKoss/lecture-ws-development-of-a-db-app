@@ -4,7 +4,7 @@ Zeitbox: etwa 35 Minuten für den Kernauftrag. Die Vertiefung beginnt erst danac
 
 ## Eingang
 
-Nutzt `../a2-relational-model/relations.sql`. `functional-dependencies.txt` hält eure Begründung fest.
+Diese Phase bearbeitet ihr wieder in zwei Teilteams. Thema A nutzt `../a2-relational-model/relations.sql`. Thema B startet mit der Exportrelation in `functional-dependencies.txt` und dem ER-Modell aus A1. Die Datei hält eure Begründung fest.
 
 Starttest:
 

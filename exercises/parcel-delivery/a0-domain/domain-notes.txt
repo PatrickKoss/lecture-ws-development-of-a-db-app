@@ -1,0 +1,5 @@
+Auftraggeber: Disposition eines regionalen Paketdienstes
+Problem: Paketdaten, Depotwechsel und Zustellversuche stehen in getrennten Scanner-Exporten.
+Hauptentität: Paket
+Offene Annahme: Kann ein Paket nach dem ersten Scan noch ein anderes Zieldepot erhalten?
+Begriffe: Paket, Depot, Absender, Empfänger, Statusmeldung, Zustellversuch, Sendungsnummer

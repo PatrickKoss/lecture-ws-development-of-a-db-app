@@ -1,0 +1,5 @@
+Auftraggeber: Sammlungsleitung des Stadtmuseums
+Problem: Inventardaten, Ausstellungsorte und Leihgaben liegen in getrennten Listen.
+Hauptentität: Exponat
+Offene Annahme: Darf ein Exponat gleichzeitig mehreren Ausstellungen zugeordnet sein?
+Begriffe: Exponat, Galerie, Urheber, Ausstellung, Leihgabe, Inventarnummer

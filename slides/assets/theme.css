@@ -346,14 +346,13 @@ body {
  * Layout: centered, with a huge faded numeral and a punchy title.
  * ------------------------------------------------------------------------- */
 
-.reveal section.chapter-slide {
+.reveal section.chapter-slide.present {
   display: flex !important;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   padding: 0 8rem;
   height: 100%;
-  position: relative;
   overflow: hidden;
 }
 
@@ -424,7 +423,7 @@ body {
  * Citation slide — single punchy pull-quote, centered.
  * ------------------------------------------------------------------------- */
 
-.reveal section.citation-slide {
+.reveal section.citation-slide.present {
   display: flex !important;
   flex-direction: column;
   justify-content: center;
@@ -521,7 +520,6 @@ body {
   padding: 0 6rem;
   height: 100%;
   text-align: center;
-  position: relative;
   overflow: hidden;
 }
 
@@ -642,7 +640,7 @@ body {
 /* Used on every non-title content slide. Provides the top-left section
  * marker, top-right context tag, and a footer row with section name + phrase
  * + page count, matching the references. */
-.reveal section.slide-frame {
+.reveal section.slide-frame.present {
   display: flex !important;
   flex-direction: column;
   height: 100%;
@@ -1165,7 +1163,7 @@ body {
   margin: 0 0 1.2rem;
 }
 
-.reveal section.exercise-slide {
+.reveal section.exercise-slide.present {
   display: flex !important;
   flex-direction: column;
   height: 100%;
@@ -1229,7 +1227,7 @@ body {
   color: var(--color-blue);
 }
 
-.reveal section.lead-question {
+.reveal section.lead-question.present {
   display: flex !important;
   align-items: center;
   justify-content: center;

@@ -1,4 +1,4 @@
-.PHONY: help install run lint format debug shot pdf pdf-all clean
+.PHONY: help dependencies install run lint format debug shot pdf pdf-all clean
 
 PORT ?= 8000
 BASE_URL ?= http://localhost:$(PORT)
@@ -10,7 +10,7 @@ PDF ?= slides.pdf
 
 define with_server
 	@rm -f $(SERVER_PID) $(SERVER_LOG)
-	@npx http-server -p $(PORT) -c-1 -s > $(SERVER_LOG) 2>&1 & echo $$! > $(SERVER_PID)
+	@./node_modules/.bin/http-server -p $(PORT) -c-1 -s > $(SERVER_LOG) 2>&1 & echo $$! > $(SERVER_PID)
 	@trap 'kill `cat $(SERVER_PID)` 2>/dev/null; rm -f $(SERVER_PID)' EXIT INT TERM; \
 		echo "waiting for $(BASE_URL)/$(DECK_FILE)..."; \
 		for i in 1 2 3 4 5 6 7 8 9 10; do \
@@ -31,29 +31,35 @@ help:
 	@echo "make clean                           remove screenshots, PDFs, and server files"
 
 install:
-	npm install
-	npx playwright install chromium
+	npm ci
+	./node_modules/.bin/playwright install chromium
 
-run:
-	npx http-server -p $(PORT) -c-1 -o /$(DECK_FILE)
+dependencies:
+	@npm ls --depth=0 > /dev/null 2>&1 || { \
+		echo "slide dependencies are missing; running npm ci"; \
+		npm ci; \
+	}
 
-lint:
+run: dependencies
+	./node_modules/.bin/http-server -p $(PORT) -c-1 -o /$(DECK_FILE)
+
+lint: dependencies
 	npm run lint
 
-format:
+format: dependencies
 	npm run format
 
-debug:
+debug: dependencies
 	$(call with_server,node scripts/debug-slides.mjs)
 
-shot:
+shot: dependencies
 	@if [ -z "$(SLIDE)" ]; then \
 		echo "usage: make shot SLIDE=h/v/f [DECK=day1]"; \
 		exit 1; \
 	fi
 	$(call with_server,SLIDE=$(SLIDE) node scripts/shot-slide.mjs)
 
-pdf:
+pdf: dependencies
 	$(call with_server,OUT_FILE=$(PDF) node scripts/export-pdf.mjs)
 
 pdf-all:

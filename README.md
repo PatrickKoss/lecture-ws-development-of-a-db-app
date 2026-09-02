@@ -1,6 +1,6 @@
 # Development of a database application
 
-Der Kurs entwickelt pro Gruppe eine kleine Datenbankanwendung. Jede Gruppe bleibt bei ihrer Domäne und führt dieselbe Hauptentität durch den gesamten Ablauf: Fachmodell, Tabellen, SQL, JDBC, Repository und REST API.
+Der Kurs entwickelt pro Gruppe eine kleine Datenbankanwendung. Für ER-Modell und Normalisierung vergleicht jede Gruppe zwei Themen. Danach führt sie die Hauptentität aus dem zuerst genannten Thema durch Tabellen, SQL, JDBC, Repository und REST API.
 
 ## Voraussetzungen
 

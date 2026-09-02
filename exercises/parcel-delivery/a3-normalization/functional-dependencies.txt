@@ -1,0 +1,13 @@
+Ausgangsrelation:
+PARCEL_EXPORT(tracking_code, recipient, weight, sender_email, sender_name,
+              origin_code, origin_city, destination_code, destination_city,
+              event_number, status, recorded_at)
+
+Funktionale Abhängigkeiten:
+TODO(A3)
+
+Anomalie:
+TODO(A3)
+
+Zerlegung bis 3NF:
+TODO(A3)

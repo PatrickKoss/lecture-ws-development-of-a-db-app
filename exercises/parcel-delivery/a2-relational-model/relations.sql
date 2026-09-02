@@ -1,0 +1,3 @@
+-- Lesbare Relationsnotation, noch kein ausführbares SQLite-Schema
+-- parcels(id PK, tracking_code UK, recipient, weight, origin_depot_id FK, destination_depot_id FK, sender_id FK)
+-- TODO(A2): weitere Relationen, PK, FK, UK und NULL/NOT NULL ergänzen.

@@ -1,23 +1,42 @@
 # Übungen: eine Hauptentität durch alle Schichten
 
-Jede Gruppe behält ihre Domäne und dieselbe flache Hauptentität. Die Arbeit wandert vom ER-Modell in SQL, JDBC und eine Spring-API. Jeder Aufgabenordner hat einen eigenen Startstand, einen Prüfbefehl und eine Frage für die gemeinsame Auswertung.
+Jede Gruppe vergleicht in A1 und A3 zwei Themen. Danach wandert die Hauptentität aus Thema A weiter in SQL, JDBC und eine Spring-API. Jeder Aufgabenordner hat einen eigenen Startstand, einen Prüfbefehl und eine Frage für die gemeinsame Auswertung.
+
+## Gruppenzuordnung
+
+| Gruppe | Thema A                 | Thema B                 |
+| -----: | ----------------------- | ----------------------- |
+|      1 | `1 · library`           | `10 · food-marketplace` |
+|      2 | `2 · pizza-delivery`    | `9 · hotel`             |
+|      3 | `3 · gym`               | `8 · event-tickets`     |
+|      4 | `4 · cinema`            | `7 · car-workshop`      |
+|      5 | `5 · bike-rental`       | `6 · vet-clinic`        |
+|      6 | `6 · vet-clinic`        | `5 · bike-rental`       |
+|      7 | `7 · car-workshop`      | `4 · cinema`            |
+|      8 | `8 · event-tickets`     | `3 · gym`               |
+|      9 | `9 · hotel`             | `2 · pizza-delivery`    |
+|     10 | `10 · food-marketplace` | `1 · library`           |
+
+In A1 und A3 teilt ihr euch in zwei Teilteams und bearbeitet beide Themen parallel. Danach arbeitet ihr nur mit Thema A weiter. Die Ordner `museum` und `parcel-delivery` sind Reserveübungen.
 
 ## Domänen und Hauptentitäten
 
-| Ordner             | Domäne             | Hauptentität |
-| ------------------ | ------------------ | ------------ |
-| `bike-rental`      | Fahrradverleih     | `Station`    |
-| `car-workshop`     | Kfz-Werkstatt      | `Part`       |
-| `cinema`           | Kino               | `Movie`      |
-| `event-tickets`    | Ticketplattform    | `Venue`      |
-| `food-marketplace` | Liefermarktplatz   | `Restaurant` |
-| `gym`              | Fitnessstudio      | `Course`     |
-| `hotel`            | Hotel              | `RoomType`   |
-| `library`          | Bibliothek         | `Book`       |
-| `pizza-delivery`   | Pizza-Lieferdienst | `Pizza`      |
-| `vet-clinic`       | Tierarztpraxis     | `Medication` |
+| Nr. | Ordner             | Domäne             | Hauptentität | Einsatz |
+| --- | ------------------ | ------------------ | ------------ | ------- |
+| 1   | `library`          | Bibliothek         | `Book`       | regulär |
+| 2   | `pizza-delivery`   | Pizza-Lieferdienst | `Pizza`      | regulär |
+| 3   | `gym`              | Fitnessstudio      | `Course`     | regulär |
+| 4   | `cinema`           | Kino               | `Movie`      | regulär |
+| 5   | `bike-rental`      | Fahrradverleih     | `Station`    | regulär |
+| 6   | `vet-clinic`       | Tierarztpraxis     | `Medication` | regulär |
+| 7   | `car-workshop`     | Kfz-Werkstatt      | `Part`       | regulär |
+| 8   | `event-tickets`    | Ticketplattform    | `Venue`      | regulär |
+| 9   | `hotel`            | Hotel              | `RoomType`   | regulär |
+| 10  | `food-marketplace` | Liefermarktplatz   | `Restaurant` | regulär |
+| R1  | `museum`           | Museum             | `Exhibit`    | Reserve |
+| R2  | `parcel-delivery`  | Paketdienst        | `Parcel`     | Reserve |
 
-`_template` ist die elfte, vollständig ausführbare Vorlage für weitere Gruppen.
+`_template` ist die vollständig ausführbare Vorlage für weitere Themen.
 
 ## Stabile Phasen
 

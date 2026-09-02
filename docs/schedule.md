@@ -1,6 +1,6 @@
 # Verbindlicher Ablauf
 
-Die Aufgaben haben feste Phasenkennungen. Diese Kennungen bleiben gleich, wenn Tag 2 und Tag 3 als gemeinsamer Implementierungsblock stattfinden. Jede Gruppe arbeitet durchgehend in `exercises/<domain>/` und verwendet dieselbe Hauptentität.
+Die Aufgaben haben feste Phasenkennungen. Diese Kennungen bleiben gleich, wenn Tag 2 und Tag 3 als gemeinsamer Implementierungsblock stattfinden. In A1 und A3 bearbeitet jede Gruppe zwei Themen. In allen übrigen Phasen arbeitet sie in `exercises/<thema-a>/` mit derselben Hauptentität.
 
 Jede Aufgabe endet mit einem lauffähigen oder lesbaren Checkpoint. Die Lehrperson kann danach den vorbereiteten Zwischenstand freigeben. Eine Gruppe beginnt die nächste Phase nicht mit einem leeren Projekt.
 
@@ -29,7 +29,7 @@ Jede Aufgabe endet mit einem lauffähigen oder lesbaren Checkpoint. Die Lehrpers
 | 09:55 | 10:10 | A0 Domäne und Hauptentität   | `decks/01-why-abstraction.html` | `exercises/<domain>/a0-domain/`           |      15 |
 | 10:10 | 10:25 | Pause                        | keine                           | keine                                     |      15 |
 | 10:25 | 11:10 | 02 Das ER-Modell             | `decks/02-er-model.html`        | keine                                     |      45 |
-| 11:10 | 11:45 | A1 ER-Modell                 | `decks/02-er-model.html`        | `exercises/<domain>/a1-er-model/`         |      35 |
+| 11:10 | 11:45 | A1 ER-Modell                 | `decks/02-er-model.html`        | beide Themen in `a1-er-model/`            |      35 |
 | 11:45 | 12:00 | Auswertung A1                | `decks/02-er-model.html`        | zwei Entscheidungen vergleichen           |      15 |
 | 12:00 | 12:15 | Puffer                       | keine                           | offene Modellfragen                       |      15 |
 | 12:15 | 13:00 | Mittagspause                 | keine                           | keine                                     |      45 |
@@ -38,7 +38,7 @@ Jede Aufgabe endet mit einem lauffähigen oder lesbaren Checkpoint. Die Lehrpers
 | 13:55 | 14:05 | Auswertung A2                | `decks/03-er-to-tables.html`    | Schlüssel und Zwischentabellen prüfen     |      10 |
 | 14:05 | 14:50 | 04 Normalisierung            | `decks/04-normalization.html`   | keine                                     |      45 |
 | 14:50 | 15:05 | Pause                        | keine                           | keine                                     |      15 |
-| 15:05 | 15:40 | A3 Normalisierung            | `decks/04-normalization.html`   | `exercises/<domain>/a3-normalization/`    |      35 |
+| 15:05 | 15:40 | A3 Normalisierung            | `decks/04-normalization.html`   | beide Themen in `a3-normalization/`       |      35 |
 | 15:40 | 16:00 | Schema-Checkpoint            | `decks/04-normalization.html`   | Ergebnis für B1 sichern                   |      20 |
 
 Tagessumme: 420 Minuten.

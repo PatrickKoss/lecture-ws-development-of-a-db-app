@@ -219,7 +219,7 @@
     white-space: normal;
   }
 
-  .d04-citation {
+  .d04-citation.present {
     display: grid !important;
     grid-template-rows: auto 1fr auto;
     padding: 3rem 5rem !important;
@@ -2912,35 +2912,33 @@
 <section class="exercise-slide">
   <div class="exercise-slide__tag">Übung A3</div>
   <div class="exercise-slide__time">35 min</div>
-  <p class="exercise-slide__task">A3, die flache Tabelle begründet zerlegen</p>
+  <p class="exercise-slide__task">A3, zwei flache Tabellen zerlegen</p>
   <div class="d04-exercise-steps">
     <div class="d04-exercise-step">
-      <span>E</span
-      ><span>Öffnet flache Tabelle und Prüffragen der Gruppe.</span>
+      <span>E</span><span>Teilt euch wieder auf Thema A und Thema B auf.</span>
     </div>
     <div class="d04-exercise-step">
-      <span>K</span
-      ><span>Bestimmt Kandidatenschlüssel und Abhängigkeiten.</span>
+      <span>K</span><span>Bestimmt je Thema Schlüssel und Abhängigkeiten.</span>
     </div>
     <div class="d04-exercise-step">
-      <span>K</span><span>Zerlegt bis 3NF und begründet jeden Schnitt.</span>
+      <span>K</span><span>Zerlegt beide Tabellen bis 3NF.</span>
     </div>
     <div class="d04-exercise-step">
       <span>V</span
-      ><span>Prüft die BCNF-Falle und gleicht mit dem ER-Modell ab.</span>
+      ><span>Tauscht die Ergebnisse und prüft eine Zerlegung.</span>
     </div>
   </div>
   <div class="exercise-slide__deliverable">
-    <strong>Ausgang:</strong> normalization.md mit Abhängigkeiten, 3NF-Tabellen
-    und Begründung
+    <strong>Ausgang:</strong> zwei Dateien mit Abhängigkeiten, 3NF-Tabellen und
+    je einer begründeten Zerlegung
   </div>
   <div class="d04-exercise-path">
-    exercises/&lt;domain&gt;/a3-normalization/README.md
+    exercises/&lt;thema-a|thema-b&gt;/a3-normalization/README.md
   </div>
   <aside class="notes">
-    Starttest: A2 enthält Primär- und Fremdschlüssel. Nach 25 Minuten kann die
-    Lehrperson einen vorbereiteten 2NF-Zwischenstand freigeben. BCNF bleibt
-    Vertiefung, der prüfbare Kern endet bei 3NF.
+    Thema A nutzt A2. Thema B startet mit der Exportrelation aus
+    functional-dependencies.txt. Nach 25 Minuten tauschen die Teilteams ihre
+    Ergebnisse. BCNF bleibt Vertiefung, der prüfbare Kern endet bei 3NF.
   </aside>
 </section>
 

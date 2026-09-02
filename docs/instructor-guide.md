@@ -1,6 +1,6 @@
 # Leitfaden für die Lehrperson
 
-Dieser Leitfaden ergänzt die Sprecherhinweise in den Decks. Der verbindliche Takt steht in `docs/schedule.md`. Die Übungskarten geben die Fachfälle vor. Ändere ihre Regeln im Unterricht nicht spontan, sonst lassen sich die Ergebnisse der acht Gruppen kaum vergleichen.
+Dieser Leitfaden ergänzt die Sprecherhinweise in den Decks. Der verbindliche Takt steht in `docs/schedule.md`. Die Übungskarten geben die Fachfälle vor. Ändere ihre Regeln im Unterricht nicht spontan, sonst lassen sich die Ergebnisse der zehn Gruppen kaum vergleichen.
 
 ## Vorbereitung
 
@@ -30,18 +30,20 @@ Halte auf dem Lehrrechner zwei VS-Code-Fenster bereit. Eines zeigt das gemeinsam
 
 Trage die Namen zu Beginn in `exercises/README.md` ein. Die feste Ausgangsverteilung ist:
 
-| Gruppe | Domäne           |
-| -----: | ---------------- |
-|      1 | `library`        |
-|      2 | `pizza-delivery` |
-|      3 | `gym`            |
-|      4 | `cinema`         |
-|      5 | `bike-rental`    |
-|      6 | `vet-clinic`     |
-|      7 | `car-workshop`   |
-|      8 | `event-tickets`  |
+| Gruppe | Thema A                 | Thema B                 |
+| -----: | ----------------------- | ----------------------- |
+|      1 | `1 · library`           | `10 · food-marketplace` |
+|      2 | `2 · pizza-delivery`    | `9 · hotel`             |
+|      3 | `3 · gym`               | `8 · event-tickets`     |
+|      4 | `4 · cinema`            | `7 · car-workshop`      |
+|      5 | `5 · bike-rental`       | `6 · vet-clinic`        |
+|      6 | `6 · vet-clinic`        | `5 · bike-rental`       |
+|      7 | `7 · car-workshop`      | `4 · cinema`            |
+|      8 | `8 · event-tickets`     | `3 · gym`               |
+|      9 | `9 · hotel`             | `2 · pizza-delivery`    |
+|     10 | `10 · food-marketplace` | `1 · library`           |
 
-`hotel` und `food-marketplace` bleiben als Ersatz frei. Tausche eine Domäne nur vor A0. Danach baut jeder Arbeitsstand auf dem vorherigen auf.
+In A1 und A3 teilt sich jede Gruppe in zwei Teilteams und bearbeitet beide Themen parallel. Nach A3 arbeitet jede Gruppe nur mit Thema A weiter. `museum` und `parcel-delivery` bleiben als Reserve frei. Tausche ein Thema nur vor A0.
 
 ### Lösungen und Checkpoints
 
@@ -53,27 +55,27 @@ Jede Aufgabe nennt Eingang, Starttest, Kernauftrag, Vertiefung, vorbereiteten Zw
 
 ### Ziel
 
-Die Studierenden kennen Ziel, Arbeitsweise und Tagesstruktur. Sie übernehmen eine Domäne und verstehen, dass sie dieselbe Anwendung drei Tage lang weiterbauen.
+Die Studierenden kennen Ziel, Arbeitsweise und Tagesstruktur. Sie übernehmen zwei Themen für A1 und A3. Danach bauen sie die Anwendung aus Thema A weiter.
 
 ### Leitfragen
 
-| Frage                                                          | Erwartete Antwort                                                                                                                       |
-| -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| "Was ist am Freitag sichtbar, das heute noch nicht existiert?" | Eine laufende REST API mit Datenbank, Validierung und Tests. Es entsteht keine Benutzeroberfläche.                                      |
-| "Warum bleibt eine Gruppe drei Tage bei derselben Domäne?"     | Jede Stufe nutzt dieselben Fachbegriffe und Regeln. Dadurch werden Folgen früher Entscheidungen im Schema, in SQL und im Code sichtbar. |
+| Frage                                                          | Erwartete Antwort                                                                                                                                |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| "Was ist am Freitag sichtbar, das heute noch nicht existiert?" | Eine laufende REST API mit Datenbank, Validierung und Tests. Es entsteht keine Benutzeroberfläche.                                               |
+| "Warum bleibt Thema A nach A3 bestehen?"                       | Jede folgende Stufe nutzt dieselben Fachbegriffe und Regeln. Dadurch werden Folgen früher Entscheidungen im Schema, in SQL und im Code sichtbar. |
 
 ### Häufige Fehler und Steuerung
 
 - Wenn die Gruppe eine Benutzeroberfläche erwartet, zeige die drei Tagesergebnisse `schema.sql`, Java Repository und REST API.
 - Wenn Studierende sofort VS Code öffnen, lasse zuerst die Domäne und eine offene Regel benennen. Code beginnt erst an Tag 2.
 - Wenn "nichts wird benotet" als "Ergebnisse sind egal" verstanden wird, erkläre den Zweck des Debriefs. Die Gruppe muss ihre Entscheidung ausführbar oder lesbar machen.
-- Wenn die Zuordnung stockt, verwende die feste Tabelle aus der Vorbereitung. Die beiden Reservedomänen bleiben frei.
+- Wenn die Zuordnung stockt, verwende die feste Tabelle aus der Vorbereitung. Die beiden Reservethemen bleiben frei.
 
 ### Einstieg und Zuordnung
 
 - Frage nach Apps, die seit dem Aufstehen Daten gespeichert haben.
 - Lasse jede Gruppe ihre Domäne und einen Satz zum Auftrag laut nennen.
-- Prüfe, ob alle acht Gruppen `exercises/<domain>/a0-domain/README.md` geöffnet haben.
+- Prüfe, ob alle zehn Gruppen das A0-README ihres ersten Themas geöffnet haben.
 - Halte fest, dass `exercises/instructor-solutions/` nicht Teil der Teilnehmerausgabe ist.
 
 ### Wenn Zeit fehlt
@@ -136,7 +138,7 @@ Die Studierenden zeichnen Entities, Attributes, Keys, Relationships, Cardinaliti
 
 ### Auswertung A1
 
-- Zwei Gruppen zeigen je eine Beziehung und lesen sie in beiden Richtungen vor.
+- Die Teilteams tauschen zuerst ihre Modelle. Danach zeigen zwei Gruppen je eine strittige Beziehung.
 - Frage, wo eine Beziehung eigene Attribute trägt und warum diese Attribute zu keiner Seite allein gehören.
 - Frage, welche Seite optional ist und welche konkrete Fachregel das begründet.
 - Lasse eine schwache Entität samt identifizierendem Owner erklären.
@@ -204,6 +206,7 @@ Die Studierenden erkennen Insert-, Update- und Delete-Anomalien. Sie leiten Func
 
 ### Auswertung A3
 
+- Die Teilteams tauschen ihre Zerlegungen und prüfen zuerst das jeweils andere Thema.
 - Frage, welche konkrete Operation den ersten Widerspruch erzeugt hat.
 - Lasse eine partielle und eine transitive Functional Dependency nennen.
 - Frage, welche Tatsache vor und nach der Zerlegung nur noch an einem Ort steht.

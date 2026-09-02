@@ -148,12 +148,12 @@
     table-layout: fixed;
     color: var(--color-white);
     font-family: var(--font-mono);
-    font-size: 1.75rem;
+    font-size: 1.3rem;
   }
 
   .reveal .d00-domain-table th,
   .reveal .d00-domain-table td {
-    padding: 1.25rem 1.1rem;
+    padding: 0.68rem 0.85rem;
     border: 1px solid var(--color-line-bright);
     text-align: left;
   }
@@ -172,8 +172,10 @@
   }
 
   .reveal .d00-domain-table th:nth-child(2),
-  .reveal .d00-domain-table td:nth-child(2) {
-    width: 39%;
+  .reveal .d00-domain-table td:nth-child(2),
+  .reveal .d00-domain-table th:nth-child(3),
+  .reveal .d00-domain-table td:nth-child(3) {
+    width: 29%;
   }
 
   .d00-domain-hint {
@@ -183,7 +185,7 @@
     left: 7rem;
     color: var(--color-amber);
     font-family: var(--font-mono);
-    font-size: 1.75rem;
+    font-size: 1.35rem;
     font-weight: 700;
     text-align: center;
   }
@@ -859,65 +861,89 @@
 </section>
 
 <section>
-  <h2 class="slide-title">Welche Domäne gehört euch?</h2>
+  <h2 class="slide-title">Welche Themen gehören euch?</h2>
   <span class="slide-context blue">Gruppen</span>
   <table class="d00-domain-table">
     <thead>
       <tr>
         <th>Gruppe</th>
-        <th>Domäne</th>
+        <th>Thema A</th>
+        <th>Thema B</th>
         <th>Namen</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>1</td>
-        <td>library</td>
+        <td>1 · library</td>
+        <td>10 · food-marketplace</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
         <td>2</td>
-        <td>pizza-delivery</td>
+        <td>2 · pizza-delivery</td>
+        <td>9 · hotel</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
         <td>3</td>
-        <td>gym</td>
+        <td>3 · gym</td>
+        <td>8 · event-tickets</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
         <td>4</td>
-        <td>cinema</td>
+        <td>4 · cinema</td>
+        <td>7 · car-workshop</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
         <td>5</td>
-        <td>bike-rental</td>
+        <td>5 · bike-rental</td>
+        <td>6 · vet-clinic</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
         <td>6</td>
-        <td>vet-clinic</td>
+        <td>6 · vet-clinic</td>
+        <td>5 · bike-rental</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
         <td>7</td>
-        <td>car-workshop</td>
+        <td>7 · car-workshop</td>
+        <td>4 · cinema</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
         <td>8</td>
-        <td>event-tickets</td>
+        <td>8 · event-tickets</td>
+        <td>3 · gym</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>9 · hotel</td>
+        <td>2 · pizza-delivery</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>10 · food-marketplace</td>
+        <td>1 · library</td>
         <td>&nbsp;</td>
       </tr>
     </tbody>
   </table>
   <p class="d00-domain-hint fragment fade-in" data-fragment-index="1">
-    Eine Domäne für alle drei Tage
+    A1 und A3: beide Themen · danach Thema A · Reserve: R1 museum · R2
+    parcel-delivery
   </p>
   <aside class="notes">
-    Tragt eure Namen ein. Die Ersatzdomänen hotel und food-marketplace bleiben
-    heute frei. Eure Aufgaben liegen unter exercises/&lt;domain&gt;/.
+    Tragt eure Namen ein. Für A1 und A3 teilt sich jede Gruppe in zwei
+    Teilteams. Danach arbeitet sie mit Thema A weiter. museum und
+    parcel-delivery bleiben als Reserve frei. Die Aufgaben liegen unter
+    exercises/&lt;domain&gt;/.
   </aside>
 </section>
 

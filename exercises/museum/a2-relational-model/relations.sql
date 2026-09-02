@@ -1,0 +1,3 @@
+-- Lesbare Relationsnotation, noch kein ausführbares SQLite-Schema
+-- exhibits(id PK, inventory_code UK, title, insured_value, gallery_id FK NULL)
+-- TODO(A2): weitere Relationen, PK, FK, UK und NULL/NOT NULL ergänzen.

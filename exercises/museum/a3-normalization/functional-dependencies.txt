@@ -1,0 +1,12 @@
+Ausgangsrelation:
+EXHIBIT_EXPORT(inventory_code, title, insured_value, gallery_name, gallery_floor,
+               artist_name, artist_role, borrower, loan_start, loan_end)
+
+Funktionale Abhängigkeiten:
+TODO(A3)
+
+Anomalie:
+TODO(A3)
+
+Zerlegung bis 3NF:
+TODO(A3)

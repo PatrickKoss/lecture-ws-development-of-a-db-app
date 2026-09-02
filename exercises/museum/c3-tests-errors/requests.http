@@ -1,0 +1,10 @@
+@base = http://localhost:8081
+GET {{base}}/api/exhibits
+
+### gültiger POST
+POST {{base}}/api/exhibits
+Content-Type: application/json
+
+{"inventoryCode": "EX-99", "title": "Testdatensatz", "insuredValue": 1.0}
+
+### TODO(C3): denselben Wert für inventory_code erneut senden und 409 prüfen
