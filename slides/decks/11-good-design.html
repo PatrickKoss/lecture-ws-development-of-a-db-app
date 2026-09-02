@@ -838,9 +838,12 @@
     <text class="d11-label d11-blue" x="480" y="350" text-anchor="middle">
       CreateStudentRequest
     </text>
-    <text class="d11-body" x="480" y="450" text-anchor="middle">firstName</text>
-    <text class="d11-body" x="480" y="515" text-anchor="middle">lastName</text>
-    <text class="d11-body" x="480" y="580" text-anchor="middle">email</text>
+    <text class="d11-body" x="480" y="450" text-anchor="middle">
+      studentNumber
+    </text>
+    <text class="d11-body" x="480" y="515" text-anchor="middle">firstName</text>
+    <text class="d11-body" x="480" y="580" text-anchor="middle">lastName</text>
+    <text class="d11-body" x="480" y="645" text-anchor="middle">email</text>
     <rect
       class="d11-box-blue"
       x="1060"
@@ -856,13 +859,13 @@
       <text class="d11-body d11-amber" x="1440" y="380" text-anchor="middle">
         id
       </text>
-      <text class="d11-body d11-amber" x="1440" y="445" text-anchor="middle">
-        studentNumber
-      </text>
       <text class="d11-body d11-amber" x="1440" y="705" text-anchor="middle">
         enrollmentDate
       </text>
     </g>
+    <text class="d11-body" x="1440" y="445" text-anchor="middle">
+      studentNumber
+    </text>
     <text class="d11-body" x="1440" y="510" text-anchor="middle">
       firstName
     </text>
@@ -872,9 +875,9 @@
       <line
         class="d11-line-blue"
         x1="860"
-        y1="445"
+        y1="450"
         x2="1055"
-        y2="510"
+        y2="445"
         marker-end="url(#d11-dto-arrow)"
       ></line>
       <line
@@ -882,13 +885,21 @@
         x1="860"
         y1="515"
         x2="1055"
-        y2="575"
+        y2="510"
         marker-end="url(#d11-dto-arrow)"
       ></line>
       <line
         class="d11-line-blue"
         x1="860"
         y1="580"
+        x2="1055"
+        y2="575"
+        marker-end="url(#d11-dto-arrow)"
+      ></line>
+      <line
+        class="d11-line-blue"
+        x1="860"
+        y1="645"
         x2="1055"
         y2="640"
         marker-end="url(#d11-dto-arrow)"
@@ -904,35 +915,27 @@
 <section class="code-slide d11-slide d11-code-short">
   <h2 class="slide-title">@Valid stoppt am Rand</h2>
   <div class="code-slide__content">
-    <pre><code class="language-java" data-trim data-line-numbers="1-4|6-7|9-11">public record CreateStudentRequest(
-        @NotBlank(message = "Vorname fehlt")
-        @Size(max = 200, message = "Vorname darf höchstens 200 Zeichen haben")
+    <pre><code class="language-java" data-trim data-line-numbers="1-2|3-4|5">public record CreateStudentRequest(
+        @NotBlank @Size(max = 100)
         String firstName,
-        
-        @NotBlank(message = "Nachname fehlt")
-        String lastName
-) {
-    public CreateStudentUseCase.CreateStudentCommand toCommand() {
-        return new CreateStudentUseCase.CreateStudentCommand(firstName, lastName);
-    }
-}</code></pre>
+        @NotBlank @Size(max = 100)
+        String lastName,
+        @NotBlank @Email String email,
+        @NotBlank @Pattern(regexp = "M[0-9]{7}") String studentNumber) {}</code></pre>
     <div class="code-slide__notes">
       <h3>Hinweis</h3>
       <p>
-        Der Ausschnitt ist auf den Kursvertrag mit
-        <code>firstName</code> angepasst.
+        Die Regeln gehören zur gemeinsamen Vorlage und werden im Kurs begründet.
       </p>
     </div>
   </div>
   <div class="d11-source">
-    Für den Kursvertrag angepasster Ausschnitt aus
-    java/rest-simple/src/main/java/com/example/restsimple/adapter/in/dto/CreateStudentRequest.java
+    common-example/backend/src/main/java/com/example/restsimple/dto/CreateStudentRequest.java
   </div>
   <aside class="notes">
-    Bean Validation prüft Form und einfache Grenzen vor dem Use Case. Der
-    Ausschnitt ist auf `firstName` angepasst. Die Übungsimplementierung
-    verwendet außerdem `lastName`, `email`, `studentNumber` und
-    `enrollmentDate`.
+    Bean Validation prüft Form und einfache Grenzen vor dem Service. Wir
+    begründen jede Regel am gemeinsamen Student-Vertrag. Das vom Server gesetzte
+    enrollmentDate gehört nicht in den Request.
   </aside>
 </section>
 
@@ -1399,7 +1402,7 @@ ResponseEntity&lt;ErrorResponse&gt; notFound(ResourceNotFoundException ex) {
         rx="10"
       ></rect>
       <text class="d11-small d11-blue" x="590" y="278" text-anchor="middle">
-        createStudent
+        create
       </text>
     </g>
     <g class="fragment fade-in" data-fragment-index="2">
@@ -1441,7 +1444,7 @@ ResponseEntity&lt;ErrorResponse&gt; notFound(ResourceNotFoundException ex) {
         rx="10"
       ></rect>
       <text class="d11-small d11-blue" x="1300" y="278" text-anchor="middle">
-        StudentJpaEntity
+        JdbcStudentRepository
       </text>
     </g>
     <g class="fragment fade-in" data-fragment-index="4">
@@ -1475,7 +1478,7 @@ ResponseEntity&lt;ErrorResponse&gt; notFound(ResourceNotFoundException ex) {
         rx="10"
       ></rect>
       <text class="d11-label d11-amber" x="960" y="530" text-anchor="middle">
-        name · lastName · mnr · createdOn
+        Java: camelCase
       </text>
     </g>
     <g class="fragment fade-up" data-fragment-index="6">
@@ -1517,9 +1520,9 @@ ResponseEntity&lt;ErrorResponse&gt; notFound(ResourceNotFoundException ex) {
     </g>
   </svg>
   <aside class="notes">
-    Ein Begriff pro Ding reduziert Übersetzungsfehler. Das größere Repo-Beispiel
-    hat andere Namen und bleibt im Code unverändert. Die Übungsdecks verwenden
-    den Kursstandard.
+    Ein Begriff pro Ding reduziert Übersetzungsfehler. Java nutzt camelCase, SQL
+    snake_case. Abgesehen von dieser Schreibweise bleiben die Namen im
+    gemeinsamen Beispiel gleich.
   </aside>
 </section>
 

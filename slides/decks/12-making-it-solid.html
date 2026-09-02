@@ -781,11 +781,10 @@
 <section class="code-slide d12-code-short">
   <h2 class="slide-title">Ein MockMvc-Test</h2>
   <div class="code-slide__content">
-    <pre><code class="language-java" data-trim data-ln-start-from="70" data-line-numbers="70|71|72-74">mockMvc.perform(get("/api/students"))
+    <pre><code class="language-java" data-trim data-line-numbers="1|2|3-4">mockMvc.perform(get("/api/students"))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.students.length()").value(2))
-        .andExpect(jsonPath("$.students[0].firstName").value("John"))
-        .andExpect(jsonPath("$.students[1].firstName").value("Jane"));</code></pre>
+        .andExpect(jsonPath("$[0].firstName").value("Ada"))
+        .andExpect(jsonPath("$[1].firstName").value("Alan"));</code></pre>
     <div class="code-slide__notes">
       <h3>Hinweis</h3>
       <p class="d12-code-note">
@@ -794,12 +793,12 @@
     </div>
   </div>
   <div class="d12-code-source">
-    Für den Kursvertrag angepasster Ausschnitt aus
-    java/rest-simple/src/test/java/com/example/restsimple/adapter/in/web/StudentControllerTest.java
+    common-example/backend/src/test/java/com/example/restsimple/controller/StudentControllerTest.java
   </div>
   <aside class="notes">
-    Der Mock liefert vorher zwei Students. Der Test prüft Status, Länge und die
-    beiden Vornamen im vereinbarten Feld `firstName`.
+    Der Mock liefert vorher zwei Students. Der Test prüft Status und die beiden
+    Vornamen im vereinbarten Feld `firstName`. Die Collection ist ein
+    JSON-Array.
   </aside>
 </section>
 
@@ -808,7 +807,7 @@
   <svg
     class="slide-svg d12-svg"
     viewBox="0 0 1920 1080"
-    aria-label="StudentService mit drei Port-Mocks"
+    aria-label="StudentService mit einem Repository-Mock"
   >
     <defs>
       <marker
@@ -852,7 +851,7 @@
       height="140"
       rx="10"
     ></rect>
-    <text x="295" y="315" text-anchor="middle">LoadStudentPort Mock</text>
+    <text x="295" y="315" text-anchor="middle">findAll / findById</text>
     <rect
       class="d12-box"
       x="100"
@@ -861,7 +860,7 @@
       height="140"
       rx="10"
     ></rect>
-    <text x="295" y="735" text-anchor="middle">DeleteStudentPort Mock</text>
+    <text x="295" y="735" text-anchor="middle">existsBy…</text>
     <rect
       class="d12-box"
       x="1430"
@@ -870,7 +869,7 @@
       height="140"
       rx="10"
     ></rect>
-    <text x="1625" y="525" text-anchor="middle">SaveStudentPort Mock</text>
+    <text x="1625" y="525" text-anchor="middle">insert</text>
     <g class="fragment fade-in" data-fragment-index="1">
       <path
         class="d12-line"
@@ -928,34 +927,30 @@
   </svg>
   <div class="slide-caption">Fachfall ohne HTTP und Datenbank</div>
   <aside class="notes">
-    Mockito kontrolliert Antworten der Ports. Wir testen die Entscheidung im
-    Service. Ein Test pro sinnvoller Regel ist wertvoller als einer pro privater
-    Methode.
+    Mockito kontrolliert die Antworten des StudentRepository. Wir testen die
+    Entscheidung im Service. Ein Test pro sinnvoller Regel ist wertvoller als
+    einer pro privater Methode.
   </aside>
 </section>
 
 <section class="code-slide d12-code-medium">
   <h2 class="slide-title">Ein Mockito-Test</h2>
   <div class="code-slide__content code-slide__content--wide">
-    <pre><code class="language-java" data-trim data-ln-start-from="51" data-line-numbers="51|54|57-59|60">when(saveStudentPort.saveStudent(any(Student.class))).thenReturn(expectedStudent);
+    <pre><code class="language-java" data-trim data-line-numbers="1|4|7-8">when(repository.insert(any(Student.class))).thenReturn(saved);
 
 // When
-Student result = studentService.createStudent(command);
+Student result = service.create(request);
 
 // Then
-assertNotNull(result);
-assertEquals("John", result.getFirstName());
-assertEquals("Doe", result.getLastName());
-verify(saveStudentPort).saveStudent(any(Student.class));</code></pre>
+assertThat(result).isEqualTo(saved);
+verify(repository).insert(any(Student.class));</code></pre>
   </div>
   <div class="d12-code-source">
-    java/rest-simple/src/test/java/com/example/restsimple/application/service/StudentServiceTest.java,
-    Zeilen 51 bis 60
+    common-example/backend/src/test/java/com/example/restsimple/service/StudentServiceTest.java
   </div>
   <aside class="notes">
-    Stub, Aufruf, zwei Zustandsprüfungen und eine Interaktionsprüfung sind
-    sichtbar. Wir prüfen nur die Interaktion, die zum Fachfall gehört. Der
-    Ausschnitt verwendet den Getter aus dem Kursmodell.
+    Stub, Aufruf, Zustandsprüfung und eine Interaktionsprüfung sind sichtbar.
+    Wir prüfen nur die Interaktion, die zum Fachfall gehört.
   </aside>
 </section>
 
@@ -1127,7 +1122,7 @@ try {
     </div>
   </div>
   <div class="d12-code-source">
-    java/rest-simple/src/main/java/com/example/restsimple/config/LoggingFilter.java,
+    common-example/advanced-backend/src/main/java/com/example/restsimple/config/LoggingFilter.java,
     Zeilen 30 bis 59
   </div>
   <aside class="notes">
@@ -1233,8 +1228,8 @@ try {
     </g>
   </svg>
   <div class="slide-caption">
-    java/rest-simple-exercise/src/main/resources/application.properties, Zeilen
-    43 bis 48
+    common-example/backend/src/main/resources/application.properties, Zeilen 43
+    bis 48
   </div>
   <aside class="notes">
     Die Exercise-Konfiguration exponiert genau health, info, metrics und
@@ -1603,12 +1598,13 @@ try {
         rx="10"
       ></rect>
       <text class="d12-amber" x="1525" y="723" text-anchor="middle">
-        Volume students.db
+        Volume university.db
       </text>
     </g>
   </svg>
   <div class="slide-caption">
-    Der vorhandene java/rest-simple/Dockerfile baut die VS-Code-Lernumgebung.
+    Der vorhandene common-example/advanced-backend/Dockerfile baut die
+    VS-Code-Lernumgebung.
   </div>
   <aside class="notes">
     Das Diagramm erklärt Verpackung, es zeigt keinen vorhandenen

@@ -1,6 +1,6 @@
-# Development of a database application
+# Entwicklung einer Datenbankanwendung
 
-Der Kurs entwickelt pro Gruppe eine kleine Datenbankanwendung. Für ER-Modell und Normalisierung vergleicht jede Gruppe zwei Themen. Danach führt sie die Hauptentität aus dem zuerst genannten Thema durch Tabellen, SQL, JDBC, Repository und REST API.
+Der Kurs entwickelt eine Hochschulverwaltung als gemeinsames Beispiel. Studierende, Lehrende, Lehrveranstaltungen und Belegungen bleiben vom ersten Fachsatz bis zum Frontend erhalten. Die Gruppenübungen wenden dieselben Schritte auf eigene Themen an.
 
 ## Voraussetzungen
 
@@ -13,7 +13,7 @@ Der Kurs entwickelt pro Gruppe eine kleine Datenbankanwendung. Für ER-Modell un
 
 - [`slides/`](slides/): Reveal.js-Folien und PDF-Export
 - [`exercises/`](exercises/): gruppenspezifische Aufgaben und Codegerüste
-- [`java/`](java/): gemeinsame Beispiele und Referenzprojekte
+- [`common-example/`](common-example/): gemeinsames Hochschulbeispiel mit Java-Backend und Frontend
 - [`docs/schedule.md`](docs/schedule.md): Ablauf und Phasenkennungen
 - [`docs/instructor-guide.md`](docs/instructor-guide.md): Hinweise für die Lehrperson
 
@@ -34,11 +34,12 @@ cd exercises/library
 
 Die Aufgaben heißen A0 bis C3. Jeder Aufgabenordner nennt den benötigten Eingang, den Kernauftrag, Erweiterungen und einen Prüfbefehl. Die vollständigen Lösungen liegen getrennt unter `exercises/instructor-solutions/` und gehören nicht zur Teilnehmerausgabe.
 
-Vor dem Kurs können Lehrpersonen alle gemeinsamen Projekte prüfen:
+Vor dem Kurs können Lehrpersonen das gemeinsame Beispiel prüfen:
 
 ```sh
-make -C java build-all
-make -C java test-all
+make -C common-example build-all
+make -C common-example test-all
+make -C common-example frontend-test
 make -C slides lint
 ```
 

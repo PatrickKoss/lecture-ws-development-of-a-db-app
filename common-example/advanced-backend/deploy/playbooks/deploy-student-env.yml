@@ -1,0 +1,472 @@
+---
+- name: Deploy Student Development Environment
+  hosts: student_servers
+  become: yes
+  vars_files:
+    - ../vars/main.yml
+  
+  pre_tasks:
+    - name: Load or generate student credentials
+      include_tasks: ../scripts/manage_credentials.yml
+
+  tasks:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install required packages
+      apt:
+        name:
+          - docker.io
+          - docker-compose
+          - nginx
+          - apache2-utils
+          - git
+          - python3-passlib
+          - snapd
+          - dnsutils
+        state: present
+
+    - name: Install certbot via snap
+      community.general.snap:
+        name: certbot
+        classic: yes
+      when: enable_ssl | default(false)
+
+    - name: Trust certbot plugins with root (snap)
+      shell: snap set certbot trust-plugin-with-root=ok
+      when: enable_ssl | default(false) and (ssl_use_dns_challenge | default(false))
+      changed_when: false
+
+    - name: Install certbot Cloudflare DNS plugin (snap)
+      community.general.snap:
+        name: certbot-dns-cloudflare
+      when: enable_ssl | default(false) and (ssl_use_dns_challenge | default(false))
+
+    # When using DNS-01, ensure Cloudflare is authoritative for the zone
+    - name: Check authoritative NS for domain
+      shell: dig +short NS {{ domain_name }}
+      register: ns_check
+      changed_when: false
+      when: enable_ssl | default(false) and (ssl_use_dns_challenge | default(false))
+
+    - name: Fail if Cloudflare is not authoritative for the zone
+      fail:
+        msg: |
+          DNS-01 via Cloudflare requires the domain's authoritative NS to be Cloudflare.
+          Current NS: {{ ns_check.stdout_lines | default([]) }}
+          Please change the nameservers at your registrar (Strato) to the Cloudflare-provided NS
+          and wait for propagation before re-running.
+      when: enable_ssl | default(false) and (ssl_use_dns_challenge | default(false)) and (not (ns_check.stdout | regex_search('cloudflare\.com')))
+
+    - name: Create certbot nginx plugin symlink
+      file:
+        src: /snap/bin/certbot
+        dest: /usr/bin/certbot
+        state: link
+      when: enable_ssl | default(false)
+
+    - name: Start and enable Docker
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Check Docker Compose version
+      shell: docker-compose --version
+      register: compose_version
+      changed_when: false
+
+    - name: Add ansible user to docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+
+    - name: Create base directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - /opt/student-env
+        - /opt/student-env/nginx
+        - /opt/student-env/students
+        - /var/log/nginx
+
+    - name: Check if student repositories exist
+      stat:
+        path: "/opt/student-env/students/student{{ item }}"
+      register: student_repo_exists
+      loop: "{{ range(1, student_count + 1) | list }}"
+
+    - name: Clone repository for new students
+      git:
+        repo: "{{ repository_url }}"
+        dest: "/opt/student-env/students/student{{ item }}"
+        version: "{{ repository_branch | default('main') }}"
+        force: yes
+      loop: "{{ range(1, student_count + 1) | list }}"
+      when: not student_repo_exists.results[item - 1].stat.exists
+      register: git_clone_result
+
+    - name: Configure Git to trust student directories
+      shell: git config --global --add safe.directory "/opt/student-env/students/student{{ item }}"
+      loop: "{{ range(1, student_count + 1) | list }}"
+      changed_when: false
+
+    - name: Get current commit hash before pull for existing repositories
+      shell: git -C "/opt/student-env/students/student{{ item }}" rev-parse HEAD
+      register: current_commit_hash
+      loop: "{{ range(1, student_count + 1) | list }}"
+      when: student_repo_exists.results[item - 1].stat.exists
+      changed_when: false
+      failed_when: false
+
+    - name: Pull latest changes for existing student repositories
+      git:
+        repo: "{{ repository_url }}"
+        dest: "/opt/student-env/students/student{{ item }}"
+        version: "{{ repository_branch | default('main') }}"
+        force: yes
+      loop: "{{ range(1, student_count + 1) | list }}"
+      when: student_repo_exists.results[item - 1].stat.exists
+      register: git_pull_result
+
+    - name: Get new commit hash after pull
+      shell: git -C "/opt/student-env/students/student{{ item }}" rev-parse HEAD
+      register: new_commit_hash
+      loop: "{{ range(1, student_count + 1) | list }}"
+      when: student_repo_exists.results[item - 1].stat.exists
+      changed_when: false
+      failed_when: false
+
+    - name: Determine which students need container rebuild
+      set_fact:
+        students_need_rebuild: "{{ students_need_rebuild | default([]) + [item] }}"
+      loop: "{{ range(1, student_count + 1) | list }}"
+      when: >
+        (git_clone_result is defined and git_clone_result.results[item - 1] is defined and git_clone_result.results[item - 1].changed) or
+        (current_commit_hash is defined and new_commit_hash is defined and 
+         current_commit_hash.results[item - 1] is defined and new_commit_hash.results[item - 1] is defined and
+         current_commit_hash.results[item - 1].stdout != new_commit_hash.results[item - 1].stdout)
+
+    - name: Set ownership of student directories
+      file:
+        path: "/opt/student-env/students/student{{ item }}"
+        owner: "1000"
+        group: "1000"
+        recurse: yes
+      loop: "{{ range(1, student_count + 1) | list }}"
+
+    - name: Generate nginx htpasswd files for each student
+      htpasswd:
+        path: "/opt/student-env/nginx/student{{ item }}.htpasswd"
+        name: "{{ student_credentials[item - 1].username }}"
+        password: "{{ student_credentials[item - 1].password }}"
+        mode: '0644'
+      loop: "{{ range(1, student_count + 1) | list }}"
+
+    - name: Create nginx configuration
+      template:
+        src: ../templates/nginx.conf.j2
+        dest: /opt/student-env/nginx/nginx.conf
+        mode: '0644'
+      notify: restart nginx
+
+    - name: Create docker-compose file
+      template:
+        src: ../templates/docker-compose.yml.j2
+        dest: /opt/student-env/docker-compose.yml
+        mode: '0644'
+
+    - name: Copy nginx configuration to system
+      copy:
+        src: /opt/student-env/nginx/nginx.conf
+        dest: /etc/nginx/sites-available/student-env
+        remote_src: yes
+      notify: restart nginx
+
+    - name: Enable nginx site
+      file:
+        src: /etc/nginx/sites-available/student-env
+        dest: /etc/nginx/sites-enabled/student-env
+        state: link
+      notify: restart nginx
+
+    - name: Remove default nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: restart nginx
+
+    - name: Create webroot directory for Let's Encrypt challenges
+      file:
+        path: /var/www/html
+        state: directory
+        mode: '0755'
+      when: enable_ssl | default(false) and not (ssl_use_dns_challenge | default(false))
+
+    - name: Create temporary HTTP-only nginx configuration for certificate generation
+      template:
+        src: ../templates/nginx-http-only.conf.j2
+        dest: /opt/student-env/nginx/nginx-http-only.conf
+        mode: '0644'
+      when: enable_ssl | default(false) and not (ssl_use_dns_challenge | default(false))
+
+    - name: Copy HTTP-only nginx configuration to system
+      copy:
+        src: /opt/student-env/nginx/nginx-http-only.conf
+        dest: /etc/nginx/sites-available/student-env
+        remote_src: yes
+      when: enable_ssl | default(false) and not (ssl_use_dns_challenge | default(false))
+
+    - name: Test HTTP-only nginx configuration
+      shell: nginx -t
+      when: enable_ssl | default(false) and not (ssl_use_dns_challenge | default(false))
+
+    - name: Start nginx with HTTP-only configuration
+      systemd:
+        name: nginx
+        state: restarted
+        enabled: yes
+      when: enable_ssl | default(false) and not (ssl_use_dns_challenge | default(false))
+
+    - name: Wait for nginx to be ready
+      wait_for:
+        port: 80
+        delay: 2
+      when: enable_ssl | default(false) and not (ssl_use_dns_challenge | default(false))
+
+    - name: Remove any existing certificates with wrong names (legacy cleanup)
+      shell: |
+        certbot delete --cert-name student{{ item }}.vscode.{{ domain_name }} --non-interactive || true
+        certbot delete --cert-name student{{ item }}.api.{{ domain_name }} --non-interactive || true
+        certbot delete --cert-name student{{ item }}.{{ domain_name }} --non-interactive || true
+        certbot delete --cert-name wildcard.{{ domain_name }} --non-interactive || true
+      loop: "{{ range(1, student_count + 1) | list }}"
+      when: enable_ssl | default(false)
+      failed_when: false
+
+    - name: Generate individual SSL certificates for vscode domains using webroot (HTTP-01 challenge)
+      shell: |
+        certbot certonly --webroot -w /var/www/html --agree-tos --email {{ ssl_email }} --non-interactive --key-type rsa \
+        --cert-name student{{ item }}.vscode.{{ domain_name }} \
+        -d student{{ item }}.vscode.{{ domain_name }}
+      args:
+        creates: "/etc/letsencrypt/live/student{{ item }}.vscode.{{ domain_name }}/fullchain.pem"
+      loop: "{{ range(1, student_count + 1) | list }}"
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['individual', 'mixed'] and not (ssl_use_dns_challenge | default(false))
+      register: ssl_cert_individual_result
+
+    # DNS-01 wildcard issuance via Cloudflare
+    - name: Create directory for certbot DNS credentials
+      file:
+        path: /root/.secrets/certbot
+        state: directory
+        mode: '0700'
+      when: enable_ssl | default(false) and (ssl_use_dns_challenge | default(false))
+
+    - name: Write Cloudflare API token for certbot
+      copy:
+        dest: /root/.secrets/certbot/cloudflare.ini
+        content: |
+          dns_cloudflare_api_token = {{ cloudflare_api_token }}
+        mode: '0600'
+      when: enable_ssl | default(false) and (ssl_use_dns_challenge | default(false))
+
+    - name: Issue wildcard certificate for *.vscode.patrick-koss.de (DNS-01)
+      shell: |
+        certbot certonly --dns-cloudflare \
+          --dns-cloudflare-credentials /root/.secrets/certbot/cloudflare.ini \
+          --dns-cloudflare-propagation-seconds {{ ssl_dns_propagation_seconds | default(60) }} \
+          --agree-tos --email {{ ssl_email }} --non-interactive --key-type rsa \
+          --cert-name {{ wildcard_vscode_cert_name }} \
+          -d "*.vscode.{{ domain_name }}"
+      args:
+        creates: "/etc/letsencrypt/live/{{ wildcard_vscode_cert_name }}/fullchain.pem"
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['wildcard', 'mixed'] and (ssl_use_dns_challenge | default(false))
+      register: dns_wildcard_vscode_cert
+
+    - name: Issue wildcard certificate for *.api.patrick-koss.de (DNS-01)
+      shell: |
+        certbot certonly --dns-cloudflare \
+          --dns-cloudflare-credentials /root/.secrets/certbot/cloudflare.ini \
+          --dns-cloudflare-propagation-seconds {{ ssl_dns_propagation_seconds | default(60) }} \
+          --agree-tos --email {{ ssl_email }} --non-interactive --key-type rsa \
+          --cert-name {{ wildcard_api_cert_name }} \
+          -d "*.api.{{ domain_name }}"
+      args:
+        creates: "/etc/letsencrypt/live/{{ wildcard_api_cert_name }}/fullchain.pem"
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['wildcard', 'mixed'] and (ssl_use_dns_challenge | default(false))
+      register: dns_wildcard_api_cert
+
+    - name: Check if wildcard certificates exist
+      stat:
+        path: "/etc/letsencrypt/live/{{ item }}/fullchain.pem"
+      register: wildcard_certs_exist
+      loop:
+        - "{{ wildcard_vscode_cert_name }}"
+        - "{{ wildcard_api_cert_name }}"
+      when: enable_ssl | default(false)
+
+    - name: Set wildcard certificate usage facts
+      set_fact:
+        use_vscode_wildcard_cert: "{{ (wildcard_certs_exist.results[0].stat is defined and wildcard_certs_exist.results[0].stat.exists) }}"
+        use_api_wildcard_cert: "{{ (wildcard_certs_exist.results[1].stat is defined and wildcard_certs_exist.results[1].stat.exists) }}"
+      when: enable_ssl | default(false) and wildcard_certs_exist is defined
+
+    - name: Verify individual SSL certificates are valid
+      shell: |
+        openssl x509 -in /etc/letsencrypt/live/student{{ item }}.vscode.{{ domain_name }}/fullchain.pem -text -noout | grep -E "(Subject:|Not After|DNS:)"
+      loop: "{{ range(1, student_count + 1) | list }}"
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['individual', 'mixed']
+      register: individual_cert_info
+      failed_when: false
+      
+    - name: Display individual certificate information
+      debug:
+        msg: "Certificate info for student{{ item }}.vscode: {{ (individual_cert_info.results[item-1].stdout_lines | default([])) | join(' ') if (individual_cert_info.results | default([])) | length >= item else 'Certificate check skipped or failed' }}"
+      loop: "{{ range(1, student_count + 1) | list }}"
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['individual', 'mixed'] and individual_cert_info is defined
+
+    - name: Verify wildcard SSL certificates are valid
+      shell: |
+        openssl x509 -in /etc/letsencrypt/live/{{ item }}/fullchain.pem -text -noout | grep -E "(Subject:|Not After|DNS:)"
+      loop:
+        - "{{ wildcard_vscode_cert_name }}"
+        - "{{ wildcard_api_cert_name }}"
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['wildcard', 'mixed']
+      register: wildcard_certs_info
+      failed_when: false
+
+    - name: Display wildcard certificate information
+      debug:
+        msg: "{{ item.item }} certificate info: {{ item.stdout_lines if item.stdout_lines else 'Certificate check failed' }}"
+      loop: "{{ wildcard_certs_info.results | default([]) }}"
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['wildcard', 'mixed'] and wildcard_certs_info is defined
+
+    - name: Set up SSL certificate renewal (webroot for individual certs)
+      cron:
+        name: "Renew Let's Encrypt individual certificates"
+        minute: "0"
+        hour: "2"
+        job: "/usr/bin/certbot renew --webroot --webroot-path=/var/www/html --quiet && systemctl reload nginx"
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['individual', 'mixed']
+
+    - name: Set up SSL certificate renewal (DNS-01 for wildcard certs)
+      cron:
+        name: "Renew Let's Encrypt wildcard certificates"
+        minute: "15"
+        hour: "2"
+        job: "/usr/bin/certbot renew --quiet && systemctl reload nginx"
+      when: enable_ssl | default(false) and (ssl_cert_strategy | default('wildcard')) in ['wildcard', 'mixed']
+
+    - name: Update nginx configuration with SSL
+      template:
+        src: ../templates/nginx.conf.j2
+        dest: /opt/student-env/nginx/nginx.conf
+        mode: '0644'
+      notify: restart nginx
+      when: enable_ssl | default(false)
+
+    - name: Copy updated nginx configuration to system
+      copy:
+        src: /opt/student-env/nginx/nginx.conf
+        dest: /etc/nginx/sites-available/student-env
+        remote_src: yes
+      notify: restart nginx
+      when: enable_ssl | default(false)
+
+    - name: Test nginx configuration (SSL)
+      shell: nginx -t
+      when: enable_ssl | default(false)
+
+    - name: Clean up old Docker image if exists
+      shell: |
+        docker rmi student-vscode:latest || true
+      when: students_need_rebuild is defined and students_need_rebuild | length > 0
+      ignore_errors: yes
+
+    - name: Build Docker image (initial or when students need rebuild)
+      shell: |
+        cd /opt/student-env/students/student1/common-example/advanced-backend
+        docker build -t student-vscode:latest --build-arg SERVER_PORT=8081 .
+      register: docker_build_result
+
+    - name: Stop containers that need rebuild
+      shell: |
+        cd /opt/student-env
+        docker-compose stop student{{ item }}-vscode
+        docker-compose rm -f student{{ item }}-vscode
+      loop: "{{ students_need_rebuild | default([]) }}"
+      when: students_need_rebuild is defined and students_need_rebuild | length > 0
+      ignore_errors: yes
+
+    - name: Stop all existing student containers
+      shell: |
+        cd /opt/student-env
+        docker-compose down -v --remove-orphans || true
+      ignore_errors: yes
+
+    - name: Force remove all student containers
+      shell: |
+        docker ps -aq --filter "name=student*-vscode" | xargs -r docker rm -f || true
+      ignore_errors: yes
+
+    - name: Clean up dangling volumes
+      shell: |
+        docker volume ls -q --filter "name=student*" | xargs -r docker volume rm -f || true
+      ignore_errors: yes
+
+    - name: Prune Docker system to clean corrupted data
+      shell: |
+        docker system prune -f --volumes || true
+      ignore_errors: yes
+
+    - name: Verify image exists and rebuild if needed
+      shell: |
+        docker images | grep -q "student-vscode.*latest" || \
+        (cd /opt/student-env/students/student1/common-example/advanced-backend && \
+         docker build -t student-vscode:latest --build-arg SERVER_PORT=8081 .)
+      ignore_errors: no
+
+    - name: Start student containers fresh
+      shell: |
+        cd /opt/student-env
+        docker-compose up -d
+      register: docker_compose_result
+      failed_when: docker_compose_result.rc != 0
+
+    - name: Display rebuild information
+      debug:
+        msg: |
+          Repository update summary:
+          - Students that were rebuilt: {{ students_need_rebuild | default([]) | join(', ') if students_need_rebuild is defined and students_need_rebuild | length > 0 else 'None' }}
+          - Total students: {{ student_count }}
+      when: students_need_rebuild is defined
+
+    - name: Save credentials to local file
+      delegate_to: localhost
+      copy:
+        content: |
+          # Student Credentials for {{ inventory_hostname }}
+          # Generated on {{ ansible_date_time.iso8601 }}
+          
+          {% for student in student_credentials %}
+          Student {{ loop.index }}:
+            Username: {{ student.username }}
+            Password: {{ student.password }}
+            VSCode URL: https://student{{ loop.index }}.vscode.{{ domain_name }}
+            API URL: https://student{{ loop.index }}.api.{{ domain_name }}
+          
+          {% endfor %}
+        dest: "./student-credentials-{{ inventory_hostname }}.txt"
+        mode: '0600'
+
+  handlers:
+    - name: restart nginx
+      systemd:
+        name: nginx
+        state: restarted

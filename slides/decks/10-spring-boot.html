@@ -560,26 +560,26 @@
 </section>
 
 <section>
-  <h2 class="slide-title">Der Stand aus B4 kommt mit</h2>
-  <div class="slide-context amber">Übergabe statt Neustart</div>
+  <h2 class="slide-title">Vorbereitet und gemeinsam geschrieben</h2>
+  <div class="slide-context amber">Spring-Vorlage</div>
   <div class="d10-handoff">
     <div class="d10-handoff__card">
-      <strong>1 · Migration</strong>
-      <span><code>V1__schema.sql</code> und Seed-Daten übernehmen</span>
+      <strong>Vorbereitet</strong>
+      <span>Controller, JDBC-Adapter, Fehlerformat und CORS</span>
     </div>
     <div class="d10-handoff__card">
-      <strong>2 · Repository</strong>
-      <span>Interface, JDBC-Implementierung und Row Mapping kopieren</span>
+      <strong>Gemeinsam</strong>
+      <span>Flyway-Migrationen und DTO-Vertrag schreiben</span>
     </div>
     <div class="d10-handoff__card">
-      <strong>3 · Starttest</strong>
-      <span>vorhandenen Datensatz mit <code>findById</code> lesen</span>
+      <strong>Gemeinsam</strong>
+      <span><code>StudentService</code> für GET und POST implementieren</span>
     </div>
   </div>
   <aside class="notes">
-    Der Spring-Starter setzt auf dem B4-Stand auf. Erst wenn Migration und
-    Repository denselben Seed-Datensatz lesen, ergänzen wir den Controller.
-    Damit bleibt der Datenzugriff sichtbar und muss nicht neu erfunden werden.
+    Wir öffnen kein leeres Projekt. Die Infrastruktur kompiliert bereits. Drei
+    klar markierte Stellen verbinden den SQL-Stand mit dem Frontend:
+    Migrationen, DTOs und Service.
   </aside>
 </section>
 
@@ -829,7 +829,7 @@ public class DemoApplication {
 }</code></pre>
   </div>
   <div class="slide-caption d10-source">
-    java/rest-simple-exercise/src/main/java/com/example/restsimple/DemoApplication.java
+    common-example/backend/src/main/java/com/example/restsimple/DemoApplication.java
     · Zeilen 6 bis 13 · Leerzeilen gekürzt
   </div>
   <aside class="notes">
@@ -898,28 +898,20 @@ public class DemoApplication {
   <h2 class="slide-title">Ein Health-Endpoint</h2>
   <div class="slide-context blue">GET /health</div>
   <div class="code-slide__content code-slide__content--wide">
-    <pre><code class="language-java" data-trim data-ln-start-from="17" data-line-numbers="17|18-22|23-29">@GetMapping("/health")
-@Operation(
-    summary = "Health check endpoint", 
-    description = "Returns the health status of the student service"
-)
-@ApiResponse(responseCode = "200", description = "Service is healthy")
-public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; health() {
-    return ResponseEntity.ok(Map.of(
-        "status", "UP",
-        "service", "student-service",
-        "timestamp", LocalDateTime.now()
-    ));
+    <pre><code class="language-java" data-trim data-ln-start-from="49" data-line-numbers="49|50|51-53">@GetMapping("/health")
+@Operation(summary = "Einfacher Health Check für die erste Inbetriebnahme")
+public Map&lt;String, String&gt; health() {
+    return Map.of("status", "UP", "service", "university-backend");
 }</code></pre>
   </div>
   <div class="slide-caption d10-source">
-    java/rest-simple-exercise/src/main/java/com/example/restsimple/controller/StudentController.java
-    · Zeilen 17 bis 29
+    common-example/backend/src/main/java/com/example/restsimple/controller/StudentController.java
+    · Zeilen 49 bis 53
   </div>
   <aside class="notes">
     Der Endpoint braucht noch keine Datenbank. Wir prüfen Routing, JSON und
-    Port. Sein vollständiger Pfad ist `/api/students/health`, weil die Klasse in
-    Zeile 13 das Präfix setzt.
+    Port. Sein vollständiger Pfad ist `/api/students/health`, weil die Klasse
+    das Präfix `/api/students` setzt.
   </aside>
 </section>
 
@@ -927,13 +919,13 @@ public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; health() {
   <h2 class="slide-title">application.properties</h2>
   <div class="slide-context blue">Konfiguration</div>
   <div class="code-slide__content">
-    <pre><code class="language-properties" data-trim data-line-numbers="1-3|4-6|8-11">spring.datasource.url=jdbc:sqlite:students.db
+    <pre><code class="language-properties" data-trim data-line-numbers="1-4|5-7|9-12">spring.application.name=university-backend
+spring.datasource.url=jdbc:sqlite:university.db
 spring.datasource.driver-class-name=org.sqlite.JDBC
 spring.datasource.hikari.connection-init-sql=PRAGMA foreign_keys=ON
-spring.datasource.username=admin
-spring.datasource.password=admin
 spring.flyway.enabled=true
 server.port=${SERVER_PORT:8081}
+server.error.include-message=never
 
 # SpringDoc/OpenAPI configuration
 springdoc.api-docs.path=/v3/api-docs
@@ -941,20 +933,20 @@ springdoc.swagger-ui.path=/swagger-ui.html
 springdoc.swagger-ui.enabled=true</code></pre>
     <div class="d10-code-fields">
       <strong>Vier Bereiche</strong>
-      <p>Flyway für die vorhandene Migration</p>
+      <p>Flyway nach .todo-Umbenennung</p>
       <p>Fremdschlüssel pro Connection</p>
       <p>Port 8081 als Default</p>
       <p>OpenAPI und Swagger UI</p>
     </div>
   </div>
   <div class="slide-caption d10-source">
-    java/rest-simple-exercise/src/main/resources/application.properties · Zeilen
-    1 bis 12
+    common-example/backend/src/main/resources/application.properties · Zeilen 1
+    bis 12
   </div>
   <aside class="notes">
-    Flyway spielt die vorhandene Migration ein. Hikari führt das SQLite-PRAGMA
-    für jede neue Connection aus. Ohne Umgebungsvariable läuft der Kurs auf
-    8081. Swagger UI liegt unter `/swagger-ui.html`.
+    Flyway ignoriert die Arbeitsdateien mit `.todo`. Nach dem Ausfüllen und
+    Umbenennen führt es unsere Migrationen aus. Hikari setzt Fremdschlüssel für
+    jede neue Connection.
   </aside>
 </section>
 
@@ -965,9 +957,9 @@ springdoc.swagger-ui.enabled=true</code></pre>
     <div class="d10-terminal">
       <div class="d10-terminal-label">Arbeitskontext</div>
       <div>
-        <span class="d10-terminal-prompt">$</span> cd java/rest-simple-exercise
+        <span class="d10-terminal-prompt">$</span> cd common-example/backend
       </div>
-      <div><span class="d10-terminal-prompt">$</span> make run</div>
+      <div><span class="d10-terminal-prompt">$</span> ./gradlew bootRun</div>
     </div>
     <div class="d10-terminal-state">
       <div class="d10-terminal-result fragment fade-in" data-fragment-index="1">
@@ -980,19 +972,14 @@ springdoc.swagger-ui.enabled=true</code></pre>
         class="d10-terminal-result d10-terminal-json fragment fade-in"
         data-fragment-index="3"
       >
-        <code
-          >{ "status": "UP", "service": "student-service", "timestamp": "..."
-          }</code
-        >
+        <code>{ "status": "UP", "service": "university-backend" }</code>
       </div>
     </div>
   </div>
-  <div class="slide-caption d10-source">
-    java/rest-simple-exercise/README.md · Zeilen 14 bis 35
-  </div>
+  <div class="slide-caption d10-source">common-example/backend/README.md</div>
   <aside class="notes">
-    Wir warten auf den gestarteten Server. Das README nennt `make run` und die
-    Health-URL. Erst nach der Health-Antwort öffnen wir Swagger UI.
+    Wir warten auf den gestarteten Server. Erst nach der Health-Antwort öffnen
+    wir Swagger UI.
   </aside>
 </section>
 
@@ -1041,7 +1028,7 @@ springdoc.swagger-ui.enabled=true</code></pre>
       rx="10"
     ></rect>
     <text class="d10-body d10-blue" x="850" y="305" text-anchor="middle">
-      repository.findAll()
+      service.findAll()
     </text>
     <line
       x1="1060"
@@ -1068,13 +1055,11 @@ springdoc.swagger-ui.enabled=true</code></pre>
     </text>
   </svg>
   <div class="slide-caption d10-source">
-    Gekürztes Zielbild aus java/rest-simple-exercise/README.md, Zeilen 97 bis
-    147. Im Skeleton noch nicht vorhanden.
+    common-example/backend/src/main/java/com/example/restsimple/controller/StudentController.java
   </div>
   <aside class="notes">
-    Phase 1 verlangt zunächst zwei bis drei feste Students und ein Response-DTO.
-    Phase 2 ersetzt die feste Liste durch `repository.findAll()`. Der Controller
-    gibt im Kursstandard ein DTO zurück, nicht die Entity.
+    Der Controller ist vorbereitet. Wir implementieren `service.findAll()` und
+    prüfen danach das Mapping zu `StudentResponse`.
   </aside>
 </section>
 
@@ -1101,14 +1086,11 @@ class Student {
     </div>
   </div>
   <div class="slide-caption d10-source">
-    Gekürztes und auf Student angepasstes Zielbild aus
-    java/rest-simple-exercise/README.md, Zeilen 149 bis 208. Im Skeleton noch
-    nicht vorhanden.
+    Kontrastbeispiel, nicht Bestandteil der gemeinsamen Vorlage
   </div>
   <aside class="notes">
-    Das README zeigt das Muster an Book und nennt beim Student noch
-    `registrationDate`. Für die Decks gilt der Kursstandard `enrollmentDate`.
-    Das Snippet ist als Anpassung markiert und kein vorhandener Skeleton-Code.
+    Dieses Snippet zeigt eine mögliche JPA-Variante. Das gemeinsame Beispiel
+    verwendet Spring JDBC und JdbcStudentRepository.
   </aside>
 </section>
 
@@ -1135,13 +1117,11 @@ public interface StudentRepository extends JpaRepository&lt;Student, Long&gt; {
     </div>
   </div>
   <div class="slide-caption d10-source">
-    Auf Student angepasstes Zielbild aus java/rest-simple-exercise/README.md,
-    Zeilen 211 bis 221. Im Skeleton noch nicht vorhanden.
+    Kontrastbeispiel, nicht Bestandteil der gemeinsamen Vorlage
   </div>
   <aside class="notes">
-    Das README zeigt dieselbe Interface-Form an Book. Die Übung passt sie an
-    Student oder die eigene Domäne an. Spring Data stellt die Implementierung
-    bereit.
+    Spring Data stellt für dieses alternative Interface eine Implementierung
+    bereit. Der gemeinsame Kernpfad verwendet unser eigenes Repository.
   </aside>
 </section>
 
@@ -1149,19 +1129,17 @@ public interface StudentRepository extends JpaRepository&lt;Student, Long&gt; {
   <h2 class="slide-title">GET per ID</h2>
   <div class="slide-context amber">C2 · Kernpfad</div>
   <div class="code-slide__content code-slide__content--wide">
-    <pre><code class="language-java" data-trim data-line-numbers="1|2|3-4">@GetMapping("/{id}")
-StudentResponse findById(@PathVariable long id) {
-    return repository.findById(id)
-            .map(StudentResponse::from).orElseThrow();
+    <pre><code class="language-java" data-trim data-line-numbers="1|2|3">@GetMapping("/{id}")
+public StudentResponse findById(@PathVariable long id) {
+    return StudentResponse.from(service.findById(id));
 }</code></pre>
   </div>
   <div class="slide-caption d10-source">
-    Zielbild für den vorhandenen Repository-Port aus B4. Das Starterprojekt
-    enthält die Methodengerüste.
+    common-example/backend/src/main/java/com/example/restsimple/controller/StudentController.java
   </div>
   <aside class="notes">
-    Der Controller delegiert die Suche an `findById`. Das Row-Mapping bleibt im
-    JDBC-Adapter aus B4. Nach außen geht ein Response-DTO, keine Datenbankzeile.
+    Der Controller delegiert die Suche an den vorbereiteten Service. Wir
+    schreiben die Service-Regel für Treffer und 404 gemeinsam.
   </aside>
 </section>
 
@@ -1222,7 +1200,7 @@ StudentResponse findById(@PathVariable long id) {
       rx="10"
     ></rect>
     <text class="d10-body d10-blue" x="850" y="315" text-anchor="middle">
-      Repository
+      Service
     </text>
     <rect
       class="d10-panel-blue"
@@ -1233,10 +1211,10 @@ StudentResponse findById(@PathVariable long id) {
       rx="10"
     ></rect>
     <text class="d10-body d10-blue" x="1190" y="300" text-anchor="middle">
-      JDBC-
+      JdbcStudent-
     </text>
     <text class="d10-body d10-blue" x="1190" y="340" text-anchor="middle">
-      Adapter
+      Repository
     </text>
     <rect
       class="d10-panel-blue"

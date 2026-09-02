@@ -470,7 +470,9 @@
       class="box-blue"
     ></path>
     <text x="1725" y="810" text-anchor="middle">SQLite</text>
-    <text x="1725" y="855" text-anchor="middle" class="small">students.db</text>
+    <text x="1725" y="855" text-anchor="middle" class="small">
+      university.db
+    </text>
   </svg>
   <aside class="notes">
     Wir ändern nicht die Abfragen, sondern ihren Absender. Java übernimmt
@@ -615,7 +617,7 @@
     </g>
     <g transform="translate(1490 400)">
       <rect width="350" height="190" rx="10" class="box-blue"></rect>
-      <text x="175" y="88" text-anchor="middle">students.db</text>
+      <text x="175" y="88" text-anchor="middle">university.db</text>
       <text x="175" y="132" text-anchor="middle" class="small">
         SQLite-Datei
       </text>
@@ -672,7 +674,7 @@
         <div class="d07-code-card__label">Main.java · Zeile 13</div>
         <pre
           class="d07-code-fit"
-        ><code class="language-java" data-trim data-line-numbers="1">private static final String DATABASE_URL = "jdbc:sqlite:students.db";</code></pre>
+        ><code class="language-java" data-trim data-line-numbers="1">private static final String DATABASE_URL = "jdbc:sqlite:university.db";</code></pre>
       </div>
       <div class="d07-code-card">
         <div class="d07-code-card__label">gekürzt: Block endet in Zeile 71</div>
@@ -685,7 +687,7 @@
     </div>
   </div>
   <div class="d07-source">
-    java/cursor-simple/src/main/java/org/lecture/Main.java, Zeile 13 sowie
+    common-example/jdbc/src/main/java/org/lecture/Main.java, Zeile 13 sowie
     Zeilen 65 bis 67
   </div>
   <aside class="notes">
@@ -753,7 +755,7 @@ WHERE email = '' OR 1=1 --'</code></pre>
   </div>
   <div class="d07-source">
     Didaktisches Gegenbeispiel, nicht im Repository. Abgeleitet von der sicheren
-    SELECT-Struktur in java/cursor-simple/src/main/java/org/lecture/Main.java,
+    SELECT-Struktur in common-example/jdbc/src/main/java/org/lecture/Main.java,
     Zeilen 137 bis 145.
   </div>
   <aside class="notes">
@@ -807,7 +809,7 @@ try (Connection connection = DriverManager.getConnection(DATABASE_URL);
     </svg>
   </div>
   <div class="d07-source">
-    java/cursor-simple/src/main/java/org/lecture/Main.java, Zeilen 137 bis 147,
+    common-example/jdbc/src/main/java/org/lecture/Main.java, Zeilen 137 bis 147,
     gekürzt und mit … markiert
   </div>
   <aside class="notes">
@@ -946,7 +948,7 @@ try (Connection connection = DriverManager.getConnection(DATABASE_URL);
 );</code></pre>
   </div>
   <div class="d07-source">
-    java/cursor-simple/src/main/java/org/lecture/Main.java, Zeilen 115 bis 122
+    common-example/jdbc/src/main/java/org/lecture/Main.java, Zeilen 115 bis 122
   </div>
   <aside class="notes">
     Die Namen entsprechen students in schema.sql. Hier wird eine Zeile zum
@@ -986,7 +988,7 @@ try (Connection connection = DriverManager.getConnection(DATABASE_URL);
     </div>
   </div>
   <div class="d07-source">
-    java/cursor-simple/src/main/java/org/lecture/Main.java, Zeilen 103 bis 124
+    common-example/jdbc/src/main/java/org/lecture/Main.java, Zeilen 103 bis 124
   </div>
   <aside class="notes">
     PreparedStatement und ResultSet haben getrennte Lebensdauern.
@@ -1103,7 +1105,7 @@ try (Connection connection = DriverManager.getConnection(DATABASE_URL);
     </div>
   </div>
   <div class="d07-source">
-    java/cursor-simple/src/main/java/org/lecture/Main.java, Zeilen 82 bis 95
+    common-example/jdbc/src/main/java/org/lecture/Main.java, Zeilen 82 bis 95
   </div>
   <aside class="notes">
     Parameterpositionen beginnen bei 1. Ihre Reihenfolge folgt den Fragezeichen.
@@ -1264,7 +1266,7 @@ try (Connection connection = DriverManager.getConnection(DATABASE_URL);
     </div>
   </div>
   <div class="d07-source">
-    java/cursor-simple/src/main/java/org/lecture/Main.java
+    common-example/jdbc/src/main/java/org/lecture/Main.java
   </div>
   <aside class="notes">
     Das Programm funktioniert, aber dieselbe Abbildung kann auseinanderlaufen.
@@ -1300,9 +1302,9 @@ try (Connection connection = DriverManager.getConnection(DATABASE_URL);
 </section>
 
 <section>
-  <h2 class="slide-title">Walkthrough durch cursor-simple</h2>
+  <h2 class="slide-title">Walkthrough durch common-example/jdbc</h2>
   <div class="slide-context grey">
-    java/cursor-simple/src/main/java/org/lecture/Main.java
+    common-example/jdbc/src/main/java/org/lecture/Main.java
   </div>
   <svg class="slide-svg d07-svg" viewBox="0 0 1920 1080">
     <defs>

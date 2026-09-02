@@ -2,6 +2,8 @@
 
 Die Aufgaben haben feste Phasenkennungen. Diese Kennungen bleiben gleich, wenn Tag 2 und Tag 3 als gemeinsamer Implementierungsblock stattfinden. In A1 und A3 bearbeitet jede Gruppe zwei Themen. In allen übrigen Phasen arbeitet sie in `exercises/<thema-a>/` mit derselben Hauptentität.
 
+Vor jeder Gruppenphase bearbeiten alle am Universitätsbeispiel denselben Schritt: ER-Modell, Relationen, Normalisierung, SQL, JDBC, Repository, HTTP-Vertrag und Spring-Implementierung. Die Ergebnisse liegen unter `common-example/`. Die Gruppenaufgaben übertragen den gerade besprochenen Schritt anschließend auf ihre Domäne.
+
 Jede Aufgabe endet mit einem lauffähigen oder lesbaren Checkpoint. Die Lehrperson kann danach den vorbereiteten Zwischenstand freigeben. Eine Gruppe beginnt die nächste Phase nicht mit einem leeren Projekt.
 
 ## Phasen

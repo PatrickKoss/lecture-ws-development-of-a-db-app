@@ -982,9 +982,7 @@ ORDER BY e.grade, s.last_name, c.title;</code></pre>
       </table>
     </div>
   </div>
-  <div class="d06-source">
-    java/sql/university/queries.sql, Zeilen 29 bis 40
-  </div>
+  <div class="d06-source">common-example/sql/queries.sql, Zeilen 29 bis 40</div>
   <aside class="notes">
     Jede ON-Bedingung folgt einem Fremdschlüssel. Der Filter behält Noten bis
     1,7. Gegen den Seed liefert die Abfrage genau 16 Zeilen.
@@ -1416,9 +1414,7 @@ ORDER BY enrollment_count DESC, c.course_code;</code></pre>
       </table>
     </div>
   </div>
-  <div class="d06-source">
-    java/sql/university/queries.sql, Zeilen 50 bis 56
-  </div>
+  <div class="d06-source">common-example/sql/queries.sql, Zeilen 50 bis 56</div>
   <aside class="notes">
     LEFT JOIN hält jeden Course. `COUNT(e.id)` zählt nur echte Enrollments. Der
     Seed hat keinen leeren Course, die sieben Zähler sind 8, 7, 6, 5, 5, 5 und
@@ -1677,9 +1673,7 @@ ORDER BY enrollment_count DESC, c.course_code;</code></pre>
       </table>
     </div>
   </div>
-  <div class="d06-source">
-    java/sql/university/queries.sql, Zeilen 66 bis 73
-  </div>
+  <div class="d06-source">common-example/sql/queries.sql, Zeilen 66 bis 73</div>
   <aside class="notes">
     Query 9 filtert Gruppen mit `HAVING COUNT(e.id) >= 6`. Gegen den Seed
     bleiben genau drei Courses. `WHERE COUNT(...)` wäre zu früh.
@@ -1781,9 +1775,7 @@ ORDER BY s.last_name;</code></pre>
       </svg>
     </div>
   </div>
-  <div class="d06-source">
-    java/sql/university/queries.sql, Zeilen 42 bis 48
-  </div>
+  <div class="d06-source">common-example/sql/queries.sql, Zeilen 42 bis 48</div>
   <aside class="notes">
     Query 4 hat Samir Saleh bereits gelöscht. Danach bleibt Hannah Maier als
     einzige Studentin ohne Course. Der NULL-Test sucht den fehlenden rechten
@@ -1825,9 +1817,7 @@ ORDER BY s.last_name, s.first_name;</code></pre>
       </div>
     </div>
   </div>
-  <div class="d06-source">
-    java/sql/university/queries.sql, Zeilen 75 bis 90
-  </div>
+  <div class="d06-source">common-example/sql/queries.sql, Zeilen 75 bis 90</div>
   <aside class="notes">
     Die innere Subquery berechnet den Gesamtdurchschnitt. Die gruppierte
     mittlere Query vergleicht jeden Student-Durchschnitt damit. Kleinere Noten
@@ -1884,7 +1874,7 @@ ORDER BY d.code;</code></pre>
     </div>
   </div>
   <div class="d06-source">
-    java/sql/university/queries.sql, Zeilen 101 bis 108
+    common-example/sql/queries.sql, Zeilen 101 bis 108
   </div>
   <aside class="notes">
     Query 12 verbindet alle fünf Tabellen und liefert genau drei Fachbereiche.
@@ -1948,7 +1938,7 @@ FROM enrollments;</code></pre>
   </div>
   <div class="d06-source">
     Didaktische Erweiterung, nicht in `queries.sql`. Verwendet die Spalten aus
-    `java/sql/university/schema.sql`, Zeilen 40 bis 53.
+    `common-example/sql/schema.sql`, Zeilen 40 bis 53.
   </div>
   <aside class="notes">
     Fensterfunktionen aggregieren, ohne die Detailzeilen zu falten. Der Seed hat

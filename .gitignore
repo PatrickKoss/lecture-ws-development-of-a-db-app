@@ -1,7 +1,48 @@
-.idea
-**/__pychache__/
-__pycache__/
-**/**/__pycache__/
-**/**/**/__pycache__/
-**/**/**/**/__pycache__/
-target/
+# Java and Gradle
+**/.gradle/
+**/build/
+**/bin/
+**/out/
+*.class
+hs_err_pid*
+replay_pid*
+
+# Runtime files
+**/logs/
+*.log
+**/*.db
+**/*.db-shm
+**/*.db-wal
+
+# Node and Next.js
+**/node_modules/
+**/.next/
+**/.swc/
+**/coverage/
+**/*.tsbuildinfo
+**/next-env.d.ts
+
+# Local configuration
+**/.idea/
+**/.vscode/
+**/.claude/
+**/.cursor/
+
+# Environment variables
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.sample
+
+# Python and Rust
+**/__pycache__/
+*.py[cod]
+**/.venv/
+**/target/
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~

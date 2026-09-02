@@ -10,15 +10,16 @@ Dieser Leitfaden ergänzt die Sprecherhinweise in den Decks. Der verbindliche Ta
 - Für die Folien braucht der Lehrrechner Node.js, npm und den von Playwright verwendeten Chromium-Browser.
 - Die Folien laufen laut `slides/Makefile` standardmäßig auf Port 8000.
 - Die gruppenspezifischen REST-Projekte unter `exercises/<domain>/c2-spring-resource/starter/` laufen standardmäßig auf Port 8081. Prüfe vor dem Implementierungsblock, ob der Port frei ist.
-- Die Gruppenprojekte enthalten keine Security-Konfiguration. Swagger UI und die Übungsendpunkte sind ohne Anmeldung erreichbar. `java/rest-simple` zeigt Security nur als weiterführendes Referenzprojekt.
+- Die Gruppenprojekte enthalten keine Security-Konfiguration. Swagger UI und die Übungsendpunkte sind ohne Anmeldung erreichbar. `common-example/advanced-backend` zeigt Security nur als weiterführendes Referenzprojekt.
 
 ### Technischer Probelauf
 
 Führe diese Befehle am Repository-Root aus:
 
 ```sh
-make -C java build-all
-make -C java test-all
+make -C common-example build-all
+make -C common-example test-all
+make -C common-example frontend-test
 make -C slides pdf-all
 ```
 
@@ -236,7 +237,7 @@ Die Studierenden machen das Schema in SQLite ausführbar. Sie unterscheiden DDL 
 Arbeite in einer frischen temporären Datenbank. `queries.sql` ändert Lenas E-Mail-Adresse und löscht Samir Saleh.
 
 ```sh
-cd java/sql/university
+cd common-example/sql
 UNIVERSITY_DB="$(mktemp /tmp/university-demo.XXXXXX.db)"
 sqlite3 "$UNIVERSITY_DB" < schema.sql
 sqlite3 "$UNIVERSITY_DB" < seed.sql
@@ -317,7 +318,7 @@ Die Studierenden erklären den Weg von Java über JDBC Driver und Connection zur
 ### Live-Demo
 
 ```sh
-cd java/cursor-simple
+cd common-example/jdbc
 ./gradlew build
 ./gradlew run
 ./gradlew runRefactored
@@ -363,12 +364,12 @@ Die Studierenden kapseln Datenzugriff hinter einem typisierten Repository. SQL u
 ### Live-Demo
 
 ```sh
-cd java/repository-simple
+cd common-example/repository
 ./gradlew build
 ./gradlew run
 ```
 
-Der Lauf zeigt Create, All, Get, Update und Delete. Öffne danach `AbstractRepository.java`, `Student.java`, `Entity.java` und `Column.java`. Vergleiche zuletzt `java/cursor-simple/src/main/java/org/lecture/MainRefactored.java` mit dem Reflection-Mapping.
+Der Lauf zeigt Create, All, Get, Update und Delete. Öffne danach `AbstractRepository.java`, `Student.java`, `Entity.java` und `Column.java`. Vergleiche zuletzt `common-example/jdbc/src/main/java/org/lecture/MainRefactored.java` mit dem Reflection-Mapping.
 
 ### Häufige Fehler und Steuerung
 
@@ -503,7 +504,7 @@ Die Studierenden trennen HTTP-Darstellung, Fachlogik und Speicherung. Sie nutzen
 - Wenn DTO und Entity dasselbe Objekt sind, ergänze gedanklich `internalNote` und frage, ob Clients das Feld sehen dürfen.
 - Wenn nur Java auf Eindeutigkeit prüft, spiele zwei gleichzeitige Requests durch und fordere den Datenbank-Constraint.
 - Wenn alle Exceptions zu 500 werden, sortiere einen Formfehler, eine fehlende ID und einen Konflikt in 400, 404 und 409.
-- Wenn die Feldnamen aus `java/rest-simple` übernommen werden, weise auf den bestehenden Zielbild-Vertrag mit `name`, `mnr`, `createdOn` und den Kursstandard mit `firstName`, `studentNumber`, `enrollmentDate` hin.
+- Wenn Feldnamen voneinander abweichen, verfolgt sie vom DTO bis zur SQL-Spalte. Im gemeinsamen Beispiel heißen sie durchgehend `firstName`, `lastName`, `email`, `studentNumber` und `enrollmentDate`; SQL verwendet snake_case.
 
 ### Auswertung C3, Fehlervertrag
 
@@ -516,7 +517,7 @@ Die Studierenden trennen HTTP-Darstellung, Fachlogik und Speicherung. Sie nutzen
 
 ### Wenn Zeit fehlt
 
-Gib bei Bedarf den vorbereiteten Zwischenstand aus `c3-tests-errors/` frei. GET, POST, DTOs, `@Valid`, genau eine Fachregel und der stabile Fehlercode bleiben im Kernauftrag. Die hexagonale Struktur von `java/rest-simple` ist Nachschlageinhalt.
+Gib bei Bedarf den vorbereiteten Zwischenstand aus `c3-tests-errors/` frei. GET, POST, DTOs, `@Valid`, genau eine Fachregel und der stabile Fehlercode bleiben im Kernauftrag. Die hexagonale Struktur von `common-example/advanced-backend` ist Nachschlageinhalt.
 
 ## 12 Die Anwendung absichern
 
@@ -534,16 +535,16 @@ Die Studierenden prüfen den HTTP-Rand mit MockMvc und eine Fachentscheidung mit
 
 ### Live-Demo
 
-Führe nur die beiden passenden Testklassen aus:
+Entferne nach der Service-Implementierung `@Disabled` aus den beiden vorbereiteten Testklassen. Führe dann nur diese Tests aus:
 
 ```sh
-cd java/rest-simple
+cd common-example/backend
 ./gradlew test \
-  --tests 'com.example.restsimple.adapter.in.web.StudentControllerTest' \
-  --tests 'com.example.restsimple.application.service.StudentServiceTest'
+  --tests 'com.example.restsimple.controller.StudentControllerTest' \
+  --tests 'com.example.restsimple.service.StudentServiceTest'
 ```
 
-Öffne danach `java/rest-simple/src/main/java/com/example/restsimple/config/LoggingFilter.java`. Verfolge Übernahme oder Erzeugung von `X-Correlation-ID`, `MDC.put`, Response-Header und das Aufräumen im `finally`.
+Öffne danach `common-example/backend/src/main/java/com/example/restsimple/config/CorrelationIdFilter.java`. Verfolge Übernahme oder Erzeugung von `X-Correlation-ID`, `MDC.put`, Response-Header und das Aufräumen im `finally`.
 
 ### Häufige Fehler und Steuerung
 

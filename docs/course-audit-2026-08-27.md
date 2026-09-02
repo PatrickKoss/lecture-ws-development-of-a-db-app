@@ -70,8 +70,8 @@ Der Zeitplan summiert sich pro Tag korrekt auf 420 Minuten. Pausen, Mittag und e
 Die Folien versprechen sinngemäß eine Anwendung, die über drei Tage wächst. Die tatsächliche Folge sieht anders aus:
 
 1. Am ersten Tag erstellt jede Gruppe ein ER-Modell und arbeitet mit den SQL-Dateien ihrer Domäne.
-2. Am zweiten Tag wechselt sie in [`java/repository-simple-exercise`](../java/repository-simple-exercise) und implementiert zunächst die Student-Datenbank. Erst danach kommt eine einzelne Domänenentität hinzu.
-3. Am dritten Tag beginnt sie mit [`java/rest-simple-exercise`](../java/rest-simple-exercise). Dort existieren weder ihre Tabellen noch ihr Repository vom Vortag. Die Gruppe soll eine neue Migration und eine neue Ressource anlegen.
+2. Am zweiten Tag wechselt sie in [`common-example/repository-exercise`](../common-example/repository-exercise) und implementiert zunächst die Student-Datenbank. Erst danach kommt eine einzelne Domänenentität hinzu.
+3. Am dritten Tag beginnt sie mit [`common-example/backend`](../common-example/backend). Dort existieren weder ihre Tabellen noch ihr Repository vom Vortag. Die Gruppe soll eine neue Migration und eine neue Ressource anlegen.
 
 Auch die gewählte Hauptressource wechselt oft:
 

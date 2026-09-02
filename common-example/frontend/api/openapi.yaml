@@ -1,0 +1,101 @@
+openapi: 3.0.3
+info:
+  title: Hochschulverwaltung API
+  version: '1.0'
+paths:
+  /api/students:
+    get:
+      summary: Alle Studierenden lesen
+      responses:
+        '200':
+          description: Liste der Studierenden
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentResponse'
+    post:
+      summary: Studierende anlegen
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStudentRequest'
+      responses:
+        '201':
+          description: Student wurde angelegt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+        '400':
+          description: Ungültige Eingabe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: E-Mail oder Matrikelnummer existiert bereits
+  /api/students/{id}:
+    get:
+      summary: Einen Datensatz lesen
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Student wurde gefunden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+        '404':
+          description: Student wurde nicht gefunden
+components:
+  schemas:
+    CreateStudentRequest:
+      type: object
+      required: [firstName, lastName, email, studentNumber]
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        studentNumber:
+          type: string
+          pattern: ^M[0-9]{7}$
+    StudentResponse:
+      allOf:
+        - $ref: '#/components/schemas/CreateStudentRequest'
+        - type: object
+          required: [id, enrollmentDate]
+          properties:
+            id:
+              type: integer
+              format: int64
+            enrollmentDate:
+              type: string
+              format: date
+    ErrorResponse:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        correlationId:
+          type: string
+        fields:
+          type: object
+          additionalProperties:
+            type: string

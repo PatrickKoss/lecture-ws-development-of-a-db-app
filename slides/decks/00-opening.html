@@ -254,7 +254,7 @@
     <div class="chapter-number">00</div>
     <div class="chapter-eyebrow">Kapitel · 00</div>
     <h1 class="chapter-title-big">Entwicklung einer Datenbankanwendung</h1>
-    <p class="chapter-subtitle">3 Tage · Java · SQLite · Spring</p>
+    <p class="chapter-subtitle">Hochschule · Java · SQLite · Spring</p>
     <div class="d00-chapter-questions">
       <strong>Leitfragen</strong><br />Wie wird aus einer Fachidee ein
       ausführbarer API-Schnitt?<br />Welche Datei wächst in jeder Etappe weiter?
@@ -397,9 +397,9 @@
     <span class="slide-frame__footer-right">00 / 07</span>
   </div>
   <aside class="notes">
-    Wir führen eine einfache Hauptentität durch alle Schichten. Nach der letzten
-    Etappe kann die Gruppe einen Datensatz über HTTP lesen. Alles, was ihr
-    zeichnet, taucht später in SQL oder Code wieder auf.
+    Wir modellieren gemeinsam Studierende, Lehrende, Lehrveranstaltungen und
+    Belegungen. Student bleibt im Programmierteil die Hauptressource. Alles, was
+    wir zeichnen, taucht später in SQL oder Code wieder auf.
   </aside>
 </section>
 
@@ -513,12 +513,12 @@
 </section>
 
 <section>
-  <h2 class="slide-title">Drei Etappen, ein durchgängiger API-Schnitt</h2>
+  <h2 class="slide-title">Ein Beispiel, drei Arbeitsstände</h2>
   <span class="slide-context blue">Kursplan</span>
   <div class="d00-days">
     <article class="d00-day-card">
       <div class="d00-day-card__number">Tag 1</div>
-      <h3>Tag 1: schema.sql</h3>
+      <h3>Tag 1: Hochschulmodell</h3>
       <svg
         class="d00-day-card__file fragment fade-in"
         data-fragment-index="1"
@@ -559,7 +559,7 @@
     </article>
     <article class="d00-day-card">
       <div class="d00-day-card__number">Tag 2</div>
-      <h3>Tag 2: Java Repository</h3>
+      <h3>Tag 2: Student Repository</h3>
       <svg
         class="d00-day-card__file fragment fade-in"
         data-fragment-index="2"
@@ -600,7 +600,7 @@
     </article>
     <article class="d00-day-card">
       <div class="d00-day-card__number">Tag 3</div>
-      <h3>Tag 3: REST API</h3>
+      <h3>Tag 3: Student REST API</h3>
       <svg
         class="d00-day-card__file fragment fade-in"
         data-fragment-index="3"
@@ -641,8 +641,8 @@
     </article>
   </div>
   <aside class="notes">
-    Jeder Tag endet mit einem prüfbaren Ergebnis. Nichts wird benotet. Wir
-    vergleichen Lösungen, führen Code aus und verbessern ihn gemeinsam.
+    Student, Lecturer, Course, Department und Enrollment bleiben über alle drei
+    Tage erhalten. Jeder Tag endet mit einem ausführbaren Arbeitsstand.
   </aside>
 </section>
 

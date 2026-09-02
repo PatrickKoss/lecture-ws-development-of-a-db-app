@@ -490,9 +490,9 @@
   <h2 class="slide-title">Drei Befehle im Terminal</h2>
   <div class="slide-context blue">SQLite CLI</div>
   <div class="code-slide__content">
-    <pre><code class="language-bash" data-trim data-ln-start-from="10" data-line-numbers="10|11|12" data-fragment-index="1">sqlite3 students.db &lt; schema.sql
-sqlite3 students.db &lt; seed.sql
-sqlite3 -header -column students.db &lt; queries.sql</code></pre>
+    <pre><code class="language-bash" data-trim data-ln-start-from="10" data-line-numbers="10|11|12" data-fragment-index="1">sqlite3 university.db &lt; schema.sql
+sqlite3 university.db &lt; seed.sql
+sqlite3 -header -column university.db &lt; queries.sql</code></pre>
     <div class="code-slide__notes">
       <h3>Ablauf</h3>
       <p>Schema laden</p>
@@ -504,10 +504,10 @@ sqlite3 -header -column students.db &lt; queries.sql</code></pre>
     </div>
   </div>
   <div class="slide-caption d05-source">
-    java/sql/university/README.md, Zeilen 9 bis 13
+    common-example/sql/README.md, Zeilen 9 bis 13
   </div>
   <aside class="notes">
-    Ich führe die drei Befehle im Verzeichnis `java/sql/university` aus. Die
+    Ich führe die drei Befehle im Verzeichnis `common-example/sql` aus. Die
     Dateien bauen eine neue Datenbank auf. `queries.sql` ändert Daten, deshalb
     starten wir jedes Mal mit einer leeren Datei.
   </aside>
@@ -628,7 +628,7 @@ sqlite3 -header -column students.db &lt; queries.sql</code></pre>
 );</code></pre>
   </div>
   <div class="slide-caption d05-source">
-    java/sql/university/schema.sql, Zeilen 18 bis 29
+    common-example/sql/schema.sql, Zeilen 18 bis 29
   </div>
   <aside class="notes">
     Der Primary Key gibt Identität. UNIQUE schützt fachliche Schlüssel. Der
@@ -656,7 +656,7 @@ sqlite3 -header -column students.db &lt; queries.sql</code></pre>
 );</code></pre>
   </div>
   <div class="slide-caption d05-source">
-    java/sql/university/schema.sql, Zeilen 40 bis 53
+    common-example/sql/schema.sql, Zeilen 40 bis 53
   </div>
   <aside class="notes">
     Die Join Table trägt `enrolled_on` und die optionale Note. UNIQUE verhindert
@@ -802,7 +802,7 @@ sqlite3 -header -column students.db &lt; queries.sql</code></pre>
     </div>
   </div>
   <div class="slide-caption d05-source">
-    java/sql/university/seed.sql, Zeilen 46 bis 53
+    common-example/sql/seed.sql, Zeilen 46 bis 53
   </div>
   <aside class="notes">
     Der Seed nennt Spalten explizit und setzt sieben feste IDs. Die Lecturer-IDs
@@ -859,7 +859,7 @@ sqlite3 -header -column students.db &lt; queries.sql</code></pre>
     </g>
   </svg>
   <div class="slide-caption d05-source">
-    Didaktischer Fehlversuch gegen `java/sql/university/schema.sql`, Zeilen 18
+    Didaktischer Fehlversuch gegen `common-example/sql/schema.sql`, Zeilen 18
     bis 29; `M2023001` stammt aus `seed.sql`, Zeile 25.
   </div>
   <aside class="notes">
@@ -890,7 +890,7 @@ FROM students;</code></pre>
     </div>
   </div>
   <div class="slide-caption d05-source">
-    java/sql/university/queries.sql, Zeilen 3 bis 6
+    common-example/sql/queries.sql, Zeilen 3 bis 6
   </div>
   <aside class="notes">
     Query 1 nennt vier Spalten und liefert vor den Schreiboperationen genau 20
@@ -918,7 +918,7 @@ LIMIT 5;</code></pre>
     </div>
   </div>
   <div class="slide-caption d05-source">
-    java/sql/university/queries.sql, Zeilen 8 bis 14
+    common-example/sql/queries.sql, Zeilen 8 bis 14
   </div>
   <aside class="notes">
     WHERE behält Studierende ab `2024-10-01`. ISO-Daten lassen sich in diesem
@@ -944,7 +944,7 @@ LIMIT 5;</code></pre>
     </div>
   </div>
   <div class="slide-caption d05-source">
-    java/sql/university/queries.sql, Zeilen 10 bis 14
+    common-example/sql/queries.sql, Zeilen 10 bis 14
   </div>
   <aside class="notes">
     Sortierung ist ohne ORDER BY nicht zugesichert. LIMIT greift nach Filter und
@@ -977,7 +977,7 @@ RETURNING id, email;</code></pre>
     </div>
   </div>
   <div class="slide-caption d05-source">
-    java/sql/university/queries.sql, Zeilen 16 bis 21
+    common-example/sql/queries.sql, Zeilen 16 bis 21
   </div>
   <aside class="notes">
     Query 3 ändert Lenas E-Mail-Adresse und liefert mit RETURNING genau eine
@@ -1010,7 +1010,7 @@ RETURNING id, first_name, last_name;</code></pre>
     </div>
   </div>
   <div class="slide-caption d05-source">
-    java/sql/university/queries.sql, Zeilen 23 bis 27
+    common-example/sql/queries.sql, Zeilen 23 bis 27
   </div>
   <aside class="notes">
     Query 4 löscht die kurslose Testperson Samir Saleh und liefert genau eine

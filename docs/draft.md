@@ -1,6 +1,6 @@
 # Entwicklung einer Datenbankanwendung
 
-Content-Spezifikation für 14 Reveal.js-Decks, drei Tage von 09:00 bis 16:00 Uhr. Alle Folientexte, Notizen und Übungen sind deutsch. Code, SQL und Identifier bleiben englisch. Ein technischer Begriff erscheint beim ersten Einsatz mit deutscher Erklärung. Die Studierenden arbeiten in VS Code. Es gibt keine Benotung. Lösungen liegen auf `main`. `cursor-simple` und `repository-simple` werden auf `Student` ausgerichtet. Das Lehrbeispiel nutzt durchgehend `Student`, `Course`, `Lecturer`, `Department` und `Enrollment`. Acht Gruppen bearbeiten je eine eigene Domäne.
+Content-Spezifikation für 14 Reveal.js-Decks, drei Tage von 09:00 bis 16:00 Uhr. Alle Folientexte, Notizen und Übungen sind deutsch. Code, SQL und Identifier bleiben englisch. Ein technischer Begriff erscheint beim ersten Einsatz mit deutscher Erklärung. Die Studierenden arbeiten in VS Code. Es gibt keine Benotung. Lösungen liegen auf `main`. Das gemeinsame Lehrbeispiel unter `common-example/` nutzt durchgehend `Student`, `Course`, `Lecturer`, `Department` und `Enrollment`. Zehn Gruppen übertragen die Schritte auf je eine eigene Domäne.
 
 ## Stand
 
@@ -40,8 +40,8 @@ Die Deck-Agenten übernehmen diese Namen und Zahlen unverändert.
 - Das Universitäts-Schema besteht aus `departments`, `lecturers`, `students`, `courses` und `enrollments`. Die Seed-Datei enthält in dieser Reihenfolge 3, 5, 20, 7 und 40 Zeilen.
 - `students` hat `id`, `first_name`, `last_name`, `email`, `student_number`, `enrollment_date`. `enrollments` hat `id`, `student_id`, `course_id`, `grade`, `enrolled_on`. Das Datum am Student heißt also `enrollment_date`, das Datum der Belegung heißt `enrolled_on`.
 - `courses` hat `id`, `course_code`, `title`, `credits`, `lecturer_id`. `lecturers` hat `id`, `first_name`, `last_name`, `email`, `department_id`. `departments` hat `id`, `name`, `code`.
-- `java/sql/university/queries.sql` enthält genau zwölf Anweisungen. Ihre erwarteten Zeilenzahlen sind der Reihe nach 20, 5, 1, 1, 16, 1, 7, 7, 3, 7, 24 und 3. Query 3 ändert Lenas E-Mail-Adresse. Query 4 löscht Samir Saleh. Die folgenden Queries laufen auf diesem veränderten Stand.
-- Die Spring-Decks verwenden für den Kursvertrag `firstName`, `lastName`, `email`, `studentNumber` und `enrollmentDate`. Das größere Beispiel `java/rest-simple` nutzt dagegen `name`, `lastName`, `mnr` und `createdOn`. Code aus diesem Projekt bleibt verbatim und bekommt auf der Folie den Hinweis "bestehendes Zielbild, andere Namen".
+- `common-example/sql/queries.sql` enthält genau zwölf Anweisungen. Ihre erwarteten Zeilenzahlen sind der Reihe nach 20, 5, 1, 1, 16, 1, 7, 7, 3, 7, 24 und 3. Query 3 ändert Lenas E-Mail-Adresse. Query 4 löscht Samir Saleh. Die folgenden Queries laufen auf diesem veränderten Stand.
+- Das gemeinsame Backend und die Spring-Decks verwenden `firstName`, `lastName`, `email`, `studentNumber` und `enrollmentDate`. In SQL heißen die entsprechenden Spalten `first_name`, `last_name`, `email`, `student_number` und `enrollment_date`. `common-example/advanced-backend` ist nur ein weiterführendes Referenzprojekt und bestimmt nicht den Kursvertrag.
 - Die Übungsordner sind verbindlich und bauen aufeinander auf: A0 `a0-domain`, A1 `a1-er-model`, A2 `a2-relational-model`, A3 `a3-normalization`, B1 `b1-schema`, B2 `b2-sql`, B3 `b3-jdbc`, B4 `b4-repository`, C1 `c1-http-contract`, C2 `c2-spring-resource` und C3 `c3-tests-errors`. Jeder Pfad beginnt mit `exercises/<domain>/` und enthält ein Grundgerüst, eine Gruppenanleitung und einen Leitfaden.
 
 ## 00 Auftakt (Dateiname decks/00-opening.html)
@@ -456,7 +456,7 @@ Reveal.js Prompt: Two-column content. Links blue `TEXT`, `INTEGER`, ISO-Datum al
 #### Folie 03.9: Erster Blick auf CREATE TABLE
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/schema.sql`, Zeilen 31 bis 38, vollständig und verbatim. Code: `CREATE TABLE IF NOT EXISTS courses (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    course_code TEXT NOT NULL UNIQUE,\n    title TEXT NOT NULL,\n    credits INTEGER NOT NULL CHECK (credits > 0),\n    lecturer_id INTEGER NOT NULL,\n    FOREIGN KEY (lecturer_id) REFERENCES lecturers(id)\n);`. Zeilen-Highlights 1|2-5|6-7. Notizen: "Der Tabellenkopf stammt aus der Entity. Constraints setzen Keys und Pflichtfelder um. Der Foreign Key ist die frühere 1:n-Linie."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/sql/schema.sql`, Zeilen 31 bis 38, vollständig und verbatim. Code: `CREATE TABLE IF NOT EXISTS courses (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    course_code TEXT NOT NULL UNIQUE,\n    title TEXT NOT NULL,\n    credits INTEGER NOT NULL CHECK (credits > 0),\n    lecturer_id INTEGER NOT NULL,\n    FOREIGN KEY (lecturer_id) REFERENCES lecturers(id)\n);`. Zeilen-Highlights 1|2-5|6-7. Notizen: "Der Tabellenkopf stammt aus der Entity. Constraints setzen Keys und Pflichtfelder um. Der Foreign Key ist die frühere 1:n-Linie."
 ```
 
 #### Folie 03.10: Übung A2, ER-Modell in Relationen übersetzen
@@ -528,7 +528,7 @@ Reveal.js Prompt: Layout .lead-question. Frage "Was kostet die Umbenennung eines
 #### Folie 04.4: enrollments_flat
 
 ```text
-Reveal.js Prompt: Content slide with spreadsheet SVG. Quellenhinweis unten: "Abgeleitet aus `java/sql/university/seed.sql`, Zeilen 5 bis 15, 46 bis 53 und 62 bis 71." Spalten exakt `student_id`, `student_name`, `course_id`, `course_code`, `course_title`, `lecturer_id`, `lecturer_name`, `department_name`, `enrolled_on`, `grade`. Sechs Zeilen exakt: `1 | Lena Hoffmann | 1 | INF-201 | Datenbanken | 1 | Anna Weber | Informatik | 2024-04-08 | 1.7`; `2 | Jonas Becker | 1 | INF-201 | Datenbanken | 1 | Anna Weber | Informatik | 2024-04-08 | 2.3`; `3 | Aylin Kaya | 1 | INF-201 | Datenbanken | 1 | Anna Weber | Informatik | 2024-04-08 | 1.3`; `1 | Lena Hoffmann | 2 | INF-202 | Programmierung II | 2 | Mehmet Yilmaz | Informatik | 2024-10-07 | 2.0`; `3 | Aylin Kaya | 2 | INF-202 | Programmierung II | 2 | Mehmet Yilmaz | Informatik | 2024-10-07 | 1.7`; `4 | Paul Schneider | 2 | INF-202 | Programmierung II | 2 | Mehmet Yilmaz | Informatik | 2024-10-07 | 2.7`. Fragmente: 1 alle wiederholten Course-Zellen amber, 2 alle wiederholten Lecturer-Zellen amber, 3 alle wiederholten Department-Zellen amber. Notizen: "Die sechs Zeilen sind aus dem Seed abgeleitet. Die flache Tabelle existiert nicht im Repository. Sie zeigt, welche Wiederholungen eine unnormalisierte Ablage erzeugen würde."
+Reveal.js Prompt: Content slide with spreadsheet SVG. Quellenhinweis unten: "Abgeleitet aus `common-example/sql/seed.sql`, Zeilen 5 bis 15, 46 bis 53 und 62 bis 71." Spalten exakt `student_id`, `student_name`, `course_id`, `course_code`, `course_title`, `lecturer_id`, `lecturer_name`, `department_name`, `enrolled_on`, `grade`. Sechs Zeilen exakt: `1 | Lena Hoffmann | 1 | INF-201 | Datenbanken | 1 | Anna Weber | Informatik | 2024-04-08 | 1.7`; `2 | Jonas Becker | 1 | INF-201 | Datenbanken | 1 | Anna Weber | Informatik | 2024-04-08 | 2.3`; `3 | Aylin Kaya | 1 | INF-201 | Datenbanken | 1 | Anna Weber | Informatik | 2024-04-08 | 1.3`; `1 | Lena Hoffmann | 2 | INF-202 | Programmierung II | 2 | Mehmet Yilmaz | Informatik | 2024-10-07 | 2.0`; `3 | Aylin Kaya | 2 | INF-202 | Programmierung II | 2 | Mehmet Yilmaz | Informatik | 2024-10-07 | 1.7`; `4 | Paul Schneider | 2 | INF-202 | Programmierung II | 2 | Mehmet Yilmaz | Informatik | 2024-10-07 | 2.7`. Fragmente: 1 alle wiederholten Course-Zellen amber, 2 alle wiederholten Lecturer-Zellen amber, 3 alle wiederholten Department-Zellen amber. Notizen: "Die sechs Zeilen sind aus dem Seed abgeleitet. Die flache Tabelle existiert nicht im Repository. Sie zeigt, welche Wiederholungen eine unnormalisierte Ablage erzeugen würde."
 ```
 
 #### Folie 04.5: Update-Anomalie
@@ -624,7 +624,7 @@ Reveal.js Prompt: Content slide als Ersatz für "3NF, keine Umleitung". Sichtbar
 #### Folie 04.20: 3NF erfüllt
 
 ```text
-Reveal.js Prompt: Content slide. Fragment 1 zeigt drei blue Tabellen: `courses(course_id, title, lecturer_id)`, `lecturers(lecturer_id, lecturer_name, department_id)` und `departments(department_id, department_name)`. Schlüssel sind amber und unterstrichen, Fremdschlüssel blue; blue Pfeile verbinden `courses.lecturer_id` mit `lecturers.lecturer_id` und `lecturers.department_id` mit `departments.department_id`. Fragment 2 prüft die FDs jeder Tabelle: `course_id → title, lecturer_id`, `lecturer_id → lecturer_name, department_id`, `department_id → department_name`. Green Ergebnis: "Linke Seite jeder FD = ganzer Schlüssel. Keine Umleitung ✓". Fragment 3 zeigt green: "Umbenennung eines Departments ist wieder genau ein Update." Notizen: "Die Zerlegung entspricht der Struktur in `java/sql/university/schema.sql`. In jeder Tabelle bestimmt der ganze Schlüssel die übrigen Attribute. Ein Department-Name steht damit nur noch an einer Stelle."
+Reveal.js Prompt: Content slide. Fragment 1 zeigt drei blue Tabellen: `courses(course_id, title, lecturer_id)`, `lecturers(lecturer_id, lecturer_name, department_id)` und `departments(department_id, department_name)`. Schlüssel sind amber und unterstrichen, Fremdschlüssel blue; blue Pfeile verbinden `courses.lecturer_id` mit `lecturers.lecturer_id` und `lecturers.department_id` mit `departments.department_id`. Fragment 2 prüft die FDs jeder Tabelle: `course_id → title, lecturer_id`, `lecturer_id → lecturer_name, department_id`, `department_id → department_name`. Green Ergebnis: "Linke Seite jeder FD = ganzer Schlüssel. Keine Umleitung ✓". Fragment 3 zeigt green: "Umbenennung eines Departments ist wieder genau ein Update." Notizen: "Die Zerlegung entspricht der Struktur in `common-example/sql/schema.sql`. In jeder Tabelle bestimmt der ganze Schlüssel die übrigen Attribute. Ein Department-Name steht damit nur noch an einer Stelle."
 ```
 
 #### Folie 04.21: Die Prüfliste der Normalformen
@@ -636,7 +636,7 @@ Reveal.js Prompt: Content slide direkt vor "Das Schema nach 3NF". Ein kompakter 
 #### Folie 04.22: Das Schema nach 3NF
 
 ```text
-Reveal.js Prompt: Full SVG mit den fünf Tabellen und exakten Spalten aus `java/sql/university/schema.sql`: `departments(id,name,code)`, `lecturers(id,first_name,last_name,email,department_id)`, `students(id,first_name,last_name,email,student_number,enrollment_date)`, `courses(id,course_code,title,credits,lecturer_id)`, `enrollments(id,student_id,course_id,grade,enrolled_on)`. Primary Keys amber unterstrichen, Foreign Keys blue mit Pfeil zur Zielspalte. Fragmente: 1 departments und lecturers, 2 courses, 3 students und enrollments, 4 alle Foreign-Key-Pfeile, 5 green Klammer "jede Tatsache an einem Ort". Notizen: "Das ist exakt das Schema aus `java/sql/university/schema.sql`. Enrollment behält `enrolled_on` und `grade`. Das Einschreibedatum am Student heißt `enrollment_date`."
+Reveal.js Prompt: Full SVG mit den fünf Tabellen und exakten Spalten aus `common-example/sql/schema.sql`: `departments(id,name,code)`, `lecturers(id,first_name,last_name,email,department_id)`, `students(id,first_name,last_name,email,student_number,enrollment_date)`, `courses(id,course_code,title,credits,lecturer_id)`, `enrollments(id,student_id,course_id,grade,enrolled_on)`. Primary Keys amber unterstrichen, Foreign Keys blue mit Pfeil zur Zielspalte. Fragmente: 1 departments und lecturers, 2 courses, 3 students und enrollments, 4 alle Foreign-Key-Pfeile, 5 green Klammer "jede Tatsache an einem Ort". Notizen: "Das ist exakt das Schema aus `common-example/sql/schema.sql`. Enrollment behält `enrolled_on` und `grade`. Das Einschreibedatum am Student heißt `enrollment_date`."
 ```
 
 #### Folie 04.23: BCNF prüft jeden Determinanten
@@ -697,7 +697,7 @@ Vorher: `Tabellen, die uns nicht anlügen: Normalisierung`. Aktuell: `Den Tabell
 
 ### Erzählung
 
-Ich öffne eine neue `students.db`. Gestern lagen fünf gezeichnete Tabellen auf Papier. Heute antwortet eine echte Datei. Jetzt ist das Schema keine Skizze mehr, sondern eine ausführbare Regel.
+Ich öffne eine neue `university.db`. Gestern lagen fünf gezeichnete Tabellen auf Papier. Heute antwortet eine echte Datei. Jetzt ist das Schema keine Skizze mehr, sondern eine ausführbare Regel.
 
 SQL ist declarative (deklarativ). Ich sage, welches Ergebnis ich will, nicht welche Schleife Zeile für Zeile laufen soll. Die Datenbank darf einen Ausführungsweg wählen. Das fühlt sich nach Java zuerst ungewohnt an und ist die eigentliche Stärke der Sprache.
 
@@ -735,7 +735,7 @@ Reveal.js Prompt: Layout .lead-question. Frage "Sage ich SQL wie oder was es hol
 #### Folie 05.4: Drei Befehle im Terminal
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/README.md`, Zeilen 9 bis 13. Zeige Zeilen 10 bis 12 vollständig und verbatim: `sqlite3 students.db < schema.sql\nsqlite3 students.db < seed.sql\nsqlite3 -header -column students.db < queries.sql`. Highlights 1|2|3. Rechte Annotationen: "Schema laden", "40 Enrollments laden", "12 Queries ausführen". Fragment 4 zeigt als Terminalergebnis die fünf Tabellennamen `courses departments enrollments lecturers students`. Notizen: "Ich führe die drei Befehle im Verzeichnis `java/sql/university` aus. Die Dateien bauen eine neue Datenbank auf. `queries.sql` ändert Daten, deshalb starten wir jedes Mal mit einer leeren Datei."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/sql/README.md`, Zeilen 9 bis 13. Zeige Zeilen 10 bis 12 vollständig und verbatim: `sqlite3 university.db < schema.sql\nsqlite3 university.db < seed.sql\nsqlite3 -header -column university.db < queries.sql`. Highlights 1|2|3. Rechte Annotationen: "Schema laden", "40 Enrollments laden", "12 Queries ausführen". Fragment 4 zeigt als Terminalergebnis die fünf Tabellennamen `courses departments enrollments lecturers students`. Notizen: "Ich führe die drei Befehle im Verzeichnis `common-example/sql` aus. Die Dateien bauen eine neue Datenbank auf. `queries.sql` ändert Daten, deshalb starten wir jedes Mal mit einer leeren Datei."
 ```
 
 #### Folie 05.5: DDL und DML
@@ -747,13 +747,13 @@ Reveal.js Prompt: Two-column content. Links blue "DDL: CREATE, ALTER, DROP" mit 
 #### Folie 05.6: CREATE TABLE students
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/schema.sql`, Zeilen 18 bis 29, vollständig und verbatim. Code: `CREATE TABLE IF NOT EXISTS students (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    first_name TEXT NOT NULL,\n    last_name TEXT NOT NULL,\n    email TEXT NOT NULL UNIQUE,\n    student_number TEXT NOT NULL UNIQUE,\n    enrollment_date TEXT NOT NULL\n        CHECK (\n            date(enrollment_date) IS NOT NULL\n            AND enrollment_date = date(enrollment_date)\n        )\n);`. Highlights 1-2|3-6|7-11. Notizen: "Der Primary Key gibt Identität. UNIQUE schützt fachliche Schlüssel. Der CHECK erzwingt ein gültiges ISO-Datum."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/sql/schema.sql`, Zeilen 18 bis 29, vollständig und verbatim. Code: `CREATE TABLE IF NOT EXISTS students (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    first_name TEXT NOT NULL,\n    last_name TEXT NOT NULL,\n    email TEXT NOT NULL UNIQUE,\n    student_number TEXT NOT NULL UNIQUE,\n    enrollment_date TEXT NOT NULL\n        CHECK (\n            date(enrollment_date) IS NOT NULL\n            AND enrollment_date = date(enrollment_date)\n        )\n);`. Highlights 1-2|3-6|7-11. Notizen: "Der Primary Key gibt Identität. UNIQUE schützt fachliche Schlüssel. Der CHECK erzwingt ein gültiges ISO-Datum."
 ```
 
 #### Folie 05.7: CREATE TABLE enrollments
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/schema.sql`, Zeilen 40 bis 53, vollständig und verbatim. Code: `CREATE TABLE IF NOT EXISTS enrollments (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    student_id INTEGER NOT NULL,\n    course_id INTEGER NOT NULL,\n    grade REAL CHECK (grade BETWEEN 1.0 AND 5.0),\n    enrolled_on TEXT NOT NULL\n        CHECK (\n            date(enrolled_on) IS NOT NULL\n            AND enrolled_on = date(enrolled_on)\n        ),\n    UNIQUE (student_id, course_id),\n    FOREIGN KEY (student_id) REFERENCES students(id),\n    FOREIGN KEY (course_id) REFERENCES courses(id)\n);`. Highlights 1-4|5-10|11-13. Notizen: "Die Join Table trägt `enrolled_on` und die optionale Note. UNIQUE verhindert doppelte Belegung. Zwei Foreign Keys bewahren die ER-Linien."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/sql/schema.sql`, Zeilen 40 bis 53, vollständig und verbatim. Code: `CREATE TABLE IF NOT EXISTS enrollments (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    student_id INTEGER NOT NULL,\n    course_id INTEGER NOT NULL,\n    grade REAL CHECK (grade BETWEEN 1.0 AND 5.0),\n    enrolled_on TEXT NOT NULL\n        CHECK (\n            date(enrolled_on) IS NOT NULL\n            AND enrolled_on = date(enrolled_on)\n        ),\n    UNIQUE (student_id, course_id),\n    FOREIGN KEY (student_id) REFERENCES students(id),\n    FOREIGN KEY (course_id) REFERENCES courses(id)\n);`. Highlights 1-4|5-10|11-13. Notizen: "Die Join Table trägt `enrolled_on` und die optionale Note. UNIQUE verhindert doppelte Belegung. Zwei Foreign Keys bewahren die ER-Linien."
 ```
 
 #### Folie 05.8: Constraints sind laufende Regeln
@@ -765,43 +765,43 @@ Reveal.js Prompt: Four-card content. Die Karten erscheinen einzeln in dieser Rei
 #### Folie 05.9: INSERT setzt Seed-Zeilen ein
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/seed.sql`, Zeilen 46 bis 53, vollständig und verbatim. Zeige den INSERT für alle sieben Courses. Highlights 46|47-49|50-53. Rechte Ergebnisbox: `7 Courses`, darunter exakt `INF-201`, `INF-202`, `INF-230`, `MAT-110`, `MAT-210`, `WI-101`, `INF-250` in Seed-Reihenfolge. Keine zusätzlichen SQL-Zeilen. Notizen: "Der Seed nennt Spalten explizit und setzt sieben feste IDs. Die Lecturer-IDs 1 bis 5 existieren bereits, weil `seed.sql` Eltern vor Kindern lädt."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/sql/seed.sql`, Zeilen 46 bis 53, vollständig und verbatim. Zeige den INSERT für alle sieben Courses. Highlights 46|47-49|50-53. Rechte Ergebnisbox: `7 Courses`, darunter exakt `INF-201`, `INF-202`, `INF-230`, `MAT-110`, `MAT-210`, `WI-101`, `INF-250` in Seed-Reihenfolge. Keine zusätzlichen SQL-Zeilen. Notizen: "Der Seed nennt Spalten explizit und setzt sieben feste IDs. Die Lecturer-IDs 1 bis 5 existieren bereits, weil `seed.sql` Eltern vor Kindern lädt."
 ```
 
 #### Folie 05.10: Constraint-Fehler lesen
 
 ```text
-Reveal.js Prompt: Terminal SVG. Quellenhinweis unten: "Didaktischer Fehlversuch gegen `java/sql/university/schema.sql`, Zeilen 18 bis 29; `M2023001` stammt aus `seed.sql`, Zeile 25." Grundzustand exakt `INSERT INTO students (first_name, last_name, email, student_number, enrollment_date) VALUES ('Lea', 'Test', 'lea.test@stud.example', 'M2023001', '2025-10-01');`. Fragment 1 red Meldung `UNIQUE constraint failed: students.student_number`. Fragment 2 markiert `M2023001` im INSERT amber und `students.student_number` in der Meldung amber. Notizen: "Der Seed belegt M2023001 bereits für Lena Hoffmann. SQLite nennt verletzte Tabelle und Spalte. Der Fehlversuch steht nicht in einer Repository-Datei."
+Reveal.js Prompt: Terminal SVG. Quellenhinweis unten: "Didaktischer Fehlversuch gegen `common-example/sql/schema.sql`, Zeilen 18 bis 29; `M2023001` stammt aus `seed.sql`, Zeile 25." Grundzustand exakt `INSERT INTO students (first_name, last_name, email, student_number, enrollment_date) VALUES ('Lea', 'Test', 'lea.test@stud.example', 'M2023001', '2025-10-01');`. Fragment 1 red Meldung `UNIQUE constraint failed: students.student_number`. Fragment 2 markiert `M2023001` im INSERT amber und `students.student_number` in der Meldung amber. Notizen: "Der Seed belegt M2023001 bereits für Lena Hoffmann. SQLite nennt verletzte Tabelle und Spalte. Der Fehlversuch steht nicht in einer Repository-Datei."
 ```
 
 #### Folie 05.11: SELECT wählt Spalten
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/queries.sql`, Zeilen 3 bis 6, vollständig und verbatim. Code zeigt Kommentar und Query 1. Highlights 3-4|5-6. Fragment 1 Ergebniskarte `20 Zeilen`, darunter erste Zeile `1 · Lena · Hoffmann · M2023001` und letzte Zeile `20 · Samir · Saleh · M2025005`. Fragment 2 red Kreuz über `SELECT *` als Standard im Anwendungscode. Notizen: "Query 1 nennt vier Spalten und liefert vor den Writes genau 20 Zeilen. Die erste und letzte sichtbare Zeile stammen aus `seed.sql`."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/sql/queries.sql`, Zeilen 3 bis 6, vollständig und verbatim. Code zeigt Kommentar und Query 1. Highlights 3-4|5-6. Fragment 1 Ergebniskarte `20 Zeilen`, darunter erste Zeile `1 · Lena · Hoffmann · M2023001` und letzte Zeile `20 · Samir · Saleh · M2025005`. Fragment 2 red Kreuz über `SELECT *` als Standard im Anwendungscode. Notizen: "Query 1 nennt vier Spalten und liefert vor den Writes genau 20 Zeilen. Die erste und letzte sichtbare Zeile stammen aus `seed.sql`."
 ```
 
 #### Folie 05.12: WHERE filtert Zeilen
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/queries.sql`, Zeilen 8 bis 14, vollständig und verbatim. Highlights 8-9|10-12|13-14. Fragment 1 Ergebniskarten genau in Query-Reihenfolge: `Elif Aydin`, `Zeynep Demir`, `Nele Hartmann`, `Amira Hassan`, `Finn Krüger`. Label `5 Zeilen`. Notizen: "WHERE behält Studierende ab `2024-10-01`. ISO-Daten lassen sich in diesem Format vergleichen. ORDER BY und LIMIT bestimmen, welche fünf Namen sichtbar werden."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/sql/queries.sql`, Zeilen 8 bis 14, vollständig und verbatim. Highlights 8-9|10-12|13-14. Fragment 1 Ergebniskarten genau in Query-Reihenfolge: `Elif Aydin`, `Zeynep Demir`, `Nele Hartmann`, `Amira Hassan`, `Finn Krüger`. Label `5 Zeilen`. Notizen: "WHERE behält Studierende ab `2024-10-01`. ISO-Daten lassen sich in diesem Format vergleichen. ORDER BY und LIMIT bestimmen, welche fünf Namen sichtbar werden."
 ```
 
 #### Folie 05.13: ORDER BY und LIMIT
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/queries.sql`, Zeilen 10 bis 14, ein klar als "gekürzt aus Query 2" markierter Ausschnitt. Code verbatim: `SELECT id, first_name, last_name, enrollment_date\nFROM students\nWHERE enrollment_date >= '2024-10-01'\nORDER BY last_name, first_name\nLIMIT 5;`. Highlights 1-3|4|5. Ergebnisfragment: `5 Zeilen`, Reihenfolge `Aydin, Demir, Hartmann, Hassan, Krüger`. Notizen: "Sortierung ist ohne ORDER BY nicht zugesichert. LIMIT greift nach Filter und Sortierung. Der Ausschnitt ist Query 2 ohne Kommentarzeilen."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/sql/queries.sql`, Zeilen 10 bis 14, ein klar als "gekürzt aus Query 2" markierter Ausschnitt. Code verbatim: `SELECT id, first_name, last_name, enrollment_date\nFROM students\nWHERE enrollment_date >= '2024-10-01'\nORDER BY last_name, first_name\nLIMIT 5;`. Highlights 1-3|4|5. Ergebnisfragment: `5 Zeilen`, Reihenfolge `Aydin, Demir, Hartmann, Hassan, Krüger`. Notizen: "Sortierung ist ohne ORDER BY nicht zugesichert. LIMIT greift nach Filter und Sortierung. Der Ausschnitt ist Query 2 ohne Kommentarzeilen."
 ```
 
 #### Folie 05.14: UPDATE braucht ein WHERE
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/queries.sql`, Zeilen 16 bis 21, vollständig und verbatim. Highlights 16-17|18-20|21. Fragment 1 WHERE amber. Fragment 2 Ergebnisbox `1 · lena.hoffmann@campus.example` und Label `1 Zeile`. Fragment 3 zeigt nur als red Warnkarte den Text `Ohne WHERE: alle Students`, keinen erfundenen SQL-Block. Notizen: "Query 3 ändert Lenas E-Mail-Adresse und liefert mit RETURNING genau eine Zeile. Die nächsten Queries sehen bereits den neuen Wert."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/sql/queries.sql`, Zeilen 16 bis 21, vollständig und verbatim. Highlights 16-17|18-20|21. Fragment 1 WHERE amber. Fragment 2 Ergebnisbox `1 · lena.hoffmann@campus.example` und Label `1 Zeile`. Fragment 3 zeigt nur als red Warnkarte den Text `Ohne WHERE: alle Students`, keinen erfundenen SQL-Block. Notizen: "Query 3 ändert Lenas E-Mail-Adresse und liefert mit RETURNING genau eine Zeile. Die nächsten Queries sehen bereits den neuen Wert."
 ```
 
 #### Folie 05.15: DELETE braucht dieselbe Sorgfalt
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/queries.sql`, Zeilen 23 bis 27, vollständig und verbatim. Highlights 23-24|25-26|27. Fragmente: 1 `student_number = 'M2025005'` amber, 2 Ergebnis `20 · Samir · Saleh`, 3 Label `1 Zeile gelöscht`, 4 Zähler `students: 20 → 19`. Notizen: "Query 4 löscht die kurslose Testperson Samir Saleh und liefert genau eine Zeile mit RETURNING. Die Queries 5 bis 12 laufen danach mit 19 Students."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/sql/queries.sql`, Zeilen 23 bis 27, vollständig und verbatim. Highlights 23-24|25-26|27. Fragmente: 1 `student_number = 'M2025005'` amber, 2 Ergebnis `20 · Samir · Saleh`, 3 Label `1 Zeile gelöscht`, 4 Zähler `students: 20 → 19`. Notizen: "Query 4 löscht die kurslose Testperson Samir Saleh und liefert genau eine Zeile mit RETURNING. Die Queries 5 bis 12 laufen danach mit 19 Students."
 ```
 
 #### Folie 05.16: CRUD und SQL
@@ -895,7 +895,7 @@ Reveal.js Prompt: Animated SVG. Links `students` mit IDs 1,2,3, rechts `enrollme
 #### Folie 06.5: INNER JOIN in SQL
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/queries.sql`, Zeilen 29 bis 40, vollständig und verbatim. Code zeigt Kommentar, Erwartung und Query 5. Highlights 29-30|31-35|36-38|39-40. Fragment 1 Ergebnislabel `16 Zeilen`. Fragment 2 erste Ergebniszeile `Finn · Krüger · Diskrete Mathematik · 1.0`, letzte Ergebniszeile `David · Wolf · Software Engineering · 1.7`. Notizen: "Jede ON-Bedingung folgt einem Foreign Key. Der Filter behält Noten bis 1,7. Gegen den Seed liefert die Query genau 16 Zeilen."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/sql/queries.sql`, Zeilen 29 bis 40, vollständig und verbatim. Code zeigt Kommentar, Erwartung und Query 5. Highlights 29-30|31-35|36-38|39-40. Fragment 1 Ergebnislabel `16 Zeilen`. Fragment 2 erste Ergebniszeile `Finn · Krüger · Diskrete Mathematik · 1.0`, letzte Ergebniszeile `David · Wolf · Software Engineering · 1.7`. Notizen: "Jede ON-Bedingung folgt einem Foreign Key. Der Filter behält Noten bis 1,7. Gegen den Seed liefert die Query genau 16 Zeilen."
 ```
 
 #### Folie 06.6: LEFT JOIN behält links alles
@@ -925,7 +925,7 @@ Reveal.js Prompt: Five-card content. Grundzustand Titel und fünf leere gleich g
 #### Folie 06.10: Courses mit Zahl der Belegungen
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/queries.sql`, Zeilen 50 bis 56, vollständig und verbatim. Highlights 50-51|52-54|55|56. Fragment 1 Ergebnistabelle mit genau sieben Zeilen: `INF-201 8`, `INF-230 7`, `INF-202 6`, `INF-250 5`, `MAT-110 5`, `MAT-210 5`, `WI-101 4`; die Titel stehen in einer mittleren Spalte wie in Query 7. Notizen: "LEFT JOIN hält jeden Course. `COUNT(e.id)` zählt nur echte Enrollments. Der Seed hat keinen leeren Course, die sieben Zähler sind 8, 7, 6, 5, 5, 5 und 4."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/sql/queries.sql`, Zeilen 50 bis 56, vollständig und verbatim. Highlights 50-51|52-54|55|56. Fragment 1 Ergebnistabelle mit genau sieben Zeilen: `INF-201 8`, `INF-230 7`, `INF-202 6`, `INF-250 5`, `MAT-110 5`, `MAT-210 5`, `WI-101 4`; die Titel stehen in einer mittleren Spalte wie in Query 7. Notizen: "LEFT JOIN hält jeden Course. `COUNT(e.id)` zählt nur echte Enrollments. Der Seed hat keinen leeren Course, die sieben Zähler sind 8, 7, 6, 5, 5, 5 und 4."
 ```
 
 #### Folie 06.11: COUNT(*) gegen COUNT(column)
@@ -943,7 +943,7 @@ Reveal.js Prompt: Pipeline SVG FROM/JOIN → WHERE → GROUP BY → HAVING → S
 #### Folie 06.13: HAVING
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/queries.sql`, Zeilen 66 bis 73, vollständig und verbatim. Highlights 66-67|68-70|71-72|73. Fragment 1 Ergebnistabelle mit genau drei Zeilen: `INF-201 · Datenbanken · 8`, `INF-230 · Webentwicklung · 7`, `INF-202 · Programmierung II · 6`. Notizen: "Query 9 filtert Gruppen mit `HAVING COUNT(e.id) >= 6`. Gegen den Seed bleiben genau drei Courses. `WHERE COUNT(...)` wäre zu früh."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/sql/queries.sql`, Zeilen 66 bis 73, vollständig und verbatim. Highlights 66-67|68-70|71-72|73. Fragment 1 Ergebnistabelle mit genau drei Zeilen: `INF-201 · Datenbanken · 8`, `INF-230 · Webentwicklung · 7`, `INF-202 · Programmierung II · 6`. Notizen: "Query 9 filtert Gruppen mit `HAVING COUNT(e.id) >= 6`. Gegen den Seed bleiben genau drei Courses. `WHERE COUNT(...)` wäre zu früh."
 ```
 
 #### Folie 06.14: NULL ist unbekannt, nicht falsch
@@ -955,19 +955,19 @@ Reveal.js Prompt: Content slide. Ausdrücke `grade = NULL` red, `grade IS NULL` 
 #### Folie 06.15: LEFT JOIN sucht fehlende Partner
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/queries.sql`, Zeilen 42 bis 48, vollständig und verbatim. Highlights 42-43|44-46|47-48. Links der Code, rechts eine kleine Row-Matching-Grafik mit Student 19 ohne Enrollment. Fragment 1 markiert `LEFT JOIN`, Fragment 2 markiert `e.id IS NULL`, Fragment 3 zeigt Ergebnis `19 · Hannah · Maier` und Label `1 Zeile`. Notizen: "Query 4 hat Samir Saleh bereits gelöscht. Danach bleibt Hannah Maier als einzige Studentin ohne Course. Der NULL-Test sucht den fehlenden rechten Partner."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/sql/queries.sql`, Zeilen 42 bis 48, vollständig und verbatim. Highlights 42-43|44-46|47-48. Links der Code, rechts eine kleine Row-Matching-Grafik mit Student 19 ohne Enrollment. Fragment 1 markiert `LEFT JOIN`, Fragment 2 markiert `e.id IS NULL`, Fragment 3 zeigt Ergebnis `19 · Hannah · Maier` und Label `1 Zeile`. Notizen: "Query 4 hat Samir Saleh bereits gelöscht. Danach bleibt Hannah Maier als einzige Studentin ohne Course. Der NULL-Test sucht den fehlenden rechten Partner."
 ```
 
 #### Folie 06.16: Subquery beantwortet eine Teilfrage
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/queries.sql`, Zeilen 75 bis 90, vollständig und verbatim. Highlights 75-76|79-88|77-78|89-90. Fragment 1 Ergebnislabel `7 Zeilen`. Fragment 2 Namen in Query-Reihenfolge: `Zeynep Demir`, `Nele Hartmann`, `Lena Hoffmann`, `Aylin Kaya`, `Finn Krüger`, `Noah Schulz`, `Mia Wagner`. Notizen: "Die innere Subquery berechnet den Gesamtdurchschnitt. Die gruppierte mittlere Query vergleicht jeden Student-Durchschnitt damit. Kleinere Noten sind besser, deshalb nutzt HAVING das Kleinerzeichen."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/sql/queries.sql`, Zeilen 75 bis 90, vollständig und verbatim. Highlights 75-76|79-88|77-78|89-90. Fragment 1 Ergebnislabel `7 Zeilen`. Fragment 2 Namen in Query-Reihenfolge: `Zeynep Demir`, `Nele Hartmann`, `Lena Hoffmann`, `Aylin Kaya`, `Finn Krüger`, `Noah Schulz`, `Mia Wagner`. Notizen: "Die innere Subquery berechnet den Gesamtdurchschnitt. Die gruppierte mittlere Query vergleicht jeden Student-Durchschnitt damit. Kleinere Noten sind besser, deshalb nutzt HAVING das Kleinerzeichen."
 ```
 
 #### Folie 06.17: DISTINCT entfernt Duplikate
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/sql/university/queries.sql`, Zeilen 101 bis 108, vollständig und verbatim. Highlights 101-102|103|104-107|108. Fragment 1 zeigt vor DISTINCT drei mehrfach wiederkehrende Codes als graue Karten. Fragment 2 zeigt exakt drei Ergebniszeilen: `INF · Informatik`, `MAT · Mathematik`, `WI · Wirtschaftswissenschaften`. Fragment 3 amber Hinweis "DISTINCT entfernt Ergebnisduplikate, keinen falschen JOIN". Notizen: "Query 12 verbindet alle fünf Tabellen und liefert genau drei Fachbereiche. DISTINCT ist hier fachlich gewollt, weil jeder Department-Code einmal erscheinen soll."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/sql/queries.sql`, Zeilen 101 bis 108, vollständig und verbatim. Highlights 101-102|103|104-107|108. Fragment 1 zeigt vor DISTINCT drei mehrfach wiederkehrende Codes als graue Karten. Fragment 2 zeigt exakt drei Ergebniszeilen: `INF · Informatik`, `MAT · Mathematik`, `WI · Wirtschaftswissenschaften`. Fragment 3 amber Hinweis "DISTINCT entfernt Ergebnisduplikate, keinen falschen JOIN". Notizen: "Query 12 verbindet alle fünf Tabellen und liefert genau drei Fachbereiche. DISTINCT ist hier fachlich gewollt, weil jeder Department-Code einmal erscheinen soll."
 ```
 
 #### Folie 06.18: Übung B2, vier geprüfte Fragen
@@ -979,7 +979,7 @@ Reveal.js Prompt: Layout .exercise-slide. Tag "Übung B2", Timer "45 min". Datei
 #### Folie 06.19: (Reserve) Ein Fenster behält jede Zeile
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Markiert "(Reserve)". Quellenhinweis sichtbar: "Didaktische Erweiterung, nicht in `queries.sql`. Verwendet die Spalten aus `java/sql/university/schema.sql`, Zeilen 40 bis 53." Code: `SELECT course_id, student_id,\n       COUNT(*) OVER (PARTITION BY course_id) AS course_count\nFROM enrollments;`. Fragment 1 GROUP-BY-Ergebnis eine Zeile pro Course, Fragment 2 Window-Ergebnis alle 40 Enrollment-Zeilen green. Notizen: "Window Functions aggregieren, ohne die Detailzeilen zu falten. Der Seed hat 40 Enrollments, deshalb liefert der Ausschnitt 40 Zeilen. Diese Folie entfällt zuerst."
+Reveal.js Prompt: Layout .code-slide. Markiert "(Reserve)". Quellenhinweis sichtbar: "Didaktische Erweiterung, nicht in `queries.sql`. Verwendet die Spalten aus `common-example/sql/schema.sql`, Zeilen 40 bis 53." Code: `SELECT course_id, student_id,\n       COUNT(*) OVER (PARTITION BY course_id) AS course_count\nFROM enrollments;`. Fragment 1 GROUP-BY-Ergebnis eine Zeile pro Course, Fragment 2 Window-Ergebnis alle 40 Enrollment-Zeilen green. Notizen: "Window Functions aggregieren, ohne die Detailzeilen zu falten. Der Seed hat 40 Enrollments, deshalb liefert der Ausschnitt 40 Zeilen. Diese Folie entfällt zuerst."
 ```
 
 #### Folie 06.20: GitHub fasst Beiträge pro Person zusammen
@@ -1004,7 +1004,7 @@ Vorher: `Den Tabellen Fragen stellen: SQL`. Aktuell: `Aus Java fragen: JDBC, Cur
 
 ### Erzählung
 
-Bis jetzt war ich selbst der Client: Ich tippte SQL in `sqlite3`. Nun übernimmt Java. Der JDBC Driver übersetzt die einheitlichen Java-Aufrufe in das Protokoll oder Dateiformat der Datenbank. Für SQLite endet der Weg in `students.db`.
+Bis jetzt war ich selbst der Client: Ich tippte SQL in `sqlite3`. Nun übernimmt Java. Der JDBC Driver übersetzt die einheitlichen Java-Aufrufe in das Protokoll oder Dateiformat der Datenbank. Für SQLite endet der Weg in `university.db`.
 
 Ein `ResultSet` ist kein fertiges `List<Student>`. Der Cursor steht zuerst vor der ersten Zeile. `next()` bewegt ihn. Danach lese ich Spalten und baue ein Objekt. Genau diese Zuordnung wiederholt sich im einfachen Programm mehrmals.
 
@@ -1045,13 +1045,13 @@ Reveal.js Prompt: Layout .lead-question. Frage "Wer übersetzt `prepareStatement
 #### Folie 07.4: Der JDBC-Weg
 
 ```text
-Reveal.js Prompt: SVG mit Boxen Application, JDBC API, SQLite Driver, `students.db`. Fragmente: Pfeile nacheinander blue; Rückweg ResultSet amber. Text: "eine Java-API, konkrete Driver". Notizen: "Unser Anwendungscode spricht JDBC. Der Driver kennt SQLite. Ein anderer JDBC-Driver kann denselben Grundcode mit PostgreSQL verbinden, Details bleiben trotzdem verschieden."
+Reveal.js Prompt: SVG mit Boxen Application, JDBC API, SQLite Driver, `university.db`. Fragmente: Pfeile nacheinander blue; Rückweg ResultSet amber. Text: "eine Java-API, konkrete Driver". Notizen: "Unser Anwendungscode spricht JDBC. Der Driver kennt SQLite. Ein anderer JDBC-Driver kann denselben Grundcode mit PostgreSQL verbinden, Details bleiben trotzdem verschieden."
 ```
 
 #### Folie 07.5: Connection öffnen
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/cursor-simple/src/main/java/org/lecture/Main.java`, Zeile 13 sowie Zeilen 65 bis 67. Als zwei klar getrennte, verbatim Quellkarten zeigen: `private static final String DATABASE_URL = "jdbc:sqlite:students.db";` und `try (Connection connection = DriverManager.getConnection(DATABASE_URL);\n     Statement statement = connection.createStatement()) {\n    statement.execute(sql);`. Label über der zweiten Karte: "gekürzt: Block endet in Zeile 71". Highlights 13|65-66|67. Notizen: "Die URL wählt Driver und Datei. Die Connection begrenzt eine Sitzung. Der vollständige try-with-resources-Block in den Zeilen 65 bis 71 schließt Connection und Statement."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/jdbc/src/main/java/org/lecture/Main.java`, Zeile 13 sowie Zeilen 65 bis 67. Als zwei klar getrennte, verbatim Quellkarten zeigen: `private static final String DATABASE_URL = "jdbc:sqlite:university.db";` und `try (Connection connection = DriverManager.getConnection(DATABASE_URL);\n     Statement statement = connection.createStatement()) {\n    statement.execute(sql);`. Label über der zweiten Karte: "gekürzt: Block endet in Zeile 71". Highlights 13|65-66|67. Notizen: "Die URL wählt Driver und Datei. Die Connection begrenzt eine Sitzung. Der vollständige try-with-resources-Block in den Zeilen 65 bis 71 schließt Connection und Statement."
 ```
 
 #### Folie 07.6: Statement oder PreparedStatement?
@@ -1063,13 +1063,13 @@ Reveal.js Prompt: Two-column content. Links red `Statement` plus String-Verkettu
 #### Folie 07.7: SQL Injection live
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quellenhinweis sichtbar: "Didaktisches Gegenbeispiel, nicht im Repository. Abgeleitet von der sicheren SELECT-Struktur in `java/cursor-simple/src/main/java/org/lecture/Main.java`, Zeilen 137 bis 145." Grundcode red: `String sql = "SELECT * FROM students WHERE email = '" + input + "'";`. Fragment 1 Eingabe `' OR 1=1 --`, Fragment 2 resultierendes SQL, Fragment 3 alle Student-Zeilen red. Notizen: "Ich führe die harmlose Demo nur gegen lokale Seed-Daten aus. Das Repository enthält diese unsichere Variante nicht. Die Eingabe beendet den String und ergänzt SQL-Syntax."
+Reveal.js Prompt: Layout .code-slide. Quellenhinweis sichtbar: "Didaktisches Gegenbeispiel, nicht im Repository. Abgeleitet von der sicheren SELECT-Struktur in `common-example/jdbc/src/main/java/org/lecture/Main.java`, Zeilen 137 bis 145." Grundcode red: `String sql = "SELECT * FROM students WHERE email = '" + input + "'";`. Fragment 1 Eingabe `' OR 1=1 --`, Fragment 2 resultierendes SQL, Fragment 3 alle Student-Zeilen red. Notizen: "Ich führe die harmlose Demo nur gegen lokale Seed-Daten aus. Das Repository enthält diese unsichere Variante nicht. Die Eingabe beendet den String und ergänzt SQL-Syntax."
 ```
 
 #### Folie 07.8: PreparedStatement trennt Code und Daten
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/cursor-simple/src/main/java/org/lecture/Main.java`, Zeilen 137 bis 147, gekürzt und mit `…` markiert. Zeige verbatim die SQL-Zeilen 137 bis 141, danach `…`, dann verbatim die Zeilen 143 bis 147. Highlights SQL mit `?`|`prepareStatement`|`setInt`|`executeQuery`. Fragment: Wert `id` läuft als blue Datenpfeil zum Placeholder, nicht in den SQL-Text. Notizen: "Main bindet die ID als Datenwert. Der gezeigte Ausschnitt lässt nur Leerzeilen aus und markiert die ausgelassene Stelle. Escaping von Hand ist kein gleichwertiger Ersatz."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/jdbc/src/main/java/org/lecture/Main.java`, Zeilen 137 bis 147, gekürzt und mit `…` markiert. Zeige verbatim die SQL-Zeilen 137 bis 141, danach `…`, dann verbatim die Zeilen 143 bis 147. Highlights SQL mit `?`|`prepareStatement`|`setInt`|`executeQuery`. Fragment: Wert `id` läuft als blue Datenpfeil zum Placeholder, nicht in den SQL-Text. Notizen: "Main bindet die ID als Datenwert. Der gezeigte Ausschnitt lässt nur Leerzeilen aus und markiert die ausgelassene Stelle. Escaping von Hand ist kein gleichwertiger Ersatz."
 ```
 
 #### Folie 07.9: Der Cursor startet vor Zeile 1
@@ -1081,13 +1081,13 @@ Reveal.js Prompt: SVG Ergebnistabelle mit Cursorpfeil oberhalb. Fragmente: 1 `rs
 #### Folie 07.10: ResultSet wird Student
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/cursor-simple/src/main/java/org/lecture/Main.java`, Zeilen 115 bis 122, vollständig und verbatim. Code: `Student student = new Student(\n        resultSet.getInt("id"),\n        resultSet.getString("first_name"),\n        resultSet.getString("last_name"),\n        resultSet.getString("email"),\n        resultSet.getString("student_number"),\n        LocalDate.parse(resultSet.getString("enrollment_date"))\n);`. Highlights 1|2-6|7-8. Notizen: "Die Namen entsprechen `students` in `schema.sql`. Hier wird eine Zeile zum Objekt. Ein falscher Spaltenname fällt erst zur Laufzeit auf."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/jdbc/src/main/java/org/lecture/Main.java`, Zeilen 115 bis 122, vollständig und verbatim. Code: `Student student = new Student(\n        resultSet.getInt("id"),\n        resultSet.getString("first_name"),\n        resultSet.getString("last_name"),\n        resultSet.getString("email"),\n        resultSet.getString("student_number"),\n        LocalDate.parse(resultSet.getString("enrollment_date"))\n);`. Highlights 1|2-6|7-8. Notizen: "Die Namen entsprechen `students` in `schema.sql`. Hier wird eine Zeile zum Objekt. Ein falscher Spaltenname fällt erst zur Laufzeit auf."
 ```
 
 #### Folie 07.11: SELECT und Cursor zusammen
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/cursor-simple/src/main/java/org/lecture/Main.java`, Zeilen 103 bis 124, vollständig und verbatim. Highlights 103-107|109-111|112-115|116-122|123-124. Annotation rechts: "Query · Ressourcen · Cursor · Row Mapping". Notizen: "PreparedStatement und ResultSet haben getrennte Lebensdauern. try-with-resources schließt in umgekehrter Reihenfolge. Die while-Schleife verarbeitet null bis viele Zeilen."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/jdbc/src/main/java/org/lecture/Main.java`, Zeilen 103 bis 124, vollständig und verbatim. Highlights 103-107|109-111|112-115|116-122|123-124. Annotation rechts: "Query · Ressourcen · Cursor · Row Mapping". Notizen: "PreparedStatement und ResultSet haben getrennte Lebensdauern. try-with-resources schließt in umgekehrter Reihenfolge. Die while-Schleife verarbeitet null bis viele Zeilen."
 ```
 
 #### Folie 07.12: try-with-resources räumt auf
@@ -1099,7 +1099,7 @@ Reveal.js Prompt: SVG verschachtelte Rahmen Connection, PreparedStatement, Resul
 #### Folie 07.13: INSERT mit gebundenen Werten
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Sichtbares Label "Vertiefung · Schreiben". Quelle sichtbar unten: `java/cursor-simple/src/main/java/org/lecture/Main.java`, Zeilen 82 bis 95, vollständig und verbatim. Highlights 82-85|87-88|89-93|94-95. Annotation rechts: "SQL · PreparedStatement · fünf Bindings · executeUpdate". Notizen: "Parameterpositionen beginnen bei 1. Ihre Reihenfolge folgt den Fragezeichen. Das Datum wird im vereinbarten ISO-Format gebunden."
+Reveal.js Prompt: Layout .code-slide. Sichtbares Label "Vertiefung · Schreiben". Quelle sichtbar unten: `common-example/jdbc/src/main/java/org/lecture/Main.java`, Zeilen 82 bis 95, vollständig und verbatim. Highlights 82-85|87-88|89-93|94-95. Annotation rechts: "SQL · PreparedStatement · fünf Bindings · executeUpdate". Notizen: "Parameterpositionen beginnen bei 1. Ihre Reihenfolge folgt den Fragezeichen. Das Datum wird im vereinbarten ISO-Format gebunden."
 ```
 
 #### Folie 07.14: executeQuery oder executeUpdate
@@ -1117,7 +1117,7 @@ Reveal.js Prompt: Content slide. Pfad 1 SQLite-Spalte `enrollment_date TEXT`, Pf
 #### Folie 07.16: Dasselbe Row Mapping zweimal
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/cursor-simple/src/main/java/org/lecture/Main.java`. Zwei gleich breite Codekarten: links Zeilen 115 bis 122, rechts Zeilen 149 bis 156, jeweils vollständig und verbatim. Fragmente: 1 linke Karte, 2 rechte Karte, 3 rote Klammer "derselbe Konstruktorblock zweimal". Notizen: "Das Programm funktioniert, aber dieselbe Abbildung kann auseinanderlaufen. Deck 08 zeigt `MainRefactored.rowToStudent` als gemeinsame Stelle."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/jdbc/src/main/java/org/lecture/Main.java`. Zwei gleich breite Codekarten: links Zeilen 115 bis 122, rechts Zeilen 149 bis 156, jeweils vollständig und verbatim. Fragmente: 1 linke Karte, 2 rechte Karte, 3 rote Klammer "derselbe Konstruktorblock zweimal". Notizen: "Das Programm funktioniert, aber dieselbe Abbildung kann auseinanderlaufen. Deck 08 zeigt `MainRefactored.rowToStudent` als gemeinsame Stelle."
 ```
 
 #### Folie 07.17: Fehler enthalten Kontext
@@ -1126,10 +1126,10 @@ Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/cursor-simple
 Reveal.js Prompt: Two-column content. Links red `catch (SQLException e)`, rechts amber Kontext `operation`, `student id`, `constraint`, ohne Passwort oder komplettes SQL. Fragment 1 schlechte Meldung "Database error", Fragment 2 konkrete Meldung green. Notizen: "Eine Fehlermeldung soll die Operation und den betroffenen Identifier nennen. Sensible Werte gehören nicht ins Log. SQLException bleibt die technische Ursache."
 ```
 
-#### Folie 07.18: Walkthrough durch cursor-simple
+#### Folie 07.18: Walkthrough durch common-example/jdbc
 
 ```text
-Reveal.js Prompt: Content slide mit Dateipfad `java/cursor-simple/src/main/java/org/lecture/Main.java`. Fünf gleich große Ablaufkarten: `initializeDatabase`, `createStudent`, `listAllStudents`, `readStudent`, `updateStudent/deleteStudent`; darunter kleine Karte `Input-Helfer`. Fragmente entlang blue Pfeil. Notizen: "Die Datei hat 248 Zeilen. Wir folgen einem Create und einem Read. Danach markieren wir die beiden Row-Mapping-Blöcke für das nächste Kapitel."
+Reveal.js Prompt: Content slide mit Dateipfad `common-example/jdbc/src/main/java/org/lecture/Main.java`. Fünf gleich große Ablaufkarten: `initializeDatabase`, `createStudent`, `listAllStudents`, `readStudent`, `updateStudent/deleteStudent`; darunter kleine Karte `Input-Helfer`. Fragmente entlang blue Pfeil. Notizen: "Die Datei hat 248 Zeilen. Wir folgen einem Create und einem Read. Danach markieren wir die beiden Row-Mapping-Blöcke für das nächste Kapitel."
 ```
 
 #### Folie 07.19: B3, eure Hauptressource lesen
@@ -1162,7 +1162,7 @@ B3, "Eure Hauptressource mit JDBC lesen", dauert 45 Minuten. Die Gruppe arbeitet
 
 ### Code
 
-Gezeigt wird zuerst `java/cursor-simple/src/main/java/org/lecture/Student.java`, Zeilen 1 bis 58 vollständig. Danach folgt `java/cursor-simple/src/main/java/org/lecture/Main.java` in dieser Reihenfolge: Datenbank-URL, main und Menü in den Zeilen 12 bis 47, Initialisierung 49 bis 72, Create 74 bis 99, List und Cursor 101 bis 132, Read 134 bis 166, Update 168 bis 201 und Delete 203 bis 220. Die beiden Row-Mapping-Blöcke in den Zeilen 115 bis 122 und 149 bis 156 werden vollständig und direkt nebeneinander gezeigt.
+Gezeigt wird zuerst `common-example/jdbc/src/main/java/org/lecture/Student.java`, Zeilen 1 bis 58 vollständig. Danach folgt `common-example/jdbc/src/main/java/org/lecture/Main.java` in dieser Reihenfolge: Datenbank-URL, main und Menü in den Zeilen 12 bis 47, Initialisierung 49 bis 72, Create 74 bis 99, List und Cursor 101 bis 132, Read 134 bis 166, Update 168 bis 201 und Delete 203 bis 220. Die beiden Row-Mapping-Blöcke in den Zeilen 115 bis 122 und 149 bis 156 werden vollständig und direkt nebeneinander gezeigt.
 
 Der für die Folie relevante Anfang der Student-Klasse, Zeilen 5 bis 21, lautet verbatim:
 
@@ -1199,7 +1199,7 @@ Student student = new Student(
 );
 ```
 
-Für die Injection-Demo zeigt Folie 07.7 ein didaktisches Gegenbeispiel. Es steht nicht im Repository. Die sichere SELECT-Struktur, von der die Folie ausgeht, steht in `java/cursor-simple/src/main/java/org/lecture/Main.java`, Zeilen 137 bis 147. Der unsichere Einzeiler ist deshalb auf der Folie ausdrücklich als abgeleitet und nicht als Repo-Code markiert:
+Für die Injection-Demo zeigt Folie 07.7 ein didaktisches Gegenbeispiel. Es steht nicht im Repository. Die sichere SELECT-Struktur, von der die Folie ausgeht, steht in `common-example/jdbc/src/main/java/org/lecture/Main.java`, Zeilen 137 bis 147. Der unsichere Einzeiler ist deshalb auf der Folie ausdrücklich als abgeleitet und nicht als Repo-Code markiert:
 
 ```java
 String sql = "SELECT * FROM students WHERE email = '" + input + "'";
@@ -1260,13 +1260,13 @@ Reveal.js Prompt: Layout .lead-question. Frage "Was kopiert ihr für Course aus 
 #### Folie 08.4: Interface zuerst
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/repository-simple/src/main/java/org/lecture/AbstractRepository.java`, Zeilen 12 bis 17, vollständig und verbatim. Code: `public interface AbstractRepository<T> {\n\n    Connection getConnection();\n\n    Class<T> getClassType();`. Am unteren Rand steht der klare Hinweis `gekürzt: Default-Methoden all/get/create/update/delete folgen ab Zeile 18`. Highlights 12|14|16. Fragment 1 fünf Methodenkarten `all`, `get`, `create`, `update`, `delete` unter dem Interface. Notizen: "Das echte Interface fordert Connection und Laufzeittyp. Die CRUD-Operationen sind Default-Methoden im selben Interface. StudentRepository liefert die beiden fehlenden Angaben."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/repository/src/main/java/org/lecture/AbstractRepository.java`, Zeilen 12 bis 17, vollständig und verbatim. Code: `public interface AbstractRepository<T> {\n\n    Connection getConnection();\n\n    Class<T> getClassType();`. Am unteren Rand steht der klare Hinweis `gekürzt: Default-Methoden all/get/create/update/delete folgen ab Zeile 18`. Highlights 12|14|16. Fragment 1 fünf Methodenkarten `all`, `get`, `create`, `update`, `delete` unter dem Interface. Notizen: "Das echte Interface fordert Connection und Laufzeittyp. Die CRUD-Operationen sind Default-Methoden im selben Interface. StudentRepository liefert die beiden fehlenden Angaben."
 ```
 
 #### Folie 08.5: rowToStudent zieht die Kopie zusammen
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/cursor-simple/src/main/java/org/lecture/MainRefactored.java`, Zeilen 152 bis 161, vollständig und verbatim. Links der Methodenblock, rechts zwei Aufrufkarten mit den verbatim Zeilen 115 und 142: `System.out.println(rowToStudent(resultSet));`. Fragmente: 1 Methode, 2 Aufruf aus List, 3 Aufruf aus Read, 4 green Klammer "eine Abbildung". Notizen: "Der erste Refactor ist klein. Eine Stelle entscheidet über Spaltennamen und Datum. List und Read rufen dieselbe Methode auf."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/jdbc/src/main/java/org/lecture/MainRefactored.java`, Zeilen 152 bis 161, vollständig und verbatim. Links der Methodenblock, rechts zwei Aufrufkarten mit den verbatim Zeilen 115 und 142: `System.out.println(rowToStudent(resultSet));`. Fragmente: 1 Methode, 2 Aufruf aus List, 3 Aufruf aus Read, 4 green Klammer "eine Abbildung". Notizen: "Der erste Refactor ist klein. Eine Stelle entscheidet über Spaltennamen und Datum. List und Read rufen dieselbe Methode auf."
 ```
 
 #### Folie 08.6: AbstractRepository<T>
@@ -1278,19 +1278,19 @@ Reveal.js Prompt: Content slide with SVG, sichtbar als "Anhang" markiert. Oben `
 #### Folie 08.7: Reflection liest die Felder
 
 ```text
-Reveal.js Prompt: Layout .code-slide, sichtbar als "Anhang · nicht Teil des Kernpfads" markiert. Quelle sichtbar unten: `java/repository-simple/src/main/java/org/lecture/AbstractRepository.java`, Zeilen 126 bis 138, vollständig und verbatim. Highlights 126-127|129-131|132-134|137. Annotation rechts: "Instanz bauen · Annotation lesen · Spaltenwert setzen". Notizen: "Reflection untersucht Klassen zur Laufzeit. Unsere Annotation sagt, welche Felder Datenbankspalten sind. Das spart Code, verschiebt Fehler aber zur Laufzeit."
+Reveal.js Prompt: Layout .code-slide, sichtbar als "Anhang · nicht Teil des Kernpfads" markiert. Quelle sichtbar unten: `common-example/repository/src/main/java/org/lecture/AbstractRepository.java`, Zeilen 126 bis 138, vollständig und verbatim. Highlights 126-127|129-131|132-134|137. Annotation rechts: "Instanz bauen · Annotation lesen · Spaltenwert setzen". Notizen: "Reflection untersucht Klassen zur Laufzeit. Unsere Annotation sagt, welche Felder Datenbankspalten sind. Das spart Code, verschiebt Fehler aber zur Laufzeit."
 ```
 
 #### Folie 08.8: @Entity und @Column
 
 ```text
-Reveal.js Prompt: Layout .code-slide, sichtbar als "Anhang · Reflection" markiert. Quelle sichtbar unten: `java/repository-simple/src/main/java/org/lecture/Student.java`, Zeilen 3 bis 21, vollständig und verbatim. Highlights 3|5-9|11-15|17-21. Rechte Annotationen: "Klasse → students", "Felder → id, first_name, last_name, email, student_number, enrollment_date". Notizen: "Die Annotation ist Metadaten. Sie führt keinen SQL-Befehl aus. AbstractRepository liest alle sechs Spaltennamen später mit Reflection."
+Reveal.js Prompt: Layout .code-slide, sichtbar als "Anhang · Reflection" markiert. Quelle sichtbar unten: `common-example/repository/src/main/java/org/lecture/Student.java`, Zeilen 3 bis 21, vollständig und verbatim. Highlights 3|5-9|11-15|17-21. Rechte Annotationen: "Klasse → students", "Felder → id, first_name, last_name, email, student_number, enrollment_date". Notizen: "Die Annotation ist Metadaten. Sie führt keinen SQL-Befehl aus. AbstractRepository liest alle sechs Spaltennamen später mit Reflection."
 ```
 
 #### Folie 08.9: Generisches create
 
 ```text
-Reveal.js Prompt: Layout .code-slide, sichtbar als "Anhang · Reflection" markiert. Quelle sichtbar unten: `java/repository-simple/src/main/java/org/lecture/AbstractRepository.java`, Zeilen 43 bis 64, vollständig und verbatim. Highlights 43-46|48-51|53-54|56-63. Annotation rechts: "Felder · Spalten und ? · Bindung · Write". Notizen: "Der Ablauf hängt nicht mehr von Student ab. Reflection liefert Feldnamen und Werte. In Produktionscode müssten wir Typkonvertierung und weitere Fehlerfälle sauberer lösen."
+Reveal.js Prompt: Layout .code-slide, sichtbar als "Anhang · Reflection" markiert. Quelle sichtbar unten: `common-example/repository/src/main/java/org/lecture/AbstractRepository.java`, Zeilen 43 bis 64, vollständig und verbatim. Highlights 43-46|48-51|53-54|56-63. Annotation rechts: "Felder · Spalten und ? · Bindung · Write". Notizen: "Der Ablauf hängt nicht mehr von Student ab. Reflection liefert Feldnamen und Werte. In Produktionscode müssten wir Typkonvertierung und weitere Fehlerfälle sauberer lösen."
 ```
 
 #### Folie 08.10: Die Kosten der Reflection
@@ -1320,7 +1320,7 @@ Reveal.js Prompt: Timeline SVG mit sichtbarem Hinweis "Hypothetischer Release-Ve
 #### Folie 08.14: Flyway nummeriert Schemaänderungen
 
 ```text
-Reveal.js Prompt: Content slide with file timeline. Quelle sichtbar unten: `java/rest-simple/src/main/resources/db/migration/`. Drei gleich breite Dateikarten mit den vorhandenen Namen `V1__Create_student_table.sql` → `V2__Create_admin_table.sql` → `V3__Create_refresh_token_table.sql`. Fragmente: 1 V1, 2 V2, 3 V3, 4 green Tabelle `flyway_schema_history` mit Spalten `version`, `description`, `checksum`, `success`. Notizen: "Diese drei Dateien existieren im größeren Spring-Beispiel. Flyway führt offene Versionen in Reihenfolge aus und protokolliert Checksummen. Eine angewandte Version ändern wir nicht nachträglich."
+Reveal.js Prompt: Content slide with file timeline. Quelle sichtbar unten: `common-example/advanced-backend/src/main/resources/db/migration/`. Drei gleich breite Dateikarten mit den vorhandenen Namen `V1__Create_student_table.sql` → `V2__Create_admin_table.sql` → `V3__Create_refresh_token_table.sql`. Fragmente: 1 V1, 2 V2, 3 V3, 4 green Tabelle `flyway_schema_history` mit Spalten `version`, `description`, `checksum`, `success`. Notizen: "Diese drei Dateien existieren im größeren Spring-Beispiel. Flyway führt offene Versionen in Reihenfolge aus und protokolliert Checksummen. Eine angewandte Version ändern wir nicht nachträglich."
 ```
 
 #### Folie 08.15: (Reserve) Eine Transaktion ist eine Einheit
@@ -1347,7 +1347,7 @@ B4, "Repository-Grenze freiziehen", ist ein verpflichtender 15-minütiger Kernau
 
 ### Code
 
-Zuerst wird `java/cursor-simple/src/main/java/org/lecture/MainRefactored.java` gezeigt. `listAllStudents` in den Zeilen 101 bis 124 und `readStudent` in den Zeilen 126 bis 150 rufen dieselbe Methode auf. `rowToStudent` in den Zeilen 152 bis 161 lautet verbatim:
+Zuerst wird `common-example/jdbc/src/main/java/org/lecture/MainRefactored.java` gezeigt. `listAllStudents` in den Zeilen 101 bis 124 und `readStudent` in den Zeilen 126 bis 150 rufen dieselbe Methode auf. `rowToStudent` in den Zeilen 152 bis 161 lautet verbatim:
 
 ```java
 private static Student rowToStudent(ResultSet resultSet) throws SQLException {
@@ -1362,7 +1362,7 @@ private static Student rowToStudent(ResultSet resultSet) throws SQLException {
 }
 ```
 
-Danach folgen `java/repository-simple/src/main/java/org/lecture/Entity.java` vollständig, `Column.java` vollständig und `Student.java` vollständig. Aus `java/repository-simple/src/main/java/org/lecture/AbstractRepository.java` kommen in dieser Reihenfolge: Interface-Kopf 12 bis 17, `all()` 18 bis 30, `get()` 32 bis 41, `create()` 43 bis 64, `update()` 66 bis 85, `getTableName()` 96 bis 102 und `fromResultSet()` 126 bis 138. Der letzte Ausschnitt lautet verbatim:
+Danach folgen `common-example/repository/src/main/java/org/lecture/Entity.java` vollständig, `Column.java` vollständig und `Student.java` vollständig. Aus `common-example/repository/src/main/java/org/lecture/AbstractRepository.java` kommen in dieser Reihenfolge: Interface-Kopf 12 bis 17, `all()` 18 bis 30, `get()` 32 bis 41, `create()` 43 bis 64, `update()` 66 bis 85, `getTableName()` 96 bis 102 und `fromResultSet()` 126 bis 138. Der letzte Ausschnitt lautet verbatim:
 
 ```java
 T instance = getClassType().getDeclaredConstructor().newInstance();
@@ -1378,7 +1378,7 @@ for (Field field : getClassType().getDeclaredFields()) {
 return instance;
 ```
 
-Als Brücke zu Tag 3 wird `java/rest-simple/src/main/java/com/example/restsimple/adapter/out/persistence/StudentJpaRepository.java`, Zeilen 1 bis 17, gezeigt. Der Kern in den Zeilen 11 bis 17 lautet verbatim:
+Als Brücke zu Tag 3 wird `common-example/advanced-backend/src/main/java/com/example/restsimple/adapter/out/persistence/StudentJpaRepository.java`, Zeilen 1 bis 17, gezeigt. Der Kern in den Zeilen 11 bis 17 lautet verbatim:
 
 ```java
 public interface StudentJpaRepository extends JpaRepository<StudentJpaEntity, String> {
@@ -1504,7 +1504,7 @@ Reveal.js Prompt: SVG OpenAPI-Datei in Mitte, Pfeile zu Swagger UI, Clientgenera
 #### Folie 09.14: Ein kleiner OpenAPI-Ausschnitt
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quellenhinweis sichtbar: "Gekürztes Lehrbeispiel zum OpenAPI-Endpunkt aus `java/rest-simple-exercise/README.md`, Zeilen 30 bis 35. Kein gespeicherter Repo-Ausschnitt." YAML: `paths:\n  /api/students:\n    post:\n      responses:\n        '201':\n          description: Student created\n        '400':\n          description: Invalid request`. Highlights 1-3|4-8. Notizen: "Der Vertrag zeigt zwei Ausgänge. Das Skeleton liefert OpenAPI unter `/v3/api-docs`. SpringDoc erzeugt die Beschreibung zur Laufzeit, deshalb gibt es dafür keine YAML-Datei im Repository."
+Reveal.js Prompt: Layout .code-slide. Quellenhinweis sichtbar: `common-example/frontend/api/openapi.yaml`. YAML gekürzt auf `paths`, `/api/students`, `post` sowie die Responses `201` und `400`. Highlights 1-3|4-8. Notizen: "Der Vertrag zeigt zwei Ausgänge. Die vollständige Datei enthält außerdem GET, 404, 409 und die drei Schemas. SpringDoc liefert zur Laufzeit denselben Vertrag unter `/v3/api-docs`."
 ```
 
 #### Folie 09.15: GitHub und Stripe
@@ -1606,7 +1606,7 @@ Reveal.js Prompt: Precise SVG. Box Spring Container oben. Er erzeugt `StudentRep
 #### Folie 10.7: Der Startpunkt
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/rest-simple-exercise/src/main/java/com/example/restsimple/DemoApplication.java`, Zeilen 6 bis 13, gekürzt um Leerzeilen und mit diesem Hinweis markiert. Code verbatim ohne Leerzeilen: `@SpringBootApplication\npublic class DemoApplication {\n    public static void main(String[] args) {\n        SpringApplication.run(DemoApplication.class, args);\n    }\n}`. Highlights 1|2-5|4. Notizen: "Diese Annotation bündelt Konfiguration und Component Scan. `run` baut den Application Context und startet den Webserver. Der Package-Ort bestimmt, was gefunden wird."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/backend/src/main/java/com/example/restsimple/DemoApplication.java`, Zeilen 6 bis 13, gekürzt um Leerzeilen und mit diesem Hinweis markiert. Code verbatim ohne Leerzeilen: `@SpringBootApplication\npublic class DemoApplication {\n    public static void main(String[] args) {\n        SpringApplication.run(DemoApplication.class, args);\n    }\n}`. Highlights 1|2-5|4. Notizen: "Diese Annotation bündelt Konfiguration und Component Scan. `run` baut den Application Context und startet den Webserver. Der Package-Ort bestimmt, was gefunden wird."
 ```
 
 #### Folie 10.8: Annotationen auf gestern abbilden
@@ -1618,49 +1618,49 @@ Reveal.js Prompt: Two-column mapping. `@RestController`→HTTP-Rand, `@GetMappin
 #### Folie 10.9: Ein Health-Endpoint
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/rest-simple-exercise/src/main/java/com/example/restsimple/controller/StudentController.java`, Zeilen 17 bis 29, vollständig und verbatim. Code zeigt `@GetMapping("/health")`, OpenAPI-Annotationen und die Response-Map. Highlights 17|18-22|23-29. Notizen: "Der Endpoint braucht noch keine Datenbank. Wir prüfen Routing, JSON und Port. Sein vollständiger Pfad ist `/api/students/health`, weil die Klasse in Zeile 13 das Präfix setzt."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/backend/src/main/java/com/example/restsimple/controller/StudentController.java`, Zeilen 49 bis 53, vollständig und verbatim. Code zeigt `@GetMapping("/health")`, die OpenAPI-Annotation und die Response-Map. Highlights 49|50|51-53. Notizen: "Der Endpoint braucht noch keine Datenbank. Wir prüfen Routing, JSON und Port. Sein vollständiger Pfad ist `/api/students/health`, weil die Klasse das Präfix `/api/students` setzt."
 ```
 
 #### Folie 10.10: application.properties
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Zeige `spring.datasource.url`, SQLite-Treiber, `spring.datasource.hikari.connection-init-sql=PRAGMA foreign_keys=ON`, Zugangsdaten, `spring.flyway.enabled=true`, `server.port=${SERVER_PORT:8081}` sowie die drei SpringDoc-Einstellungen. Rechte Annotationen: `Flyway für die vorhandene Migration`, `Fremdschlüssel pro Connection`, `Port 8081 als Default`, `OpenAPI und Swagger UI`. Notizen: "Flyway spielt die vorhandene Migration ein. Hikari führt das SQLite-PRAGMA für jede neue Connection aus. Swagger UI liegt unter `/swagger-ui.html`."
+Reveal.js Prompt: Layout .code-slide. Zeige `spring.application.name`, `spring.datasource.url`, SQLite-Treiber, `spring.datasource.hikari.connection-init-sql=PRAGMA foreign_keys=ON`, `spring.flyway.enabled=true`, `server.port=${SERVER_PORT:8081}`, `server.error.include-message=never` sowie die SpringDoc-Einstellungen. Rechte Annotationen: `Migrationen erst nach dem Umbenennen der .sql.todo-Dateien`, `Fremdschlüssel pro Connection`, `Port 8081 als Default`, `keine internen Fehlermeldungen`, `OpenAPI und Swagger UI`. Notizen: "Hikari führt das SQLite-PRAGMA für jede neue Connection aus. Flyway ignoriert die Arbeitsdateien mit `.todo`. Swagger UI liegt unter `/swagger-ui.html`."
 ```
 
 #### Folie 10.11: Starten und prüfen
 
 ```text
-Reveal.js Prompt: Terminal-Content-Slide. Quellen sichtbar unten: `java/rest-simple-exercise/README.md`, Zeilen 14 bis 35. Grundzustand exakt `cd java/rest-simple-exercise` und `make run`; der zweite Befehl steht verbatim in README-Zeile 18, der Verzeichniswechsel ist als Arbeitskontext markiert. Fragment 1 green Label `Server auf :8081`. Fragment 2 exakte URL `http://localhost:8081/api/students/health`. Fragment 3 Response-JSON mit `status`, `service` und `timestamp`, ohne erfundene feste Timestamp. Notizen: "Wir warten auf den gestarteten Server. Das README nennt `make run` und die Health-URL. Erst nach der Health-Antwort öffnen wir Swagger UI."
+Reveal.js Prompt: Terminal-Content-Slide. Quellen sichtbar unten: `common-example/backend/README.md`. Grundzustand exakt `cd common-example/backend` und `./gradlew bootRun`. Fragment 1 green Label `Server auf :8081`. Fragment 2 exakte URL `http://localhost:8081/api/students/health`. Fragment 3 Response-JSON `{"status":"UP","service":"university-backend"}`. Notizen: "Wir warten auf den gestarteten Server. Erst nach der Health-Antwort öffnen wir Swagger UI."
 ```
 
 #### Folie 10.12: Der erste GET
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quellenhinweis sichtbar: "Gekürztes Zielbild aus `java/rest-simple-exercise/README.md`, Zeilen 97 bis 147. Im Skeleton noch nicht vorhanden." Zeige nur die drei Zielkarten `@GetMapping`, `repository.findAll()`, `StudentResponse`, verbunden durch blue Pfeile. Darunter exakter Pfad `GET /api/students` aus README-Zeilen 99 und 147. Keine frei erfundene Methodensignatur. Notizen: "Phase 1 verlangt zunächst zwei bis drei feste Students und ein Response-DTO. Phase 2 ersetzt die feste Liste durch `repository.findAll()`. Der Controller gibt im Kursstandard ein DTO zurück, nicht die Entity."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/backend/src/main/java/com/example/restsimple/controller/StudentController.java`. Zeige die drei vorhandenen Schritte `@GetMapping`, `service.findAll()` und `StudentResponse::from`, verbunden durch blue Pfeile. Darunter steht `GET /api/students`. Notizen: "Der Controller ist vorbereitet. Wir implementieren `StudentService.findAll`; das Row Mapping bleibt im JDBC-Adapter. Nach außen geht ein Response-DTO."
 ```
 
 #### Folie 10.13: JPA-Entity
 
 ```text
-Reveal.js Prompt: Layout .code-slide mit sichtbarem Label "Vertiefung · alternativer Adapter". Quellenhinweis sichtbar: "Gekürztes und auf Student angepasstes Zielbild aus `java/rest-simple-exercise/README.md`, Zeilen 149 bis 208. Im Skeleton noch nicht vorhanden." Code: `@Entity\n@Table(name = "students")\nclass Student {\n    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)\n    private Long id;\n    @Column(name = "email", nullable = false, unique = true)\n    private String email;\n}`. Highlights 1-2|3-5|6-7. Rechte Feldliste für den Kurs: `firstName, lastName, email, studentNumber, enrollmentDate`. Notizen: "Das Snippet ist ein alternativer JPA-Adapter, nicht der C2-Kernpfad."
+Reveal.js Prompt: Layout .code-slide mit sichtbarem Label "Vertiefung · alternativer Adapter" und Quellenhinweis "Kontrastbeispiel, nicht Bestandteil der gemeinsamen Vorlage". Code: `@Entity\n@Table(name = "students")\nclass Student {\n    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)\n    private Long id;\n    @Column(name = "email", nullable = false, unique = true)\n    private String email;\n}`. Highlights 1-2|3-5|6-7. Rechte Feldliste für den Kurs: `firstName, lastName, email, studentNumber, enrollmentDate`. Notizen: "Das Snippet ist ein alternativer JPA-Adapter. Das gemeinsame Beispiel verwendet Spring JDBC."
 ```
 
 #### Folie 10.14: JpaRepository = AbstractRepository
 
 ```text
-Reveal.js Prompt: Layout .code-slide mit sichtbarem Label "Vertiefung · statt JDBC-Adapter". Quellenhinweis sichtbar: "Auf Student angepasstes Zielbild aus `java/rest-simple-exercise/README.md`, Zeilen 211 bis 221. Im Skeleton noch nicht vorhanden." Code: `@Repository\npublic interface StudentRepository extends JpaRepository<Student, Long> {\n}`. Fragment 1 ererbte Methoden `findAll`, `findById`, `save`, `deleteById`, `existsById`. Fragment 2 zeigt `AbstractRepository<Student>` als kleine blue Karte. Notizen: "Spring Data stellt die alternative Implementierung bereit. C2 verwendet den übernommenen JDBC-Adapter."
+Reveal.js Prompt: Layout .code-slide mit sichtbarem Label "Vertiefung · statt JDBC-Adapter" und Quellenhinweis "Kontrastbeispiel, nicht Bestandteil der gemeinsamen Vorlage". Code: `@Repository\npublic interface StudentRepository extends JpaRepository<Student, Long> {\n}`. Fragment 1 ererbte Methoden `findAll`, `findById`, `save`, `deleteById`, `existsById`. Fragment 2 zeigt `AbstractRepository<Student>` als kleine blue Karte. Notizen: "Spring Data stellt die alternative Implementierung bereit. C2 verwendet unser eigenes Repository mit Spring JDBC."
 ```
 
 #### Folie 10.15: GET per ID
 
 ```text
-Reveal.js Prompt: Layout .code-slide mit sichtbarem Label "C2 · Kernpfad". Code: `@GetMapping("/{id}")\nStudentResponse findById(@PathVariable long id) {\n    return repository.findById(id)\n            .map(StudentResponse::from).orElseThrow();\n}`. Quellenhinweis: "Zielbild für den vorhandenen Repository-Port aus B4. Das Starterprojekt enthält die Methodengerüste." Notizen: "Der Controller delegiert die Suche an findById. Das Row Mapping bleibt im JDBC-Adapter aus B4. Nach außen geht ein Response-DTO."
+Reveal.js Prompt: Layout .code-slide mit sichtbarem Label "C2 · Kernpfad". Code verbatim aus dem vorbereiteten Controller: `@GetMapping("/{id}")\npublic StudentResponse findById(@PathVariable long id) {\n    return StudentResponse.from(service.findById(id));\n}`. Quellenhinweis: `common-example/backend/src/main/java/com/example/restsimple/controller/StudentController.java`. Notizen: "Der Controller delegiert die Suche an den Service. Wir implementieren dort den 404-Fall. Das Row Mapping bleibt im JDBC-Adapter."
 ```
 
 #### Folie 10.16: Request durch die Anwendung
 
 ```text
-Reveal.js Prompt: SVG Swagger UI → Controller → Repository → JDBC-Adapter → SQLite. Fragmente je Pfeil blue, Rückweg JSON green. Notizen: "Jeder Pfeil entspricht einem bekannten Begriff. Der JDBC-Adapter erzeugt SQL. Der Controller sieht den Repository-Port, nicht die JDBC-Details."
+Reveal.js Prompt: SVG Swagger UI → Controller → Service → `JdbcStudentRepository` → SQLite. Fragmente je Pfeil blue, Rückweg JSON green. Notizen: "Jeder Pfeil entspricht einer vorhandenen Klasse oder einem externen System. Der Controller delegiert an den Service. Das JDBC-Repository erzeugt SQL."
 ```
 
 #### Folie 10.17: Swagger UI ist ein Client
@@ -1699,7 +1699,7 @@ C2, "Vorhandene Ressource lesen", dauert 50 Minuten. Die Gruppe arbeitet in `exe
 
 ### Code
 
-Gezeigt werden in dieser Reihenfolge: `java/rest-simple-exercise/src/main/java/com/example/restsimple/DemoApplication.java` Zeilen 1 bis 13 vollständig; `java/rest-simple-exercise/src/main/java/com/example/restsimple/controller/StudentController.java` Zeilen 12 bis 29 für Health; die Datasource-, Flyway-, Port- und SpringDoc-Einstellungen aus `application.properties`; danach die Controller- und Response-DTO-Gerüste aus `exercises/<domain>/c2-spring-resource/starter/`. Migration, Repository-Port, JDBC-Adapter und Row Mapping stammen aus B4.
+Gezeigt werden in dieser Reihenfolge: `common-example/backend/src/main/java/com/example/restsimple/DemoApplication.java` Zeilen 1 bis 13 vollständig; `common-example/backend/src/main/java/com/example/restsimple/controller/StudentController.java` Zeilen 12 bis 29 für Health; die Datasource-, Flyway-, Port- und SpringDoc-Einstellungen aus `application.properties`; danach die Controller- und Response-DTO-Gerüste aus `exercises/<domain>/c2-spring-resource/starter/`. Migration, Repository-Port, JDBC-Adapter und Row Mapping stammen aus B4.
 
 `StudentJpaRepository` und die JPA-Entity bleiben als klar markierter alternativer Adapter in der Vertiefung. Sie ersetzen nicht den C2-Übergabestand. Der Kursvertrag verwendet `firstName`, `lastName`, `email`, `studentNumber` und `enrollmentDate`. Deck 11 ergänzt POST, DTOs, Validation und genau einen 409-Konflikt.
 
@@ -1774,13 +1774,13 @@ Reveal.js Prompt: SVG JPA Entity links mit den Kursfeldern `id`, `firstName`, `l
 #### Folie 11.7: Request DTO und Response DTO
 
 ```text
-Reveal.js Prompt: Two-column content. Links `CreateStudentRequest(firstName,lastName,email)`, rechts `StudentResponse(id,studentNumber,firstName,lastName,email,enrollmentDate)`. Fragmente: servergenerierte Felder amber, Mapping-Pfeile blue. Notizen: "Der Request erlaubt nur Eingaben. Der Response verspricht nur Ausgaben. Unterschiedliche DTOs machen Besitz sichtbar."
+Reveal.js Prompt: Two-column content. Links `CreateStudentRequest(firstName,lastName,email,studentNumber)`, rechts `StudentResponse(id,studentNumber,firstName,lastName,email,enrollmentDate)`. Fragmente: servergenerierte Felder amber, Mapping-Pfeile blue. Notizen: "Der Request erlaubt nur Eingaben. Der Response verspricht nur Ausgaben. Unterschiedliche DTOs machen Besitz sichtbar."
 ```
 
 #### Folie 11.8: @Valid stoppt am Rand
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/rest-simple/src/main/java/com/example/restsimple/adapter/in/dto/CreateStudentRequest.java`, Zeilen 7 bis 18, vollständig und verbatim. Highlights 7|8-13|15-17. Amber Hinweis rechts: "Bestehendes Zielbild nutzt `name`; Kursstandard nutzt `firstName`." Notizen: "Bean Validation prüft Form und einfache Grenzen vor dem Use Case. Der Ausschnitt bleibt wegen der Faktentreue bei `name`. Die Übungsimplementierung verwendet den Kursstandard `firstName`, `lastName`, `email`, `studentNumber`, `enrollmentDate`."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/backend/src/main/java/com/example/restsimple/dto/CreateStudentRequest.java`. Code zeigt den Record mit `firstName`, `lastName`, `email`, `studentNumber` sowie `@NotBlank`, `@Size`, `@Email` und dem Muster für die Matrikelnummer. Highlights: Record und Namensfelder, E-Mail, Matrikelnummer. Notizen: "Bean Validation prüft Form und einfache Grenzen vor dem Service. Das serverseitig gesetzte enrollmentDate gehört nicht in den Request."
 ```
 
 #### Folie 11.9: Validierung hat zwei Orte
@@ -1816,7 +1816,7 @@ Reveal.js Prompt: Mapping grid: ungültiges DTO→400, Student fehlt→404, dupl
 #### Folie 11.14: Naming hält Ebenen lesbar
 
 ```text
-Reveal.js Prompt: Content slide. Kette `CreateStudentRequest` → `createStudent` → `Student` → `StudentJpaEntity` → `students`. Fragmente entlang Kette. Danach erscheinen die vorhandenen `rest-simple`-Namen `name`, `lastName`, `mnr`, `createdOn` in amber und die Kursnamen `firstName`, `lastName`, `email`, `studentNumber`, `enrollmentDate` in blue. Schlussfragment verbindet `studentNumber` mit SQL `student_number` und `enrollmentDate` mit `enrollment_date`. Notizen: "Ein Begriff pro Ding reduziert Übersetzungsfehler. Das größere Repo-Beispiel hat andere Namen und bleibt im Code unverändert. Die Übungsdecks verwenden den Kursstandard."
+Reveal.js Prompt: Content slide. Kette `CreateStudentRequest` → `create` → `Student` → `JdbcStudentRepository` → `students`. Fragmente entlang Kette. Danach erscheint `Java: camelCase` in amber und die gemeinsame Feldliste `firstName`, `lastName`, `email`, `studentNumber`, `enrollmentDate` in blue. Schlussfragment verbindet `studentNumber` mit SQL `student_number` und `enrollmentDate` mit `enrollment_date`. Notizen: "Ein Begriff pro Ding reduziert Übersetzungsfehler. Java nutzt camelCase, SQL snake_case. Abgesehen von dieser Schreibweise bleiben die Namen gleich."
 ```
 
 #### Folie 11.15: Hexagonal als größeres Bild
@@ -1861,7 +1861,7 @@ C3, "POST für dieselbe Hauptressource", dauert 45 Minuten. Die Gruppe arbeitet 
 
 ### Code
 
-Gezeigt werden zuerst Ausschnitte aus `java/rest-simple/src/main/java/com/example/restsimple/adapter/in/web/StudentController.java`: Konstruktorinjektion, GET und POST. Danach folgen `CreateStudentRequest`, `StudentResponse`, `StudentService`, `GlobalExceptionHandler` und `ErrorResponse`. Die C3-Zielstruktur des Fehlerkörpers ist `code`, `message`, `correlationId` und optional `fields`. Ein sichtbarer Hinweis trennt vorhandene Namen des größeren Beispiels vom Kursstandard.
+Gezeigt werden zuerst Ausschnitte aus `common-example/advanced-backend/src/main/java/com/example/restsimple/adapter/in/web/StudentController.java`: Konstruktorinjektion, GET und POST. Danach folgen `CreateStudentRequest`, `StudentResponse`, `StudentService`, `GlobalExceptionHandler` und `ErrorResponse`. Die C3-Zielstruktur des Fehlerkörpers ist `code`, `message`, `correlationId` und optional `fields`. Ein sichtbarer Hinweis trennt vorhandene Namen des größeren Beispiels vom Kursstandard.
 
 Die Konstruktorinjektion aus `StudentController.java`, Zeilen 36 bis 44, wird verbatim gezeigt:
 
@@ -1896,7 +1896,7 @@ public ResponseEntity<StudentResponse> createStudent(@Valid @RequestBody CreateS
     }
 ```
 
-Der Exception-Handler wird als C3-Zielcode gezeigt und verbindet Exception-Typ, Status und stabilen Fehlerkörper. Für das hexagonale Zielbild werden nur die Pfade `domain`, `application/port`, `application/service`, `adapter/in/web` und `adapter/out/persistence` aus `java/rest-simple` eingeblendet. Das Deck verlangt keine Übernahme dieser Struktur.
+Der Exception-Handler wird als C3-Zielcode gezeigt und verbindet Exception-Typ, Status und stabilen Fehlerkörper. Für das hexagonale Zielbild werden nur die Pfade `domain`, `application/port`, `application/service`, `adapter/in/web` und `adapter/out/persistence` aus `common-example/advanced-backend` eingeblendet. Das Deck verlangt keine Übernahme dieser Struktur.
 
 ## 12 Die Anwendung absichern (Dateiname decks/12-making-it-solid.html)
 
@@ -1957,19 +1957,19 @@ Reveal.js Prompt: SVG Test → MockMvc → Controller; Use Cases als Mockito-Moc
 #### Folie 12.5: Ein MockMvc-Test
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/rest-simple/src/test/java/com/example/restsimple/adapter/in/web/StudentControllerTest.java`, Zeilen 70 bis 74, vollständig und verbatim. Code zeigt GET, Status und alle drei JSON-Assertions einschließlich `Jane`. Highlights 70|71|72-74. Amber Hinweis: "Bestehender Vertrag nutzt `name`; Kursstandard nutzt `firstName`." Notizen: "Der Mock liefert vorher zwei Students. Der Test prüft den vorhandenen HTTP-Vertrag mit `name`. Die Gruppen schreiben ihre Tests gegen den Kursvertrag mit `firstName`."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/backend/src/test/java/com/example/restsimple/controller/StudentControllerTest.java`. Code zeigt GET, Status und die JSON-Assertions `$[0].firstName` für `Ada` sowie `$[1].firstName` für `Alan`. Notizen: "Der Mock liefert vorher zwei Students. Der Test prüft den vereinbarten HTTP-Vertrag. Die Collection ist ein JSON-Array."
 ```
 
 #### Folie 12.6: Service-Test mit Mockito
 
 ```text
-Reveal.js Prompt: SVG StudentService in Mitte, drei Port-Mocks außen. Fragment 1 Given stub, 2 When call, 3 Then assert, 4 verify green. Text: "Fachfall ohne HTTP und Datenbank". Notizen: "Mockito kontrolliert Antworten der Ports. Wir testen die Entscheidung im Service. Ein Test pro sinnvoller Regel ist wertvoller als einer pro privater Methode."
+Reveal.js Prompt: SVG StudentService in Mitte, ein `StudentRepository`-Mock mit den Methodengruppen `findAll/findById`, `existsBy…` und `insert` außen. Fragment 1 Given stub, 2 When call, 3 Then assert, 4 verify green. Text: "Fachfall ohne HTTP und Datenbank". Notizen: "Mockito kontrolliert Antworten des Repository. Wir testen die Entscheidung im Service. Ein Test pro sinnvoller Regel ist wertvoller als einer pro privater Methode."
 ```
 
 #### Folie 12.7: Ein Mockito-Test
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/rest-simple/src/test/java/com/example/restsimple/application/service/StudentServiceTest.java`, Zeilen 51 bis 60, vollständig und verbatim. Highlights 51|54|57-59|60. Notizen: "Stub, Aufruf, zwei Zustandsprüfungen und eine Interaktionsprüfung sind sichtbar. Wir prüfen nur die Interaktion, die zum Fachfall gehört. Der vorhandene Typ nutzt `getName`; das Kursprojekt nutzt `getFirstName`."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/backend/src/test/java/com/example/restsimple/service/StudentServiceTest.java`. Code zeigt `when(repository.insert(...)).thenReturn(saved)`, `service.create(request)`, die Prüfung auf `saved` und `verify(repository).insert(...)`. Notizen: "Stub, Aufruf, Zustandsprüfung und eine Interaktionsprüfung sind sichtbar. Wir prüfen nur die Interaktion, die zum Fachfall gehört."
 ```
 
 #### Folie 12.8: Was wir nicht testen
@@ -1987,13 +1987,13 @@ Reveal.js Prompt: Sequence SVG Client sendet optional `X-Correlation-ID`; Filter
 #### Folie 12.10: LoggingFilter
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `java/rest-simple/src/main/java/com/example/restsimple/config/LoggingFilter.java`, Zeilen 30 bis 59, vollständig und verbatim. Kürze optisch nur die langen Log-Argumentlisten mit CSS-Fade, nicht den Code. Highlights 31|33-35|41|56-58. Folientext rechts: "Correlation ID übernehmen oder erzeugen · in MDC und Response setzen · im finally löschen". Notizen: "Der Filter liegt vor dem Controller. finally verhindert, dass eine Thread-Wiederverwendung die alte ID trägt. Passwörter und Tokens gehören nie in detaillierte Logs."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/advanced-backend/src/main/java/com/example/restsimple/config/LoggingFilter.java`, Zeilen 30 bis 59, vollständig und verbatim. Kürze optisch nur die langen Log-Argumentlisten mit CSS-Fade, nicht den Code. Highlights 31|33-35|41|56-58. Folientext rechts: "Correlation ID übernehmen oder erzeugen · in MDC und Response setzen · im finally löschen". Notizen: "Der Filter liegt vor dem Controller. finally verhindert, dass eine Thread-Wiederverwendung die alte ID trägt. Passwörter und Tokens gehören nie in detaillierte Logs."
 ```
 
 #### Folie 12.11: Actuator zeigt Gesundheit und Messwerte
 
 ```text
-Reveal.js Prompt: Content slide. Quelle sichtbar unten: `java/rest-simple-exercise/src/main/resources/application.properties`, Zeilen 43 bis 48. Vier gleich große Endpoint-Karten: `/actuator/health` green, `/actuator/info`, `/actuator/metrics`, `/actuator/prometheus` blue. Fragment 1 markiert `health` als Springs Standardfreigabe. Fragment 2 amber Rahmen um `info, metrics, prometheus` mit Text "im Exercise ausdrücklich freigegeben". Fragment 3 amber Schloss "in Produktion absichern". Notizen: "Die Exercise-Konfiguration exponiert genau health, info, metrics und prometheus. `/actuator/flyway` ist dort nicht freigegeben. Spring Boot gibt über HTTP standardmäßig nur Health frei."
+Reveal.js Prompt: Content slide. Quelle sichtbar unten: `common-example/backend/src/main/resources/application.properties`, Zeilen 43 bis 48. Vier gleich große Endpoint-Karten: `/actuator/health` green, `/actuator/info`, `/actuator/metrics`, `/actuator/prometheus` blue. Fragment 1 markiert `health` als Springs Standardfreigabe. Fragment 2 amber Rahmen um `info, metrics, prometheus` mit Text "im Exercise ausdrücklich freigegeben". Fragment 3 amber Schloss "in Produktion absichern". Notizen: "Die Exercise-Konfiguration exponiert genau health, info, metrics und prometheus. `/actuator/flyway` ist dort nicht freigegeben. Spring Boot gibt über HTTP standardmäßig nur Health frei."
 ```
 
 #### Folie 12.12: CORS ist eine Browserregel
@@ -2011,7 +2011,7 @@ Reveal.js Prompt: SVG Request → LoggingFilter → SecurityFilterChain → JwtA
 #### Folie 12.14: Docker in einer Folie
 
 ```text
-Reveal.js Prompt: Content SVG. Sichtbarer amber Hinweis oben: "Architekturdiagramm, kein vorhandener Produktions-Dockerfile". Links drei gleich große Karten `hypothetischer Dockerfile`, `Spring-JAR`, `Java Runtime`; ihre Pfeile laufen in eine blue Karte `Image`. Von dort führt ein Pfeil zu einer blue Container-Box mit den Labels `Port 8081` und `Volume students.db`. Fragmente: 1 die drei Eingaben, 2 `Image`, 3 `Container`, 4 Port amber, 5 Volume amber. Quellenhinweis unten: "Der vorhandene `java/rest-simple/Dockerfile` baut die VS-Code-Lernumgebung." Notizen: "Das Diagramm erklärt Verpackung, es zeigt keinen vorhandenen Anwendungs-Dockerfile. Eine dauerhafte SQLite-Datei bräuchte ein Volume. Docker ersetzt weder Tests noch Security."
+Reveal.js Prompt: Content SVG. Sichtbarer amber Hinweis oben: "Architekturdiagramm, kein vorhandener Produktions-Dockerfile". Links drei gleich große Karten `hypothetischer Dockerfile`, `Spring-JAR`, `Java Runtime`; ihre Pfeile laufen in eine blue Karte `Image`. Von dort führt ein Pfeil zu einer blue Container-Box mit den Labels `Port 8081` und `Volume university.db`. Fragmente: 1 die drei Eingaben, 2 `Image`, 3 `Container`, 4 Port amber, 5 Volume amber. Quellenhinweis unten: "Der vorhandene `common-example/advanced-backend/Dockerfile` baut die VS-Code-Lernumgebung." Notizen: "Das Diagramm erklärt Verpackung, es zeigt keinen vorhandenen Anwendungs-Dockerfile. Eine dauerhafte SQLite-Datei bräuchte ein Volume. Docker ersetzt weder Tests noch Security."
 ```
 
 #### Folie 12.15: (Reserve) Pagination begrenzt Collections
@@ -2044,9 +2044,9 @@ C3, "Vertrag und Fehler testen", dauert 35 Minuten. Die Gruppe arbeitet in `exer
 
 ### Code
 
-Gezeigt werden `java/rest-simple/src/test/java/com/example/restsimple/adapter/in/web/StudentControllerTest.java`, Zeilen 60 bis 75 für GET und 77 bis 114 für POST-Erfolg und Validation; danach `java/rest-simple/src/test/java/com/example/restsimple/application/service/StudentServiceTest.java`, Zeilen 25 bis 61. Die Kernsnippets stehen verbatim auf Folien 12.5 und 12.7.
+Gezeigt werden die vorbereiteten Tests `common-example/backend/src/test/java/com/example/restsimple/controller/StudentControllerTest.java` und `common-example/backend/src/test/java/com/example/restsimple/service/StudentServiceTest.java`. Beide Klassen bleiben bis zur gemeinsamen Service-Implementierung mit `@Disabled` markiert. Die Kernsnippets stehen auf Folien 12.5 und 12.7.
 
-Danach folgt `java/rest-simple/src/main/java/com/example/restsimple/config/LoggingFilter.java`: Annotationen und Konstanten Zeilen 16 bis 23, `doFilterInternal` Zeilen 25 bis 59 und `getOrGenerateCorrelationId` Zeilen 61 bis 68. Folie 12.10 zeigt die Zeilen 30 bis 59 vollständig und verbatim. `DetailedLoggingFilter.java` wird nur für die Warnung vor Body- und Header-Logging geöffnet, insbesondere die Methoden zum Maskieren sensibler Header und zur Größenbegrenzung. Für Actuator zeigt das Deck `java/rest-simple-exercise/src/main/resources/application.properties`, Zeilen 43 bis 48. Für Security zeigt es nur die Dateinamen `SecurityConfig.java` und `JwtAuthenticationFilter.java`, keinen vollständigen Code. Der vorhandene `java/rest-simple/Dockerfile` baut eine VS-Code-Lernumgebung und enthält kein `COPY`/`EXPOSE`/`ENTRYPOINT` für die Spring-Anwendung. Folie 12.14 bleibt deshalb ein klar markiertes Architekturdiagramm und behauptet keinen vorhandenen Produktions-Dockerfile.
+Danach folgt `common-example/advanced-backend/src/main/java/com/example/restsimple/config/LoggingFilter.java`: Annotationen und Konstanten Zeilen 16 bis 23, `doFilterInternal` Zeilen 25 bis 59 und `getOrGenerateCorrelationId` Zeilen 61 bis 68. Folie 12.10 zeigt die Zeilen 30 bis 59 vollständig und verbatim. `DetailedLoggingFilter.java` wird nur für die Warnung vor Body- und Header-Logging geöffnet, insbesondere die Methoden zum Maskieren sensibler Header und zur Größenbegrenzung. Für Actuator zeigt das Deck `common-example/backend/src/main/resources/application.properties`, Zeilen 43 bis 48. Für Security zeigt es nur die Dateinamen `SecurityConfig.java` und `JwtAuthenticationFilter.java`, keinen vollständigen Code. Der vorhandene `common-example/advanced-backend/Dockerfile` baut eine VS-Code-Lernumgebung und enthält kein `COPY`/`EXPOSE`/`ENTRYPOINT` für die Spring-Anwendung. Folie 12.14 bleibt deshalb ein klar markiertes Architekturdiagramm und behauptet keinen vorhandenen Produktions-Dockerfile.
 
 ## 13 Abschluss (Dateiname decks/13-closing.html)
 
