@@ -1,0 +1,5 @@
+Auftraggeber: Programmleitung einer kommunalen Musikschule
+Problem: Kursangebote, Lehrkräfte, Räume und Anmeldungen stehen in getrennten Tabellenblättern.
+Hauptentität: Kursangebot
+Offene Annahme: Hat jedes Kursangebot genau eine verantwortliche Lehrkraft oder können mehrere Lehrkräfte gemeinsam unterrichten?
+Begriffe: Kursangebot, Lehrkraft, Raum, Schüler, Anmeldung, Instrument, Kurscode

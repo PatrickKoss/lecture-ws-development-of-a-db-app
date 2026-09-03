@@ -17,24 +17,25 @@ Jede Gruppe vergleicht in A1 und A3 zwei Themen. Danach wandert die Hauptentitä
 |      9 | `9 · hotel`             | `2 · pizza-delivery`    |
 |     10 | `10 · food-marketplace` | `1 · library`           |
 
-In A1 und A3 teilt ihr euch in zwei Teilteams und bearbeitet beide Themen parallel. Danach arbeitet ihr nur mit Thema A weiter. Die Ordner `museum` und `parcel-delivery` sind Reserveübungen.
+In A1 und A3 teilt ihr euch in zwei Teilteams und bearbeitet beide Themen parallel. Danach arbeitet ihr nur mit Thema A weiter. Die Ordner `museum` und `parcel-delivery` sind Reserveübungen. `music-school` ist eine weitere vollständige Übung mit einer ausführlich kommentierten Musterlösung.
 
 ## Domänen und Hauptentitäten
 
-| Nr. | Ordner             | Domäne             | Hauptentität | Einsatz |
-| --- | ------------------ | ------------------ | ------------ | ------- |
-| 1   | `library`          | Bibliothek         | `Book`       | regulär |
-| 2   | `pizza-delivery`   | Pizza-Lieferdienst | `Pizza`      | regulär |
-| 3   | `gym`              | Fitnessstudio      | `Course`     | regulär |
-| 4   | `cinema`           | Kino               | `Movie`      | regulär |
-| 5   | `bike-rental`      | Fahrradverleih     | `Station`    | regulär |
-| 6   | `vet-clinic`       | Tierarztpraxis     | `Medication` | regulär |
-| 7   | `car-workshop`     | Kfz-Werkstatt      | `Part`       | regulär |
-| 8   | `event-tickets`    | Ticketplattform    | `Venue`      | regulär |
-| 9   | `hotel`            | Hotel              | `RoomType`   | regulär |
-| 10  | `food-marketplace` | Liefermarktplatz   | `Restaurant` | regulär |
-| R1  | `museum`           | Museum             | `Exhibit`    | Reserve |
-| R2  | `parcel-delivery`  | Paketdienst        | `Parcel`     | Reserve |
+| Nr. | Ordner             | Domäne             | Hauptentität  | Einsatz  |
+| --- | ------------------ | ------------------ | ------------- | -------- |
+| 1   | `library`          | Bibliothek         | `Book`        | regulär  |
+| 2   | `pizza-delivery`   | Pizza-Lieferdienst | `Pizza`       | regulär  |
+| 3   | `gym`              | Fitnessstudio      | `Course`      | regulär  |
+| 4   | `cinema`           | Kino               | `Movie`       | regulär  |
+| 5   | `bike-rental`      | Fahrradverleih     | `Station`     | regulär  |
+| 6   | `vet-clinic`       | Tierarztpraxis     | `Medication`  | regulär  |
+| 7   | `car-workshop`     | Kfz-Werkstatt      | `Part`        | regulär  |
+| 8   | `event-tickets`    | Ticketplattform    | `Venue`       | regulär  |
+| 9   | `hotel`            | Hotel              | `RoomType`    | regulär  |
+| 10  | `food-marketplace` | Liefermarktplatz   | `Restaurant`  | regulär  |
+| R1  | `museum`           | Museum             | `Exhibit`     | Reserve  |
+| R2  | `parcel-delivery`  | Paketdienst        | `Parcel`      | Reserve  |
+| R3  | `music-school`     | Musikschule        | `MusicCourse` | Beispiel |
 
 `_template` ist die vollständig ausführbare Vorlage für weitere Themen.
 

@@ -1,0 +1,15 @@
+Ausgangsrelation:
+COURSE_EXPORT(course_code, title, fee, level,
+              teacher_staff_code, teacher_name,
+              room_code, room_capacity,
+              student_email, student_name, enrolled_at, enrollment_status,
+              instrument_code, instrument_name, quantity_required)
+
+Funktionale Abhängigkeiten:
+TODO(A3)
+
+Anomalie:
+TODO(A3)
+
+Zerlegung bis 3NF:
+TODO(A3)

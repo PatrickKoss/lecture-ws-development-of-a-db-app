@@ -1,0 +1,159 @@
+openapi: 3.0.3
+info:
+  title: Musikschule API
+  version: 1.0.0
+  license:
+    name: MIT
+    url: https://opensource.org/license/mit
+servers:
+  - url: http://localhost:8081
+security: []
+paths:
+  /api/courses:
+    get:
+      summary: Alle Kursangebote lesen
+      operationId: listMusicCourses
+      responses:
+        "200":
+          description: Liste aller Kursangebote
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MusicCourseResponse"
+        "400":
+          description: Anfrage ist ungültig
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+    post:
+      summary: Ein Kursangebot anlegen
+      operationId: createMusicCourse
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMusicCourseRequest"
+            example:
+              courseCode: MU-99
+              title: Songwriting
+              fee: 80.0
+      responses:
+        "201":
+          description: Kursangebot angelegt
+          headers:
+            Location:
+              description: Pfad des angelegten Kursangebots
+              schema:
+                type: string
+              example: /api/courses/5
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MusicCourseResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "409":
+          description: Ein Kursangebot mit diesem Kurscode existiert bereits
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+              example:
+                code: MUSIC_COURSE_CODE_EXISTS
+                message: Kursangebot mit diesem Kurscode existiert bereits
+                correlationId: 61a42a20-f688-4d1f-81bf-5c9d57b3110e
+                fields: {}
+  /api/courses/{id}:
+    get:
+      summary: Ein Kursangebot lesen
+      operationId: getMusicCourse
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        "200":
+          description: Kursangebot gefunden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MusicCourseResponse"
+        "404":
+          description: Kursangebot nicht gefunden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+components:
+  responses:
+    ValidationError:
+      description: Eingabe ist ungültig
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+          example:
+            code: VALIDATION_FAILED
+            message: Eingabe ist ungültig
+            correlationId: 61a42a20-f688-4d1f-81bf-5c9d57b3110e
+            fields:
+              courseCode: darf nicht leer sein
+  schemas:
+    CreateMusicCourseRequest:
+      type: object
+      required:
+        - courseCode
+        - title
+        - fee
+      properties:
+        courseCode:
+          type: string
+          minLength: 1
+          example: MU-99
+        title:
+          type: string
+          minLength: 1
+          example: Songwriting
+        fee:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 500
+          example: 80.0
+    MusicCourseResponse:
+      allOf:
+        - $ref: "#/components/schemas/CreateMusicCourseRequest"
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 5
+    ApiError:
+      type: object
+      required:
+        - code
+        - message
+        - correlationId
+        - fields
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        correlationId:
+          type: string
+        fields:
+          type: object
+          additionalProperties:
+            type: string

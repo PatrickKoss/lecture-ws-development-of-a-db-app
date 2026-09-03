@@ -50,6 +50,8 @@ In A1 und A3 teilt sich jede Gruppe in zwei Teilteams und bearbeitet beide Theme
 
 Die Teilnehmerordner enthalten TODOs, kleine Beispieldaten und vorbereitete Zwischenstände. Vollständige Lösungen liegen getrennt unter `exercises/instructor-solutions/<domain>/`. Erstelle die Teilnehmerausgabe ohne diesen Ordner.
 
+`music-school` ist als zusätzliche Beispielübung gedacht. Die zugehörige Musterlösung erklärt alle Phasen bis zu den Spring-Tests. Gib sie nach C3 vollständig aus oder stelle nach jeder Auswertung nur den abgeschlossenen Abschnitt bereit.
+
 Jede Aufgabe nennt Eingang, Starttest, Kernauftrag, Vertiefung, vorbereiteten Zwischenstand und Ausgang. Gib den Zwischenstand erst frei, wenn die Kernzeit abgelaufen ist oder eine Gruppe an einem bekannten Infrastrukturproblem festhängt. Im Debrief zeigt zuerst die Gruppe ihren Stand. Eine abweichende Lösung ist in Ordnung, wenn Schlüssel, Kardinalitäten, funktionale Abhängigkeiten und Fachregeln zusammenpassen.
 
 ## 00 Auftakt

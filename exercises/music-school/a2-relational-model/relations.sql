@@ -1,0 +1,3 @@
+-- Lesbare Relationsnotation, noch kein ausführbares SQLite-Schema
+-- music_courses(id PK, course_code UK, title, fee, level, teacher_id FK, room_id FK NULL)
+-- TODO(A2): weitere Relationen, PK, FK, UK und NULL/NOT NULL ergänzen.

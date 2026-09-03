@@ -1,0 +1,7 @@
+@PostMapping
+public ResponseEntity<MusicCourseResponse> create(
+    @Valid @RequestBody CreateMusicCourseRequest request) {
+    var created = service.create(request);
+    var location = URI.create("/api/courses/" + created.id());
+    return ResponseEntity.created(location).body(MusicCourseResponse.from(created));
+}

@@ -5,3 +5,7 @@ Dieser Ordner enthält die bisherigen vollständigen SQL- und ER-Stände. Gebt g
 Die Code-Grundgerüste unter den Gruppenordnern sind keine Musterlösungen. Die Implementierungen der Hauptressource bleiben dort offen.
 
 `museum` und `parcel-delivery` gehören zu den beiden Reserveübungen. Ihre Vergleichsmodelle und SQL-Stände sind genauso aufgebaut wie die Lösungen der zehn regulären Themen.
+
+`music-school` ist eine zusätzliche, ausführlich kommentierte Musterlösung.
+Sie enthält neben ER- und SQL-Ständen auch Lösungen für JDBC, Repository,
+OpenAPI, Spring und die Controller-Tests.
