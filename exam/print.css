@@ -1,0 +1,138 @@
+@page {
+  size: A4;
+  margin: 18mm 16mm 18mm 18mm;
+}
+
+:root {
+  color: #1d2733;
+  font-family: "Arial", "Helvetica", sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.42;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 178mm;
+}
+
+h1,
+h2,
+h3 {
+  color: #123b5d;
+  break-after: avoid;
+  line-height: 1.18;
+}
+
+h1 {
+  border-bottom: 2px solid #d4552d;
+  font-size: 23pt;
+  margin: 0 0 10mm;
+  padding-bottom: 4mm;
+}
+
+h2 {
+  border-bottom: 1px solid #aebbc5;
+  font-size: 15pt;
+  margin: 8mm 0 3mm;
+  padding-bottom: 1.5mm;
+}
+
+h3 {
+  font-size: 12pt;
+  margin: 5mm 0 2mm;
+}
+
+p,
+li {
+  orphans: 3;
+  widows: 3;
+}
+
+ul,
+ol {
+  padding-left: 6mm;
+}
+
+li + li {
+  margin-top: 1.2mm;
+}
+
+table {
+  border-collapse: collapse;
+  font-size: 9pt;
+  margin: 3mm 0 5mm;
+  width: 100%;
+}
+
+thead {
+  display: table-header-group;
+}
+
+tr {
+  break-inside: avoid;
+}
+
+th,
+td {
+  border: 0.3mm solid #aebbc5;
+  padding: 1.8mm 2mm;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #e9eff3;
+  color: #123b5d;
+}
+
+code {
+  background: #edf1f4;
+  border-radius: 1mm;
+  font-family: "DejaVu Sans Mono", monospace;
+  font-size: 0.9em;
+  padding: 0.2mm 0.8mm;
+}
+
+pre {
+  background: #edf1f4;
+  border-left: 1.2mm solid #d4552d;
+  break-inside: avoid;
+  font-size: 8.5pt;
+  line-height: 1.35;
+  padding: 3mm;
+  white-space: pre-wrap;
+}
+
+pre code {
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+input[type="checkbox"] {
+  margin-right: 2mm;
+}
+
+ul.task-list {
+  column-gap: 8mm;
+  columns: 2;
+  font-size: 8.5pt;
+  line-height: 1.25;
+}
+
+ul.task-list li {
+  break-inside: avoid;
+}
+
+ul.task-list li + li {
+  margin-top: 0.7mm;
+}
+
+@media print {
+  body {
+    max-width: none;
+  }
+}

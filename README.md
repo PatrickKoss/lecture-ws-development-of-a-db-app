@@ -13,6 +13,7 @@ Der Kurs entwickelt eine Hochschulverwaltung als gemeinsames Beispiel. Studieren
 
 - [`slides/`](slides/): Reveal.js-Folien und PDF-Export
 - [`exercises/`](exercises/): gruppenspezifische Aufgaben und Codegerüste
+- [`exam/`](exam/): Prüfungsaufgabe mit Projektbericht, Präsentation und REST-API
 - [`common-example/`](common-example/): gemeinsames Hochschulbeispiel mit Java-Backend und Frontend
 - [`docs/schedule.md`](docs/schedule.md): Ablauf und Phasenkennungen
 - [`docs/instructor-guide.md`](docs/instructor-guide.md): Hinweise für die Lehrperson
@@ -44,3 +45,9 @@ make -C slides lint
 ```
 
 Tag 2 und Tag 3 lassen sich als gemeinsamer Implementierungsblock durchführen. Die Phasenkennungen und Übergabepunkte ändern sich dabei nicht.
+
+Die Prüfung wird aus der Markdown-Datei als PDF gebaut:
+
+```sh
+make -C exam pdf
+```
