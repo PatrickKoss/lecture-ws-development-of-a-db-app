@@ -1501,11 +1501,13 @@ Reveal.js Prompt: Content slide. Requestkarte mit `Content-Type: application/jso
 Reveal.js Prompt: SVG OpenAPI-Datei in Mitte, Pfeile zu Swagger UI, Clientgenerator, Contract Test und Mensch. Fragmente nacheinander, Datei amber. Text: "maschinenlesbar und menschenlesbar". Notizen: "OpenAPI nennt Pfade, Methoden, Schemas und Antworten. Swagger UI ist eine Oberfläche dafür, nicht das Format selbst."
 ```
 
-#### Folie 09.14: Ein kleiner OpenAPI-Ausschnitt
+#### Folie 09.14: OpenAPI aus Controller und DTOs
 
-```text
-Reveal.js Prompt: Layout .code-slide. Quellenhinweis sichtbar: `common-example/frontend/api/openapi.yaml`. YAML gekürzt auf `paths`, `/api/students`, `post` sowie die Responses `201` und `400`. Highlights 1-3|4-8. Notizen: "Der Vertrag zeigt zwei Ausgänge. Die vollständige Datei enthält außerdem GET, 404, 409 und die drei Schemas. SpringDoc liefert zur Laufzeit denselben Vertrag unter `/v3/api-docs`."
-```
+Reveal.js Prompt: Layout .code-slide. Java-Ausschnitt aus dem BookController der Library-Übung mit @Operation, @ApiResponse für 201, @Schema(implementation = BookResponse.class), @PostMapping und CreateBookRequest als Parameter. Ablauf unten: Controller + DTOs → SpringDoc → /v3/api-docs → Swagger UI. Notizen erklären den Unterschied zwischen Spring @RequestBody und der gleichnamigen OpenAPI-Annotation. Die vollständige Methode enthält 400, 409 und Location.
+
+#### Zusatzfolie: Request und Response sind Modelle
+
+Reveal.js Prompt: Layout .code-slide. Feldausschnitte aus CreateBookRequest und BookResponse zeigen @Schema, @NotBlank und die schreibgeschützte Server-ID. Notizen: @Schema dokumentiert; @Valid und Bean Validation prüfen Eingaben. Weitere Felder ergänzen die Gruppen.
 
 #### Folie 09.15: GitHub und Stripe
 
@@ -1513,17 +1515,13 @@ Reveal.js Prompt: Layout .code-slide. Quellenhinweis sichtbar: `common-example/f
 Reveal.js Prompt: Two-column content. Links GitHub OpenAPI → docs und Octokit; rechts Stripe POST mit `Idempotency-Key` → sicherer Retry. Fragmente: GitHub, Stripe, amber Satz "Vertrag und Wiederholung sind Produktionsfragen". Notizen: "GitHub veröffentlicht seine OpenAPI-Beschreibung und erzeugt daraus Dokumentation und SDKs. Stripe speichert das erste Ergebnis pro Idempotency Key, damit ein Retry kein Doppelobjekt anlegt."
 ```
 
-#### Folie 09.16: C1, GET und POST auf Papier
+#### Folie 09.16: C1, OpenAPI im Code ergänzen
 
-```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "C1 · Kernauftrag", Timer "25 min". Dateipfad unten: `exercises/<domain>/c1-http-contract/`. Mitte mit vier nummerierten Schritten: 1 "Verwendet dieselbe flache Hauptressource wie in B3 und B4." 2 "Plant GET /api/<resources> und POST /api/<resources>." 3 "Schreibt Request- und Response-JSON." 4 "Legt 200, 201, 400 und genau einen 409-Fachkonflikt fest." Abgabe: "Endpoint-Tabelle und JSON-Beispiele". Keine Fragmente. Notizen: "Schreibt noch keinen Controller. Beziehungen und weitere Methoden sind Vertiefung. Der Fehlerkörper enthält mindestens code und message."
-```
+Reveal.js Prompt: Layout .exercise-slide. 25 min. Startet den C2-Starter und öffnet /swagger-ui.html. Lest das POST-Beispiel mit Request- und Response-Modell. Ergänzt @Schema an den DTO-Feldern. Dokumentiert GET, 200 und 404 und beschreibt den 409-Konflikt. Abgabe: Java-Annotationen und Export aus /v3/api-docs. Die Spec wird aus Java generiert. Repository-TODOs folgen in C2 und C3.
 
-#### Folie 09.17: Debrief, Vertrag ohne Java
+#### Folie 09.17: Debrief, generierten Vertrag prüfen
 
-```text
-Reveal.js Prompt: Content slide with review matrix "Ressource als Nomen? · Methode passend? · Status eindeutig? · JSON ohne interne Felder?" Fragmente einzeln. Notizen: "Eine andere Gruppe soll euren Vertrag ohne Erklärung lesen. Wo sie raten muss, fehlt Information. Diese Tabelle wird morgen zur Controller-Checkliste."
-```
+Reveal.js Prompt: Review-Matrix mit Ressource, Methode, Status und öffentlichen JSON-Feldern. Die andere Gruppe prüft die generierte Spec in Swagger UI.
 
 #### Folie 09.18: GitHub veröffentlicht seinen API-Vertrag
 
@@ -1533,7 +1531,7 @@ Reveal.js Prompt: Layout citation-slide. Visual: `openapi.yaml` in amber, Pfeile
 
 ### Übung
 
-C1, "GET und POST auf Papier", dauert 25 Minuten. Die verbindliche Karte liegt in `exercises/<domain>/c1-http-contract/`. Die Gruppe verwendet dieselbe flache Hauptressource wie in B3 und B4 und entwirft GET und POST unter `/api`. Der Vertrag enthält Request- und Response-JSON, 200, 201, 400 und genau einen 409-Fachkonflikt. Beziehungen und weitere Methoden sind Vertiefung. Abgabe sind die Endpoint-Tabelle und JSON-Beispiele. Debrief-Fragen: Ist jede URL ein Nomen? Wo unterscheiden sich Request und Response? Ist der Fehlerkörper stabil? Exakter Folientext steht auf Folie 09.16.
+C1, "OpenAPI im Code ergänzen", dauert 25 Minuten. Die Karte liegt in `exercises/<domain>/c1-http-contract/`. Alle Gruppen nutzen ihren C2-Starter mit SpringDoc und einem dokumentierten POST-Beispiel. Sie ergänzen DTO-Felder und GET-Annotationen und exportieren `/v3/api-docs`. Der Export wird nicht von Hand bearbeitet. Die Repository-Implementierung folgt in C2 und C3.
 
 ## 10 Spring Boot (Dateiname decks/10-spring-boot.html)
 
@@ -1702,6 +1700,11 @@ C2, "Vorhandene Ressource lesen", dauert 50 Minuten. Die Gruppe arbeitet in `exe
 Gezeigt werden in dieser Reihenfolge: `common-example/backend/src/main/java/com/example/restsimple/DemoApplication.java` Zeilen 1 bis 13 vollständig; `common-example/backend/src/main/java/com/example/restsimple/controller/StudentController.java` Zeilen 12 bis 29 für Health; die Datasource-, Flyway-, Port- und SpringDoc-Einstellungen aus `application.properties`; danach die Controller- und Response-DTO-Gerüste aus `exercises/<domain>/c2-spring-resource/starter/`. Migration, Repository-Port, JDBC-Adapter und Row Mapping stammen aus B4.
 
 `StudentJpaRepository` und die JPA-Entity bleiben als klar markierter alternativer Adapter in der Vertiefung. Sie ersetzen nicht den C2-Übergabestand. Der Kursvertrag verwendet `firstName`, `lastName`, `email`, `studentNumber` und `enrollmentDate`. Deck 11 ergänzt POST, DTOs, Validation und genau einen 409-Konflikt.
+
+### Ergänzung zu Deck 10: SpringDoc im Übungsprojekt
+
+Die zusätzliche Codefolie zeigt `org.springdoc:springdoc-openapi-starter-webmvc-ui:3.1.0`, den Start mit `SERVER_PORT=18081 ./gradlew bootRun` und die URLs `/swagger-ui.html` und `/v3/api-docs`. Alle C2-Starter enthalten die Abhängigkeit. SpringDoc 3.x unterstützt Spring Boot 4 laut https://springdoc.org/faq.html. POST mit Location ist vorbereitet; GET-Repository-Methoden, insert und Eindeutigkeitsprüfung bleiben Übungen.
+
 
 ## 11 Gutes Anwendungsdesign (Dateiname decks/11-good-design.html)
 

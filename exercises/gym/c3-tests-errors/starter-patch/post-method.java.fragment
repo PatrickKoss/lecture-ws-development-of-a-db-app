@@ -1,5 +1,0 @@
-@PostMapping
-@ResponseStatus(HttpStatus.CREATED)
-public CourseResponse create(@Valid @RequestBody CreateCourseRequest request) {
-    return CourseResponse.from(service.create(request));
-}

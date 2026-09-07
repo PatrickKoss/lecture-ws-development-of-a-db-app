@@ -51,7 +51,7 @@ In A1 und A3 teilt ihr euch in zwei Teilteams und bearbeitet beide Themen parall
 | B2  | `b2-sql`              | SQL-Abfragen           |  ca. 45 Min. |
 | B3  | `b3-jdbc`             | JDBC                   |  ca. 45 Min. |
 | B4  | `b4-repository`       | Repository-Refactoring |  ca. 15 Min. |
-| C1  | `c1-http-contract`    | HTTP-Vertrag           |  ca. 25 Min. |
+| C1  | `c1-http-contract`    | OpenAPI aus dem Code   |  ca. 25 Min. |
 | C2  | `c2-spring-resource`  | Spring-Ressource       |  ca. 50 Min. |
 | C3  | `c3-tests-errors`     | POST, Tests und Fehler | 45 + 35 Min. |
 
@@ -69,3 +69,7 @@ B3 und C2 sind eigenständige Gradle-Projekte. Sie enthalten den Gradle-Wrapper 
 ## Lösungen
 
 Vollständige SQL-Dateien und ER-Vergleichsstände liegen unter `instructor-solutions/`. Dieser Ordner gehört zum Lehrendenpaket und wird nicht an Teilnehmer verteilt. Die Gruppenordner enthalten TODOs, wenige Beispieldaten und lauffähige technische Grundgerüste.
+
+## OpenAPI in C1 bis C3
+
+Alle 13 Themen und `_template` enthalten SpringDoc im C2-Starter. C1 beginnt dort mit einem dokumentierten POST-Beispiel und getrennten Request- und Response-DTOs. Die Gruppen ergänzen GET-Annotationen und Feldbeschreibungen. `/v3/api-docs` generiert die Spec, `/swagger-ui.html` zeigt sie an. Es gibt keine von Hand zu pflegende YAML-Datei. C2 und C3 ergänzen die Repository-Implementierung und prüfen das dokumentierte Verhalten. `OpenApiTest` prüft die Generierung unabhängig von den offenen Repository-Methoden.

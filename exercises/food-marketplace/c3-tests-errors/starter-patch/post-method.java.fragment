@@ -1,5 +1,0 @@
-@PostMapping
-@ResponseStatus(HttpStatus.CREATED)
-public RestaurantResponse create(@Valid @RequestBody CreateRestaurantRequest request) {
-    return RestaurantResponse.from(service.create(request));
-}

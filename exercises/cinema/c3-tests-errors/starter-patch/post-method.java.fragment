@@ -1,5 +1,0 @@
-@PostMapping
-@ResponseStatus(HttpStatus.CREATED)
-public MovieResponse create(@Valid @RequestBody CreateMovieRequest request) {
-    return MovieResponse.from(service.create(request));
-}

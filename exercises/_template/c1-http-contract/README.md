@@ -1,39 +1,52 @@
-# C1: HTTP-Vertrag
+# C1: OpenAPI aus dem Code
 
 Zeitbox: etwa 25 Minuten für den Kernauftrag. Die Vertiefung beginnt erst danach.
 
 ## Eingang
 
-Nutzt das Modell `Resource` aus B3. `openapi.yaml` enthält Pfad und Statuscodes, aber noch keine Schemas.
+Nutzt das Modell `Resource` aus B3 und das Projekt `../c2-spring-resource/starter`.
+SpringDoc ist eingebunden. `ResourceController` enthält ein dokumentiertes POST-Beispiel mit `CreateResourceRequest`, `ResourceResponse`, 201, `Location`, 400 und 409.
 
-Starttest:
+Startet die Anwendung aus diesem Ordner:
 
 ```bash
-test -f openapi.yaml && rg -n '/api/|201|400|409' openapi.yaml
+cd ../c2-spring-resource/starter
+./gradlew test
+SERVER_PORT=18081 ./gradlew bootRun
 ```
+
+Öffnet http://localhost:18081/swagger-ui.html. Die Spec steht unter http://localhost:18081/v3/api-docs, YAML unter `/v3/api-docs.yaml`.
+Die Dokumentation funktioniert schon mit den offenen Repository-Methoden. Erfolgreiche Datenzugriffe folgen in C2 und C3.
 
 ## Kernauftrag
 
-Definiert Request und Response für GET und POST. Legt Pflichtfelder, `Location`-Header und einen Konflikt fest: `resource_code` darf nicht doppelt vorkommen.
+1. Lest das POST-Beispiel. `@Operation` beschreibt die Operation, `@ApiResponse` Statuscodes und Modelle. `@Schema(implementation = …)` verweist auf Java-DTOs.
+2. Ergänzt Beschreibungen und passende Beispiele an den Feldern von `CreateResourceRequest` und `ResourceResponse` mit `@Schema`. Beachtet die vorhandenen Validierungsregeln. Der Request enthält keine Server-ID.
+3. Dokumentiert beide GET-Methoden mit `@Operation` und `@ApiResponse`. Die Liste liefert 200 mit einem Array aus `ResourceResponse`, GET nach ID liefert 200 oder 404 mit `ApiError`. Für das Array nutzt ihr `@Content(array = @ArraySchema(schema = @Schema(implementation = ResourceResponse.class)))` und importiert `io.swagger.v3.oas.annotations.media.ArraySchema`.
+4. Beschreibt den 409-Fachkonflikt konkret: `resource_code` darf nicht doppelt vorkommen. Startet nach Codeänderungen neu. Prüft in Swagger UI Request, Response, Pflichtfelder und Statuscodes.
+
+`@Schema` dokumentiert. `@Valid` und Bean Validation prüfen Eingaben zur Laufzeit. Eine dokumentierte Antwort implementiert das Verhalten noch nicht.
 
 ## Vertiefung
 
-Ergänzt PUT oder DELETE. Beschreibt, warum die Operation idempotent ist.
+Plant PUT oder DELETE und erklärt die Idempotenz. Ergänzt Mapping, Modelle und Annotationen im Controller, wenn ihr die Operation implementiert.
 
 ## Vorbereiteter Zwischenstand
 
-Der vorbereitete Vertrag begrenzt C2 auf eine flache Ressource. Beziehungen bleiben in der Vertiefung.
+Das POST-Beispiel bleibt die Vorlage. Ihr ergänzt GET und die noch fehlenden Feldbeschreibungen. Die Repository-TODOs bearbeitet ihr in C2 und C3.
 
 ## Ausgang
 
-`openapi.yaml` beschreibt GET, POST, 200, 201, 400, 404 und 409 samt JSON-Beispielen.
+Die generierte Spec beschreibt GET und POST samt Modellen und Fehlerantworten. Gebt die geänderten Java-Dateien und einen Export ab. Bearbeitet den Export nicht von Hand.
 
-Prüfbefehl:
+Prüfbefehl in einem zweiten Terminal aus `c1-http-contract/`:
 
 ```bash
-npx --yes @redocly/cli lint openapi.yaml
+curl --fail http://localhost:18081/v3/api-docs -o openapi.generated.json
 ```
+
+Prüft unter `paths` die GET- und POST-Antworten und unter `components.schemas` eure DTOs und Beispiele.
 
 ## Auswertung
 
-Welche ungültige Eingabe ist ein 400-Fehler, und welcher gültige, aber kollidierende Request führt zu 409?
+Welche Angaben leitet SpringDoc aus Java ab? Welche fachlichen Angaben müsst ihr ergänzen? Was unterscheidet 400 und 409?

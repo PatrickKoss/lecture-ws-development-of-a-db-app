@@ -1,9 +1,13 @@
 package course.vetclinic.api;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import course.vetclinic.domain.Medication;
 
+@Schema(description = "Öffentliche Darstellung der Ressource Medication")
 public record MedicationResponse(
-    Long id,
+    @Schema(description = "Vom Server vergebene ID", example = "1",
+        accessMode = Schema.AccessMode.READ_ONLY) Long id,
     String pzn,
     String productName,
     String activeIngredient,

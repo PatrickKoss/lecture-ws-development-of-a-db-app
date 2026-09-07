@@ -1,5 +1,0 @@
-@PostMapping
-@ResponseStatus(HttpStatus.CREATED)
-public MedicationResponse create(@Valid @RequestBody CreateMedicationRequest request) {
-    return MedicationResponse.from(service.create(request));
-}

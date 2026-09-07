@@ -1566,7 +1566,7 @@
       class="d09-panel-amber"
     ></rect>
     <text x="850" y="320" text-anchor="middle" class="d09-body d09-amber">
-      openapi.yaml
+      /v3/api-docs
     </text>
     <text x="850" y="375" text-anchor="middle" class="d09-label">
       Pfade · Methoden
@@ -1657,25 +1657,55 @@
 </section>
 
 <section class="code-slide d09-code">
-  <h2 class="slide-title">Ein kleiner OpenAPI-Ausschnitt</h2>
+  <h2 class="slide-title">OpenAPI aus Controller und DTOs</h2>
   <div class="code-slide__content code-slide__content--wide">
-    <pre><code class="language-yaml" data-trim data-line-numbers="1-3|4-8">paths:
-  /api/students:
-    post:
-      responses:
-        '201':
-          description: Student created
-        '400':
-          description: Invalid request</code></pre>
+    <pre><code class="language-java" data-trim data-line-numbers="1-5|6-9">@Operation(summary = "Buch anlegen")
+@ApiResponse(responseCode = "201", description = "Buch angelegt",
+    content = @Content(mediaType = "application/json",
+        schema = @Schema(implementation = BookResponse.class)))
+@PostMapping
+public ResponseEntity&lt;BookResponse&gt; create(
+    @Valid @RequestBody CreateBookRequest request) {
+  // Service aufrufen, 201 mit Location und Response zurückgeben
+}</code></pre>
   </div>
   <p class="d09-code-source">
-    Gekürzter Ausschnitt aus
-    <code>common-example/frontend/api/openapi.yaml</code>
+    Controller + DTOs → SpringDoc → <code>/v3/api-docs</code> → Swagger UI
   </p>
   <aside class="notes">
-    Der Vertrag zeigt zwei Ausgänge. Die vollständige Datei enthält außerdem
-    GET, 404, 409 und die drei Schemas. SpringDoc liefert den Vertrag zur
-    Laufzeit unter `/v3/api-docs`.
+    Das vollständige Beispiel steht im BookController unter
+    exercises/library/c2-spring-resource/starter. Es dokumentiert den Request
+    explizit mit der OpenAPI-RequestBody-Annotation und dem Request-Modell.
+    SpringDoc erkennt auch den Java-Parametertyp. Spring @RequestBody bindet
+    JSON; die gleichnamige OpenAPI-Annotation dokumentiert. 400 und 409
+    verwenden ApiError. Die Spec wird beim Abruf generiert. Wir bearbeiten Java,
+    keinen YAML-Vertrag.
+  </aside>
+</section>
+
+<section class="code-slide d09-code">
+  <h2 class="slide-title">Request und Response sind Modelle</h2>
+  <div class="code-slide__content code-slide__content--wide">
+    <pre><code class="language-java" data-trim data-line-numbers="1-4|6-10">// Auszug aus CreateBookRequest
+@Schema(description = "ISBN des Buchs", example = "9783446279899")
+@NotBlank
+String isbn,
+
+// Auszug aus BookResponse
+@Schema(description = "Vom Server vergebene ID", example = "1",
+    accessMode = Schema.AccessMode.READ_ONLY)
+Long id,
+String isbn,</code></pre>
+  </div>
+  <p class="d09-code-source">
+    <code>@Schema</code> dokumentiert. <code>@Valid</code> und
+    <code>@NotBlank</code> prüfen Eingaben.
+  </p>
+  <aside class="notes">
+    Beide DTOs haben weitere Felder. Die ID gehört nur zur Response. In jeder
+    Übung ist ein Feld als Beispiel dokumentiert. Die Gruppen ergänzen
+    Beschreibungen und fachlich passende Werte für die übrigen Felder. Nach
+    Codeänderungen die Anwendung neu starten und components.schemas prüfen.
   </aside>
 </section>
 
@@ -1707,42 +1737,40 @@
 <section class="exercise-slide d09-exercise">
   <div class="exercise-slide__tag">C1 · Kernauftrag</div>
   <div class="exercise-slide__time">25 min</div>
-  <p class="exercise-slide__task">GET und POST auf Papier</p>
+  <p class="exercise-slide__task">OpenAPI im Code ergänzen</p>
   <div class="d09-exercise-steps">
     <div class="d09-exercise-step">
       <span>1</span
-      ><span>Verwendet dieselbe flache Hauptressource wie in B3 und B4.</span>
+      ><span>Startet den C2-Starter und öffnet /swagger-ui.html.</span>
     </div>
     <div class="d09-exercise-step">
       <span>2</span
-      ><span
-        >Plant <code>GET /api/&lt;resources&gt;</code> und
-        <code>POST /api/&lt;resources&gt;</code>.</span
-      >
+      ><span>Lest das POST-Beispiel mit Request- und Response-Modell.</span>
     </div>
     <div class="d09-exercise-step">
-      <span>3</span><span>Schreibt Request- und Response-JSON.</span>
+      <span>3</span><span>Ergänzt @Schema an den DTO-Feldern.</span>
     </div>
     <div class="d09-exercise-step">
       <span>4</span
-      ><span>Legt 200, 201, 400 und genau einen 409-Fachkonflikt fest.</span>
+      ><span>Dokumentiert GET, 200 und 404. Beschreibt den 409-Konflikt.</span>
     </div>
   </div>
   <div class="d09-exercise-path">
     exercises/&lt;domain&gt;/c1-http-contract/
   </div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> Endpoint-Tabelle und JSON-Beispiele
+    <strong>Abgabe:</strong> Java-Annotationen und Export aus /v3/api-docs
   </div>
   <aside class="notes">
-    Schreibt noch keinen Controller. Beide Methoden arbeiten auf derselben
-    Hauptressource. Beziehungen und weitere Methoden sind Vertiefung. Der
-    Fehlerkörper enthält mindestens `code` und `message`.
+    Der Controller ist vorbereitet. Die Gruppen ergänzen Annotationen und DTOs.
+    Die Dokumentation läuft schon vor der Repository-Implementierung.
+    Erfolgreiche Datenzugriffe folgen in C2 und C3. Export nicht von Hand
+    ändern.
   </aside>
 </section>
 
 <section class="d09-slide">
-  <h2 class="slide-title">Debrief, Vertrag ohne Java</h2>
+  <h2 class="slide-title">Debrief, generierten Vertrag prüfen</h2>
   <span class="slide-context blue">Review-Matrix</span>
   <div class="d09-review-grid">
     <div class="d09-review-item">Ressource als Nomen?</div>

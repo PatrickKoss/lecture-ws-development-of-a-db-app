@@ -1,5 +1,0 @@
-@PostMapping
-@ResponseStatus(HttpStatus.CREATED)
-public ParcelResponse create(@Valid @RequestBody CreateParcelRequest request) {
-    return ParcelResponse.from(service.create(request));
-}

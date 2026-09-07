@@ -1,9 +1,13 @@
 package course.eventtickets.api;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import course.eventtickets.domain.Venue;
 
+@Schema(description = "Öffentliche Darstellung der Ressource Venue")
 public record VenueResponse(
-    Long id,
+    @Schema(description = "Vom Server vergebene ID", example = "1",
+        accessMode = Schema.AccessMode.READ_ONLY) Long id,
     String venueCode,
     String name,
     String street,

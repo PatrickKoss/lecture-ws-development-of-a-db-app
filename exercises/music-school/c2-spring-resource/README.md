@@ -16,6 +16,8 @@ cd starter && ./gradlew test
 
 Implementiert `findAll` und `findById` im `JdbcMusicCourseRepository`. GET liefert `MusicCourseResponse`, nie direkt die Domain-Entity. Unbekannte IDs ergeben 404.
 
+Prüft nach der Implementierung beide GET-Endpunkte über Swagger UI unter `/swagger-ui.html`. Ergänzt die in C1 begonnenen Annotationen, wenn sich der Vertrag ändert.
+
 ## Vertiefung
 
 Ergänzt einen Link oder eine ID zu vorbereiteten Nachschlagedaten im Response-DTO.

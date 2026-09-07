@@ -1,5 +1,0 @@
-@PostMapping
-@ResponseStatus(HttpStatus.CREATED)
-public BookResponse create(@Valid @RequestBody CreateBookRequest request) {
-    return BookResponse.from(service.create(request));
-}

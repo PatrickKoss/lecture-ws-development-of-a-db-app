@@ -1,9 +1,13 @@
 package course.library.api;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import course.library.domain.Book;
 
+@Schema(description = "Öffentliche Darstellung der Ressource Book")
 public record BookResponse(
-    Long id,
+    @Schema(description = "Vom Server vergebene ID", example = "1",
+        accessMode = Schema.AccessMode.READ_ONLY) Long id,
     String isbn,
     String title,
     Integer publicationYear,

@@ -1731,3 +1731,27 @@ public StudentResponse findById(@PathVariable long id) {
     Modell in klein. Jetzt ordnen wir den Code in klare Verantwortungen.
   </aside>
 </section>
+
+<section class="code-slide d10-code d10-code-compact">
+  <h2 class="slide-title">SpringDoc im Übungsprojekt</h2>
+  <div class="code-slide__content code-slide__content--wide">
+    <pre><code class="language-kotlin" data-trim>// build.gradle.kts
+implementation(
+    "org.springdoc:springdoc-openapi-starter-webmvc-ui:3.1.0"
+)
+
+// Start im C2-Starter
+// SERVER_PORT=18081 ./gradlew bootRun
+
+// Swagger UI: http://localhost:18081/swagger-ui.html
+// Spec:       http://localhost:18081/v3/api-docs</code></pre>
+  </div>
+  <aside class="notes">
+    In allen Themenübungen und der Vorlage bereits eingebunden. SpringDoc 3.x
+    passt zu Spring Boot 4, siehe https://springdoc.org/faq.html. Die Version
+    entspricht dem gemeinsamen Kursbeispiel. Der POST-Controller liefert 201
+    samt Location und nutzt getrennte Request- und Response-DTOs. Die Gruppen
+    implementieren in C2 die GET-Repository-Methoden und in C3 insert sowie die
+    Eindeutigkeitsprüfung. Nach Codeänderungen neu starten.
+  </aside>
+</section>

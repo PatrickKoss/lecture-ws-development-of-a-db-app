@@ -1,5 +1,0 @@
-@PostMapping
-@ResponseStatus(HttpStatus.CREATED)
-public RoomTypeResponse create(@Valid @RequestBody CreateRoomTypeRequest request) {
-    return RoomTypeResponse.from(service.create(request));
-}

@@ -1,9 +1,13 @@
 package course.cinema.api;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import course.cinema.domain.Movie;
 
+@Schema(description = "Öffentliche Darstellung der Ressource Movie")
 public record MovieResponse(
-    Long id,
+    @Schema(description = "Vom Server vergebene ID", example = "1",
+        accessMode = Schema.AccessMode.READ_ONLY) Long id,
     String movieCode,
     String title,
     Integer releaseYear,
