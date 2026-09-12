@@ -1,0 +1,56 @@
+@baseUrl = http://localhost:8081
+
+### Liste lesen (200)
+GET {{baseUrl}}/api/stations
+X-Correlation-ID: manual-list
+
+### Einzelnen Datensatz lesen (200)
+GET {{baseUrl}}/api/stations/1
+
+### Gültigen Datensatz anlegen (201)
+POST {{baseUrl}}/api/stations
+Content-Type: application/json
+X-Correlation-ID: manual-create
+
+{
+  "stationCode": "N99",
+  "name": "Neue Station",
+  "address": "Neue Straße 1, Münster",
+  "capacity": 12,
+  "status": "PLANNED"
+}
+
+### Ungültigen Datensatz ablehnen (400)
+POST {{baseUrl}}/api/stations
+Content-Type: application/json
+X-Correlation-ID: manual-validation
+
+{}
+
+### Vorhandenen fachlichen Schlüssel ablehnen (409)
+POST {{baseUrl}}/api/stations
+Content-Type: application/json
+X-Correlation-ID: manual-conflict
+
+{
+  "stationCode": "DOM",
+  "name": "Neue Station",
+  "address": "Neue Straße 1, Münster",
+  "capacity": 12,
+  "status": "PLANNED"
+}
+
+### Seed-Datensatz mit unverändertem Schlüssel ersetzen (200)
+PUT {{baseUrl}}/api/stations/1
+Content-Type: application/json
+
+{
+  "stationCode": "DOM",
+  "name": "Neue Station aktualisiert",
+  "address": "Neue Straße 1, Münster",
+  "capacity": 12,
+  "status": "PLANNED"
+}
+
+### Unbekannten Datensatz idempotent löschen (204)
+DELETE {{baseUrl}}/api/stations/999999

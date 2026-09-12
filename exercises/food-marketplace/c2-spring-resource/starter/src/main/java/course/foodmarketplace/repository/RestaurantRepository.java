@@ -9,7 +9,11 @@ public interface RestaurantRepository {
 
   Optional<Restaurant> findById(long id);
 
-  Restaurant insert(Restaurant value);
+  Restaurant save(Restaurant value);
 
-  boolean existsByPartnerNumber(String partnerNumber);
+  boolean existsByPartnerNumber(String value);
+
+  boolean existsByPartnerNumberAndIdNot(String value, long id);
+
+  void deleteById(long id);
 }

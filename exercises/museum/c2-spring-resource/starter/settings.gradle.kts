@@ -1,1 +1,1 @@
-rootProject.name = "museum-rest"
+rootProject.name = "museum-rest-starter"

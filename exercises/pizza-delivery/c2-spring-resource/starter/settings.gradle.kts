@@ -1,1 +1,1 @@
-rootProject.name = "pizza-delivery-rest"
+rootProject.name = "pizza-delivery-rest-starter"

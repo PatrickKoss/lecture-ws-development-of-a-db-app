@@ -7,4 +7,14 @@ Content-Type: application/json
 
 {"stationCode": "MS-NEW", "name": "Kursstation", "address": "Kursweg 1, 48143 Münster", "capacity": 20, "status": "ACTIVE"}
 
-### TODO(C3): denselben Wert für station_code erneut senden und 409 prüfen
+### ungültiger POST (400)
+POST {{base}}/api/stations
+Content-Type: application/json
+
+{}
+
+### doppelter fachlicher Schlüssel (409)
+POST {{base}}/api/stations
+Content-Type: application/json
+
+{"stationCode": "MS-NEW", "name": "Kursstation", "address": "Kursweg 1, 48143 Münster", "capacity": 20, "status": "ACTIVE"}

@@ -1211,7 +1211,7 @@ Die sichere Fassung auf Folie 07.8 ist ein gekürzter, mit `…` markierter Auss
 
 ### Ziel
 
-Die Studierenden ziehen SQL und Row Mapping aus dem Aufrufer hinter ein fachlich typisiertes Repository. `findById` und `findAll` bleiben der prüfbare Kern. Reflection (Laufzeitinspektion), eigene Annotationen und das generische `AbstractRepository<T>` stehen im Anhang. Als Nächstes übernehmen wir Repository und Migration in die Spring-Anwendung.
+Die Studierenden ziehen SQL und Row Mapping aus dem Aufrufer hinter ein fachlich typisiertes Repository. `findById` und `findAll` bleiben der prüfbare Kern. Reflection, eigene Annotationen und das generische `AbstractRepository<T>` stehen im Anhang. In C2 übernimmt ein ORM-Adapter mit Spring Data JPA und Hibernate den Datenzugriff. Die fachliche Repository-Grenze und das Flyway-Schema bleiben erhalten.
 
 ### Position auf der roten Linie
 
@@ -1248,7 +1248,7 @@ Reveal.js Prompt: Layout chapter-slide. Titel und Untertitel "Datenzugriff einma
 #### Folie 08.2: Wiederholungen beenden
 
 ```text
-Reveal.js Prompt: Rote-Linie-SVG mit allen acht exakten Beschriftungen. Status: Schritte 1 bis 5 erledigt in blue; aktiv `Wiederholungen beenden: Repository Pattern` in amber; als Nächstes `Andere zugreifen lassen: REST API mit Spring` mit gestricheltem blue Rahmen; Schritt 8 grau. Text unten: "Vorher: JDBC pro Entity · Jetzt: Repository Pattern · Danach: REST API mit Spring". Keine Fragmente. Notizen: "Wir kapseln JDBC, damit der Rest der Anwendung fachlich und testbar bleibt. Morgen stellt Spring das Repository hinter HTTP."
+Reveal.js Prompt: Rote-Linie-SVG mit allen acht exakten Beschriftungen. Status: Schritte 1 bis 5 erledigt in blue; aktiv `Wiederholungen beenden: Repository Pattern` in amber; als Nächstes `Andere zugreifen lassen: REST API mit Spring` mit gestricheltem blue Rahmen; Schritt 8 grau. Text unten: "Vorher: JDBC pro Entity · Jetzt: Repository Pattern · Danach: REST API mit Spring". Keine Fragmente. Notizen: "Wir kapseln JDBC, damit der Rest der Anwendung fachlich und testbar bleibt. In C2 übernimmt ORM den Datenzugriff hinter dem Interface."
 ```
 
 #### Folie 08.3: Was bleibt bei jeder Entity gleich?
@@ -1260,7 +1260,7 @@ Reveal.js Prompt: Layout .lead-question. Frage "Was kopiert ihr für Course aus 
 #### Folie 08.4: Interface zuerst
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/repository/src/main/java/org/lecture/AbstractRepository.java`, Zeilen 12 bis 17, vollständig und verbatim. Code: `public interface AbstractRepository<T> {\n\n    Connection getConnection();\n\n    Class<T> getClassType();`. Am unteren Rand steht der klare Hinweis `gekürzt: Default-Methoden all/get/create/update/delete folgen ab Zeile 18`. Highlights 12|14|16. Fragment 1 fünf Methodenkarten `all`, `get`, `create`, `update`, `delete` unter dem Interface. Notizen: "Das echte Interface fordert Connection und Laufzeittyp. Die CRUD-Operationen sind Default-Methoden im selben Interface. StudentRepository liefert die beiden fehlenden Angaben."
+Reveal.js Prompt: Layout .code-slide. Quelle `exercises/instructor-solutions/library/repository`, BookRepository.java. Interface mit `Optional<Book> findById(long id)`, `List<Book> findAll()` und `Book insert(Book value)`. Hinweis: "JDBC und In-Memory implementieren dieselbe Schnittstelle". Notizen: "Connection, ResultSet und SQLException bleiben in der JDBC-Implementierung. Der folgende Reflection-Anhang erläutert das ältere Kursbeispiel. Die Gruppen bauen keinen eigenen ORM-Mapper."
 ```
 
 #### Folie 08.5: rowToStudent zieht die Kopie zusammen
@@ -1332,7 +1332,7 @@ Reveal.js Prompt: Content slide mit SVG, markiert "(Reserve)". Sichtbarer Hinwei
 #### Folie 08.16: B4, Repository-Grenze freiziehen
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "B4 · Kernauftrag", Timer "15 min". Dateipfad unten: `exercises/<domain>/b4-repository/`. Mitte mit vier nummerierten Schritten: 1 "Verschiebt SQL und Row Mapping aus dem Aufrufer ins Repository." 2 "Lasst den Aufrufer nur das Repository-Interface kennen." 3 "Prüft findById und findAll erneut." 4 "Sichert Repository und Migration für C2." Abgabe: "Aufrufer ohne SQL, grüner Test und Übergabestand". Keine Fragmente. Notizen: "Diese Übung ist verpflichtend. Der vorbereitete Zwischenstand enthält das fertige Refactoring, falls eine Gruppe blockiert ist. Reflection bleibt Anhang und ist keine Voraussetzung für C2."
+Reveal.js Prompt: Layout .exercise-slide. Tag "B4 · Kernauftrag", Timer "15 min". Dateipfad unten: `exercises/<domain>/b4-repository/`. Mitte mit vier nummerierten Schritten: 1 "Verschiebt SQL und Row Mapping aus dem Aufrufer ins Repository." 2 "Lasst den Aufrufer nur das Repository-Interface kennen." 3 "Prüft findById und findAll erneut." 4 "Sichert Interface und Migration für den ORM-Übergang in C2." Abgabe: "Aufrufer ohne SQL, grüner Test und Übergabestand". Keine Fragmente. Notizen: "Diese Übung ist verpflichtend. Der vorbereitete Zwischenstand enthält das fertige Refactoring, falls eine Gruppe blockiert ist. Reflection bleibt Anhang und ist keine Voraussetzung für C2."
 ```
 
 #### Folie 08.17: Spring Data und Flyway bauen auf derselben Idee
@@ -1537,7 +1537,7 @@ C1, "OpenAPI im Code ergänzen", dauert 25 Minuten. Die Karte liegt in `exercise
 
 ### Ziel
 
-Die Studierenden übernehmen Migration, Repository und Row Mapping aus B4 in die Spring-Anwendung. Sie starten einen Health-Endpoint und implementieren GET für Collection und vorhandene ID mit `findAll` und `findById`. Sie erklären Dependency Injection (Abhängigkeitsinjektion) und ordnen Spring-Annotationen den bekannten Grenzen zu. POST folgt erst in C3.
+Die Studierenden übernehmen das Schema aus B1 und die Repository-Grenze aus B4 in die Spring-Anwendung. Sie ersetzen JDBC-Abfragen und Row Mapping durch Spring Data JPA und Hibernate. Sie starten einen Health-Endpoint und implementieren GET für Collection und vorhandene ID mit `findAll` und `findById`. Sie erklären Dependency Injection und ordnen Spring-Annotationen den bekannten Grenzen zu. POST folgt in C3.
 
 ### Position auf der roten Linie
 
@@ -1547,16 +1547,16 @@ Vorher: `Wiederholungen beenden: Repository Pattern`. Aktuell: `Andere zugreifen
 
 Ein Framework nimmt uns wiederkehrende Verkabelung ab. Es startet einen Webserver, liest Konfiguration, findet Controller und baut Objekte. Es nimmt uns nicht die Entscheidung ab, welche Ressource existiert und welcher Statuscode stimmt.
 
-Dependency Injection ist in einem Bild erklärt: Der Controller braucht ein Repository. Er baut es nicht selbst. Spring erstellt beide und übergibt das Repository im Konstruktor. Dadurch kann ein Test später ein anderes Objekt einsetzen.
+Dependency Injection ist in einem Bild erklärt: Der Controller erhält den Service, der Service das Repository-Interface und der ORM-Adapter das Spring-Data-Repository im Konstruktor. Spring erstellt und verbindet die Objekte. Ein Service-Test kann dadurch ein Repository-Testdoppel einsetzen.
 
-Die Annotationen sind Etiketten auf bekannten Ideen. `@RestController` markiert den HTTP-Rand, `@GetMapping` verbindet Methode und Pfad, `@Repository` markiert den Datenzugriff. Row Mapper und Repository-Port stammen unverändert aus B4. JPA und `JpaRepository` bleiben als alternativer Adapter in der Vertiefung sichtbar.
+`@RestController` markiert die Präsentationsschicht, `@GetMapping` verbindet Methode und Pfad, `@Repository` markiert den Datenzugriff. Der Service führt Fachregeln in einer Transaktion aus und nimmt einen Command statt eines HTTP-DTOs an. Der ORM-Adapter übersetzt Domain-Objekte in JPA-Entities. Spring Data implementiert das `JpaRepository`; Hibernate erzeugt SQL und übernimmt das Row Mapping. JPA gehört zum Kernauftrag C2.
 
-Im Live-Teil gehe ich in kleinen Schritten: Anwendung starten, Migration und Repository übernehmen, Seed-Datensatz lesen, GET Collection und GET per ID über Swagger UI prüfen. Nach jedem Schritt gibt es eine sichtbare Antwort.
+Im Live-Teil öffne ich `exercises/library/c2-spring-resource/starter`: Anwendung starten, Flyway-Migration und JPA-Mapping abgleichen, ORM-Adapter ergänzen, Seed-Datensatz lesen und GET Collection sowie GET per ID über Swagger UI prüfen. Das ältere Student-Beispiel bleibt für allgemeine HTTP- und DI-Erklärungen nutzbar; die ORM-Demo läuft im Bibliotheks-Starter.
 
 ### Leitfragen
 
 - Frage: "Wer ruft den Konstruktor von StudentController auf?" Erwartet: Spring erstellt und verbindet die Beans. Typisch falsch: der Browser; das Repository selbst.
-- Frage: "Welche Teile aus B4 bleiben erhalten?" Erwartet: Migration, Repository-Port, JDBC-Adapter und Row Mapping. Typisch falsch: Wir beginnen mit einer neuen JPA-Entity.
+- Frage: "Welche Teile aus B4 bleiben erhalten?" Erwartet: Fachliche Repository-Grenze und Datenmodell. Das B1-Schema wird als Flyway-Migration verwendet. JDBC-Abfragen und Row Mapping werden durch ORM ersetzt.
 - Frage: "Welche Repository-Methode gehört zu GET Collection und GET per ID?" Erwartet: `findAll` und `findById`. Typisch falsch: `save` für beide.
 
 ### Realitätsbezug
@@ -1586,7 +1586,7 @@ Reveal.js Prompt: Layout .lead-question. Frage "Welche Arbeit soll Spring für u
 #### Folie 10.4: Der Stand aus B4 kommt mit
 
 ```text
-Reveal.js Prompt: Drei Karten mit dem sichtbaren Label "Übergabe statt Neustart": 1 "Migration: V1__schema.sql und Seed-Daten übernehmen", 2 "Repository: Interface, JDBC-Implementierung und Row Mapping kopieren", 3 "Starttest: vorhandenen Datensatz mit findById lesen". Notizen: "Der Spring-Starter setzt auf dem B4-Stand auf. Erst wenn Migration und Repository denselben Seed-Datensatz lesen, ergänzen wir den Controller."
+Reveal.js Prompt: Drei Karten: "Vorbereitet: Controller, Service, JPA-Entity und Fehlerformat", "Gemeinsam: Flyway-Schema mit JPA-Mapping und DTO-Vertrag abgleichen", "Gemeinsam: Repository-Adapter mit Spring Data für GET und POST ergänzen". Notizen: "Der Service kennt das fachliche Repository-Interface. Der ORM-Adapter implementiert die offenen Methoden mit Spring Data JPA. Flyway übernimmt das B1-Schema."
 ```
 
 #### Folie 10.5: Ohne und mit Spring
@@ -1610,55 +1610,55 @@ Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/bac
 #### Folie 10.8: Annotationen auf gestern abbilden
 
 ```text
-Reveal.js Prompt: Two-column mapping. `@RestController`→HTTP-Rand, `@GetMapping`→Methode+Pfad, `@Service`→Use Case, `@Repository`→Datenzugriff, `Row Mapper`→Zeile zu Objekt, `Repository-Port`→Grenze zum Adapter. Fragmente Zeile für Zeile. Notizen: "Keine Annotation erfindet ein neues Fachkonzept. Wir hängen bekannte Aufgaben an Springs Laufzeit. Diese Karte bleibt für Deck 11 sichtbar."
+Reveal.js Prompt: Two-column mapping. `@RestController`→HTTP-Rand, `@GetMapping`→Methode+Pfad, `@Service`→Use Case, `@Repository`→Datenzugriff, `@Entity`→Tabelle zu Objekt, `Repository-Port`→Grenze zum Adapter. Fragmente Zeile für Zeile. Notizen: "Keine Annotation erfindet ein neues Fachkonzept. Wir hängen bekannte Aufgaben an Springs Laufzeit. Diese Karte bleibt für Deck 11 sichtbar."
 ```
 
 #### Folie 10.9: Ein Health-Endpoint
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/backend/src/main/java/com/example/restsimple/controller/StudentController.java`, Zeilen 49 bis 53, vollständig und verbatim. Code zeigt `@GetMapping("/health")`, die OpenAPI-Annotation und die Response-Map. Highlights 49|50|51-53. Notizen: "Der Endpoint braucht noch keine Datenbank. Wir prüfen Routing, JSON und Port. Sein vollständiger Pfad ist `/api/students/health`, weil die Klasse das Präfix `/api/students` setzt."
+Reveal.js Prompt: Layout .code-slide. Quelle `exercises/library/c2-spring-resource/starter`, HealthController.java. Code zeigt `@GetMapping("/api/health")` und `Map.of("status", "UP", "domain", "library")`. Notizen: "Der separate Health-Controller braucht keine fachlichen Repository-Methoden. Wir prüfen Routing, JSON und Port."
 ```
 
 #### Folie 10.10: application.properties
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Zeige `spring.application.name`, `spring.datasource.url`, SQLite-Treiber, `spring.datasource.hikari.connection-init-sql=PRAGMA foreign_keys=ON`, `spring.flyway.enabled=true`, `server.port=${SERVER_PORT:8081}`, `server.error.include-message=never` sowie die SpringDoc-Einstellungen. Rechte Annotationen: `Migrationen erst nach dem Umbenennen der .sql.todo-Dateien`, `Fremdschlüssel pro Connection`, `Port 8081 als Default`, `keine internen Fehlermeldungen`, `OpenAPI und Swagger UI`. Notizen: "Hikari führt das SQLite-PRAGMA für jede neue Connection aus. Flyway ignoriert die Arbeitsdateien mit `.todo`. Swagger UI liegt unter `/swagger-ui.html`."
+Reveal.js Prompt: Layout .code-slide. Zeige SQLite-Datasource, Foreign-Key-PRAGMA, Flyway, `spring.jpa.hibernate.ddl-auto=none`, `spring.jpa.database-platform=org.hibernate.community.dialect.SQLiteDialect`, `spring.jpa.open-in-view=false`, Port und Swagger UI. Rechte Hinweise: Flyway besitzt das Schema, Fremdschlüssel pro Connection, Hibernate verändert keine Tabellen, kein Lazy Loading im Controller. Quelle: C2-Starter, relevante Einstellungen.
 ```
 
 #### Folie 10.11: Starten und prüfen
 
 ```text
-Reveal.js Prompt: Terminal-Content-Slide. Quellen sichtbar unten: `common-example/backend/README.md`. Grundzustand exakt `cd common-example/backend` und `./gradlew bootRun`. Fragment 1 green Label `Server auf :8081`. Fragment 2 exakte URL `http://localhost:8081/api/students/health`. Fragment 3 Response-JSON `{"status":"UP","service":"university-backend"}`. Notizen: "Wir warten auf den gestarteten Server. Erst nach der Health-Antwort öffnen wir Swagger UI."
+Reveal.js Prompt: Terminal-Content-Slide. Quelle `exercises/library/c2-spring-resource/README.md`. Befehle `cd exercises/library/c2-spring-resource/starter` und `./gradlew bootRun`. Fragment 1 Server auf :8081, Fragment 2 `http://localhost:8081/api/health`, Fragment 3 `{"status":"UP","domain":"library"}`. Notizen: "Nach der Health-Antwort öffnen wir Swagger UI."
 ```
 
 #### Folie 10.12: Der erste GET
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/backend/src/main/java/com/example/restsimple/controller/StudentController.java`. Zeige die drei vorhandenen Schritte `@GetMapping`, `service.findAll()` und `StudentResponse::from`, verbunden durch blue Pfeile. Darunter steht `GET /api/students`. Notizen: "Der Controller ist vorbereitet. Wir implementieren `StudentService.findAll`; das Row Mapping bleibt im JDBC-Adapter. Nach außen geht ein Response-DTO."
+Reveal.js Prompt: Layout .code-slide. Quelle BookController.java im Bibliotheks-Starter. Zeige `@GetMapping`, `service.findAll()` und `BookResponse`, verbunden durch blue Pfeile. Darunter `GET /api/books`. Notizen: "Controller und Service sind vorbereitet. Wir ergänzen findAll im JpaBookRepository. Nach außen geht ein Response-DTO."
 ```
 
 #### Folie 10.13: JPA-Entity
 
 ```text
-Reveal.js Prompt: Layout .code-slide mit sichtbarem Label "Vertiefung · alternativer Adapter" und Quellenhinweis "Kontrastbeispiel, nicht Bestandteil der gemeinsamen Vorlage". Code: `@Entity\n@Table(name = "students")\nclass Student {\n    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)\n    private Long id;\n    @Column(name = "email", nullable = false, unique = true)\n    private String email;\n}`. Highlights 1-2|3-5|6-7. Rechte Feldliste für den Kurs: `firstName, lastName, email, studentNumber, enrollmentDate`. Notizen: "Das Snippet ist ein alternativer JPA-Adapter. Das gemeinsame Beispiel verwendet Spring JDBC."
+Reveal.js Prompt: Layout .code-slide, Label "C2 · Persistenz-Mapping", Beispiel Bibliothek. Codeauszug aus `BookJpaEntity`: `@Entity`, `@Table(name = "books")`, `@Id`, `@GeneratedValue(strategy = GenerationType.IDENTITY)` für `Long id` und `@Column(name = "isbn", nullable = false)` für `String isbn`. Rechts die Bedeutung der Annotationen. Notizen: "Die vollständige Entity enthält alle Pflichtspalten und einen parameterlosen Konstruktor. Flyway legt Constraints an. ddl-auto=none verhindert eine zweite Schemaquelle. Die Entity ist kein Response-DTO."
 ```
 
-#### Folie 10.14: JpaRepository = AbstractRepository
+#### Folie 10.14: Spring Data implementiert den Datenzugriff
 
 ```text
-Reveal.js Prompt: Layout .code-slide mit sichtbarem Label "Vertiefung · statt JDBC-Adapter" und Quellenhinweis "Kontrastbeispiel, nicht Bestandteil der gemeinsamen Vorlage". Code: `@Repository\npublic interface StudentRepository extends JpaRepository<Student, Long> {\n}`. Fragment 1 ererbte Methoden `findAll`, `findById`, `save`, `deleteById`, `existsById`. Fragment 2 zeigt `AbstractRepository<Student>` als kleine blue Karte. Notizen: "Spring Data stellt die alternative Implementierung bereit. C2 verwendet unser eigenes Repository mit Spring JDBC."
+Reveal.js Prompt: Layout .code-slide, Label "C2 · ORM-Repository". Code: `interface SpringDataBookRepository extends JpaRepository<BookJpaEntity, Long> { boolean existsByIsbn(String value); }`. Fragment 1 geerbte CRUD-Methoden, Fragment 2 die aus dem Namen abgeleitete Eindeutigkeitsabfrage. Notizen: "Der ORM-Adapter verwendet dieses Interface hinter dem fachlichen BookRepository. SQL und ResultSet-Mapping übernimmt Hibernate."
 ```
 
 #### Folie 10.15: GET per ID
 
 ```text
-Reveal.js Prompt: Layout .code-slide mit sichtbarem Label "C2 · Kernpfad". Code verbatim aus dem vorbereiteten Controller: `@GetMapping("/{id}")\npublic StudentResponse findById(@PathVariable long id) {\n    return StudentResponse.from(service.findById(id));\n}`. Quellenhinweis: `common-example/backend/src/main/java/com/example/restsimple/controller/StudentController.java`. Notizen: "Der Controller delegiert die Suche an den Service. Wir implementieren dort den 404-Fall. Das Row Mapping bleibt im JDBC-Adapter."
+Reveal.js Prompt: Layout .code-slide, Label "C2 · Kernpfad". Codeauszug aus `BookController`: `@GetMapping("/{id}") public BookResponse findById(@PathVariable long id) { return BookResponse.from(service.findById(id)); }`. Quellenhinweis auf den Bibliotheks-Starter, OpenAPI-Annotationen als ausgelassen markieren. Notizen: "Der Controller delegiert an den Service. Der Service übersetzt ein fehlendes Domain-Objekt in 404. Das ORM-Mapping bleibt im Repository."
 ```
 
 #### Folie 10.16: Request durch die Anwendung
 
 ```text
-Reveal.js Prompt: SVG Swagger UI → Controller → Service → `JdbcStudentRepository` → SQLite. Fragmente je Pfeil blue, Rückweg JSON green. Notizen: "Jeder Pfeil entspricht einer vorhandenen Klasse oder einem externen System. Der Controller delegiert an den Service. Das JDBC-Repository erzeugt SQL."
+Reveal.js Prompt: SVG Swagger UI → Controller → Service → ORM-Repository → SQLite. Fragmente je Pfeil blue, Rückweg JSON green. Notizen: "Der Service kennt das fachliche Repository. Dahinter rufen ORM-Adapter und Spring Data Hibernate auf. Hibernate erzeugt SQL und verwendet den JDBC-Driver. Auf dem Rückweg entstehen Response-DTOs."
 ```
 
 #### Folie 10.17: Swagger UI ist ein Client
@@ -1676,7 +1676,7 @@ Reveal.js Prompt: Timeline "health 200" → "Seed 42" → "GET Liste" → "GET /
 #### Folie 10.19: C2, vorhandene Ressource lesen
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "C2 · Kernauftrag", Timer "50 min". Dateipfad unten: `exercises/<domain>/c2-spring-resource/`. Mitte mit vier nummerierten Schritten: 1 "Übernehmt Migration und Repository aus B4." 2 "Startet den Test, der einen Seed-Datensatz liest." 3 "Implementiert GET Collection mit findAll." 4 "Implementiert GET per ID mit findById." Abgabe: "GET 200 für Collection und vorhandene ID". Keine Fragmente. Notizen: "Das Starterprojekt enthält Controller- und Response-DTO-Gerüste. Nach der Kernzeit kann der vorbereitete Zwischenstand freigegeben werden. POST folgt in C3."
+Reveal.js Prompt: Layout .exercise-slide. Tag "C2 · Kernauftrag", Timer "50 min". Pfad `exercises/<domain>/c2-spring-resource/`. Schritte: 1 "Übernehmt das B1-Schema und prüft das JPA-Mapping." 2 "Verbindet den Repository-Adapter mit Spring Data JPA." 3 "Implementiert findAll und aktiviert den ORM-Test." 4 "Prüft GET per ID mit findById, 200 und 404." Abgabe: "GET 200 und 404, grüner ORM-Test". Notizen: "Der JDBC-Stand aus B4 bleibt zum Vergleich erhalten. POST folgt in C3."
 ```
 
 #### Folie 10.20: Debrief, welche Annotation ersetzt was?
@@ -1688,22 +1688,28 @@ Reveal.js Prompt: Content slide. Sechs Karten ohne Erklärung; Fragmente decken 
 #### Folie 10.21: Spring Data erzeugt Repository-Implementierungen
 
 ```text
-Reveal.js Prompt: Layout citation-slide. Visual: einzeiliges `JpaRepository<Student, Long>` links, `SimpleJpaRepository` als erzeugte blue Implementierung rechts. Text: "CRUD-Methoden kommen aus den Repository-Basisschnittstellen." Quelle: "https://docs.spring.io/spring-data/jpa/reference/repositories/definition.html". Darunter sichtbar: "Abruf: 2026-08-23". Notizen: "Die Spring-Dokumentation beschreibt, wie passende Methoden an die Basisimplementierung geroutet werden. Unser AbstractRepository war das Modell in klein. Jetzt ordnen wir den Code in klare Verantwortungen."
+Reveal.js Prompt: Layout citation-slide. Visual: einzeiliges `JpaRepository<BookJpaEntity, Long>` links, `SimpleJpaRepository` als erzeugte blue Implementierung rechts. Text: "CRUD-Methoden kommen aus den Repository-Basisschnittstellen." Quelle: "https://docs.spring.io/spring-data/jpa/reference/repositories/definition.html". Darunter sichtbar: "Abruf: 2026-08-23". Notizen: "Die Spring-Dokumentation beschreibt, wie passende Methoden an die Basisimplementierung geroutet werden. Unser AbstractRepository war das Modell in klein. Jetzt ordnen wir den Code in klare Verantwortungen."
 ```
 
 ### Übung
 
-C2, "Vorhandene Ressource lesen", dauert 50 Minuten. Die Gruppe arbeitet in `exercises/<domain>/c2-spring-resource/`, übernimmt Migration und Repository aus B4 und startet mit einem Test gegen den Seed-Datensatz. Danach implementiert sie GET Collection mit `findAll` und GET per ID mit `findById`. Abgabe sind zwei 200-Antworten für Collection und vorhandene ID. POST, Beziehungen und weitere Methoden folgen später oder bleiben Vertiefung. Debrief-Fragen: Welche Annotation routet HTTP? Wer stellt das Repository bereit? Welche SELECT-Abfrage lief? Exakter Folientext steht auf Folie 10.19.
+C2, "Vorhandene Ressource lesen", dauert 50 Minuten. Die Gruppe gleicht das B1-Schema mit der JPA-Entity ab und ergänzt `findAll` sowie `findById` im ORM-Adapter. Der vorbereitete Service liefert Domain-Objekte; der Controller erzeugt Response-DTOs. Abgabe sind 200 für Collection und bekannte ID, 404 für eine unbekannte ID und ein grüner ORM-Test. POST folgt in C3. Im Debrief vergleichen die Gruppen das von Hibernate erzeugte SQL mit B3.
 
 ### Code
 
-Gezeigt werden in dieser Reihenfolge: `common-example/backend/src/main/java/com/example/restsimple/DemoApplication.java` Zeilen 1 bis 13 vollständig; `common-example/backend/src/main/java/com/example/restsimple/controller/StudentController.java` Zeilen 12 bis 29 für Health; die Datasource-, Flyway-, Port- und SpringDoc-Einstellungen aus `application.properties`; danach die Controller- und Response-DTO-Gerüste aus `exercises/<domain>/c2-spring-resource/starter/`. Migration, Repository-Port, JDBC-Adapter und Row Mapping stammen aus B4.
+Gezeigt werden die Spring-Boot-Startklasse für das allgemeine DI-Beispiel und danach die Dateien im Bibliotheks-Starter: HealthController, application.properties, BookJpaEntity, SpringDataBookRepository, JpaBookRepository, BookService und BookController. Die vollständigen Implementierungen liegen parallel im Lehrendenpaket. JDBC und Reflection aus B3/B4 bleiben Vergleichsmaterial.
 
-`StudentJpaRepository` und die JPA-Entity bleiben als klar markierter alternativer Adapter in der Vertiefung. Sie ersetzen nicht den C2-Übergabestand. Der Kursvertrag verwendet `firstName`, `lastName`, `email`, `studentNumber` und `enrollmentDate`. Deck 11 ergänzt POST, DTOs, Validation und genau einen 409-Konflikt.
+Alle 14 C2-Starter verwenden Spring Data JPA und Hibernate. Die Hauptentität jeder Domäne bleibt über alle Phasen gleich. Das Bibliotheksbeispiel verwendet `Book`, `BookJpaEntity`, `SpringDataBookRepository`, `JpaBookRepository`, `BookService` und die API-DTOs. Deck 11 ergänzt POST und prüft Validierung, Fachkonflikte und Datenbank-Constraints.
 
 ### Ergänzung zu Deck 10: SpringDoc im Übungsprojekt
 
-Die zusätzliche Codefolie zeigt `org.springdoc:springdoc-openapi-starter-webmvc-ui:3.1.0`, den Start mit `SERVER_PORT=18081 ./gradlew bootRun` und die URLs `/swagger-ui.html` und `/v3/api-docs`. Alle C2-Starter enthalten die Abhängigkeit. SpringDoc 3.x unterstützt Spring Boot 4 laut https://springdoc.org/faq.html. POST mit Location ist vorbereitet; GET-Repository-Methoden, insert und Eindeutigkeitsprüfung bleiben Übungen.
+Die SpringDoc-Folie zeigt die vorhandene Abhängigkeit, den Start mit `SERVER_PORT=18081 ./gradlew bootRun` und die URLs `/swagger-ui.html` und `/v3/api-docs`. POST mit Location ist vorbereitet. In C2 ergänzt die Gruppe die lesenden ORM-Adaptermethoden, in C3 `save` und die Eindeutigkeitsprüfung. Die Spec wird aus den DTOs und Controller-Annotationen exportiert.
+
+### Zusätzliche ORM-Folien nach 10.14
+
+"Der Adapter hält JPA im Repository" zeigt `data.findById(id).map(BookJpaEntity::toDomain)` und eine nach ID sortierte `findAll`-Abfrage. Quelle ist die Bibliothekslösung. Die Folie wird erst bei der C2-Auswertung vollständig aufgedeckt.
+
+"Eine Transaktion pro Anwendungsfall" zeigt `@Transactional(readOnly = true)` am Service und `@Transactional` an `create`. Der Methodenrumpf ist ausdrücklich gekürzt. Controller mappen Request-DTOs auf Commands, Services führen Fachregeln aus und Repositories übersetzen Domain-Objekte in Entities. `open-in-view=false` begrenzt Datenzugriffe auf die Service-Transaktion.
 
 
 ## 11 Gutes Anwendungsdesign (Dateiname decks/11-good-design.html)
@@ -1722,7 +1728,7 @@ Die beiden GET-Endpunkte aus C2 funktionieren. Jetzt ergänzen wir POST für die
 
 Drei Schichten reichen für den Kurs: Presentation verarbeitet HTTP, Service koordiniert Fachregeln, Repository speichert. Ich baue aber keine Service-Klasse, die nur `repository.save` weiterreicht und nie eine Regel bekommt. Für kleines CRUD darf der Controller validieren und speichern. Sobald mehrere Repositories, Transaktionen oder Regeln zusammenkommen, lohnt der Service.
 
-DTOs schützen den Vertrag. `CreateStudentRequest` enthält nur erlaubte Eingaben. `StudentResponse` enthält nur zugesagte Ausgaben. `@Valid` stoppt ungültige Daten am Rand. `@ControllerAdvice` übersetzt erwartete Exceptions in ein stabiles `ErrorResponse` mit `code`, `message` und `correlationId`. Der C3-Kern enthält genau einen fachlichen 409-Konflikt.
+DTOs schützen den Vertrag. Request-DTOs enthalten erlaubte Eingaben, Response-DTOs zugesagte Ausgaben. `@Valid` prüft die Eingaben. `@RestControllerAdvice` übersetzt erwartete Exceptions in `ApiError` mit `code`, `message`, `correlationId` und `fields`. C3 prüft einen fachlichen Eindeutigkeitskonflikt sowie den Schutz durch das Datenbank-Constraint.
 
 Das vollständige `rest-simple` zeigt das größere Bild als hexagonale Architektur. Ports sind Interfaces, Adapter verbinden HTTP und JPA. Wir schauen darauf, verlangen es aber nicht in der Übung.
 
@@ -1795,19 +1801,19 @@ Reveal.js Prompt: Two-column content. Links blue Randregeln "leer, Länge, Forma
 #### Folie 11.10: Statuscode aus einer Exception
 
 ```text
-Reveal.js Prompt: SVG `StudentNotFoundException` → `@ControllerAdvice` → `404 ErrorResponse`. Fragmente entlang Pfeil, unerwartete Exception → 500 red. Notizen: "Der Controller muss nicht jeden Fehler lokal fangen. Ein zentraler Handler übersetzt bekannte Exceptions konsistent. Unbekannte Fehler werden geloggt und als knappe 500-Antwort ausgegeben."
+Reveal.js Prompt: SVG `ResourceNotFoundException` → `@RestControllerAdvice` → `404 ApiError`. Fragmente entlang Pfeil, unerwartete Exception → 500 red. Notizen: "Ein zentraler Handler übersetzt bekannte Exceptions. Unbekannte Fehler werden geloggt; der Client bekommt keinen technischen Exception-Text."
 ```
 
 #### Folie 11.11: @ControllerAdvice
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quellenhinweis sichtbar: "Zielcode im C3-Starter: GlobalExceptionHandler.java". Code: `@ExceptionHandler(ResourceNotFoundException.class)\nResponseEntity<ErrorResponse> notFound(ResourceNotFoundException ex) {\n    var body = new ErrorResponse(\n            "RESOURCE_NOT_FOUND", ex.getMessage(), correlationId());\n    return ResponseEntity.status(404).body(body);\n}`. Highlights 1|2-4|5. Notizen: "Die Handler-Methode verbindet Exception-Typ, stabilen Body und Status. Ein 500-Handler loggt die technische Ursache, gibt sie aber nicht an den Client zurück."
+Reveal.js Prompt: Layout .code-slide. Quelle GlobalExceptionHandler.java im C2-Starter, Hilfsmethode ausgeschrieben. Zeige `@ExceptionHandler(ResourceNotFoundException.class)`, `@ResponseStatus(HttpStatus.NOT_FOUND)` und die Rückgabe `new ApiError(ex.code(), ex.getMessage(), correlationId(), Map.of())`. Notizen: "Der Handler verbindet Exception-Typ, Fehlerkörper und HTTP-Status."
 ```
 
 #### Folie 11.12: Ein stabiler Fehlerkörper
 
 ```text
-Reveal.js Prompt: Two-column content. Quellenhinweis sichtbar: "C3-Starter · ErrorResponse.java". Links als instabil markiert: `{"message":"Student 42 not found","details":null}`. Rechts als stabiler Vertrag: `{"code":"STUDENT_NOT_FOUND","message":"Student 42 not found","correlationId":"4d2a..."}`. Fragmente: Felder nacheinander, danach red Kreuz über Stacktrace. Notizen: "code ist der maschinenlesbare Vertrag. message bleibt für Menschen. Die Correlation ID verbindet Antwort und Log. Bei 500 bleibt die technische Exception ausschließlich im Log."
+Reveal.js Prompt: Two-column content. Quellenhinweis sichtbar: "C3-Starter · ApiError.java". Links als instabil markiert: `{"message":"Student 42 not found","details":null}`. Rechts als stabiler Vertrag: `{"code":"STUDENT_NOT_FOUND","message":"Student 42 not found","correlationId":"4d2a..."}`. Fragmente: Felder nacheinander, danach red Kreuz über Stacktrace. Notizen: "code ist der maschinenlesbare Vertrag. message bleibt für Menschen. Die Correlation ID verbindet Antwort und Log. Bei 500 bleibt die technische Exception ausschließlich im Log."
 ```
 
 #### Folie 11.13: Statuscodes aus Fachfällen
@@ -1819,7 +1825,7 @@ Reveal.js Prompt: Mapping grid: ungültiges DTO→400, Student fehlt→404, dupl
 #### Folie 11.14: Naming hält Ebenen lesbar
 
 ```text
-Reveal.js Prompt: Content slide. Kette `CreateStudentRequest` → `create` → `Student` → `JdbcStudentRepository` → `students`. Fragmente entlang Kette. Danach erscheint `Java: camelCase` in amber und die gemeinsame Feldliste `firstName`, `lastName`, `email`, `studentNumber`, `enrollmentDate` in blue. Schlussfragment verbindet `studentNumber` mit SQL `student_number` und `enrollmentDate` mit `enrollment_date`. Notizen: "Ein Begriff pro Ding reduziert Übersetzungsfehler. Java nutzt camelCase, SQL snake_case. Abgesehen von dieser Schreibweise bleiben die Namen gleich."
+Reveal.js Prompt: Content slide. Kette `CreateStudentRequest` → `create` → `Student` → ORM-Repository → `students`. Das Student-Beispiel erläutert die Benennung. Fragmente zeigen Java camelCase und SQL snake_case. Notizen: "Im ORM legt @Column die Spaltenzuordnung fest. Die Gruppen verwenden die Namen ihrer eigenen Hauptentität; im Bibliotheks-Starter sind das Book und BookJpaEntity."
 ```
 
 #### Folie 11.15: Hexagonal als größeres Bild
@@ -1837,13 +1843,13 @@ Reveal.js Prompt: Sequence SVG Client → Controller validates/maps → Service 
 #### Folie 11.17: C3, POST für dieselbe Hauptressource
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "C3 · Kernauftrag", Timer "45 min". Dateipfad unten: `exercises/<domain>/c3-tests-errors/`. Mitte mit vier nummerierten Schritten: 1 "Ergänzt Request- und Response-DTO für POST." 2 "Ergänzt Bean Validation und @Valid." 3 "Setzt genau eine Fachregel als 409 um." 4 "Gebt Fehler als code, message und correlationId aus." Abgabe: "POST 201 sowie ein reproduzierbarer 409". Keine Fragmente. Notizen: "POST verwendet dieselbe flache Hauptressource wie die GET-Endpunkte aus C2. PUT, DELETE und Beziehungen sind Vertiefung. Der vorbereitete Zwischenstand enthält den vollständigen POST-Kernpfad."
+Reveal.js Prompt: Layout .exercise-slide, C3, 45 min. Schritte: 1 save im ORM-Adapter mit Spring Data implementieren; 2 DTO-Validierung und POST 201 mit Location prüfen; 3 Eindeutigkeitsprüfung ergänzen und 409 prüfen; 4 Tests für 400, 409 und ApiError aktivieren. Abgabe: POST 201, Validation 400 und Konflikt 409. PUT, DELETE und Fremdschlüsselkonflikte sind Vertiefung und in den Musterlösungen implementiert.
 ```
 
 #### Folie 11.18: Debrief, ein Request durch alle Schichten
 
 ```text
-Reveal.js Prompt: Content slide. Leere Sequenzkarten Controller, Service optional, Repository, DB. Fragmente: Gruppe trägt Klassenname und Status an jeder Station ein. Schlussfragen "Wo validiert? Wo übersetzt?" amber. Notizen: "Eine Gruppe verfolgt ihren schwierigsten Fehlerfall. Wir prüfen, ob der Response DTO und ErrorResponse stabil bleiben. Wir zählen keine Klassen, sondern Verantwortungen."
+Reveal.js Prompt: Content slide. Leere Sequenzkarten Controller, Service, Repository, DB. Fragmente: Gruppe trägt Klassenname und Status an jeder Station ein. Schlussfragen "Wo validiert? Wo übersetzt?" amber. Notizen: "Eine Gruppe verfolgt ihren schwierigsten Fehlerfall. Wir prüfen, ob der Response DTO und ApiError stabil bleiben. Wir zählen keine Klassen, sondern Verantwortungen."
 ```
 
 #### Folie 11.19: Vertragstest gegen Entity-Änderung
@@ -1860,11 +1866,17 @@ Reveal.js Prompt: Layout citation-slide. Visual: GitHub und Stripe als Clientkar
 
 ### Übung
 
-C3, "POST für dieselbe Hauptressource", dauert 45 Minuten. Die Gruppe arbeitet in `exercises/<domain>/c3-tests-errors/` auf dem C2-Stand weiter. Sie ergänzt Request- und Response-DTO, Bean Validation, `@Valid` und genau eine Fachregel als 409. Der Fehlerkörper enthält `code`, `message` und `correlationId`. PUT, DELETE und Beziehungen sind Vertiefung. Abgabe sind POST 201 und ein reproduzierbarer 409. Debrief-Fragen: Wo lohnt ein Service? Welches Persistenzfeld bleibt intern? Welche Exception erzeugt welchen Status? Exakter Folientext steht auf Folie 11.17.
+C3 dauert 45 Minuten für POST und Fehlerverhalten. Die Gruppe ergänzt `save` und Eindeutigkeitsabfragen im ORM-Adapter. Der Service arbeitet in einer Transaktion. DTOs, Bean Validation und Fehlerhandler sind vorbereitet und werden geprüft. Abgabe sind 201 mit Location, 400 mit Feldfehlern und 409 bei einem Eindeutigkeitskonflikt. Die folgende Folie erklärt das Rennen zwischen Vorabfrage und INSERT sowie den Schutz durch UNIQUE und saveAndFlush. PUT, DELETE und Fremdschlüsselkonflikte bleiben Vertiefung.
+
+### Zusätzliche ORM-Folien in Deck 11 und 12
+
+Vor der C3-Aufgabe in Deck 11 steht "UNIQUE bleibt die letzte Prüfung". Zwei ausdrücklich getrennte Codeausschnitte zeigen `existsByIsbn` im Service und `saveAndFlush` im ORM-Adapter. Die Notizen erklären gleichzeitige Requests, das UNIQUE-Constraint in Flyway und die Übersetzung von Persistenzfehlern in 409. Technische Details bleiben im Log.
+
+Deck 12 ergänzt "ORM braucht einen Datenbanktest" nach der Testauswahl. Zwei Spalten nennen überprüfbare Fälle: Flyway-Schema, bekannte Seed-Werte, gespeicherte POST-Felder, veränderte PUT-Daten sowie UNIQUE-, Fremdschlüssel- und JSON-Fehler und den OpenAPI-Vertrag. Der Text unterscheidet den Schutz durch Fremdschlüssel von ausdrücklich erlaubtem ON DELETE CASCADE. Die C3-Abgabe prüft 201, 400 und 409 gegen Hibernate und SQLite.
 
 ### Code
 
-Gezeigt werden zuerst Ausschnitte aus `common-example/advanced-backend/src/main/java/com/example/restsimple/adapter/in/web/StudentController.java`: Konstruktorinjektion, GET und POST. Danach folgen `CreateStudentRequest`, `StudentResponse`, `StudentService`, `GlobalExceptionHandler` und `ErrorResponse`. Die C3-Zielstruktur des Fehlerkörpers ist `code`, `message`, `correlationId` und optional `fields`. Ein sichtbarer Hinweis trennt vorhandene Namen des größeren Beispiels vom Kursstandard.
+Gezeigt werden zuerst Ausschnitte aus `common-example/advanced-backend/src/main/java/com/example/restsimple/adapter/in/web/StudentController.java`: Konstruktorinjektion, GET und POST. Danach folgen `CreateStudentRequest`, `StudentResponse`, `StudentService`, `GlobalExceptionHandler` und `ApiError`. Die C3-Zielstruktur des Fehlerkörpers ist `code`, `message`, `correlationId` und optional `fields`. Ein sichtbarer Hinweis trennt vorhandene Namen des größeren Beispiels vom Kursstandard.
 
 Die Konstruktorinjektion aus `StudentController.java`, Zeilen 36 bis 44, wird verbatim gezeigt:
 
@@ -2032,7 +2044,7 @@ Reveal.js Prompt: Two-column content, markiert "(Reserve)". Links PUT mit vollst
 #### Folie 12.17: C3, Vertrag und Fehler testen
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "C3 · Kernauftrag", Timer "35 min". Dateipfad unten: `exercises/<domain>/c3-tests-errors/`. Mitte mit drei nummerierten Schritten: 1 "Testet den POST-Erfolg mit 201, ID und einem Fachfeld." 2 "Testet 409 sowie code, message und correlationId." 3 "Vertiefung: ergänzt X-Correlation-ID in Response und Log." Abgabe: "zwei grüne Tests und ein stabiler 409-Fehlerkörper". Keine Fragmente. Notizen: "Die beiden Testfälle gehören zum Kernauftrag. Ein vorbereiteter Zwischenstand enthält den laufenden POST-Pfad. Der Filter ist Vertiefung, falls die Correlation ID im Starter noch nicht gesetzt wird."
+Reveal.js Prompt: Layout .exercise-slide, C3, 35 min. Schritte: 1 POST 201, Location und gespeicherte Felder prüfen; 2 Validierung 400 mit fields und correlationId prüfen; 3 UNIQUE 409 mit der echten ORM-Datenbank prüfen. Abgabe: grüne Tests für 201, 400, 409 und ApiError. Der Korrelationsfilter ist vorbereitet. Vertiefung: PUT, DELETE und Fremdschlüsselkonflikt.
 ```
 
 #### Folie 12.18: Actuator liefert eingebaute Betriebsendpunkte

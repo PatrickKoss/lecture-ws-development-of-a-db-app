@@ -9,7 +9,11 @@ public interface BookRepository {
 
   Optional<Book> findById(long id);
 
-  Book insert(Book value);
+  Book save(Book value);
 
-  boolean existsByIsbn(String isbn);
+  boolean existsByIsbn(String value);
+
+  boolean existsByIsbnAndIdNot(String value, long id);
+
+  void deleteById(long id);
 }

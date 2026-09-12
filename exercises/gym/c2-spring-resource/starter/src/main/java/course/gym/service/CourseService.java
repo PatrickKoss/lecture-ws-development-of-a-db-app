@@ -1,14 +1,13 @@
 package course.gym.service;
 
-import course.gym.api.CreateCourseRequest;
 import course.gym.domain.Course;
 import course.gym.repository.CourseRepository;
-import course.gym.web.ConflictException;
-import course.gym.web.NotFoundException;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class CourseService {
   private final CourseRepository repository;
 
@@ -23,20 +22,47 @@ public class CourseService {
   public Course findById(long id) {
     return repository
         .findById(id)
-        .orElseThrow(() -> new NotFoundException("COURSE_NOT_FOUND", "Kurs nicht gefunden"));
+        .orElseThrow(
+            () -> new ResourceNotFoundException("COURSE_NOT_FOUND", "Kurs nicht gefunden"));
   }
 
-  public Course create(CreateCourseRequest request) {
-    if (repository.existsByCourseCode(request.courseCode()))
-      throw new ConflictException(
-          "COURSE_COURSE_CODE_EXISTS", "Kurs mit diesem Wert für course_code existiert bereits");
-    return repository.insert(
+  @Transactional
+  public Course create(CourseCommand command) {
+    if (repository.existsByCourseCode(command.courseCode())) {
+      throw duplicate();
+    }
+    return repository.save(
         new Course(
             null,
-            request.courseCode(),
-            request.title(),
-            request.level(),
-            request.durationMinutes(),
-            request.roomId()));
+            command.courseCode(),
+            command.title(),
+            command.level(),
+            command.durationMinutes(),
+            command.roomId()));
+  }
+
+  @Transactional
+  public Course replace(long id, CourseCommand command) {
+    findById(id);
+    if (repository.existsByCourseCodeAndIdNot(command.courseCode(), id)) {
+      throw duplicate();
+    }
+    return repository.save(
+        new Course(
+            id,
+            command.courseCode(),
+            command.title(),
+            command.level(),
+            command.durationMinutes(),
+            command.roomId()));
+  }
+
+  @Transactional
+  public void delete(long id) {
+    repository.deleteById(id);
+  }
+
+  private ResourceConflictException duplicate() {
+    return new ResourceConflictException("COURSE_CODE_EXISTS", "course_code ist bereits vergeben");
   }
 }

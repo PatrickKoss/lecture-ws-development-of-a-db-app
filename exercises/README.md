@@ -64,12 +64,16 @@ Die Zeiten gelten für den Kernauftrag. Die Vertiefung ist kein Pflichtstoff. Na
 3. Führt vor und nach jeder Phase den genannten Befehl aus.
 4. Nutzt den vorbereiteten Zwischenstand nur, wenn die Lehrperson ihn freigibt.
 
-B3 und C2 sind eigenständige Gradle-Projekte. Sie enthalten den Gradle-Wrapper aus dem Kursprojekt, aber keine Caches oder Build-Ausgaben. Java 21 genügt für `./gradlew test`. SQLite-Fremdschlüssel werden pro Verbindung eingeschaltet. Das Spring-Projekt nutzt Flyway und setzt Hibernate ausdrücklich auf `ddl-auto=none`.
+B3 und C2 sind eigenständige Gradle-Projekte. Sie enthalten den Gradle-Wrapper aus dem Kursprojekt, aber keine Caches oder Build-Ausgaben. Java 21 genügt für `./gradlew test`. SQLite-Fremdschlüssel werden pro Verbindung eingeschaltet. Das Spring-Projekt nutzt Flyway und Spring Data JPA. Hibernate verwendet den SQLite-Dialekt und erzeugt kein Schema, weil `ddl-auto=none` gesetzt ist.
+
+B3 zeigt JDBC und sichtbares Row-Mapping. B4 zieht eine JDBC-freie Repository-Schnittstelle davor und prüft den Catalog mit einer In-Memory-Implementierung. C2 übernimmt diese Grenze als Idee. Der vorbereitete `Jpa<Entity>Repository` passt zwischen Domänen-Record und `SpringData<Entity>Repository`; die JDBC-Implementierung aus B3 wird nicht kopiert.
 
 ## Lösungen
 
-Vollständige SQL-Dateien und ER-Vergleichsstände liegen unter `instructor-solutions/`. Dieser Ordner gehört zum Lehrendenpaket und wird nicht an Teilnehmer verteilt. Die Gruppenordner enthalten TODOs, wenige Beispieldaten und lauffähige technische Grundgerüste.
+Vollständige Lösungen für A0 bis C3 gehören zum separaten Lehrendenpaket und sind in diesem Branch nicht enthalten. Verweise auf `instructor-solutions/` in den Aufgaben bezeichnen Dateien aus diesem Paket, die die Lehrperson bei Bedarf freigibt. Die Gruppenordner enthalten TODOs, wenige Beispieldaten und lauffähige technische Grundgerüste.
 
 ## OpenAPI in C1 bis C3
 
-Alle 13 Themen und `_template` enthalten SpringDoc im C2-Starter. C1 beginnt dort mit einem dokumentierten POST-Beispiel und getrennten Request- und Response-DTOs. Die Gruppen ergänzen GET-Annotationen und Feldbeschreibungen. `/v3/api-docs` generiert die Spec, `/swagger-ui.html` zeigt sie an. Es gibt keine von Hand zu pflegende YAML-Datei. C2 und C3 ergänzen die Repository-Implementierung und prüfen das dokumentierte Verhalten. `OpenApiTest` prüft die Generierung unabhängig von den offenen Repository-Methoden.
+Alle 13 Themen und `_template` enthalten SpringDoc im C2-Starter. C1 beginnt dort mit einem dokumentierten POST-Beispiel und getrennten Request- und Response-DTOs. Die Gruppen ergänzen GET-Annotationen und Feldbeschreibungen. `/v3/api-docs` generiert die Spec, `/swagger-ui.html` zeigt sie an. Es gibt keine von Hand zu pflegende YAML-Datei. Das Lehrendenpaket enthält zusätzlich einen Export der generierten Spec.
+
+`OpenApiStarterTest` läuft von Beginn an, ohne offene Adaptermethoden aufzurufen. In C2 implementieren die Gruppen `findAll` und `findById` im JPA-Adapter und aktivieren `JpaRepositoryExerciseTest`. In C3 folgen `save`, die fachliche `existsBy...`-Abfrage und `<Entity>ApiExerciseTest`. `saveAndFlush` und `SQLiteConstraintTranslator` halten UNIQUE-Fehler innerhalb der Repository-Grenze.

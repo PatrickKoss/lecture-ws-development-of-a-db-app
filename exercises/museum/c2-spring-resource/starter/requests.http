@@ -1,0 +1,50 @@
+@baseUrl = http://localhost:8081
+
+### Liste lesen (200)
+GET {{baseUrl}}/api/exhibits
+X-Correlation-ID: manual-list
+
+### Einzelnen Datensatz lesen (200)
+GET {{baseUrl}}/api/exhibits/1
+
+### Gültigen Datensatz anlegen (201)
+POST {{baseUrl}}/api/exhibits
+Content-Type: application/json
+X-Correlation-ID: manual-create
+
+{
+  "inventoryCode": "EX-99",
+  "title": "Testexponat",
+  "insuredValue": 1000
+}
+
+### Ungültigen Datensatz ablehnen (400)
+POST {{baseUrl}}/api/exhibits
+Content-Type: application/json
+X-Correlation-ID: manual-validation
+
+{}
+
+### Vorhandenen fachlichen Schlüssel ablehnen (409)
+POST {{baseUrl}}/api/exhibits
+Content-Type: application/json
+X-Correlation-ID: manual-conflict
+
+{
+  "inventoryCode": "EX-01",
+  "title": "Testexponat",
+  "insuredValue": 1000
+}
+
+### Seed-Datensatz mit unverändertem Schlüssel ersetzen (200)
+PUT {{baseUrl}}/api/exhibits/1
+Content-Type: application/json
+
+{
+  "inventoryCode": "EX-01",
+  "title": "Testexponat aktualisiert",
+  "insuredValue": 1000
+}
+
+### Unbekannten Datensatz idempotent löschen (204)
+DELETE {{baseUrl}}/api/exhibits/999999

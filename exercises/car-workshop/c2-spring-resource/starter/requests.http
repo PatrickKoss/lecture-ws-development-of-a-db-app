@@ -1,0 +1,62 @@
+@baseUrl = http://localhost:8081
+
+### Liste lesen (200)
+GET {{baseUrl}}/api/parts
+X-Correlation-ID: manual-list
+
+### Einzelnen Datensatz lesen (200)
+GET {{baseUrl}}/api/parts/1
+
+### Gültigen Datensatz anlegen (201)
+POST {{baseUrl}}/api/parts
+Content-Type: application/json
+X-Correlation-ID: manual-create
+
+{
+  "partNumber": "P-9999",
+  "name": "Testfilter",
+  "category": "Filter",
+  "shelfCode": "T-01",
+  "stockQuantity": 5,
+  "reorderLevel": 2,
+  "listPrice": 14.9
+}
+
+### Ungültigen Datensatz ablehnen (400)
+POST {{baseUrl}}/api/parts
+Content-Type: application/json
+X-Correlation-ID: manual-validation
+
+{}
+
+### Vorhandenen fachlichen Schlüssel ablehnen (409)
+POST {{baseUrl}}/api/parts
+Content-Type: application/json
+X-Correlation-ID: manual-conflict
+
+{
+  "partNumber": "P-1001",
+  "name": "Testfilter",
+  "category": "Filter",
+  "shelfCode": "T-01",
+  "stockQuantity": 5,
+  "reorderLevel": 2,
+  "listPrice": 14.9
+}
+
+### Seed-Datensatz mit unverändertem Schlüssel ersetzen (200)
+PUT {{baseUrl}}/api/parts/1
+Content-Type: application/json
+
+{
+  "partNumber": "P-1001",
+  "name": "Testfilter aktualisiert",
+  "category": "Filter",
+  "shelfCode": "T-01",
+  "stockQuantity": 5,
+  "reorderLevel": 2,
+  "listPrice": 14.9
+}
+
+### Unbekannten Datensatz idempotent löschen (204)
+DELETE {{baseUrl}}/api/parts/999999

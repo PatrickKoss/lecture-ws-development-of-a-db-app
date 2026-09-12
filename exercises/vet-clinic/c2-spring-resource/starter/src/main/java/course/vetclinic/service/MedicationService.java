@@ -1,14 +1,13 @@
 package course.vetclinic.service;
 
-import course.vetclinic.api.CreateMedicationRequest;
 import course.vetclinic.domain.Medication;
 import course.vetclinic.repository.MedicationRepository;
-import course.vetclinic.web.ConflictException;
-import course.vetclinic.web.NotFoundException;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class MedicationService {
   private final MedicationRepository repository;
 
@@ -24,21 +23,49 @@ public class MedicationService {
     return repository
         .findById(id)
         .orElseThrow(
-            () -> new NotFoundException("MEDICATION_NOT_FOUND", "Medikament nicht gefunden"));
+            () ->
+                new ResourceNotFoundException("MEDICATION_NOT_FOUND", "Medikament nicht gefunden"));
   }
 
-  public Medication create(CreateMedicationRequest request) {
-    if (repository.existsByPzn(request.pzn()))
-      throw new ConflictException(
-          "MEDICATION_PZN_EXISTS", "Medikament mit diesem Wert für pzn existiert bereits");
-    return repository.insert(
+  @Transactional
+  public Medication create(MedicationCommand command) {
+    if (repository.existsByPzn(command.pzn())) {
+      throw duplicate();
+    }
+    return repository.save(
         new Medication(
             null,
-            request.pzn(),
-            request.productName(),
-            request.activeIngredient(),
-            request.dosageForm(),
-            request.prescriptionRequired(),
-            request.active()));
+            command.pzn(),
+            command.productName(),
+            command.activeIngredient(),
+            command.dosageForm(),
+            command.prescriptionRequired(),
+            command.active()));
+  }
+
+  @Transactional
+  public Medication replace(long id, MedicationCommand command) {
+    findById(id);
+    if (repository.existsByPznAndIdNot(command.pzn(), id)) {
+      throw duplicate();
+    }
+    return repository.save(
+        new Medication(
+            id,
+            command.pzn(),
+            command.productName(),
+            command.activeIngredient(),
+            command.dosageForm(),
+            command.prescriptionRequired(),
+            command.active()));
+  }
+
+  @Transactional
+  public void delete(long id) {
+    repository.deleteById(id);
+  }
+
+  private ResourceConflictException duplicate() {
+    return new ResourceConflictException("PZN_EXISTS", "pzn ist bereits vergeben");
   }
 }

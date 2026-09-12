@@ -442,9 +442,9 @@
     <span class="slide-frame__footer-right">10.1</span>
   </div>
   <aside class="notes">
-    Heute starten wir mit einem leeren Health-Endpoint. Danach binden wir
-    Migration und Repository aus B4 ein und lesen dieselbe Ressource über zwei
-    GET-Endpunkte.
+    Wir starten den Health-Endpoint des C2-Starters. Danach gleichen wir das
+    B1-Schema mit dem JPA-Mapping ab und lesen dieselbe Hauptressource über zwei
+    GET-Endpunkte. B4 liefert die fachliche Repository-Grenze.
   </aside>
 </section>
 
@@ -565,21 +565,22 @@
   <div class="d10-handoff">
     <div class="d10-handoff__card">
       <strong>Vorbereitet</strong>
-      <span>Controller, JDBC-Adapter, Fehlerformat und CORS</span>
+      <span>Controller, Service, JPA-Entity und Fehlerformat</span>
     </div>
     <div class="d10-handoff__card">
       <strong>Gemeinsam</strong>
-      <span>Flyway-Migrationen und DTO-Vertrag schreiben</span>
+      <span>Flyway-Schema mit JPA-Mapping und DTO-Vertrag abgleichen</span>
     </div>
     <div class="d10-handoff__card">
       <strong>Gemeinsam</strong>
-      <span><code>StudentService</code> für GET und POST implementieren</span>
+      <span>Repository-Adapter mit Spring Data für GET und POST ergänzen</span>
     </div>
   </div>
   <aside class="notes">
-    Wir öffnen kein leeres Projekt. Die Infrastruktur kompiliert bereits. Drei
-    klar markierte Stellen verbinden den SQL-Stand mit dem Frontend:
-    Migrationen, DTOs und Service.
+    Wir öffnen den C2-Starter der jeweiligen Domäne. Die Infrastruktur
+    kompiliert bereits. Der Service kennt ein Repository-Interface. Der
+    ORM-Adapter setzt dessen Methoden mit Spring Data JPA um. Flyway übernimmt
+    den SQL-Stand aus B1; Hibernate ordnet Spalten den Entity-Feldern zu.
   </aside>
 </section>
 
@@ -877,9 +878,9 @@ public class DemoApplication {
     </g>
     <g class="fragment fade-in" data-fragment-index="5">
       <text class="d10-body d10-blue" x="720" y="520" text-anchor="end">
-        Row Mapper
+        @Entity
       </text>
-      <text class="d10-body" x="980" y="520">Zeile → Objekt</text>
+      <text class="d10-body" x="980" y="520">Tabelle ↔ Objekt</text>
     </g>
     <g class="fragment fade-in" data-fragment-index="6">
       <text class="d10-body d10-blue" x="720" y="625" text-anchor="end">
@@ -896,22 +897,20 @@ public class DemoApplication {
 
 <section class="code-slide d10-code d10-code-compact">
   <h2 class="slide-title">Ein Health-Endpoint</h2>
-  <div class="slide-context blue">GET /health</div>
+  <div class="slide-context blue">GET /api/health</div>
   <div class="code-slide__content code-slide__content--wide">
-    <pre><code class="language-java" data-trim data-ln-start-from="49" data-line-numbers="49|50|51-53">@GetMapping("/health")
-@Operation(summary = "Einfacher Health Check für die erste Inbetriebnahme")
-public Map&lt;String, String&gt; health() {
-    return Map.of("status", "UP", "service", "university-backend");
+    <pre><code class="language-java" data-trim data-line-numbers="1|2-4">@GetMapping("/api/health")
+Map&lt;String, String&gt; health() {
+    return Map.of("status", "UP", "domain", "library");
 }</code></pre>
   </div>
   <div class="slide-caption d10-source">
-    common-example/backend/src/main/java/com/example/restsimple/controller/StudentController.java
-    · Zeilen 49 bis 53
+    exercises/library/c2-spring-resource/starter · HealthController.java
   </div>
   <aside class="notes">
     Der Endpoint braucht noch keine Datenbank. Wir prüfen Routing, JSON und
-    Port. Sein vollständiger Pfad ist `/api/students/health`, weil die Klasse
-    das Präfix `/api/students` setzt.
+    Port. Sein vollständiger Pfad ist `/api/health`. Der separate Controller
+    braucht keinen Zugriff auf die fachlichen Repository-Methoden.
   </aside>
 </section>
 
@@ -919,34 +918,31 @@ public Map&lt;String, String&gt; health() {
   <h2 class="slide-title">application.properties</h2>
   <div class="slide-context blue">Konfiguration</div>
   <div class="code-slide__content">
-    <pre><code class="language-properties" data-trim data-line-numbers="1-4|5-7|9-12">spring.application.name=university-backend
-spring.datasource.url=jdbc:sqlite:university.db
+    <pre><code class="language-properties" data-trim data-line-numbers="1-3|4-7|8-10">spring.datasource.url=jdbc:sqlite:library.db
 spring.datasource.driver-class-name=org.sqlite.JDBC
 spring.datasource.hikari.connection-init-sql=PRAGMA foreign_keys=ON
 spring.flyway.enabled=true
+spring.jpa.hibernate.ddl-auto=none
+spring.jpa.database-platform=org.hibernate.community.dialect.SQLiteDialect
+spring.jpa.open-in-view=false
 server.port=${SERVER_PORT:8081}
 server.error.include-message=never
-
-# SpringDoc/OpenAPI configuration
-springdoc.api-docs.path=/v3/api-docs
-springdoc.swagger-ui.path=/swagger-ui.html
-springdoc.swagger-ui.enabled=true</code></pre>
+springdoc.swagger-ui.path=/swagger-ui.html</code></pre>
     <div class="d10-code-fields">
-      <strong>Vier Bereiche</strong>
-      <p>Flyway nach .todo-Umbenennung</p>
+      <strong>Schema und ORM</strong>
+      <p>Flyway besitzt das Schema</p>
       <p>Fremdschlüssel pro Connection</p>
-      <p>Port 8081 als Default</p>
-      <p>OpenAPI und Swagger UI</p>
+      <p>Hibernate verändert keine Tabellen</p>
+      <p>Kein Lazy Loading im Controller</p>
     </div>
   </div>
   <div class="slide-caption d10-source">
-    common-example/backend/src/main/resources/application.properties · Zeilen 1
-    bis 12
+    C2-Starter · SQLite, Flyway und Hibernate · relevante Einstellungen
   </div>
   <aside class="notes">
-    Flyway ignoriert die Arbeitsdateien mit `.todo`. Nach dem Ausfüllen und
-    Umbenennen führt es unsere Migrationen aus. Hikari setzt Fremdschlüssel für
-    jede neue Connection.
+    Flyway führt V1__schema.sql und V2__seed.sql aus. Hibernate verwendet diese
+    Tabellen über den Community-Dialekt. open-in-view=false hält Datenzugriffe
+    in der Service-Transaktion. Hikari aktiviert Fremdschlüssel pro Verbindung.
   </aside>
 </section>
 
@@ -957,7 +953,8 @@ springdoc.swagger-ui.enabled=true</code></pre>
     <div class="d10-terminal">
       <div class="d10-terminal-label">Arbeitskontext</div>
       <div>
-        <span class="d10-terminal-prompt">$</span> cd common-example/backend
+        <span class="d10-terminal-prompt">$</span> cd
+        exercises/library/c2-spring-resource/starter
       </div>
       <div><span class="d10-terminal-prompt">$</span> ./gradlew bootRun</div>
     </div>
@@ -966,17 +963,19 @@ springdoc.swagger-ui.enabled=true</code></pre>
         Server auf :8081
       </div>
       <div class="d10-terminal-result fragment fade-in" data-fragment-index="2">
-        http://localhost:8081/api/students/health
+        http://localhost:8081/api/health
       </div>
       <div
         class="d10-terminal-result d10-terminal-json fragment fade-in"
         data-fragment-index="3"
       >
-        <code>{ "status": "UP", "service": "university-backend" }</code>
+        <code>{ "status": "UP", "domain": "library" }</code>
       </div>
     </div>
   </div>
-  <div class="slide-caption d10-source">common-example/backend/README.md</div>
+  <div class="slide-caption d10-source">
+    exercises/library/c2-spring-resource/README.md
+  </div>
   <aside class="notes">
     Wir warten auf den gestarteten Server. Erst nach der Health-Antwort öffnen
     wir Swagger UI.
@@ -1048,59 +1047,60 @@ springdoc.swagger-ui.enabled=true</code></pre>
       rx="10"
     ></rect>
     <text class="d10-body d10-blue" x="1410" y="305" text-anchor="middle">
-      StudentResponse
+      BookResponse
     </text>
     <text class="d10-body" x="850" y="500" text-anchor="middle">
-      GET /api/students
+      GET /api/books
     </text>
   </svg>
   <div class="slide-caption d10-source">
-    common-example/backend/src/main/java/com/example/restsimple/controller/StudentController.java
+    exercises/library/c2-spring-resource/starter · BookController.java
   </div>
   <aside class="notes">
-    Der Controller ist vorbereitet. Wir implementieren `service.findAll()` und
-    prüfen danach das Mapping zu `StudentResponse`.
+    Controller und Service sind vorbereitet. Wir implementieren findAll im
+    JpaBookRepository und prüfen danach das Mapping zu BookResponse.
   </aside>
 </section>
 
 <section class="code-slide d10-code d10-code-compact">
   <h2 class="slide-title">JPA-Entity</h2>
-  <div class="slide-context amber">Vertiefung · alternativer Adapter</div>
-  <div class="slide-context blue">Zielbild</div>
+  <div class="slide-context amber">C2 · Bibliothek · ORM-Mapping</div>
   <div class="code-slide__content">
     <pre><code class="language-java" data-trim data-line-numbers="1-2|3-5|6-7">@Entity
-@Table(name = "students")
-class Student {
+@Table(name = "books")
+class BookJpaEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
+    @Column(name = "isbn", nullable = false)
+    private String isbn;
 }</code></pre>
     <div class="d10-code-fields">
       <strong>Felder im Kurs</strong>
-      <p>firstName</p>
-      <p>lastName</p>
-      <p>email</p>
-      <p>studentNumber</p>
-      <p>enrollmentDate</p>
+      <p><code>@Entity</code>: Persistenzklasse</p>
+      <p><code>@Table</code>: vorhandene Tabelle</p>
+      <p><code>@Id</code>: Primärschlüssel</p>
+      <p><code>@Column</code>: Spaltenzuordnung</p>
+      <p>Kein Response-DTO</p>
     </div>
   </div>
   <div class="slide-caption d10-source">
-    Kontrastbeispiel, nicht Bestandteil der gemeinsamen Vorlage
+    C2-Starter · Auszug aus dem ORM-Mapping für books
   </div>
   <aside class="notes">
-    Dieses Snippet zeigt eine mögliche JPA-Variante. Das gemeinsame Beispiel
-    verwendet Spring JDBC und JdbcStudentRepository.
+    Das ist der Kernpfad in C2. Hibernate bildet die Entity auf die vorhandene
+    Tabelle ab. Die vollständige Klasse enthält alle Pflichtspalten und einen
+    parameterlosen Konstruktor. Flyway legt die Constraints an; bei
+    ddl-auto=none erzeugen die JPA-Annotationen keine Datenbank-Constraints.
   </aside>
 </section>
 
 <section class="code-slide d10-code d10-code-compact">
-  <h2 class="slide-title">JpaRepository = AbstractRepository</h2>
-  <div class="slide-context amber">Vertiefung · statt JDBC-Adapter</div>
-  <div class="slide-context blue">Zielbild</div>
+  <h2 class="slide-title">Spring Data implementiert den Datenzugriff</h2>
+  <div class="slide-context amber">C2 · ORM-Repository</div>
   <div class="code-slide__content">
-    <pre><code class="language-java" data-trim data-line-numbers="1-3">@Repository
-public interface StudentRepository extends JpaRepository&lt;Student, Long&gt; {
+    <pre><code class="language-java" data-trim data-line-numbers="1-4">interface SpringDataBookRepository
+        extends JpaRepository&lt;BookJpaEntity, Long&gt; {
+    boolean existsByIsbn(String value);
 }</code></pre>
     <div class="d10-code-fields">
       <div class="fragment fade-in" data-fragment-index="1">
@@ -1112,16 +1112,77 @@ public interface StudentRepository extends JpaRepository&lt;Student, Long&gt; {
         <p><code>existsById</code></p>
       </div>
       <div class="fragment fade-in" data-fragment-index="2">
-        <p><code>AbstractRepository&lt;Student&gt;</code></p>
+        <p><code>existsByIsbn</code> wird aus dem Methodennamen abgeleitet.</p>
       </div>
     </div>
   </div>
   <div class="slide-caption d10-source">
-    Kontrastbeispiel, nicht Bestandteil der gemeinsamen Vorlage
+    C2-Starter · Spring Data JPA erzeugt die Implementierung
   </div>
   <aside class="notes">
-    Spring Data stellt für dieses alternative Interface eine Implementierung
-    bereit. Der gemeinsame Kernpfad verwendet unser eigenes Repository.
+    Spring Data erzeugt die Implementierung dieses Interfaces. Der ORM-Adapter
+    übersetzt zwischen BookJpaEntity und dem Domain-Objekt Book. Der Service
+    hängt vom fachlichen BookRepository ab. Für diese Abfragen brauchen wir
+    weder SQL-Strings noch einen ResultSet-Mapper.
+  </aside>
+</section>
+
+<section class="code-slide d10-code d10-code-compact">
+  <h2 class="slide-title">Der Adapter hält JPA im Repository</h2>
+  <div class="slide-context blue">JpaBookRepository · C2</div>
+  <div class="code-slide__content code-slide__content--wide">
+    <pre><code class="language-java" data-trim data-line-numbers="1-3|5-8">public Optional&lt;Book&gt; findById(long id) {
+    return data.findById(id).map(BookJpaEntity::toDomain);
+}
+
+public List&lt;Book&gt; findAll() {
+    return data.findAll(Sort.by("id")).stream()
+        .map(BookJpaEntity::toDomain).toList();
+}</code></pre>
+  </div>
+  <div class="slide-caption d10-source">
+    Lehrendenpaket · library/spring · JpaBookRepository.java
+  </div>
+  <aside class="notes">
+    data ist das injizierte SpringDataBookRepository. Hibernate erzeugt SELECT
+    und mappt die Zeilen in BookJpaEntity. Unser Adapter übersetzt nur noch die
+    Persistenzklasse in das unveränderliche Domain-Objekt Book. Die Sortierung
+    nach ID macht die Listenreihenfolge ausdrücklich. Diese Folie erst nach der
+    eigenen Bearbeitung von C2 vollständig aufdecken.
+  </aside>
+</section>
+
+<section class="code-slide d10-code d10-code-compact">
+  <h2 class="slide-title">Eine Transaktion pro Anwendungsfall</h2>
+  <div class="slide-context blue">Service · C3</div>
+  <div class="code-slide__content">
+    <pre><code class="language-java" data-trim data-line-numbers="1-3|5-7">@Service
+@Transactional(readOnly = true)
+public class BookService {
+
+    @Transactional
+    public Book create(BookCommand command) {
+        // Fachregel prüfen und über das Repository speichern
+    }
+}</code></pre>
+    <div class="d10-code-fields">
+      <strong>Grenzen</strong>
+      <p>Controller: HTTP und DTOs</p>
+      <p>Service: Fachregel und Transaktion</p>
+      <p>Repository: JPA und Mapping</p>
+      <p>Flyway: Schema und Constraints</p>
+    </div>
+  </div>
+  <div class="slide-caption d10-source">
+    BookService.java · Methodenrumpf gekürzt
+  </div>
+  <aside class="notes">
+    Spring öffnet die Transaktion beim Aufruf des Services über seinen Proxy.
+    readOnly beschreibt die Leseabsicht; es ersetzt keine Zugriffsrechte.
+    Schreibende Methoden überschreiben diese Einstellung. Der Controller
+    übersetzt CreateBookRequest in BookCommand. Der Service importiert keine
+    Klassen aus dem API-Paket. Ohne open-in-view erledigt der Service alle
+    Datenzugriffe vor der Rückgabe.
   </aside>
 </section>
 
@@ -1130,16 +1191,18 @@ public interface StudentRepository extends JpaRepository&lt;Student, Long&gt; {
   <div class="slide-context amber">C2 · Kernpfad</div>
   <div class="code-slide__content code-slide__content--wide">
     <pre><code class="language-java" data-trim data-line-numbers="1|2|3">@GetMapping("/{id}")
-public StudentResponse findById(@PathVariable long id) {
-    return StudentResponse.from(service.findById(id));
+public BookResponse findById(@PathVariable long id) {
+    return BookResponse.from(service.findById(id));
 }</code></pre>
   </div>
   <div class="slide-caption d10-source">
-    common-example/backend/src/main/java/com/example/restsimple/controller/StudentController.java
+    exercises/library/c2-spring-resource/starter · BookController.java, ohne
+    OpenAPI-Annotationen
   </div>
   <aside class="notes">
     Der Controller delegiert die Suche an den vorbereiteten Service. Wir
-    schreiben die Service-Regel für Treffer und 404 gemeinsam.
+    ergänzen den ORM-Adapter und prüfen die vorbereitete Service-Regel für
+    Treffer und 404 gemeinsam.
   </aside>
 </section>
 
@@ -1211,7 +1274,7 @@ public StudentResponse findById(@PathVariable long id) {
       rx="10"
     ></rect>
     <text class="d10-body d10-blue" x="1190" y="300" text-anchor="middle">
-      JdbcStudent-
+      ORM-
     </text>
     <text class="d10-body d10-blue" x="1190" y="340" text-anchor="middle">
       Repository
@@ -1285,8 +1348,10 @@ public StudentResponse findById(@PathVariable long id) {
     </g>
   </svg>
   <aside class="notes">
-    Jeder Pfeil entspricht einem bekannten Begriff. Der JDBC-Adapter erzeugt
-    SQL. Der Controller sieht den Repository-Port, nicht die JDBC-Details.
+    Der Controller delegiert an den Service. Der Service nutzt das
+    Repository-Interface. Dahinter rufen ORM-Adapter und Spring Data Hibernate
+    auf. Hibernate erzeugt SQL und verwendet weiterhin den JDBC-Driver. Auf dem
+    Rückweg werden Domain-Objekte in Response-DTOs umgewandelt.
   </aside>
 </section>
 
@@ -1568,31 +1633,32 @@ public StudentResponse findById(@PathVariable long id) {
   <div class="d10-exercise-steps">
     <div class="d10-exercise-step">
       <span>1</span>
-      <div>Übernehmt Migration und Repository aus B4.</div>
+      <div>Übernehmt das B1-Schema und prüft das JPA-Mapping.</div>
     </div>
     <div class="d10-exercise-step">
       <span>2</span>
-      <div>Startet den Test, der einen Seed-Datensatz liest.</div>
+      <div>Verbindet den Repository-Adapter mit Spring Data JPA.</div>
     </div>
     <div class="d10-exercise-step">
       <span>3</span>
-      <div>Implementiert GET Collection mit <code>findAll</code>.</div>
+      <div>Implementiert <code>findAll</code> und aktiviert den ORM-Test.</div>
     </div>
     <div class="d10-exercise-step">
       <span>4</span>
-      <div>Implementiert GET per ID mit <code>findById</code>.</div>
+      <div>Prüft GET per ID mit <code>findById</code>, 200 und 404.</div>
     </div>
   </div>
   <div class="d10-exercise-path">
     exercises/&lt;domain&gt;/c2-spring-resource/
   </div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> GET 200 für Collection und vorhandene ID
+    <strong>Abgabe:</strong> GET 200 und 404, grüner ORM-Test
   </div>
   <aside class="notes">
-    Das Starterprojekt enthält Controller- und Response-DTO-Gerüste. Nach der
-    Kernzeit kann die Lehrperson den vorbereiteten Zwischenstand freigeben. POST
-    folgt in C3, Beziehungen bleiben Vertiefung.
+    Der Starter enthält Controller, DTOs, Service, Entity und ein
+    Spring-Data-Interface. Die Gruppe ergänzt die GET-Methoden im ORM-Adapter.
+    Das JDBC-Repository aus B4 bleibt der Vergleichsstand. Die B1-Migrationen
+    und fachlichen Methoden werden weiterverwendet. POST folgt in C3.
   </aside>
 </section>
 
@@ -1663,7 +1729,7 @@ public StudentResponse findById(@PathVariable long id) {
     <g transform="translate(605 255)">
       <rect class="d10-panel-blue" width="490" height="150" rx="10"></rect>
       <text class="d10-body d10-blue" x="245" y="62" text-anchor="middle">
-        Row Mapper
+        @Entity
       </text>
       <text
         class="d10-label fragment fade-in"
@@ -1672,7 +1738,7 @@ public StudentResponse findById(@PathVariable long id) {
         y="112"
         text-anchor="middle"
       >
-        Zeile → Objekt
+        Tabelle ↔ Objekt
       </text>
     </g>
     <g transform="translate(1150 255)">
@@ -1705,16 +1771,16 @@ public StudentResponse findById(@PathVariable long id) {
     </g>
   </svg>
   <aside class="notes">
-    Eine Gruppe verfolgt GET per ID vom Mapping bis SQLite. Wir nennen für jede
-    Annotation das bekannte Konzept. Wer kann, loggt die SELECT-Abfrage und
-    gleicht sie mit `findById` ab.
+    Eine Gruppe verfolgt GET per ID bis SQLite. Hibernate übernimmt das
+    Row-Mapping aus B3. Aktiviert bei Bedarf das SQL-Logging und vergleicht die
+    erzeugte SELECT-Abfrage mit der handgeschriebenen JDBC-Abfrage.
   </aside>
 </section>
 
 <section class="citation-slide d10-citation">
   <div class="citation-mark">&quot;</div>
   <div class="citation-text">
-    <code class="t-blue">JpaRepository&lt;Student, Long&gt;</code>
+    <code class="t-blue">JpaRepository&lt;BookJpaEntity, Long&gt;</code>
     <span class="t-amber">→</span>
     <code class="t-blue">SimpleJpaRepository</code>
   </div>
@@ -1727,8 +1793,8 @@ public StudentResponse findById(@PathVariable long id) {
   <div class="citation-source">Abruf: 2026-08-23</div>
   <aside class="notes">
     Die Spring-Dokumentation beschreibt, wie passende Methoden an die
-    Basisimplementierung geroutet werden. Unser AbstractRepository war das
-    Modell in klein. Jetzt ordnen wir den Code in klare Verantwortungen.
+    Basisimplementierung geroutet werden. B4 hat die Grenze zum Datenzugriff
+    eingeführt. C2 ersetzt dessen Implementierung durch ORM.
   </aside>
 </section>
 
@@ -1751,7 +1817,7 @@ implementation(
     passt zu Spring Boot 4, siehe https://springdoc.org/faq.html. Die Version
     entspricht dem gemeinsamen Kursbeispiel. Der POST-Controller liefert 201
     samt Location und nutzt getrennte Request- und Response-DTOs. Die Gruppen
-    implementieren in C2 die GET-Repository-Methoden und in C3 insert sowie die
+    implementieren in C2 die GET-Repository-Methoden und in C3 save sowie die
     Eindeutigkeitsprüfung. Nach Codeänderungen neu starten.
   </aside>
 </section>

@@ -9,7 +9,11 @@ public interface PizzaRepository {
 
   Optional<Pizza> findById(long id);
 
-  Pizza insert(Pizza value);
+  Pizza save(Pizza value);
 
-  boolean existsByPizzaNumber(String pizzaNumber);
+  boolean existsByPizzaNumber(String value);
+
+  boolean existsByPizzaNumberAndIdNot(String value, long id);
+
+  void deleteById(long id);
 }

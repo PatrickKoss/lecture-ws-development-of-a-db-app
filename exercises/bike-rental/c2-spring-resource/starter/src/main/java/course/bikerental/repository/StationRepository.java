@@ -9,7 +9,11 @@ public interface StationRepository {
 
   Optional<Station> findById(long id);
 
-  Station insert(Station value);
+  Station save(Station value);
 
-  boolean existsByStationCode(String stationCode);
+  boolean existsByStationCode(String value);
+
+  boolean existsByStationCodeAndIdNot(String value, long id);
+
+  void deleteById(long id);
 }

@@ -9,7 +9,11 @@ public interface RoomTypeRepository {
 
   Optional<RoomType> findById(long id);
 
-  RoomType insert(RoomType value);
+  RoomType save(RoomType value);
 
-  boolean existsByTypeCode(String typeCode);
+  boolean existsByTypeCode(String value);
+
+  boolean existsByTypeCodeAndIdNot(String value, long id);
+
+  void deleteById(long id);
 }

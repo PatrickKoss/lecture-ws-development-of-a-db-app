@@ -1065,7 +1065,7 @@
       rx="12"
     ></rect>
     <text class="d11-label d11-amber" x="350" y="455" text-anchor="middle">
-      StudentNotFoundException
+      ResourceNotFoundException
     </text>
     <g class="fragment fade-in" data-fragment-index="1">
       <line
@@ -1109,7 +1109,7 @@
         404
       </text>
       <text class="d11-body" x="1605" y="475" text-anchor="middle">
-        ErrorResponse
+        ApiError
       </text>
     </g>
     <g class="fragment fade-up" data-fragment-index="3">
@@ -1154,17 +1154,17 @@
 </section>
 
 <section class="code-slide d11-slide d11-code-short">
-  <h2 class="slide-title">@ControllerAdvice</h2>
+  <h2 class="slide-title">@RestControllerAdvice</h2>
   <div class="code-slide__content code-slide__content--wide">
-    <pre><code class="language-java" data-trim data-line-numbers="1|2-4|5">@ExceptionHandler(ResourceNotFoundException.class)
-ResponseEntity&lt;ErrorResponse&gt; notFound(ResourceNotFoundException ex) {
-    var body = new ErrorResponse(
-            "RESOURCE_NOT_FOUND", ex.getMessage(), correlationId());
-    return ResponseEntity.status(404).body(body);
+    <pre><code class="language-java" data-trim data-line-numbers="1-2|3-6">@ExceptionHandler(ResourceNotFoundException.class)
+@ResponseStatus(HttpStatus.NOT_FOUND)
+ApiError notFound(ResourceNotFoundException ex) {
+    return new ApiError(
+        ex.code(), ex.getMessage(), correlationId(), Map.of());
 }</code></pre>
   </div>
   <div class="d11-source">
-    Zielcode im C3-Starter: GlobalExceptionHandler.java
+    C2-Starter · GlobalExceptionHandler.java · Hilfsmethode ausgeschrieben
   </div>
   <aside class="notes">
     Die Handler-Methode verbindet Exception-Typ, Body und Status. Alle
@@ -1235,10 +1235,13 @@ ResponseEntity&lt;ErrorResponse&gt; notFound(ResourceNotFoundException ex) {
       <line class="d11-line-red" x1="1090" y1="820" x2="830" y2="930"></line>
     </g>
   </svg>
-  <div class="d11-source">C3-Starter · ErrorResponse.java</div>
+  <div class="d11-source">
+    C2-Starter · ApiError.java · fields hier ausgelassen
+  </div>
   <aside class="notes">
     `code` ist der maschinenlesbare Vertrag. `message` bleibt für Menschen. Die
-    Correlation ID verbindet Antwort und Log. Bei 500 bleibt die technische
+    Correlation ID verbindet Antwort und Log. Bei Validierungsfehlern enthält
+    fields die Meldungen je Request-Feld. Bei 500 bleibt die technische
     Exception ausschließlich im Log.
   </aside>
 </section>
@@ -1444,7 +1447,7 @@ ResponseEntity&lt;ErrorResponse&gt; notFound(ResourceNotFoundException ex) {
         rx="10"
       ></rect>
       <text class="d11-small d11-blue" x="1300" y="278" text-anchor="middle">
-        JdbcStudentRepository
+        ORM-Repository
       </text>
     </g>
     <g class="fragment fade-in" data-fragment-index="4">
@@ -1863,8 +1866,34 @@ ResponseEntity&lt;ErrorResponse&gt; notFound(ResourceNotFoundException ex) {
   </svg>
   <aside class="notes">
     Jede Schicht übersetzt eine andere Grenze. Der Controller spricht HTTP, der
-    Service Fachfall, das Repository Persistenz. Bei trivialem CRUD kann der
-    mittlere Hop entfallen.
+    Service Fachfall und Transaktion, das Repository Persistenz. In unseren
+    ORM-Übungen bleibt der Service auch für CRUD die Transaktionsgrenze.
+  </aside>
+</section>
+
+<section class="code-slide d11-slide d11-code-short">
+  <h2 class="slide-title">UNIQUE bleibt die letzte Prüfung</h2>
+  <div class="slide-context blue">C3 · ORM und Datenbank-Constraints</div>
+  <div class="code-slide__content code-slide__content--wide">
+    <pre><code class="language-java" data-trim data-line-numbers="1-4|6-8">// Service: verständlicher Fachfehler
+if (repository.existsByIsbn(command.isbn())) {
+    throw new ResourceConflictException("ISBN_EXISTS", "ISBN vergeben");
+}
+
+// ORM-Adapter: schreiben und Datenbank-Constraints auslösen
+return data.saveAndFlush(BookJpaEntity.fromDomain(value))
+    .toDomain();</code></pre>
+  </div>
+  <div class="d11-source">
+    Bibliothekslösung · Ausschnitte aus zwei Schichten
+  </div>
+  <aside class="notes">
+    Zwei Requests können gleichzeitig eine freie ISBN sehen. Deshalb bleibt
+    UNIQUE in der Flyway-Migration nötig. saveAndFlush löst das SQL innerhalb
+    des Repository-Aufrufs aus. Der Adapter übersetzt Constraint-Fehler, der
+    globale Handler antwortet mit 409 und ApiError. SQL-Text und Stacktrace
+    gehören ins Log. Ein Mock kann diesen Datenbankfall nicht belegen; dafür
+    prüfen wir die echte SQLite-Datenbank.
   </aside>
 </section>
 
@@ -1874,27 +1903,31 @@ ResponseEntity&lt;ErrorResponse&gt; notFound(ResourceNotFoundException ex) {
   <p class="exercise-slide__task">POST für dieselbe Hauptressource</p>
   <div class="d11-exercise-steps">
     <div class="d11-exercise-step">
-      <span>1</span><span>Ergänzt Request- und Response-DTO für POST.</span>
+      <span>1</span
+      ><span>Implementiert save im ORM-Adapter mit Spring Data.</span>
     </div>
     <div class="d11-exercise-step">
-      <span>2</span><span>Ergänzt Bean Validation und @Valid.</span>
+      <span>2</span
+      ><span>Prüft DTO-Validierung und POST 201 mit Location.</span>
     </div>
     <div class="d11-exercise-step">
-      <span>3</span><span>Setzt genau eine Fachregel als 409 um.</span>
+      <span>3</span
+      ><span>Ergänzt die Eindeutigkeitsprüfung und prüft 409.</span>
     </div>
     <div class="d11-exercise-step">
-      <span>4</span
-      ><span>Gebt Fehler als code, message und correlationId aus.</span>
+      <span>4</span><span>Aktiviert die Tests für 400, 409 und ApiError.</span>
     </div>
   </div>
   <div class="d11-exercise-path">exercises/&lt;domain&gt;/c3-tests-errors/</div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> POST 201 sowie ein reproduzierbarer 409
+    <strong>Abgabe:</strong> POST 201, Validation 400 und Konflikt 409
   </div>
   <aside class="notes">
     POST verwendet dieselbe flache Hauptressource wie die GET-Endpunkte aus C2.
-    PUT, DELETE und Beziehungen sind Vertiefung. Der vorbereitete Zwischenstand
-    enthält den vollständigen POST-Kernpfad.
+    Der vorbereitete Service führt die Fachregel in einer Transaktion aus. Die
+    Gruppe ergänzt die ORM-Methoden und aktiviert die Tests. PUT, DELETE und
+    Fremdschlüsselkonflikte sind Vertiefung. Die Musterlösung enthält auch diese
+    Methoden und Tests.
   </aside>
 </section>
 
@@ -1950,7 +1983,7 @@ ResponseEntity&lt;ErrorResponse&gt; notFound(ResourceNotFoundException ex) {
       rx="12"
     ></rect>
     <text class="d11-label d11-amber" x="720" y="365" text-anchor="middle">
-      Service optional
+      Service
     </text>
     <g class="fragment fade-in" data-fragment-index="2">
       <text class="d11-small" x="720" y="455" text-anchor="middle">
@@ -2021,8 +2054,8 @@ ResponseEntity&lt;ErrorResponse&gt; notFound(ResourceNotFoundException ex) {
   </svg>
   <aside class="notes">
     Eine Gruppe verfolgt ihren schwierigsten Fehlerfall. Wir prüfen, ob der
-    Response DTO und ErrorResponse stabil bleiben. Wir zählen keine Klassen,
-    sondern Verantwortungen.
+    Response DTO und ApiError stabil bleiben. Wir zählen keine Klassen, sondern
+    Verantwortungen.
   </aside>
 </section>
 

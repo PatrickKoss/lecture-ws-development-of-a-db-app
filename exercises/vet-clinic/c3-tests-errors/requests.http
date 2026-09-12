@@ -7,4 +7,14 @@ Content-Type: application/json
 
 {"pzn": "00999999", "productName": "Kursmed", "activeIngredient": "Teststoff", "dosageForm": "Tablette", "prescriptionRequired": true, "active": true}
 
-### TODO(C3): denselben Wert für pzn erneut senden und 409 prüfen
+### ungültiger POST (400)
+POST {{base}}/api/medications
+Content-Type: application/json
+
+{}
+
+### doppelter fachlicher Schlüssel (409)
+POST {{base}}/api/medications
+Content-Type: application/json
+
+{"pzn": "00999999", "productName": "Kursmed", "activeIngredient": "Teststoff", "dosageForm": "Tablette", "prescriptionRequired": true, "active": true}

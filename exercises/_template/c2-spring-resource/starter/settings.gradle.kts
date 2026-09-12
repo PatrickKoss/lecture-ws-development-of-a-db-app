@@ -1,1 +1,1 @@
-rootProject.name = "_template-rest"
+rootProject.name = "template-rest-starter"

@@ -1,14 +1,13 @@
 package course.parceldelivery.service;
 
-import course.parceldelivery.api.CreateParcelRequest;
 import course.parceldelivery.domain.Parcel;
 import course.parceldelivery.repository.ParcelRepository;
-import course.parceldelivery.web.ConflictException;
-import course.parceldelivery.web.NotFoundException;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class ParcelService {
   private final ParcelRepository repository;
 
@@ -24,15 +23,35 @@ public class ParcelService {
     return repository
         .findById(id)
         .orElseThrow(
-            () -> new NotFoundException("PARCEL_NOT_FOUND", "Paket nicht gefunden"));
+            () -> new ResourceNotFoundException("PARCEL_NOT_FOUND", "Paket nicht gefunden"));
   }
 
-  public Parcel create(CreateParcelRequest request) {
-    if (repository.existsByTrackingCode(request.trackingCode()))
-      throw new ConflictException(
-          "PARCEL_TRACKING_CODE_EXISTS",
-          "Paket mit diesem Wert für tracking_code existiert bereits");
-    return repository.insert(
-        new Parcel(null, request.trackingCode(), request.recipient(), request.weight()));
+  @Transactional
+  public Parcel create(ParcelCommand command) {
+    if (repository.existsByTrackingCode(command.trackingCode())) {
+      throw duplicate();
+    }
+    return repository.save(
+        new Parcel(null, command.trackingCode(), command.recipient(), command.weight()));
+  }
+
+  @Transactional
+  public Parcel replace(long id, ParcelCommand command) {
+    findById(id);
+    if (repository.existsByTrackingCodeAndIdNot(command.trackingCode(), id)) {
+      throw duplicate();
+    }
+    return repository.save(
+        new Parcel(id, command.trackingCode(), command.recipient(), command.weight()));
+  }
+
+  @Transactional
+  public void delete(long id) {
+    repository.deleteById(id);
+  }
+
+  private ResourceConflictException duplicate() {
+    return new ResourceConflictException(
+        "TRACKING_CODE_EXISTS", "tracking_code ist bereits vergeben");
   }
 }

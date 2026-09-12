@@ -1,14 +1,13 @@
 package course.cinema.service;
 
-import course.cinema.api.CreateMovieRequest;
 import course.cinema.domain.Movie;
 import course.cinema.repository.MovieRepository;
-import course.cinema.web.ConflictException;
-import course.cinema.web.NotFoundException;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class MovieService {
   private final MovieRepository repository;
 
@@ -23,21 +22,48 @@ public class MovieService {
   public Movie findById(long id) {
     return repository
         .findById(id)
-        .orElseThrow(() -> new NotFoundException("MOVIE_NOT_FOUND", "Film nicht gefunden"));
+        .orElseThrow(() -> new ResourceNotFoundException("MOVIE_NOT_FOUND", "Film nicht gefunden"));
   }
 
-  public Movie create(CreateMovieRequest request) {
-    if (repository.existsByMovieCode(request.movieCode()))
-      throw new ConflictException(
-          "MOVIE_MOVIE_CODE_EXISTS", "Film mit diesem Wert für movie_code existiert bereits");
-    return repository.insert(
+  @Transactional
+  public Movie create(MovieCommand command) {
+    if (repository.existsByMovieCode(command.movieCode())) {
+      throw duplicate();
+    }
+    return repository.save(
         new Movie(
             null,
-            request.movieCode(),
-            request.title(),
-            request.releaseYear(),
-            request.durationMinutes(),
-            request.fskCode(),
-            request.minimumAge()));
+            command.movieCode(),
+            command.title(),
+            command.releaseYear(),
+            command.durationMinutes(),
+            command.fskCode(),
+            command.minimumAge()));
+  }
+
+  @Transactional
+  public Movie replace(long id, MovieCommand command) {
+    findById(id);
+    if (repository.existsByMovieCodeAndIdNot(command.movieCode(), id)) {
+      throw duplicate();
+    }
+    return repository.save(
+        new Movie(
+            id,
+            command.movieCode(),
+            command.title(),
+            command.releaseYear(),
+            command.durationMinutes(),
+            command.fskCode(),
+            command.minimumAge()));
+  }
+
+  @Transactional
+  public void delete(long id) {
+    repository.deleteById(id);
+  }
+
+  private ResourceConflictException duplicate() {
+    return new ResourceConflictException("MOVIE_CODE_EXISTS", "movie_code ist bereits vergeben");
   }
 }

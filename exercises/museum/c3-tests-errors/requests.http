@@ -7,4 +7,14 @@ Content-Type: application/json
 
 {"inventoryCode": "EX-99", "title": "Testdatensatz", "insuredValue": 1.0}
 
-### TODO(C3): denselben Wert für inventory_code erneut senden und 409 prüfen
+### ungültiger POST (400)
+POST {{base}}/api/exhibits
+Content-Type: application/json
+
+{}
+
+### doppelter fachlicher Schlüssel (409)
+POST {{base}}/api/exhibits
+Content-Type: application/json
+
+{"inventoryCode": "EX-99", "title": "Testdatensatz", "insuredValue": 1.0}

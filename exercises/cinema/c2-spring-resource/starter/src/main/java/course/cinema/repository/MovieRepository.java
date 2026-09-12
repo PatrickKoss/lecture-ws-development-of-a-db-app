@@ -9,7 +9,11 @@ public interface MovieRepository {
 
   Optional<Movie> findById(long id);
 
-  Movie insert(Movie value);
+  Movie save(Movie value);
 
-  boolean existsByMovieCode(String movieCode);
+  boolean existsByMovieCode(String value);
+
+  boolean existsByMovieCodeAndIdNot(String value, long id);
+
+  void deleteById(long id);
 }

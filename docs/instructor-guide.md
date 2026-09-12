@@ -48,7 +48,9 @@ In A1 und A3 teilt sich jede Gruppe in zwei Teilteams und bearbeitet beide Theme
 
 ### Lösungen und Checkpoints
 
-Die Teilnehmerordner enthalten TODOs, kleine Beispieldaten und vorbereitete Zwischenstände. Vollständige Lösungen liegen getrennt unter `exercises/instructor-solutions/<domain>/`. Erstelle die Teilnehmerausgabe ohne diesen Ordner.
+Die Teilnehmerordner enthalten TODOs, kleine Beispieldaten und vorbereitete Zwischenstände. Vollständige Lösungen gehören zum separaten Lehrendenpaket und sind in diesem Branch nicht enthalten. Alle Verweise auf `exercises/instructor-solutions/<domain>/` in diesem Leitfaden beziehen sich auf dieses Paket.
+
+Die Ordner `jdbc/`, `repository/` und `spring/` im Lehrendenpaket sind eigenständige Gradle-Projekte. Sie lassen sich dort mit `./gradlew test` prüfen. Die Spring-Lösung refaktoriert den JDBC-Starter auf Spring Data JPA und Hibernate. Controller, DTOs, Service und Repository haben getrennte Aufgaben. Unter `api/` liegt der exportierte OpenAPI-Vertrag. Die vollständigen Prüfhinweise stehen im README des Lehrendenpakets.
 
 `music-school` ist als zusätzliche Beispielübung gedacht. Die zugehörige Musterlösung erklärt alle Phasen bis zu den Spring-Tests. Gib sie nach C3 vollständig aus oder stelle nach jeder Auswertung nur den abgeschlossenen Abschnitt bereit.
 
@@ -353,7 +355,7 @@ Kürze pgJDBC, Fehlerlogging und den vollständigen Datei-Walkthrough. Behalte C
 
 ### Ziel
 
-Die Studierenden kapseln Datenzugriff hinter einem typisierten Repository. SQL und Row-Mapping liegen danach nicht mehr im Aufrufer. Sie übernehmen Schema und Seed-Daten als Flyway-Migrationen in den nächsten Starter.
+Die Studierenden kapseln Datenzugriff hinter einem typisierten Repository. Die öffentliche Schnittstelle enthält keine JDBC-Typen oder geprüften SQL-Ausnahmen. Ein In-Memory-Repository macht diese Grenze ohne SQLite testbar. Für C2 übernehmen die Studierenden Schema und Seed-Daten als Flyway-Migrationen, nicht die JDBC-Implementierung.
 
 ### Leitfragen
 
@@ -362,6 +364,7 @@ Die Studierenden kapseln Datenzugriff hinter einem typisierten Repository. SQL u
 | "Welche Teile ändern sich zwischen StudentRepository und CourseRepository?" | Typ, Tabellenname, Spalten, Mapping und spezielle Queries ändern sich. Der CRUD-Ablauf bleibt weitgehend gleich. |
 | "Ersetzt ein Repository SQL?"                                               | Nein. Es kapselt den Datenzugriff. SQL oder ORM arbeitet darunter weiter.                                        |
 | "Warum reicht CREATE TABLE IF NOT EXISTS nach Release 1 nicht?"             | Der Befehl versioniert und verändert bereits vorhandene Schemas nicht. Dafür braucht die Anwendung Migrationen.  |
+| "Was wird aus B4 in den Spring-Starter übernommen?"                          | Die Repository-Grenze und die Migrationen. Spring Data JPA ersetzt die handgeschriebene JDBC-Implementierung.    |
 
 ### Live-Demo
 
@@ -376,6 +379,7 @@ Der Lauf zeigt Create, All, Get, Update und Delete. Öffne danach `AbstractRepos
 ### Häufige Fehler und Steuerung
 
 - Wenn das Repository als Datenbank bezeichnet wird, frage, wo die SQLite-Datei und das SQL geblieben sind.
+- Wenn `SQLException` im Catalog auftaucht, lasse die Abhängigkeit vom Catalog bis zum JDBC-Treiber verfolgen. Übersetze die Ausnahme im JDBC-Repository in eine ungeprüfte Repository-Ausnahme.
 - Wenn alles generisch werden soll, frage nach einer fachlichen Suche wie `findByIsbn` und nach dem Row Mapping.
 - Wenn Reflection als kostenlose Abstraktion gilt, ändere gedanklich einen Spaltennamen und frage, wann der Fehler sichtbar wird.
 - Wenn `IF NOT EXISTS` als Migration gilt, vergleiche eine alte Installation ohne neue Spalte mit einer Neuinstallation.
@@ -383,15 +387,15 @@ Der Lauf zeigt Create, All, Get, Update und Delete. Öffne danach `AbstractRepos
 
 ### Auswertung B4
 
-- Frage, welcher Teil der Suche fachlich blieb und welcher JDBC-Ablauf wiederverwendet wurde.
-- Lasse den Foreign Key der zweiten Entity bis zur Zieltabelle verfolgen.
+- Frage, welcher Teil der Suche in der Schnittstelle blieb und welcher JDBC-Ablauf in der Implementierung steckt.
+- Lasse den Catalog einmal mit dem JDBC-Repository und einmal mit dem In-Memory-Repository erklären.
 - Frage, welcher Rückgabetyp einen fehlenden Treffer ausdrückt.
 - Frage, welche Migration eine bereits verteilte Datenbank für die zweite Tabelle bräuchte.
-- Eine gute Antwort zeigt die Repository-Grenze, einen echten CLI-Aufruf und die beiden Flyway-Dateien für Schema und Seed-Daten.
+- Eine gute Antwort zeigt eine JDBC-freie Schnittstelle, einen grünen Catalog-Test ohne SQLite und die beiden Flyway-Dateien für Schema und Seed-Daten.
 
 ### Wenn Zeit fehlt
 
-Reflection und die generische Repository-Basis stehen im Anhang. Im Pflichtteil bleiben Repository-Grenze, das kurze Refactoring und die Flyway-Übergabe.
+Reflection und die generische Repository-Basis stehen im Anhang. Im Pflichtteil bleiben die JDBC-freie Repository-Grenze, das kurze Refactoring und die Flyway-Übergabe. Das In-Memory-Repository kann als vorbereiteter Zwischenstand ausgegeben werden.
 
 ## 09 HTTP, REST und OpenAPI
 
@@ -431,7 +435,7 @@ Kürze Header, Stripe und die ausführliche Idempotency-Diskussion. Behalte Coll
 
 ### Ziel
 
-Die Studierenden starten ihr vorbereitetes Domänenprojekt. Flyway übernimmt Schema und Seed-Daten aus B4. Sie implementieren GET für dieselbe Hauptentität wie in B3 und ordnen Dependency Injection, JPA und `JpaRepository` den bekannten Konzepten zu.
+Die Studierenden starten ihr vorbereitetes Domänenprojekt. Flyway übernimmt Schema und Seed-Daten aus B1 und B2. Sie implementieren GET für dieselbe Hauptentität wie in B3 und ordnen Dependency Injection, JPA und `JpaRepository` den bekannten Konzepten zu.
 
 ### Leitfragen
 
@@ -454,7 +458,7 @@ cd exercises/<domain>/c2-spring-resource/starter
 Terminal 2:
 
 ```sh
-curl -i http://localhost:8081/actuator/health
+curl -i http://localhost:8081/api/health
 ```
 
 Prüfe danach die gruppenspezifische Collection. Für die Bibliothek lautet der Pfad zum Beispiel:
@@ -463,12 +467,14 @@ Prüfe danach die gruppenspezifische Collection. Für die Bibliothek lautet der 
 curl -i http://localhost:8081/api/books
 ```
 
-Öffne danach `http://localhost:8081/swagger-ui.html` und `http://localhost:8081/v3/api-docs`. Arbeite in drei sichtbaren Checkpoints: Migration erfolgreich, Health 200 und GET mit den Seed-Daten. POST folgt in C3.
+Öffne danach `http://localhost:8081/swagger-ui.html` und `http://localhost:8081/v3/api-docs`. Arbeite in sichtbaren Checkpoints: Flyway-Migration erfolgreich, `OpenApiStarterTest` grün, `JpaRepositoryExerciseTest` aktiviert und GET mit den Seed-Daten. POST folgt in C3.
 
 ### Häufige Fehler und Steuerung
 
-- Wenn Port 8081 belegt ist, stoppe den fremden Prozess oder starte bewusst mit einer anderen `SERVER_PORT`-Variable. Passe dann alle URLs gemeinsam an.
-- Wenn Spring Controller oder Repository nicht findet, prüfe Package-Lage und Component Scan ab `DemoApplication`.
+- Wenn Port 8081 belegt ist, wähle mit `SERVER_PORT` einen freien Port. Passe dann alle URLs gemeinsam an.
+- Wenn Spring Controller oder Repository nicht findet, prüfe Package-Lage und Component Scan ab `Application`.
+- Wenn die Gruppe SQL in `Jpa<Entity>Repository` schreibt, öffne `SpringData<Entity>Repository`. Dessen geerbte Methoden `findAll`, `findById` und `save` ersetzen diesen SQL-Code.
+- Wenn der JPA-Adapter die JPA-Entity nach außen gibt, verfolge den Typ bis zum Service. Der Adapter muss auf den unveränderlichen Domänen-Record mappen.
 - Wenn die Gruppe eine Entity direkt zurückgibt, fordere ein `StudentResponse` oder das DTO der Domänenressource.
 - Damit Hibernate kein Schema erzeugt, zeige `ddl-auto=none`. Flyway ist die einzige Schemaquelle im Gruppenstarter.
 - Wenn ein ungültiger Fremdschlüssel gespeichert werden kann, prüfe `spring.datasource.hikari.connection-init-sql=PRAGMA foreign_keys=ON`.
@@ -478,13 +484,13 @@ curl -i http://localhost:8081/api/books
 
 - Frage, welche Annotation den HTTP-Pfad und welche das Persistenzmodell markiert.
 - Frage, wer die Repository-Implementierung erzeugt.
-- Verfolge einen GET über Controller, Response-DTO, Repository, JPA und SQLite.
+- Verfolge einen GET über Controller, Response-DTO, Service, `Jpa<Entity>Repository`, Spring Data und SQLite.
 - Lasse die tatsächlich erzeugte SQL-Anweisung im Log zeigen, wenn die Gruppe sie aktiviert hat.
-- Eine gute Antwort zeigt GET 200 und einen Seed-Datensatz, der schon in B2 per SQL und in B3 per JDBC gelesen wurde.
+- Eine gute Antwort zeigt den aktiven `JpaRepositoryExerciseTest`, GET 200 und einen Seed-Datensatz, der schon in B2 per SQL und in B3 per JDBC gelesen wurde.
 
 ### Wenn Zeit fehlt
 
-Kürze die vollständige Annotationsübersicht und die Spring-Data-Quellenfolie. Behalte Artefaktimport, Dependency Injection und die drei Live-Checkpoints. POST, Validation und Fehler folgen in C3.
+Kürze die vollständige Annotationsübersicht und die Spring-Data-Quellenfolie. Behalte Dependency Injection, die Trennung von Domänen-Record und JPA-Entity sowie die Lesemethoden im JPA-Adapter. POST, Validation und Fehler folgen in C3.
 
 ## 11 Gutes Anwendungsdesign
 
@@ -505,21 +511,22 @@ Die Studierenden trennen HTTP-Darstellung, Fachlogik und Speicherung. Sie nutzen
 - Wenn für jede Methode ein leerer Service entsteht, frage nach der Entscheidung, die diese Klasse besitzt.
 - Wenn DTO und Entity dasselbe Objekt sind, ergänze gedanklich `internalNote` und frage, ob Clients das Feld sehen dürfen.
 - Wenn nur Java auf Eindeutigkeit prüft, spiele zwei gleichzeitige Requests durch und fordere den Datenbank-Constraint.
+- Wenn `save` den Konflikt erst nach dem Repository-Aufruf meldet, verwende `saveAndFlush`. Nur dann kann `SQLiteConstraintTranslator` den Fehler innerhalb der Repository-Grenze übersetzen.
 - Wenn alle Exceptions zu 500 werden, sortiere einen Formfehler, eine fehlende ID und einen Konflikt in 400, 404 und 409.
 - Wenn Feldnamen voneinander abweichen, verfolgt sie vom DTO bis zur SQL-Spalte. Im gemeinsamen Beispiel heißen sie durchgehend `firstName`, `lastName`, `email`, `studentNumber` und `enrollmentDate`; SQL verwendet snake_case.
 
 ### Auswertung C3, Fehlervertrag
 
-- Lasse den schwierigsten Fehlerfall durch Controller, optionalen Service, Repository und Datenbank verfolgen.
+- Lasse den UNIQUE-Konflikt durch Controller, Service, JPA-Adapter, `saveAndFlush`, Übersetzer und Datenbank verfolgen.
 - Frage, wo syntaktische Validation endet und eine Fachregel beginnt.
 - Lasse ein internes Entity-Feld nennen, das im Response nicht erscheinen soll.
 - Frage, welche Exception welchen Statuscode und welches Fehlerformat erzeugt.
-- Eine gute Antwort zeigt GET und POST, getrennte DTOs sowie 400 oder 409 für die Hauptressource.
+- Eine gute Antwort zeigt GET und POST, getrennte DTOs sowie 400 und 409 für die Hauptressource. `JpaRepositoryExerciseTest` und `<Entity>ApiExerciseTest` sind aktiviert.
 - PUT, DELETE und Beziehungsendpunkte sind Vertiefungen. Die Gruppe beginnt sie erst, wenn der Kernauftrag geprüft ist.
 
 ### Wenn Zeit fehlt
 
-Gib bei Bedarf den vorbereiteten Zwischenstand aus `c3-tests-errors/` frei. GET, POST, DTOs, `@Valid`, genau eine Fachregel und der stabile Fehlercode bleiben im Kernauftrag. Die hexagonale Struktur von `common-example/advanced-backend` ist Nachschlageinhalt.
+Gib bei Bedarf den vorbereiteten Zwischenstand aus `c3-tests-errors/` frei. GET, POST, DTOs, `@Valid`, `saveAndFlush`, genau eine Konfliktregel und der stabile Fehlercode bleiben im Kernauftrag. Die hexagonale Struktur von `common-example/advanced-backend` ist Nachschlageinhalt.
 
 ## 12 Die Anwendung absichern
 

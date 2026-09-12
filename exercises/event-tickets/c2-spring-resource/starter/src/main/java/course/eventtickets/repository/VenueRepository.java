@@ -9,7 +9,11 @@ public interface VenueRepository {
 
   Optional<Venue> findById(long id);
 
-  Venue insert(Venue value);
+  Venue save(Venue value);
 
-  boolean existsByVenueCode(String venueCode);
+  boolean existsByVenueCode(String value);
+
+  boolean existsByVenueCodeAndIdNot(String value, long id);
+
+  void deleteById(long id);
 }

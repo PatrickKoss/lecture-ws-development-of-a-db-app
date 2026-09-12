@@ -17,10 +17,10 @@ Jede Aufgabe endet mit einem lauffähigen oder lesbaren Checkpoint. Die Lehrpers
 | B1    | ausführbares Schema mit Seed-Daten            |
 | B2    | vier geprüfte SQL-Abfragen                    |
 | B3    | JDBC-Mapping für `findById` und `findAll`     |
-| B4    | Repository-Grenze und Flyway-Übergabe         |
+| B4    | JDBC-freie Repository-Grenze                  |
 | C1    | HTTP-Vertrag für GET und POST                 |
-| C2    | laufende Spring-Ressource                     |
-| C3    | POST, ein Konfliktfall und Tests              |
+| C2    | JPA-Leseadapter und GET                       |
+| C3    | JPA-Schreiben, Konfliktfall und API-Tests     |
 
 ## Tag 1
 
@@ -63,7 +63,7 @@ Tagessumme: 420 Minuten.
 | 14:45 | 15:00 | Pause                     | keine                                 | keine                                |      15 |
 | 15:00 | 15:25 | 08 Repository Pattern     | `decks/08-repository-pattern.html`    | keine                                |      25 |
 | 15:25 | 15:40 | B4 Repository-Refactoring | `decks/08-repository-pattern.html`    | `exercises/<domain>/b4-repository/`  |      15 |
-| 15:40 | 16:00 | Flyway-Übergabe           | `decks/08-repository-pattern.html`    | Starttest für C2                     |      20 |
+| 15:40 | 16:00 | Flyway- und JPA-Übergabe  | `decks/08-repository-pattern.html`    | Migrationen und Starttest für C2     |      20 |
 
 Tagessumme: 420 Minuten.
 
@@ -71,16 +71,16 @@ Tagessumme: 420 Minuten.
 
 | Start | Ende  | Block                           | Deck                              | Aufgabe                                  | Minuten |
 | ----- | ----- | ------------------------------- | --------------------------------- | ---------------------------------------- | ------: |
-| 09:00 | 09:10 | Starttest                       | `decks/09-http-rest-openapi.html` | Migration und Repository aus B4          |      10 |
+| 09:00 | 09:10 | Starttest                       | `decks/09-http-rest-openapi.html` | Migration und `OpenApiStarterTest`       |      10 |
 | 09:10 | 09:45 | 09 HTTP, REST und OpenAPI       | `decks/09-http-rest-openapi.html` | keine                                    |      35 |
 | 09:45 | 10:10 | C1 API-Vertrag                  | `decks/09-http-rest-openapi.html` | `exercises/<domain>/c1-http-contract/`   |      25 |
 | 10:10 | 10:25 | Pause                           | keine                             | keine                                    |      15 |
 | 10:25 | 11:00 | 10 Spring Boot                  | `decks/10-spring-boot.html`       | gemeinsamer Start                        |      35 |
-| 11:00 | 11:50 | C2 GET der Hauptressource       | `decks/10-spring-boot.html`       | `exercises/<domain>/c2-spring-resource/` |      50 |
+| 11:00 | 11:50 | C2 GET mit JPA                  | `decks/10-spring-boot.html`       | `exercises/<domain>/c2-spring-resource/` |      50 |
 | 11:50 | 12:15 | POST, Request- und Response-DTO | `decks/11-good-design.html`       | vorbereiteter Pfad für C3                |      25 |
 | 12:15 | 13:00 | Mittagspause                    | keine                             | keine                                    |      45 |
 | 13:00 | 13:35 | 11 Service und Fehlervertrag    | `decks/11-good-design.html`       | keine                                    |      35 |
-| 13:35 | 14:20 | C3 POST und Konflikt            | `decks/11-good-design.html`       | `exercises/<domain>/c3-tests-errors/`    |      45 |
+| 13:35 | 14:20 | C3 JPA-POST und Konflikt        | `decks/11-good-design.html`       | `exercises/<domain>/c3-tests-errors/`    |      45 |
 | 14:20 | 14:35 | Pause                           | keine                             | keine                                    |      15 |
 | 14:35 | 15:10 | 12 Zwei gezielte Tests          | `decks/12-making-it-solid.html`   | C3 abschließen                           |      35 |
 | 15:10 | 15:40 | Ende-zu-Ende-Demo               | `decks/13-closing.html`           | ein Datensatz durch alle Schichten       |      30 |
@@ -92,4 +92,4 @@ Tagessumme: 420 Minuten.
 
 Pflicht sind die Kernaufträge in A0 bis C3. Für REST gehören GET, POST, Validation, genau eine Konfliktregel mit `409 Conflict` und ein Controller-Test dazu. PUT, DELETE, weitere Beziehungen, Reflection, Security, Docker, Pagination und PATCH sind Vertiefungen oder Nachschlageinhalte.
 
-Wenn Tag 2 und Tag 3 zusammengelegt werden, bleibt die Reihenfolge B1 bis C3 bestehen. Die Lehrperson kann Vortragsblöcke kürzen und vorbereitete Zwischenstände freigeben. Die Übergaben zwischen Schema, JDBC, Repository und Spring dürfen nicht entfallen.
+Wenn Tag 2 und Tag 3 zusammengelegt werden, bleibt die Reihenfolge B1 bis C3 bestehen. Die Lehrperson kann Vortragsblöcke kürzen und vorbereitete Zwischenstände freigeben. Die Übergaben zwischen Schema, JDBC, Repository-Grenze, Flyway und JPA dürfen nicht entfallen.

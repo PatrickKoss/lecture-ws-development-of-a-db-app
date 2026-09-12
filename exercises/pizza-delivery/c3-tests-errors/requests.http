@@ -7,4 +7,14 @@ Content-Type: application/json
 
 {"pizzaNumber": "P-99", "name": "Kurspizza", "category": "Spezial", "ovenStation": "OFEN-A", "basePrice": 11.5, "active": true}
 
-### TODO(C3): denselben Wert für pizza_number erneut senden und 409 prüfen
+### ungültiger POST (400)
+POST {{base}}/api/pizzas
+Content-Type: application/json
+
+{}
+
+### doppelter fachlicher Schlüssel (409)
+POST {{base}}/api/pizzas
+Content-Type: application/json
+
+{"pizzaNumber": "P-99", "name": "Kurspizza", "category": "Spezial", "ovenStation": "OFEN-A", "basePrice": 11.5, "active": true}

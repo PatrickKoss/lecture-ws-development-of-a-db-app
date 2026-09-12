@@ -984,6 +984,36 @@ verify(repository).insert(any(Student.class));</code></pre>
   </aside>
 </section>
 
+<section class="d12-test-choice">
+  <h2 class="slide-title">ORM braucht einen Datenbanktest</h2>
+  <div class="d12-two-columns">
+    <div class="d12-list-card green">
+      <ul>
+        <li>Flyway legt das echte SQLite-Schema an.</li>
+        <li>GET liest bekannte Seed-Werte.</li>
+        <li>POST speichert alle Felder und liefert eine ID.</li>
+        <li>PUT ändert den vorhandenen Datensatz.</li>
+      </ul>
+    </div>
+    <div class="d12-list-card green">
+      <ul>
+        <li>UNIQUE verletzt: 409 und kein zweiter Datensatz.</li>
+        <li>Fremdschlüssel verletzt: 409, Änderung zurückgerollt.</li>
+        <li>Ungültiges JSON: 400 und ApiError.</li>
+        <li>OpenAPI stimmt mit Status, DTOs und Headern überein.</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">
+    Ein isolierter Web-Test prüft den Vertrag, aber weder JPA-Mapping noch
+    Flyway oder SQLite-Constraints. Die Musterlösungen ergänzen deshalb echte
+    Integrationstests. Jede Testdatenbank ist isoliert. Fremdschlüsseltests
+    müssen vorhandene referenzierte Daten verwenden. Nicht jede Beziehung
+    verbietet DELETE; bei ON DELETE CASCADE gehört das Löschen der Kinddaten zum
+    erwarteten Verhalten.
+  </aside>
+</section>
+
 <section class="d12-content">
   <h2 class="slide-title">Eine Correlation ID pro Request</h2>
   <svg
@@ -1749,24 +1779,24 @@ try {
   <p class="exercise-slide__task">Vertrag und Fehler testen</p>
   <div class="d12-exercise-steps">
     <div class="d12-exercise-step">
-      <strong>1</strong>Testet den POST-Erfolg mit 201, ID und einem Fachfeld.
+      <strong>1</strong>Testet POST 201, Location und gespeicherte Felder.
     </div>
     <div class="d12-exercise-step">
-      <strong>2</strong>Testet 409 sowie code, message und correlationId.
+      <strong>2</strong>Testet Validierung 400 mit fields und correlationId.
     </div>
     <div class="d12-exercise-step">
-      <strong>3</strong>Vertiefung: ergänzt X-Correlation-ID in Response und
-      Log.
+      <strong>3</strong>Testet UNIQUE 409 mit der echten ORM-Datenbank.
     </div>
   </div>
   <div class="d12-exercise-path">exercises/&lt;domain&gt;/c3-tests-errors/</div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> zwei grüne Tests und ein stabiler 409-Fehlerkörper
+    <strong>Abgabe:</strong> grüne Tests für 201, 400, 409 und ApiError
   </div>
   <aside class="notes">
-    Die beiden Testfälle gehören zum Kernauftrag. Ein vorbereiteter
-    Zwischenstand enthält den laufenden POST-Pfad. Der Filter ist Vertiefung,
-    falls die Correlation ID im Starter noch nicht gesetzt wird.
+    Der Filter ist vorbereitet. Die Gruppe prüft den gleichen Wert in Header und
+    Fehlerkörper. Die Integrationstests verwenden Flyway und Hibernate mit
+    SQLite. Als Vertiefung kommen PUT, DELETE und ein Fremdschlüsselkonflikt
+    hinzu. Fehlgeschlagene Schreibzugriffe dürfen keine Teildaten hinterlassen.
   </aside>
 </section>
 
