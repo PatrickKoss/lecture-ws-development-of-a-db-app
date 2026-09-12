@@ -1,0 +1,56 @@
+@baseUrl = http://localhost:8081
+
+### Liste lesen (200)
+GET {{baseUrl}}/api/books
+X-Correlation-ID: manual-list
+
+### Einzelnen Datensatz lesen (200)
+GET {{baseUrl}}/api/books/1
+
+### Gültigen Datensatz anlegen (201)
+POST {{baseUrl}}/api/books
+Content-Type: application/json
+X-Correlation-ID: manual-create
+
+{
+  "isbn": "9780000000000",
+  "title": "Testbuch",
+  "publicationYear": 2026,
+  "subjectArea": "Informatik",
+  "shelfCode": "I-99"
+}
+
+### Ungültigen Datensatz ablehnen (400)
+POST {{baseUrl}}/api/books
+Content-Type: application/json
+X-Correlation-ID: manual-validation
+
+{}
+
+### Vorhandenen fachlichen Schlüssel ablehnen (409)
+POST {{baseUrl}}/api/books
+Content-Type: application/json
+X-Correlation-ID: manual-conflict
+
+{
+  "isbn": "9783446279899",
+  "title": "Testbuch",
+  "publicationYear": 2026,
+  "subjectArea": "Informatik",
+  "shelfCode": "I-99"
+}
+
+### Seed-Datensatz mit unverändertem Schlüssel ersetzen (200)
+PUT {{baseUrl}}/api/books/1
+Content-Type: application/json
+
+{
+  "isbn": "9783446279899",
+  "title": "Testbuch aktualisiert",
+  "publicationYear": 2026,
+  "subjectArea": "Informatik",
+  "shelfCode": "I-99"
+}
+
+### Unbekannten Datensatz idempotent löschen (204)
+DELETE {{baseUrl}}/api/books/999999

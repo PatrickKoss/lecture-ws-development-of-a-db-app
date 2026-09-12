@@ -1,0 +1,7 @@
+Auftraggeber: Kleintierpraxis
+Problem: Terminplan, Tierkartei, Behandlungen und Rezepte werden auf Papier geführt.
+Hauptentität: Medikament. Ein Medikament ist ein über seine PZN eindeutig geführtes Produkt im Praxiskatalog.
+Offene Annahme: Ein ausgefallener Termin erzeugt keine Behandlung; eine Kontrolle kann ohne Behandlungsdatensatz enden.
+Begriffe: Medikament, Halter, Tier, Tierarzt, Termin, Behandlung, Verschreibung
+Geschäftsregel 1: Ein Tierarzt und ein Tier können jeweils nur einen Termin zur selben Zeit haben.
+Geschäftsregel 2: Eine Verschreibung speichert Dosis und Dauer für genau eine Behandlung und ein Medikament.

@@ -8,14 +8,27 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import java.util.List;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping("/api/parcels")
+@Validated
+@RequestMapping(value = "/api/parcels", produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "Parcel", description = "HTTP-Ressource für Pakete")
 public class ParcelController {
   private final ParcelService service;
 
@@ -23,83 +36,150 @@ public class ParcelController {
     this.service = service;
   }
 
-  @Operation(summary = "Alle Pakete lesen", operationId = "listParcels")
+  @Operation(summary = "Pakete auflisten")
   @ApiResponse(
       responseCode = "200",
-      description = "Liste aller Pakete",
+      description = "Nach ID sortierte Liste",
       content =
-          @Content(
-              mediaType = "application/json",
-              array = @ArraySchema(schema = @Schema(implementation = ParcelResponse.class))))
+          @Content(array = @ArraySchema(schema = @Schema(implementation = ParcelResponse.class))))
+  @ApiResponse(
+      responseCode = "406",
+      description = "Angeforderte Repräsentation ist nicht verfügbar",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @ApiResponse(
+      responseCode = "500",
+      description = "Unerwarteter Serverfehler",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
   @GetMapping
   public List<ParcelResponse> findAll() {
     return service.findAll().stream().map(ParcelResponse::from).toList();
   }
 
-  @Operation(summary = "Paket lesen", operationId = "getParcel")
+  @Operation(summary = "Parcel nach ID lesen")
   @ApiResponse(
       responseCode = "200",
-      description = "Paket gefunden",
-      content =
-          @Content(
-              mediaType = "application/json",
-              schema = @Schema(implementation = ParcelResponse.class)))
+      description = "Ressource gefunden",
+      content = @Content(schema = @Schema(implementation = ParcelResponse.class)))
   @ApiResponse(
       responseCode = "404",
-      description = "Paket nicht gefunden",
-      content =
-          @Content(
-              mediaType = "application/json",
-              schema = @Schema(implementation = ApiError.class)))
+      description = "ID ist unbekannt",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @ApiResponse(
+      responseCode = "400",
+      description = "ID ist keine positive Zahl",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @ApiResponse(
+      responseCode = "406",
+      description = "Angeforderte Repräsentation ist nicht verfügbar",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @ApiResponse(
+      responseCode = "500",
+      description = "Unerwarteter Serverfehler",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
   @GetMapping("/{id}")
-  public ParcelResponse findById(@PathVariable long id) {
+  public ParcelResponse findById(@PathVariable @Positive long id) {
     return ParcelResponse.from(service.findById(id));
   }
 
-  @Operation(
-      summary = "Paket anlegen",
-      operationId = "createParcel",
-      requestBody =
-          @io.swagger.v3.oas.annotations.parameters.RequestBody(
-              required = true,
-              content =
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = CreateParcelRequest.class))))
+  @Operation(summary = "Parcel anlegen")
   @ApiResponse(
       responseCode = "201",
-      description = "Paket angelegt",
+      description = "Ressource angelegt",
       headers =
           @Header(
               name = "Location",
-              description = "URL der angelegten Ressource",
+              description = "URL der neuen Ressource",
               schema = @Schema(type = "string", format = "uri")),
-      content =
-          @Content(
-              mediaType = "application/json",
-              schema = @Schema(implementation = ParcelResponse.class)))
+      content = @Content(schema = @Schema(implementation = ParcelResponse.class)))
   @ApiResponse(
       responseCode = "400",
-      description = "Eingabe verletzt die Validierung",
-      content =
-          @Content(
-              mediaType = "application/json",
-              schema = @Schema(implementation = ApiError.class)))
+      description = "Eingabe oder JSON ist ungültig",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
   @ApiResponse(
       responseCode = "409",
-      description = "trackingCode darf nicht doppelt vorkommen",
-      content =
-          @Content(
-              mediaType = "application/json",
-              schema = @Schema(implementation = ApiError.class)))
-  @PostMapping
+      description = "tracking_code ist vergeben oder eine Datenbankregel wird verletzt",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @ApiResponse(
+      responseCode = "415",
+      description = "Content-Type ist nicht application/json",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @ApiResponse(
+      responseCode = "406",
+      description = "Angeforderte Repräsentation ist nicht verfügbar",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @ApiResponse(
+      responseCode = "500",
+      description = "Unerwarteter Serverfehler",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ParcelResponse> create(@Valid @RequestBody CreateParcelRequest request) {
-    var response = ParcelResponse.from(service.create(request));
+    var response = ParcelResponse.from(service.create(request.toCommand()));
     var location =
         ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
             .buildAndExpand(response.id())
             .toUri();
     return ResponseEntity.created(location).body(response);
+  }
+
+  @Operation(summary = "Parcel vollständig ersetzen")
+  @ApiResponse(
+      responseCode = "200",
+      description = "Ressource ersetzt",
+      content = @Content(schema = @Schema(implementation = ParcelResponse.class)))
+  @ApiResponse(
+      responseCode = "400",
+      description = "Eingabe oder JSON ist ungültig",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @ApiResponse(
+      responseCode = "404",
+      description = "ID ist unbekannt",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @ApiResponse(
+      responseCode = "409",
+      description = "Fachschlüssel oder Datenbankregel kollidiert",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @ApiResponse(
+      responseCode = "415",
+      description = "Content-Type ist nicht application/json",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @ApiResponse(
+      responseCode = "406",
+      description = "Angeforderte Repräsentation ist nicht verfügbar",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @ApiResponse(
+      responseCode = "500",
+      description = "Unerwarteter Serverfehler",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ParcelResponse replace(
+      @PathVariable @Positive long id, @Valid @RequestBody UpdateParcelRequest request) {
+    return ParcelResponse.from(service.replace(id, request.toCommand()));
+  }
+
+  @Operation(
+      summary = "Parcel löschen",
+      description = "Idempotent: Eine unbekannte ID liefert ebenfalls 204.")
+  @ApiResponse(responseCode = "204", description = "Ressource ist gelöscht")
+  @ApiResponse(
+      responseCode = "409",
+      description = "Referenzierende Daten verhindern das Löschen",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @ApiResponse(
+      responseCode = "400",
+      description = "ID ist keine positive Zahl",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @ApiResponse(
+      responseCode = "406",
+      description = "Angeforderte Repräsentation ist nicht verfügbar",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @ApiResponse(
+      responseCode = "500",
+      description = "Unerwarteter Serverfehler",
+      content = @Content(schema = @Schema(implementation = ApiError.class)))
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> delete(@PathVariable @Positive long id) {
+    service.delete(id);
+    return ResponseEntity.noContent().build();
   }
 }

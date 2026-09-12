@@ -1,0 +1,43 @@
+erDiagram
+    REFERENCE_ITEM o|--o{ RESOURCE : classifies
+    LOCATION o|--o{ RESOURCE : stores
+    RESOURCE ||--o{ ALLOCATION : is_allocated_as
+    CUSTODIAN ||--o{ ALLOCATION : receives
+    RESOURCE ||--o{ INSPECTION : is_checked_by
+
+    REFERENCE_ITEM {
+        integer id PK
+        string name UK
+    }
+    LOCATION {
+        integer id PK
+        string location_code UK
+        string name UK
+    }
+    CUSTODIAN {
+        integer id PK
+        string personnel_code UK
+        string name
+        string email UK
+    }
+    RESOURCE {
+        integer id PK
+        string resource_code UK
+        string name
+        decimal measure
+        integer reference_item_id FK
+        integer current_location_id FK
+    }
+    ALLOCATION {
+        integer resource_id PK,FK
+        integer sequence_number PK
+        integer custodian_id FK
+        datetime allocated_at
+        datetime returned_at
+    }
+    INSPECTION {
+        integer resource_id PK,FK
+        integer sequence_number PK
+        date inspected_on
+        string result
+    }

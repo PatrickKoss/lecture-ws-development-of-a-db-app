@@ -1,0 +1,58 @@
+erDiagram
+    MEMBER ||--o{ MEMBERSHIP : signs
+    PLAN ||--o{ MEMBERSHIP : governs
+    COURSE ||--o{ COURSE_SESSION : schedules
+    ROOM ||--o{ COURSE : assigned_to
+    TRAINER ||--o{ COURSE_SESSION : leads
+    MEMBER ||--o{ BOOKING : makes
+    COURSE_SESSION ||--o{ BOOKING : receives
+
+    MEMBER {
+        integer id PK
+        string membership_number UK
+        string email UK
+    }
+    PLAN {
+        integer id PK
+        string plan_code UK
+        string name UK
+        integer monthly_fee_cents
+    }
+    MEMBERSHIP {
+        integer member_id PK,FK
+        date starts_on PK
+        integer plan_id FK
+        date ends_on
+    }
+    TRAINER {
+        integer id PK
+        string trainer_number UK
+        string email UK
+    }
+    ROOM {
+        integer id PK
+        string room_code UK
+        string name UK
+        integer capacity
+    }
+    COURSE {
+        integer id PK
+        string course_code UK
+        string title
+        string level
+        integer duration_minutes
+        integer room_id FK
+    }
+    COURSE_SESSION {
+        integer id PK
+        integer course_id FK
+        integer trainer_id FK
+        datetime starts_at
+    }
+    BOOKING {
+        integer id PK
+        integer member_id FK
+        integer course_session_id FK
+        date booked_on
+        boolean attended
+    }

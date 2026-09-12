@@ -1,11 +1,11 @@
 PRAGMA foreign_keys = ON;
 
--- Abfrage 1: Welche Veranstaltungen finden nach dem 2026-06-01 statt?
--- erwartet: 7 Zeilen
-SELECT event_number, title, event_on, starts_at
-FROM events
-WHERE event_on > '2026-06-01'
-ORDER BY event_on, starts_at;
+-- Abfrage 1: Welche Spielorte fassen mindestens 1.000 Personen?
+-- erwartet: 3 Zeilen
+SELECT venue_code, name, city, capacity
+FROM venues
+WHERE capacity >= 1000
+ORDER BY capacity DESC, venue_code;
 
 -- Abfrage 2: Welche Veranstaltungen finden in der Zeche Carl statt?
 -- erwartet: 4 Zeilen

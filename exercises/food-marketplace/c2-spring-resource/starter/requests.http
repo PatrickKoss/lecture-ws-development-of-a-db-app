@@ -1,0 +1,62 @@
+@baseUrl = http://localhost:8081
+
+### Liste lesen (200)
+GET {{baseUrl}}/api/restaurants
+X-Correlation-ID: manual-list
+
+### Einzelnen Datensatz lesen (200)
+GET {{baseUrl}}/api/restaurants/1
+
+### Gültigen Datensatz anlegen (201)
+POST {{baseUrl}}/api/restaurants
+Content-Type: application/json
+X-Correlation-ID: manual-create
+
+{
+  "partnerNumber": "R-999",
+  "name": "Testküche",
+  "street": "Markt 1",
+  "postalCode": "45127",
+  "city": "Essen",
+  "commissionRate": 12.5,
+  "active": true
+}
+
+### Ungültigen Datensatz ablehnen (400)
+POST {{baseUrl}}/api/restaurants
+Content-Type: application/json
+X-Correlation-ID: manual-validation
+
+{}
+
+### Vorhandenen fachlichen Schlüssel ablehnen (409)
+POST {{baseUrl}}/api/restaurants
+Content-Type: application/json
+X-Correlation-ID: manual-conflict
+
+{
+  "partnerNumber": "R-101",
+  "name": "Testküche",
+  "street": "Markt 1",
+  "postalCode": "45127",
+  "city": "Essen",
+  "commissionRate": 12.5,
+  "active": true
+}
+
+### Seed-Datensatz mit unverändertem Schlüssel ersetzen (200)
+PUT {{baseUrl}}/api/restaurants/1
+Content-Type: application/json
+
+{
+  "partnerNumber": "R-101",
+  "name": "Testküche aktualisiert",
+  "street": "Markt 1",
+  "postalCode": "45127",
+  "city": "Essen",
+  "commissionRate": 12.5,
+  "active": true
+}
+
+### Unbekannten Datensatz idempotent löschen (204)
+DELETE {{baseUrl}}/api/restaurants/999999

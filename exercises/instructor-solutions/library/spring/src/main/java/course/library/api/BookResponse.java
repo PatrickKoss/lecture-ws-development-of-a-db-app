@@ -1,21 +1,41 @@
 package course.library.api;
 
+import course.library.domain.Book;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import course.library.domain.Book;
-
-@Schema(description = "API-Darstellung der Ressource Book")
+@Schema(description = "Öffentliche Darstellung von Bücher")
 public record BookResponse(
     @Schema(
             description = "Vom Server vergebene ID",
             example = "1",
-            accessMode = Schema.AccessMode.READ_ONLY)
+            accessMode = Schema.AccessMode.READ_ONLY,
+            requiredMode = Schema.RequiredMode.REQUIRED)
         Long id,
-    @Schema(description = "Eindeutige ISBN", example = "9780000000000") String isbn,
-    @Schema(description = "Buchtitel", example = "Datenbanken in der Praxis") String title,
-    @Schema(description = "Erscheinungsjahr", example = "2026") Integer publicationYear,
-    @Schema(description = "Sachgebiet", example = "Informatik") String subjectArea,
-    @Schema(description = "Regalplatz", example = "INF-12") String shelfCode) {
+    @Schema(
+            description = "ISBN mit 13 Ziffern",
+            example = "9780000000000",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        String isbn,
+    @Schema(
+            description = "Buchtitel",
+            example = "Testbuch",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        String title,
+    @Schema(
+            description = "Erscheinungsjahr",
+            example = "2026",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        Integer publicationYear,
+    @Schema(
+            description = "Sachgebiet",
+            example = "Informatik",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        String subjectArea,
+    @Schema(
+            description = "Signatur des Regals",
+            example = "I-99",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        String shelfCode) {
   public static BookResponse from(Book value) {
     return new BookResponse(
         value.id(),

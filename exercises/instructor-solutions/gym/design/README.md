@@ -6,7 +6,7 @@ Diese Dateien sind für die gemeinsame Auswertung gedacht. Studierende öffnen s
 
 ## Normalisierte Tabellen
 
-Das Referenzmodell hat sechs eigenständige Entitäten: Mitglied, Tarif, Kurs, Kurstermin, Trainer und Raum. `memberships` und `bookings` setzen die beiden Beziehungen mit eigenen Attributen als Beziehungsentitäten um.
+Das Referenzmodell trennt Mitglied, Tarif, Kurs, Kurstermin, Trainer und Raum. `memberships` und `bookings` setzen die beiden Beziehungen mit eigenen Attributen als Beziehungsentitäten um.
 
 ### `members`
 
@@ -91,17 +91,6 @@ Funktionale Abhängigkeiten:
 - `(member_id, course_session_id) -> id, booked_on, attended`
 
 `bookings` ist der Kandidat für eine schwache Entität. Eine Buchung hat ohne Mitglied und Kurstermin keine fachliche Identität. `booked_on` und `attended` sind Attribute der n:m-Beziehung.
-
-## REST-Endpunkte
-
-| Methode  | Pfad                            | Erfolg           | Weitere Statuscodes                                |
-| -------- | ------------------------------- | ---------------- | -------------------------------------------------- |
-| `GET`    | `/bookings`                     | `200 OK`         | keine                                              |
-| `GET`    | `/bookings/{id}`                | `200 OK`         | `404 Not Found`                                    |
-| `POST`   | `/bookings`                     | `201 Created`    | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `PUT`    | `/bookings/{id}`                | `200 OK`         | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `DELETE` | `/bookings/{id}`                | `204 No Content` | `404 Not Found`, `409 Conflict`                    |
-| `GET`    | `/bookings/{id}/course-session` | `200 OK`         | `404 Not Found`                                    |
 
 ## Annahmen zu den offenen Fragen
 

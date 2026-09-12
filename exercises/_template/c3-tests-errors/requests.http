@@ -7,4 +7,14 @@ Content-Type: application/json
 
 {"resourceCode": "R-99", "name": "Testdatensatz", "measure": 1.0}
 
-### TODO(C3): denselben Wert für resource_code erneut senden und 409 prüfen
+### ungültiger POST (400)
+POST {{base}}/api/resources
+Content-Type: application/json
+
+{}
+
+### doppelter fachlicher Schlüssel (409)
+POST {{base}}/api/resources
+Content-Type: application/json
+
+{"resourceCode": "R-99", "name": "Testdatensatz", "measure": 1.0}

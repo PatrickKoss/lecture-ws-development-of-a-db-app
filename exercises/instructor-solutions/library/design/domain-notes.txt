@@ -1,0 +1,7 @@
+Auftraggeber: Stadtbibliothek mit zwei Zweigstellen
+Problem: Bücher, Exemplare, Ausleihen und Vormerkungen werden getrennt verwaltet.
+Hauptentität: Buch. Ein Buch ist ein durch seine ISBN eindeutig identifizierter Titel im Katalog.
+Offene Annahme: Eine Vormerkung gilt für einen Buchtitel und wird erst bei der Ausleihe einem Exemplar zugeordnet.
+Begriffe: Buch, Autor, Exemplar, Mitglied, Vormerkung, Ausleihe, Zweigstelle
+Geschäftsregel 1: Pro Exemplar darf höchstens eine Ausleihe ohne Rückgabedatum existieren.
+Geschäftsregel 2: Ein Buch kann mehrere Autoren haben; author_order speichert deren Reihenfolge.

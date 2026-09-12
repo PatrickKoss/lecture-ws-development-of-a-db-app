@@ -6,7 +6,7 @@ Diese Dateien sind für die gemeinsame Auswertung gedacht. Studierende öffnen s
 
 ## Normalisierte Tabellen
 
-Das Referenzmodell hat sechs eigenständige Entitäten. `order_items` setzt die Beziehung zwischen Bestellung und Gericht als Zuordnungstabelle um und ist zugleich der Kandidat für eine schwache Entität.
+Das Referenzmodell trennt Stammdaten, Bestellungen und Bewertungen. `order_items` setzt die Beziehung zwischen Bestellung und Gericht als Zuordnungstabelle um und ist zugleich der Kandidat für eine schwache Entität.
 
 ### `restaurants`
 
@@ -78,17 +78,6 @@ Funktionale Abhängigkeiten:
 
 - `id -> order_id, rating, comment, reviewed_on`
 - `order_id -> id, rating, comment, reviewed_on`
-
-## REST-Endpunkte
-
-| Methode  | Pfad                  | Erfolg           | Weitere Statuscodes                                |
-| -------- | --------------------- | ---------------- | -------------------------------------------------- |
-| `GET`    | `/orders`             | `200 OK`         | keine                                              |
-| `GET`    | `/orders/{id}`        | `200 OK`         | `404 Not Found`                                    |
-| `POST`   | `/orders`             | `201 Created`    | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `PUT`    | `/orders/{id}`        | `200 OK`         | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `DELETE` | `/orders/{id}`        | `204 No Content` | `404 Not Found`, `409 Conflict`                    |
-| `GET`    | `/orders/{id}/review` | `200 OK`         | `404 Not Found`                                    |
 
 ## Annahmen zu den offenen Fragen
 

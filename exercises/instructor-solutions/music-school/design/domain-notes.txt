@@ -1,0 +1,7 @@
+Auftraggeber: Programmleitung einer kommunalen Musikschule
+Problem: Kursangebote, Lehrkräfte, Räume, Schüler und Instrumentbedarf stehen in getrennten Tabellenblättern.
+Hauptentität: Kursangebot. Ein Kursangebot ist ein über seinen Kurscode buchbares Angebot mit Titel, Gebühr und Niveau.
+Offene Annahme: Jedes Kursangebot hat genau eine verantwortliche Lehrkraft.
+Begriffe: Kursangebot, Lehrkraft, Raum, Schüler, Anmeldung, Instrument, Kurscode
+Geschäftsregel 1: Ein Schüler darf sich höchstens einmal für dasselbe Kursangebot anmelden.
+Geschäftsregel 2: Die Zahl eines benötigten Instruments ist größer als null.

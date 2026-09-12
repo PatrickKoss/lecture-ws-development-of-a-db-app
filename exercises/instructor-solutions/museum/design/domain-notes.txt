@@ -1,0 +1,7 @@
+Auftraggeber: Sammlungsleitung des Stadtmuseums
+Problem: Inventardaten, Ausstellungsorte, Urheber und Leihgaben liegen in getrennten Listen.
+Hauptentität: Exponat. Ein Exponat ist ein über seine Inventarnummer eindeutig geführtes Sammlungsobjekt.
+Offene Annahme: Ein Exponat hat höchstens einen aktuellen Ausstellungsort; ohne Zuordnung liegt es im Depot oder ist verliehen.
+Begriffe: Exponat, Galerie, Urheber, Beteiligung, Leihgabe, Inventarnummer
+Geschäftsregel 1: Ein Urheber kann mit unterschiedlichen Rollen an einem Exponat beteiligt sein.
+Geschäftsregel 2: Das Ende einer Leihgabe darf nicht vor ihrem Beginn liegen.

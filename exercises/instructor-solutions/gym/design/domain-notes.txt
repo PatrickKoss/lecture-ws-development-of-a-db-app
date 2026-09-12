@@ -1,0 +1,7 @@
+Auftraggeber: Fitnessstudio "KraftWerk"
+Problem: Mitglieder, Tarife, Kurse, Termine und Buchungen werden auf Listen und Zetteln geführt.
+Hauptentität: Kurs. Ein Kurs ist ein eindeutig codiertes Angebot mit Niveau, Dauer und optionalem Stammraum.
+Offene Annahme: Ein Kurs kann ohne festen Raum angelegt werden; jeder konkrete Termin bekommt Trainer und Zeit.
+Begriffe: Kurs, Kurstermin, Mitglied, Tarif, Mitgliedschaft, Trainer, Raum, Buchung
+Geschäftsregel 1: Ein Mitglied darf denselben Kurstermin höchstens einmal buchen.
+Geschäftsregel 2: Das Ende einer Mitgliedschaft darf nicht vor ihrem Beginn liegen.

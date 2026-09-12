@@ -1,0 +1,53 @@
+erDiagram
+    OWNER ||--|{ PET : owns
+    PET ||--o{ APPOINTMENT : attends
+    VET ||--o{ APPOINTMENT : treats_at
+    APPOINTMENT ||--o| TREATMENT : results_in
+    TREATMENT ||--o{ PRESCRIPTION : contains
+    MEDICATION ||--o{ PRESCRIPTION : prescribed_as
+
+    OWNER {
+        integer id PK
+        string customer_number UK
+        string email UK
+    }
+    PET {
+        integer id PK
+        integer owner_id FK
+        integer pet_number UK
+        string name
+        string species
+        string insurance_policy_number UK
+    }
+    VET {
+        integer id PK
+        string license_number UK
+        string specialization
+        string consultation_room
+    }
+    APPOINTMENT {
+        integer id PK
+        integer pet_id FK
+        integer vet_id FK
+        datetime scheduled_at
+        string status
+    }
+    TREATMENT {
+        integer id PK
+        integer appointment_id FK,UK
+        date treated_on
+        string diagnosis
+        integer fee_cents
+    }
+    MEDICATION {
+        integer id PK
+        string pzn UK
+        string product_name
+        string dosage_form
+    }
+    PRESCRIPTION {
+        integer treatment_id PK,FK
+        integer medication_id PK,FK
+        string dose
+        integer duration_days
+    }

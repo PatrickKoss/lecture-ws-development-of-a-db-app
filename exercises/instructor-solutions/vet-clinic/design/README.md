@@ -6,7 +6,7 @@ Diese Dateien sind für die gemeinsame Auswertung gedacht. Studierende öffnen s
 
 ## Normalisierte Tabellen
 
-Das Referenzmodell hat sechs Entitäten. `prescriptions` setzt die Beziehung zwischen Behandlung und Medikament als Zuordnungstabelle um.
+Das Referenzmodell trennt Halter, Tiere, Tierärzte, Termine, Behandlungen und Medikamente. `prescriptions` setzt die Beziehung zwischen Behandlung und Medikament als Zuordnungstabelle um.
 
 ### `owners`
 
@@ -85,17 +85,6 @@ Funktionale Abhängigkeiten:
 - `(treatment_id, medication_id) -> dose, duration_days, instructions`
 
 `prescriptions` löst die n:m-Beziehung zwischen Behandlung und Medikament auf. `dose` und `duration_days` sind fachliche Attribute dieser Beziehung.
-
-## REST-Endpunkte
-
-| Methode  | Pfad                           | Erfolg           | Weitere Statuscodes                                |
-| -------- | ------------------------------ | ---------------- | -------------------------------------------------- |
-| `GET`    | `/appointments`                | `200 OK`         | keine                                              |
-| `GET`    | `/appointments/{id}`           | `200 OK`         | `404 Not Found`                                    |
-| `POST`   | `/appointments`                | `201 Created`    | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `PUT`    | `/appointments/{id}`           | `200 OK`         | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `DELETE` | `/appointments/{id}`           | `204 No Content` | `404 Not Found`, `409 Conflict`                    |
-| `GET`    | `/appointments/{id}/treatment` | `200 OK`         | `404 Not Found`                                    |
 
 ## Annahmen zu den offenen Fragen
 

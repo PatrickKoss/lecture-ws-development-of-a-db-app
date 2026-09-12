@@ -1,0 +1,59 @@
+@baseUrl = http://localhost:8081
+
+### Liste lesen (200)
+GET {{baseUrl}}/api/medications
+X-Correlation-ID: manual-list
+
+### Einzelnen Datensatz lesen (200)
+GET {{baseUrl}}/api/medications/1
+
+### Gültigen Datensatz anlegen (201)
+POST {{baseUrl}}/api/medications
+Content-Type: application/json
+X-Correlation-ID: manual-create
+
+{
+  "pzn": "00999999",
+  "productName": "Testpräparat",
+  "activeIngredient": "Teststoff",
+  "dosageForm": "Tablette",
+  "prescriptionRequired": true,
+  "active": true
+}
+
+### Ungültigen Datensatz ablehnen (400)
+POST {{baseUrl}}/api/medications
+Content-Type: application/json
+X-Correlation-ID: manual-validation
+
+{}
+
+### Vorhandenen fachlichen Schlüssel ablehnen (409)
+POST {{baseUrl}}/api/medications
+Content-Type: application/json
+X-Correlation-ID: manual-conflict
+
+{
+  "pzn": "09231122",
+  "productName": "Testpräparat",
+  "activeIngredient": "Teststoff",
+  "dosageForm": "Tablette",
+  "prescriptionRequired": true,
+  "active": true
+}
+
+### Seed-Datensatz mit unverändertem Schlüssel ersetzen (200)
+PUT {{baseUrl}}/api/medications/1
+Content-Type: application/json
+
+{
+  "pzn": "09231122",
+  "productName": "Testpräparat aktualisiert",
+  "activeIngredient": "Teststoff",
+  "dosageForm": "Tablette",
+  "prescriptionRequired": true,
+  "active": true
+}
+
+### Unbekannten Datensatz idempotent löschen (204)
+DELETE {{baseUrl}}/api/medications/999999

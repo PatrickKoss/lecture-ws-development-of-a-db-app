@@ -1,11 +1,11 @@
 PRAGMA foreign_keys = ON;
 
--- Abfrage 1: Welche aktiven Mitglieder gibt es?
--- erwartet: 10 Zeilen
-SELECT id, membership_number, first_name, last_name
-FROM members
-WHERE active = 1
-ORDER BY last_name, first_name;
+-- Abfrage 1: Welche Kurse richten sich an Einsteiger?
+-- erwartet: 4 Zeilen
+SELECT id, course_code, title, duration_minutes
+FROM courses
+WHERE level = 'BEGINNER'
+ORDER BY title;
 
 -- Abfrage 2: Welche nicht abgesagten Kurstermine finden ab dem 2026-09-15 statt?
 -- erwartet: 9 Zeilen

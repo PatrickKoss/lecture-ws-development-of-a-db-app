@@ -1,0 +1,49 @@
+erDiagram
+    MOVIE ||--o{ SCREENING : is_shown_as
+    HALL ||--o{ SEAT : contains
+    HALL ||--o{ SCREENING : hosts
+    SCREENING ||--o{ TICKET : sells
+    SEAT ||--o{ TICKET : reserved_by
+    CUSTOMER o|--o{ TICKET : buys
+
+    MOVIE {
+        integer id PK
+        string movie_code UK
+        string title
+        integer runtime_minutes
+        string fsk_code
+        integer minimum_age
+    }
+    HALL {
+        integer id PK
+        string hall_number UK
+        string name UK
+    }
+    SEAT {
+        integer hall_id PK,FK
+        string row_label PK
+        integer seat_number PK
+        string category
+    }
+    SCREENING {
+        integer id PK
+        string screening_code UK
+        integer movie_id FK
+        integer hall_id FK
+        datetime starts_at
+    }
+    CUSTOMER {
+        integer id PK
+        string customer_number UK
+        string email UK
+    }
+    TICKET {
+        integer id PK
+        string ticket_number UK
+        integer screening_id FK
+        integer hall_id FK
+        string row_label FK
+        integer seat_number FK
+        integer customer_id FK
+        integer price_cents
+    }

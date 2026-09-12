@@ -6,7 +6,7 @@ Diese Dateien sind für die gemeinsame Auswertung gedacht. Studierende öffnen s
 
 ## Normalisierte Tabellen
 
-Das Referenzmodell hat sechs Entitäten. `book_authors` setzt die Beziehung zwischen Buch und Autor als Zuordnungstabelle um.
+Das Referenzmodell hat sieben Tabellen. `book_authors` setzt die Beziehung zwischen Buch und Autor als Zuordnungstabelle um.
 
 ### `members`
 
@@ -38,7 +38,7 @@ Funktionale Abhängigkeiten:
 - `(title, shelf_code) -> id, isbn, publication_year, subject_area`
 - `subject_area -> shelf_code`
 
-Die letzte Abhängigkeit ist die BCNF-Falle. `subject_area` ist kein Superschlüssel. `shelf_code` ist aber ein Primattribut des Alternativschlüssels `(title, shelf_code)`. Die Tabelle erfüllt daher die 3NF, aber nicht die BCNF. Eine BCNF-Zerlegung würde `subject_shelves(subject_area, shelf_code)` abtrennen. Für das Kursmodell bleibt die 3NF-Fassung bestehen, damit das Schema bei den sechs fachlichen Entitäten bleibt.
+Die letzte Abhängigkeit ist die BCNF-Falle. `subject_area` ist kein Superschlüssel. `shelf_code` ist aber ein Primattribut des Alternativschlüssels `(title, shelf_code)`. Die Tabelle erfüllt daher die 3NF, aber nicht die BCNF. Eine BCNF-Zerlegung würde `subject_shelves(subject_area, shelf_code)` abtrennen. Für das Kursmodell bleibt die 3NF-Fassung bestehen, damit `shelf_code` direkt am Buch lesbar bleibt.
 
 ### `book_authors`
 
@@ -79,17 +79,6 @@ Funktionale Abhängigkeiten:
 - `reservation_id -> id, member_id, book_id, copy_number, loaned_on, due_on, returned_on`, sofern `reservation_id` nicht `NULL` ist
 
 `loans` löst die Beziehung zwischen Mitglied und Exemplar auf. Ausleihtag, Fälligkeit und Rückgabedatum sind Attribute dieser Beziehung.
-
-## REST-Endpunkte
-
-| Methode  | Pfad                      | Erfolg           | Weitere Statuscodes                                |
-| -------- | ------------------------- | ---------------- | -------------------------------------------------- |
-| `GET`    | `/loans`                  | `200 OK`         | keine                                              |
-| `GET`    | `/loans/{id}`             | `200 OK`         | `404 Not Found`                                    |
-| `POST`   | `/loans`                  | `201 Created`    | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `PUT`    | `/loans/{id}`             | `200 OK`         | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `DELETE` | `/loans/{id}`             | `204 No Content` | `404 Not Found`, `409 Conflict`                    |
-| `GET`    | `/loans/{id}/reservation` | `200 OK`         | `404 Not Found`                                    |
 
 ## Annahmen zu den offenen Fragen
 

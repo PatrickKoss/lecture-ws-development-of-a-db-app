@@ -1,0 +1,7 @@
+Auftraggeber: "Pizzeria Da Enzo"
+Problem: Telefonbestellungen, Fahrerplan, Lieferadressen und Preisliste liegen getrennt vor.
+Hauptentität: Pizza. Eine Pizza ist ein unter einer eindeutigen Nummer angebotenes Produkt mit Preis und Backstation.
+Offene Annahme: Abholbestellungen haben keine Lieferadresse; Lieferbestellungen brauchen eine Adresse, der Fahrer darf zunächst fehlen.
+Begriffe: Pizza, Belag, Kunde, Adresse, Fahrer, Bestellung, Bestellposition
+Geschäftsregel 1: Eine Bestellposition speichert Menge und Einzelpreis zum Bestellzeitpunkt.
+Geschäftsregel 2: Eine Abholbestellung darf weder Lieferadresse noch Fahrer haben.

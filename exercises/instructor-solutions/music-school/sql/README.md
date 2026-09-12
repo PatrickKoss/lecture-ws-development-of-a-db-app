@@ -35,6 +35,24 @@ Ein `INNER JOIN` mit `enrollments` würde `MU-04` entfernen. Der `LEFT JOIN`
 behält die Kurszeile und setzt die Spalten der fehlenden Anmeldung auf NULL.
 Darum zählt die Abfrage `e.student_id` und nicht `COUNT(*)`.
 
+Die Vertiefung zu Constraints lässt sich nach Schema und Seed mit zwei
+gezielten Änderungen prüfen:
+
+```sql
+UPDATE music_courses
+SET course_code = (SELECT course_code FROM music_courses WHERE id = 1)
+WHERE id = 2;
+-- UNIQUE constraint failed: music_courses.course_code
+
+PRAGMA foreign_keys = ON;
+UPDATE enrollments SET student_id = 999999 WHERE rowid = 1;
+-- FOREIGN KEY constraint failed
+```
+
+`query-plan.sql` führt den Gebührenfilter zuerst ohne und danach mit einem
+Index auf `music_courses.fee` aus. `EXPLAIN QUERY PLAN` wechselt von `SCAN`
+zu `SEARCH ... USING COVERING INDEX`.
+
 Ausführen:
 
 ```bash

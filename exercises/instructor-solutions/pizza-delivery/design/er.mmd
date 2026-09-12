@@ -1,0 +1,62 @@
+erDiagram
+    CUSTOMER ||--o{ ADDRESS : owns
+    CUSTOMER ||--o{ PIZZA_ORDER : places
+    ADDRESS o|--o{ PIZZA_ORDER : destination_for
+    DRIVER o|--o{ PIZZA_ORDER : delivers
+    PIZZA ||--o{ PIZZA_TOPPING : uses
+    TOPPING ||--o{ PIZZA_TOPPING : belongs_to
+    PIZZA_ORDER ||--|{ ORDER_ITEM : contains
+    PIZZA ||--o{ ORDER_ITEM : ordered_as
+
+    CUSTOMER {
+        integer id PK
+        string customer_number UK
+        string email UK
+        string phone UK
+    }
+    ADDRESS {
+        integer id PK
+        integer customer_id FK
+        string street
+        string postal_code
+        string city
+    }
+    DRIVER {
+        integer id PK
+        string driver_number UK
+        string phone UK
+        string status
+    }
+    PIZZA {
+        integer id PK
+        string pizza_number UK
+        string name
+        string category
+        string oven_station
+    }
+    TOPPING {
+        integer id PK
+        string name UK
+        integer surcharge_cents
+    }
+    PIZZA_TOPPING {
+        integer pizza_id PK,FK
+        integer topping_id PK,FK
+        boolean standard_topping
+    }
+    PIZZA_ORDER {
+        integer id PK
+        string order_number UK
+        integer customer_id FK
+        integer delivery_address_id FK
+        integer driver_id FK
+        string fulfillment_type
+        string status
+    }
+    ORDER_ITEM {
+        integer order_id PK,FK
+        integer position_number PK
+        integer pizza_id FK
+        integer quantity
+        integer unit_price_cents
+    }

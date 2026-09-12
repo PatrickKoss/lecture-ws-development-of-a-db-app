@@ -6,7 +6,7 @@ Diese Dateien sind für die gemeinsame Auswertung gedacht. Studierende öffnen s
 
 ## Normalisierte Tabellen
 
-Das Referenzmodell hat sechs eigenständige Entitätstypen. `rentals` setzt die attributtragende Beziehung zwischen Kunde und Rad um. `customer_tariffs` hält die ebenfalls attributtragende Tarifzuordnung fest.
+Das Referenzmodell trennt die eigenständigen Entitäten von den Beziehungs- und Historientabellen. `rentals` setzt die attributtragende Beziehung zwischen Kunde und Rad um. `customer_tariffs` hält die ebenfalls attributtragende Tarifzuordnung fest.
 
 ### `stations`
 
@@ -89,17 +89,6 @@ Funktionale Abhängigkeiten:
 - `rental_number -> id, customer_id, bike_id, start_station_id, end_station_id, start_time, end_time, price_cents`
 
 `rentals` löst die n:m-Beziehung zwischen Kunde und Rad auf. Start- und Endzeit, Start- und Endstation sowie Preis sind Attribute dieser Beziehung.
-
-## REST-Endpunkte
-
-| Methode  | Pfad                   | Erfolg           | Weitere Statuscodes                                |
-| -------- | ---------------------- | ---------------- | -------------------------------------------------- |
-| `GET`    | `/rentals`             | `200 OK`         | keine                                              |
-| `GET`    | `/rentals/{id}`        | `200 OK`         | `404 Not Found`                                    |
-| `POST`   | `/rentals`             | `201 Created`    | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `PUT`    | `/rentals/{id}`        | `200 OK`         | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `DELETE` | `/rentals/{id}`        | `204 No Content` | `404 Not Found`, `409 Conflict`                    |
-| `GET`    | `/rentals/{id}/tariff` | `200 OK`         | `404 Not Found`                                    |
 
 ## Annahmen zu den offenen Fragen
 

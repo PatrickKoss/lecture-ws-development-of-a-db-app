@@ -1,11 +1,11 @@
 PRAGMA foreign_keys = ON;
 
--- Abfrage 1: Welche Räder sind verfügbar?
--- erwartet: 10 Zeilen
-SELECT id, bike_number, current_station_id
-FROM bikes
-WHERE status = 'AVAILABLE'
-ORDER BY bike_number;
+-- Abfrage 1: Welche Stationen sind aktiv?
+-- erwartet: 6 Zeilen
+SELECT id, station_code, name, capacity
+FROM stations
+WHERE status = 'ACTIVE'
+ORDER BY station_code;
 
 -- Abfrage 2: Welche Ausleihen begannen am oder nach dem 2026-03-01?
 -- erwartet: 5 Zeilen

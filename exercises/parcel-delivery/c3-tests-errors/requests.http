@@ -7,4 +7,14 @@ Content-Type: application/json
 
 {"trackingCode": "PK-99", "recipient": "Testdatensatz", "weight": 1.0}
 
-### TODO(C3): denselben Wert für tracking_code erneut senden und 409 prüfen
+### ungültiger POST (400)
+POST {{base}}/api/parcels
+Content-Type: application/json
+
+{}
+
+### doppelter fachlicher Schlüssel (409)
+POST {{base}}/api/parcels
+Content-Type: application/json
+
+{"trackingCode": "PK-99", "recipient": "Testdatensatz", "weight": 1.0}

@@ -1,10 +1,12 @@
-# C2: Spring-Ressource
+# C2: Spring-Ressource mit JPA
 
 Zeitbox: etwa 50 Minuten für den Kernauftrag. Die Vertiefung beginnt erst danach.
 
 ## Eingang
 
-`starter/` enthält Spring Boot, das vollständige Schema und die Seed-Daten aus B2, Response-DTO, Fehlerkörper und ein fertiges Read-Repository für `reference_items`. Offen sind nur die Methoden der `Resource`-Hauptressource.
+`starter/` ist ein eigenständiges Spring-Boot-Projekt. Flyway enthält das vollständige Schema aus B1 und die Seed-Daten aus B2. Hibernate prüft das Mapping, erzeugt aber kein Schema, weil `ddl-auto=none` gesetzt ist.
+
+Die fachliche Klasse `Resource` bleibt ein unveränderlicher Java-Record. `ResourceJpaEntity` bildet die Tabelle für JPA ab. `SpringDataResourceRepository` erweitert `JpaRepository` und ist fertig. Offen sind `findAll` und `findById` im Adapter `JpaResourceRepository`. Das vorbereitete `JpaLookupRepository` liest `reference_items`.
 
 Starttest:
 
@@ -12,30 +14,39 @@ Starttest:
 cd starter && ./gradlew test
 ```
 
+`OpenApiStarterTest` läuft bereits. `JpaRepositoryExerciseTest` ist deaktiviert, bis ihr die beiden Lesemethoden implementiert habt.
+
 ## Kernauftrag
 
-Implementiert `findAll` und `findById` im `JdbcResourceRepository`. GET liefert `ResourceResponse`, nie direkt die Domain-Entity. Unbekannte IDs ergeben 404.
-
-Prüft nach der Implementierung beide GET-Endpunkte über Swagger UI unter `/swagger-ui.html`. Ergänzt die in C1 begonnenen Annotationen, wenn sich der Vertrag ändert.
+1. Implementiert `findAll` in `JpaResourceRepository`. Nutzt das Spring-Data-Repository und mappt jede `ResourceJpaEntity` auf `Resource`.
+2. Implementiert `findById(long)` mit `Optional`, ohne einen unbekannten Datensatz durch `null` darzustellen.
+3. Aktiviert `JpaRepositoryExerciseTest` und führt alle Tests aus.
+4. Startet die Anwendung und prüft GET-Liste sowie GET nach ID über Swagger UI. Der Controller liefert `ResourceResponse`, keine JPA-Entity. Eine unbekannte ID ergibt 404.
 
 ## Vertiefung
 
-Ergänzt einen Link oder eine ID zu vorbereiteten Nachschlagedaten im Response-DTO.
+Verfolgt die vorbereitete Lookup-Kette von `JpaLookupRepository` bis zur Lookup-Tabelle. Verschärft `JpaRepositoryExerciseTest`: Prüft die Seed-Labels mit `containsExactly` und damit auch die Sortierung nach ID.
 
 ## Vorbereiteter Zwischenstand
 
-Sichtbare Übergabe: Übernehmt eure B1-Dateien als `V1__schema.sql` und `V2__seed.sql`. Falls sie nicht laufen, gibt die Lehrperson den vorbereiteten Referenzstand frei. Hikari aktiviert `PRAGMA foreign_keys=ON` pro Verbindung. `ddl-auto=none` verhindert eine zweite Schemaquelle.
+Übernehmt eure B1-Dateien als `V1__schema.sql` und `V2__seed.sql`. Falls dieser Stand nicht läuft, gibt die Lehrperson die Referenzmigrationen frei. Flyway bleibt die einzige Schemaquelle. Hikari aktiviert SQLite-Fremdschlüssel für jede Verbindung.
 
 ## Ausgang
 
-Die Anwendung startet. GET-Liste und GET nach ID liefern die B2-Daten über das Response-DTO. ID 1 enthält `R-01`.
+Die Anwendung startet. Beide GET-Endpunkte liefern die Seed-Daten über das Response-DTO. ID 1 enthält `R-01`. `JpaRepositoryExerciseTest` und `OpenApiStarterTest` laufen.
 
 Prüfbefehl:
 
 ```bash
-cd starter && ./gradlew test && SERVER_PORT=18081 ./gradlew bootRun
+cd starter && ./gradlew test
+```
+
+Danach könnt ihr die Anwendung separat starten:
+
+```bash
+SERVER_PORT=18081 ./gradlew bootRun
 ```
 
 ## Auswertung
 
-Welche Verantwortung liegt im Controller, welche im Service und welche im Repository?
+Welche Aufgabe hat `ResourceJpaEntity`? Warum gibt der Controller trotzdem `ResourceResponse` zurück? Wo endet Spring Data und wo beginnt euer Adapter?

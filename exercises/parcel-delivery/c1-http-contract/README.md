@@ -4,10 +4,11 @@ Zeitbox: etwa 25 Minuten für den Kernauftrag. Die Vertiefung beginnt erst danac
 
 ## Eingang
 
-Nutzt das Modell `Parcel` aus B3 und das Projekt `../c2-spring-resource/starter`.
-SpringDoc ist eingebunden. `ParcelController` enthält ein dokumentiertes POST-Beispiel mit `CreateParcelRequest`, `ParcelResponse`, 201, `Location`, 400 und 409.
+Arbeitet im Projekt `../c2-spring-resource/starter`. Es enthält das Modell `Parcel`, getrennte Request- und Response-DTOs sowie SpringDoc. `ParcelController` zeigt am POST-Endpunkt bereits, wie 201, `Location`, 400 und 409 dokumentiert werden.
 
-Startet die Anwendung aus diesem Ordner:
+`OpenApiStarterTest` ist aktiv und prüft, dass der Anwendungskontext und die Spec ohne Aufruf der noch offenen JPA-Adaptermethoden funktionieren.
+
+Start:
 
 ```bash
 cd ../c2-spring-resource/starter
@@ -15,38 +16,39 @@ cd ../c2-spring-resource/starter
 SERVER_PORT=18081 ./gradlew bootRun
 ```
 
-Öffnet http://localhost:18081/swagger-ui.html. Die Spec steht unter http://localhost:18081/v3/api-docs, YAML unter `/v3/api-docs.yaml`.
-Die Dokumentation funktioniert schon mit den offenen Repository-Methoden. Erfolgreiche Datenzugriffe folgen in C2 und C3.
+Öffnet http://localhost:18081/swagger-ui.html. JSON liegt unter http://localhost:18081/v3/api-docs, YAML unter `/v3/api-docs.yaml`.
 
 ## Kernauftrag
 
-1. Lest das POST-Beispiel. `@Operation` beschreibt die Operation, `@ApiResponse` Statuscodes und Modelle. `@Schema(implementation = …)` verweist auf Java-DTOs.
-2. Ergänzt Beschreibungen und passende Beispiele an den Feldern von `CreateParcelRequest` und `ParcelResponse` mit `@Schema`. Beachtet die vorhandenen Validierungsregeln. Der Request enthält keine Server-ID.
-3. Dokumentiert beide GET-Methoden mit `@Operation` und `@ApiResponse`. Die Liste liefert 200 mit einem Array aus `ParcelResponse`, GET nach ID liefert 200 oder 404 mit `ApiError`. Für das Array nutzt ihr `@Content(array = @ArraySchema(schema = @Schema(implementation = ParcelResponse.class)))` und importiert `io.swagger.v3.oas.annotations.media.ArraySchema`.
-4. Beschreibt den 409-Fachkonflikt konkret: `tracking_code` darf nicht doppelt vorkommen. Startet nach Codeänderungen neu. Prüft in Swagger UI Request, Response, Pflichtfelder und Statuscodes.
+1. Lest die Annotationen am POST-Endpunkt. `@Operation` beschreibt die Operation, `@ApiResponse` eine Antwort und `@Schema` ein Modell. Exportiert die unveränderte Spec als `openapi.before.json`.
+2. Ändert an mindestens drei Feldern von `CreateParcelRequest` und `ParcelResponse` die vorbereitete Beschreibung oder das Beispiel. Verwendet konkrete Werte aus eurer Domäne. Der Request enthält keine vom Server vergebene ID.
+3. Formuliert Summary oder Beschreibung beider GET-Methoden fachlich genauer. Prüft dabei den vorbereiteten Vertrag: Die Liste liefert 200 mit einem Array aus `ParcelResponse`. GET nach ID liefert 200 oder 404 mit `ApiError`. Die Liste verwendet `@ArraySchema`.
+4. Formuliert die Konfliktbeschreibung mit eigenen Worten und nennt den Schlüssel `trackingCode` ausdrücklich.
+5. Startet nach Änderungen neu, exportiert `openapi.after.json` und vergleicht beide Dateien. Prüft in Swagger UI Pflichtfelder, Modelle und Statuscodes.
 
-`@Schema` dokumentiert. `@Valid` und Bean Validation prüfen Eingaben zur Laufzeit. Eine dokumentierte Antwort implementiert das Verhalten noch nicht.
+`@Schema` beschreibt den Vertrag. `@Valid` und Bean Validation prüfen einen Request zur Laufzeit. Die JPA-Abfragen implementiert ihr erst in C2 und C3.
 
 ## Vertiefung
 
-Plant PUT oder DELETE und erklärt die Idempotenz. Ergänzt Mapping, Modelle und Annotationen im Controller, wenn ihr die Operation implementiert.
+Plant PUT oder DELETE. Haltet für jede Operation Pfad, Request, erfolgreiche Antwort und Fehlerantworten fest. Begründet, ob ein wiederholter identischer Request denselben Zustand erzeugt.
 
 ## Vorbereiteter Zwischenstand
 
-Das POST-Beispiel bleibt die Vorlage. Ihr ergänzt GET und die noch fehlenden Feldbeschreibungen. Die Repository-TODOs bearbeitet ihr in C2 und C3.
+Das dokumentierte POST dient als Muster. Die Controller- und DTO-Dateien sind vorbereitet. `OpenApiStarterTest` muss während C1 grün bleiben.
 
 ## Ausgang
 
-Die generierte Spec beschreibt GET und POST samt Modellen und Fehlerantworten. Gebt die geänderten Java-Dateien und einen Export ab. Bearbeitet den Export nicht von Hand.
+Die generierte Spec beschreibt GET und POST mit ihren DTOs und Fehlerantworten. Gebt die geänderten Java-Dateien und einen Export ab. Bearbeitet den Export nicht von Hand.
 
-Prüfbefehl in einem zweiten Terminal aus `c1-http-contract/`:
+Prüfbefehl in einem zweiten Terminal:
 
 ```bash
-curl --fail http://localhost:18081/v3/api-docs -o openapi.generated.json
+curl --fail http://localhost:18081/v3/api-docs -o openapi.after.json
+diff -u openapi.before.json openapi.after.json || true
 ```
 
-Prüft unter `paths` die GET- und POST-Antworten und unter `components.schemas` eure DTOs und Beispiele.
+Prüft unter `paths` die GET- und POST-Antworten. Unter `components.schemas` müssen die DTOs, Pflichtfelder und Beispiele stehen.
 
 ## Auswertung
 
-Welche Angaben leitet SpringDoc aus Java ab? Welche fachlichen Angaben müsst ihr ergänzen? Was unterscheidet 400 und 409?
+Welche Angaben erzeugt SpringDoc aus Java? Welche fachlichen Angaben musstet ihr selbst ergänzen? Was unterscheidet 400 und 409?

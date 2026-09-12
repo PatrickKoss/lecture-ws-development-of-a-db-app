@@ -1,0 +1,7 @@
+Auftraggeber: Kfz-Werkstatt "Autoservice Brandt"
+Problem: Auftragsformulare, Fahrzeugdaten, Teilebestand und Rechnungen liegen getrennt vor.
+Hauptentität: Ersatzteil. Ein Ersatzteil ist ein unter einer eindeutigen Teilenummer geführter Lagerartikel.
+Offene Annahme: Das Kennzeichen ist werkstattweit eindeutig und bleibt beim Halterwechsel am Fahrzeug.
+Begriffe: Ersatzteil, Kunde, Fahrzeug, Mechaniker, Arbeitsauftrag, Teileposition, Rechnung
+Geschäftsregel 1: Ein Arbeitsauftrag gehört genau zu einem Fahrzeug.
+Geschäftsregel 2: Menge und Einzelpreis gehören zur Teileposition und werden beim Einbau festgehalten.

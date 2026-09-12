@@ -1,11 +1,11 @@
 PRAGMA foreign_keys = ON;
 
--- Abfrage 1: Welche Zimmer sind verfügbar?
--- erwartet: 9 Zeilen
-SELECT floor, room_number, room_type_id, accessible
-FROM rooms
-WHERE status = 'AVAILABLE'
-ORDER BY floor, room_number;
+-- Abfrage 1: Welche Zimmertypen bieten Platz für mindestens drei Personen?
+-- erwartet: 2 Zeilen
+SELECT id, type_code, name, capacity, standard_price_cents
+FROM room_types
+WHERE capacity >= 3
+ORDER BY capacity DESC, type_code;
 
 -- Abfrage 2: Welche bestätigten Buchungen reichen über den 2026-05-01?
 -- erwartet: 1 Zeile

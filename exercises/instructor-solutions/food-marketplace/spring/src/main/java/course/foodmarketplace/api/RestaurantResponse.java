@@ -1,24 +1,49 @@
 package course.foodmarketplace.api;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import course.foodmarketplace.domain.Restaurant;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 
-@Schema(description = "API-Darstellung der Ressource Restaurant")
+@Schema(description = "Öffentliche Darstellung von Restaurants")
 public record RestaurantResponse(
     @Schema(
             description = "Vom Server vergebene ID",
             example = "1",
-            accessMode = Schema.AccessMode.READ_ONLY)
+            accessMode = Schema.AccessMode.READ_ONLY,
+            requiredMode = Schema.RequiredMode.REQUIRED)
         Long id,
-    @Schema(description = "Eindeutige Partnernummer", example = "R-199") String partnerNumber,
-    @Schema(description = "Name des Restaurants", example = "Pasta Haus") String name,
-    @Schema(description = "Straße und Hausnummer", example = "Marktstraße 8") String street,
-    @Schema(description = "Postleitzahl", example = "50667") String postalCode,
-    @Schema(description = "Ort", example = "Köln") String city,
-    @Schema(description = "Provisionssatz in Prozent", example = "12.50") BigDecimal commissionRate,
-    @Schema(description = "Kennzeichnet einen aktiven Partner", example = "true") Boolean active) {
+    @Schema(
+            description = "Eindeutige Partnernummer",
+            example = "R-999",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        String partnerNumber,
+    @Schema(
+            description = "Restaurantname",
+            example = "Testküche",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        String name,
+    @Schema(
+            description = "Straße und Hausnummer",
+            example = "Markt 1",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        String street,
+    @Schema(
+            description = "Postleitzahl",
+            example = "45127",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        String postalCode,
+    @Schema(description = "Ort", example = "Essen", requiredMode = Schema.RequiredMode.REQUIRED)
+        String city,
+    @Schema(
+            description = "Provision in Prozent",
+            example = "12.5",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        BigDecimal commissionRate,
+    @Schema(
+            description = "Gibt an, ob Bestellungen möglich sind",
+            example = "true",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        Boolean active) {
   public static RestaurantResponse from(Restaurant value) {
     return new RestaurantResponse(
         value.id(),

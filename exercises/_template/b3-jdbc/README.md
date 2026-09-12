@@ -20,6 +20,8 @@ Implementiert `findById`, `findAll` und das sichtbare Row-Mapping in `JdbcResour
 
 Ergänzt `insert` mit PreparedStatement und prüft den UNIQUE-Fehler für einen doppelten Wert in `resource_code`.
 
+Hebt euren lauffähigen B3-Stand für B4 auf. Die JDBC-Implementierung bleibt dort erhalten. In B4 bereinigt ihr die öffentliche Schnittstelle `ResourceRepository`, damit die aufrufende Schicht keine geprüften JDBC-Ausnahmen mehr kennt.
+
 ## Vorbereiteter Zwischenstand
 
 Sichtbare Übergabe aus B1: Ersetzt `V1__schema.sql` und `V2__seed.sql` durch eure eigenen B1-Dateien. Falls dieser Stand nicht läuft, gibt die Lehrperson den eingebauten Referenzstand frei. `Database.open()` aktiviert Fremdschlüssel für jede Verbindung.

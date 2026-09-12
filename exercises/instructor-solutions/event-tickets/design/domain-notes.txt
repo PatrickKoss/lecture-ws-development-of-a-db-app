@@ -1,0 +1,7 @@
+Auftraggeber: Regionale Ticketplattform "Ruhrpott Events"
+Problem: Spielorte, Veranstaltungen, Kategorien, Bestellungen und Tickets liegen in getrennten Listen.
+Hauptentität: Spielort. Ein Spielort ist ein eindeutig codierter Veranstaltungsort mit Adresse und Kapazität.
+Offene Annahme: Eine Veranstaltung hat höchstens einen externen Veranstalter; Eigenveranstaltungen haben keinen.
+Begriffe: Spielort, Veranstalter, Veranstaltung, Ticketkategorie, Käufer, Bestellung, Ticket
+Geschäftsregel 1: Eine Ticketkategorie ist nur innerhalb ihrer Veranstaltung eindeutig.
+Geschäftsregel 2: Ein Ticket speichert den tatsächlich bezahlten Preis, auch wenn sich der Listenpreis später ändert.

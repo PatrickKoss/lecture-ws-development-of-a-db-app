@@ -1,0 +1,53 @@
+erDiagram
+    RESTAURANT ||--|{ DISH : offers
+    CUSTOMER ||--o{ FOOD_ORDER : places
+    RESTAURANT ||--o{ FOOD_ORDER : receives
+    COURIER o|--o{ FOOD_ORDER : delivers
+    FOOD_ORDER ||--|{ ORDER_ITEM : contains
+    DISH ||--o{ ORDER_ITEM : selected_as
+    FOOD_ORDER ||--o| REVIEW : receives
+
+    RESTAURANT {
+        integer id PK
+        string partner_number UK
+        string name
+        string status
+    }
+    DISH {
+        integer id PK
+        integer restaurant_id FK
+        string name
+        string category
+        decimal vat_rate
+    }
+    CUSTOMER {
+        integer id PK
+        string customer_number UK
+        string email UK
+    }
+    COURIER {
+        integer id PK
+        string courier_number UK
+        string phone UK
+    }
+    FOOD_ORDER {
+        integer id PK
+        string order_number UK
+        integer customer_id FK
+        integer restaurant_id FK
+        integer courier_id FK
+        string status
+    }
+    ORDER_ITEM {
+        integer order_id PK,FK
+        integer position_number PK
+        integer dish_id FK
+        integer quantity
+        integer unit_price_cents
+    }
+    REVIEW {
+        integer id PK
+        integer order_id FK,UK
+        integer rating
+        string comment
+    }

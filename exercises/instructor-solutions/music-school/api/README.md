@@ -1,35 +1,29 @@
 # Musterlösung für C1
 
-Die OpenAPI-Beschreibung entsteht aus `MusicCourseController`,
-`CreateMusicCourseRequest` und `MusicCourseResponse` unter `../spring/src/`.
-`@Operation` und `@ApiResponse` beschreiben die Endpunkte und Statuscodes.
-`@Schema` ergänzt Feldbeschreibungen und Beispiele. Bean Validation liefert
-die Grenzen und Pflichtfelder, die SpringDoc aus dem Code ableiten kann.
+Der Vertrag beschreibt die Hauptentität Kursangebot unter `/api/courses`. Die Datei `openapi.json` stammt aus dem laufenden Spring-Projekt. Der Test `OpenApiContractTest` ruft `/v3/api-docs` auf und schreibt denselben Stand nach `spring/build/openapi/openapi.json`.
 
-Der Request enthält die vom Client gesetzten Felder `courseCode`, `title` und
-`fee`. Die Response ergänzt die vom Server erzeugte `id`. Die Trennung
-verhindert, dass ein Client beim Anlegen eine ID vorgibt.
+| Methode | Pfad | Erfolg | Fehler |
+| --- | --- | --- | --- |
+| `GET` | `/api/courses` | `200` mit einem Array aus `MusicCourseResponse` | `406`, `500` |
+| `POST` | `/api/courses` | `201` mit `MusicCourseResponse` und `Location` | `400`, `406`, `409`, `415`, `500` |
+| `GET` | `/api/courses/{id}` | `200` mit `MusicCourseResponse` | `400`, `404`, `406`, `500` |
+| `PUT` | `/api/courses/{id}` | `200` mit `MusicCourseResponse` | `400`, `404`, `406`, `409`, `415`, `500` |
+| `DELETE` | `/api/courses/{id}` | `204` ohne Body | `400`, `406`, `409`, `500` |
 
-Ein erfolgreicher POST antwortet mit `201 Created`, dem angelegten Datensatz und
-einem `Location`-Header. Ein leerer Kurscode oder eine negative Gebühr ist
-ungültige Eingabe und ergibt 400. Ein syntaktisch gültiger, aber bereits
-belegter Kurscode kollidiert mit dem Datenbestand und ergibt 409.
+`CreateMusicCourseRequest` und `UpdateMusicCourseRequest` enthalten `courseCode, title, fee`. Die ID fehlt in beiden Eingaben, weil der Server sie vergibt und der Pfad die zu ändernde Ressource bestimmt. `MusicCourseResponse` ergänzt `id`. Die Feldbeschreibungen, Beispiele und Wertebereiche stehen unter `components.schemas`.
 
-Der Fehlerkörper hat einen stabilen maschinenlesbaren `code`. `message` ist für
-Menschen gedacht. `correlationId` verbindet die Antwort mit dem Server-Log.
-Technische Exception-Texte gehören nicht in die Response.
+Ein bereits vorhandener Wert für `courseCode` führt bei POST oder PUT zu `409 Conflict`. `400 Bad Request` bedeutet, dass der Request die Feldvalidierung verletzt oder kein gültiges JSON ist. `415 Unsupported Media Type` bedeutet, dass der Client für einen JSON-Request einen anderen Medientyp gesendet hat. Fehler verwenden immer `ApiError` mit `code`, `message`, `correlationId` und `fields`.
 
-Zum Prüfen zuerst die Musterlösung in den C2-Starter kopieren:
+`406 Not Acceptable` gilt für einen nicht unterstützten Wert im `Accept`-Header. Unerwartete Serverfehler werden als `500 Internal Server Error` im selben Fehlerformat dokumentiert.
+
+Alle dokumentierten Antworten tragen `X-Correlation-ID`. POST setzt auch `Location` auf die URL der neu angelegten Ressource. PUT ersetzt alle änderbaren Felder und ist idempotent. DELETE ist ebenfalls idempotent. Bei einer vorhandenen und bei einer bereits gelöschten ID antwortet der Server mit `204 No Content`.
+
+Den Vertrag erzeugt und prüft der Spring-Test:
 
 ```bash
-cp -R ../instructor-solutions/music-school/spring/src/* \
-  c2-spring-resource/starter/src/
-cd c2-spring-resource/starter
+cd ../spring
 ./gradlew test
-SERVER_PORT=18081 ./gradlew bootRun
+cmp build/openapi/openapi.json ../api/openapi.json
 ```
 
-Danach zeigt `http://localhost:18081/swagger-ui.html` die Dokumentation. Der
-JSON-Export liegt unter `http://localhost:18081/v3/api-docs`, der YAML-Export
-unter `/v3/api-docs.yaml`. Beide werden von der laufenden Anwendung erzeugt
-und nicht von Hand bearbeitet.
+Swagger UI steht bei laufender Anwendung unter `/swagger-ui.html`. Der JSON-Vertrag ist unter `/v3/api-docs` abrufbar. `openapi.json` wird aus SpringDoc exportiert und nicht von Hand gepflegt.

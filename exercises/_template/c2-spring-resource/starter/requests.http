@@ -1,0 +1,50 @@
+@baseUrl = http://localhost:8081
+
+### Liste lesen (200)
+GET {{baseUrl}}/api/resources
+X-Correlation-ID: manual-list
+
+### Einzelnen Datensatz lesen (200)
+GET {{baseUrl}}/api/resources/1
+
+### Gültigen Datensatz anlegen (201)
+POST {{baseUrl}}/api/resources
+Content-Type: application/json
+X-Correlation-ID: manual-create
+
+{
+  "resourceCode": "R-99",
+  "name": "Neue Ressource",
+  "measure": 12.5
+}
+
+### Ungültigen Datensatz ablehnen (400)
+POST {{baseUrl}}/api/resources
+Content-Type: application/json
+X-Correlation-ID: manual-validation
+
+{}
+
+### Vorhandenen fachlichen Schlüssel ablehnen (409)
+POST {{baseUrl}}/api/resources
+Content-Type: application/json
+X-Correlation-ID: manual-conflict
+
+{
+  "resourceCode": "R-01",
+  "name": "Neue Ressource",
+  "measure": 12.5
+}
+
+### Seed-Datensatz mit unverändertem Schlüssel ersetzen (200)
+PUT {{baseUrl}}/api/resources/1
+Content-Type: application/json
+
+{
+  "resourceCode": "R-01",
+  "name": "Neue Ressource aktualisiert",
+  "measure": 12.5
+}
+
+### Unbekannten Datensatz idempotent löschen (204)
+DELETE {{baseUrl}}/api/resources/999999

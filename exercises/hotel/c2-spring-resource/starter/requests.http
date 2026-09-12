@@ -1,0 +1,53 @@
+@baseUrl = http://localhost:8081
+
+### Liste lesen (200)
+GET {{baseUrl}}/api/room-types
+X-Correlation-ID: manual-list
+
+### Einzelnen Datensatz lesen (200)
+GET {{baseUrl}}/api/room-types/1
+
+### Gültigen Datensatz anlegen (201)
+POST {{baseUrl}}/api/room-types
+Content-Type: application/json
+X-Correlation-ID: manual-create
+
+{
+  "typeCode": "NX",
+  "name": "Testzimmer",
+  "capacity": 2,
+  "standardPriceCents": 14900
+}
+
+### Ungültigen Datensatz ablehnen (400)
+POST {{baseUrl}}/api/room-types
+Content-Type: application/json
+X-Correlation-ID: manual-validation
+
+{}
+
+### Vorhandenen fachlichen Schlüssel ablehnen (409)
+POST {{baseUrl}}/api/room-types
+Content-Type: application/json
+X-Correlation-ID: manual-conflict
+
+{
+  "typeCode": "EZ",
+  "name": "Testzimmer",
+  "capacity": 2,
+  "standardPriceCents": 14900
+}
+
+### Seed-Datensatz mit unverändertem Schlüssel ersetzen (200)
+PUT {{baseUrl}}/api/room-types/1
+Content-Type: application/json
+
+{
+  "typeCode": "EZ",
+  "name": "Testzimmer aktualisiert",
+  "capacity": 2,
+  "standardPriceCents": 14900
+}
+
+### Unbekannten Datensatz idempotent löschen (204)
+DELETE {{baseUrl}}/api/room-types/999999

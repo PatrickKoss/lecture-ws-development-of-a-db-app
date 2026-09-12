@@ -1,0 +1,7 @@
+Auftraggeber: Programmkino "Lichtspiel"
+Problem: Filmprogramm, Säle, Sitzplätze und Kartenverkauf werden getrennt verwaltet.
+Hauptentität: Film. Ein Film ist ein unter einem eindeutigen Filmcode geführter Titel mit Laufzeit und Altersfreigabe.
+Offene Annahme: Eine Vorstellung ist durch Saal und Startzeit kollisionsfrei eingeplant.
+Begriffe: Film, Saal, Sitz, Vorstellung, Kunde, Ticket
+Geschäftsregel 1: Derselbe Sitz darf für eine Vorstellung höchstens einmal verkauft werden.
+Geschäftsregel 2: Ein Ticket verweist auf einen Sitz im Saal seiner Vorstellung.

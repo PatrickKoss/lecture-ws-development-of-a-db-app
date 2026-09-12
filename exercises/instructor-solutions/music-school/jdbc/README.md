@@ -1,28 +1,11 @@
-# Musterlösung für B3
+# B3: JDBC, Musterlösung
 
-`JdbcMusicCourseRepository.java` ersetzt die gleichnamige TODO-Datei im
-B3-Starter. Beide Abfragen nennen ihre Spalten ausdrücklich. Das schützt das
-Mapping vor einer stillen Abhängigkeit von der Spaltenreihenfolge der Tabelle.
+Dieses eigenständige Java-21-Projekt enthält die vollständige B3-Lösung samt Vertiefung.
 
-`findById` bindet die ID mit einem `PreparedStatement`. Bei null Zeilen gibt die
-Methode `Optional.empty()` zurück. Bei einer Zeile ruft sie `map` auf.
-`findAll` verwendet dasselbe Mapping in einer Schleife, weil die Ergebnismenge
-null bis viele Zeilen enthalten kann.
+`JdbcMusicCourseRepository` liest `music_courses` mit vorbereiteten Statements und ordnet jede Spalte sichtbar dem Java-Record zu. `insert` setzt alle Werte über Parameter, liest den von SQLite erzeugten Schlüssel auf derselben Verbindung und gibt die gespeicherte Zeile zurück. Der Test deckt sortiertes Lesen, eine unbekannte ID, Einfügen und den UNIQUE-Verstoß des fachlichen Schlüssels ab.
 
-Alle JDBC-Ressourcen stehen in `try`-with-resources-Blöcken. Java schließt
-`ResultSet`, `PreparedStatement` und `Connection` auch dann, wenn das Mapping
-eine `SQLException` auslöst.
-
-Die Spalte `course_code` wird bewusst in das Java-Feld `courseCode` übersetzt.
-Ein positionsbasiertes Mapping wie `getString(2)` würde nach einer geänderten
-SELECT-Liste leicht den falschen Wert lesen. Der Spaltenname macht die Zuordnung
-sichtbar.
-
-Zum Prüfen die Datei kopieren, den Test aktivieren und ausführen:
+`Database.initialize()` führt Schema und Seed-Daten in einer Transaktion aus. Schlägt ein Statement fehl, setzt die Methode die gesamte Initialisierung zurück.
 
 ```bash
-cp ../instructor-solutions/music-school/jdbc/JdbcMusicCourseRepository.java \
-  b3-jdbc/starter/src/main/java/course/musicschool/
-cd b3-jdbc/starter
 ./gradlew test
 ```

@@ -1,26 +1,29 @@
 # Musterlösung für C1
 
-`ExhibitController` dokumentiert die Liste, die Einzelabfrage und POST unter
-`/api/exhibits`. Die GET-Antworten verwenden `ExhibitResponse`. POST nimmt
-`CreateExhibitRequest` entgegen und liefert bei Erfolg 201 mit einem `Location`-Header.
-Wenn `inventoryCode` bereits vergeben ist, beschreibt der Vertrag eine
-409-Antwort mit `ApiError`.
+Der Vertrag beschreibt die Hauptentität Exponat unter `/api/exhibits`. Die Datei `openapi.json` stammt aus dem laufenden Spring-Projekt. Der Test `OpenApiContractTest` ruft `/v3/api-docs` auf und schreibt denselben Stand nach `spring/build/openapi/openapi.json`.
 
-Die `@Schema`-Annotationen an beiden DTOs erklären jedes Feld und enthalten
-konkrete Beispiele, darunter `inventoryCode`. SpringDoc übernimmt Java-Typen und
-Validierungsgrenzen. Es erzeugt die OpenAPI-Beschreibung aus dem laufenden
-Spring-Projekt.
+| Methode | Pfad | Erfolg | Fehler |
+| --- | --- | --- | --- |
+| `GET` | `/api/exhibits` | `200` mit einem Array aus `ExhibitResponse` | `406`, `500` |
+| `POST` | `/api/exhibits` | `201` mit `ExhibitResponse` und `Location` | `400`, `406`, `409`, `415`, `500` |
+| `GET` | `/api/exhibits/{id}` | `200` mit `ExhibitResponse` | `400`, `404`, `406`, `500` |
+| `PUT` | `/api/exhibits/{id}` | `200` mit `ExhibitResponse` | `400`, `404`, `406`, `409`, `415`, `500` |
+| `DELETE` | `/api/exhibits/{id}` | `204` ohne Body | `400`, `406`, `409`, `500` |
 
-Kopiert das Overlay in den C2-Starter und baut das Projekt:
+`CreateExhibitRequest` und `UpdateExhibitRequest` enthalten `inventoryCode, title, insuredValue`. Die ID fehlt in beiden Eingaben, weil der Server sie vergibt und der Pfad die zu ändernde Ressource bestimmt. `ExhibitResponse` ergänzt `id`. Die Feldbeschreibungen, Beispiele und Wertebereiche stehen unter `components.schemas`.
+
+Ein bereits vorhandener Wert für `inventoryCode` führt bei POST oder PUT zu `409 Conflict`. `400 Bad Request` bedeutet, dass der Request die Feldvalidierung verletzt oder kein gültiges JSON ist. `415 Unsupported Media Type` bedeutet, dass der Client für einen JSON-Request einen anderen Medientyp gesendet hat. Fehler verwenden immer `ApiError` mit `code`, `message`, `correlationId` und `fields`.
+
+`406 Not Acceptable` gilt für einen nicht unterstützten Wert im `Accept`-Header. Unerwartete Serverfehler werden als `500 Internal Server Error` im selben Fehlerformat dokumentiert.
+
+Alle dokumentierten Antworten tragen `X-Correlation-ID`. POST setzt auch `Location` auf die URL der neu angelegten Ressource. PUT ersetzt alle änderbaren Felder und ist idempotent. DELETE ist ebenfalls idempotent. Bei einer vorhandenen und bei einer bereits gelöschten ID antwortet der Server mit `204 No Content`.
+
+Den Vertrag erzeugt und prüft der Spring-Test:
 
 ```bash
-cp -R ../instructor-solutions/museum/spring/src/* \
-  c2-spring-resource/starter/src/
-cd c2-spring-resource/starter
-./gradlew clean build
-SERVER_PORT=18081 ./gradlew bootRun
+cd ../spring
+./gradlew test
+cmp build/openapi/openapi.json ../api/openapi.json
 ```
 
-Swagger UI läuft danach unter `http://localhost:18081/swagger-ui.html`.
-SpringDoc liefert JSON unter `/v3/api-docs` und YAML unter
-`/v3/api-docs.yaml`. Diese Exporte werden nicht von Hand bearbeitet.
+Swagger UI steht bei laufender Anwendung unter `/swagger-ui.html`. Der JSON-Vertrag ist unter `/v3/api-docs` abrufbar. `openapi.json` wird aus SpringDoc exportiert und nicht von Hand gepflegt.

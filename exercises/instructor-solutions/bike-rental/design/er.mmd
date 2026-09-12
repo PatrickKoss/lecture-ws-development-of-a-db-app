@@ -1,0 +1,65 @@
+erDiagram
+    STATION o|--o{ BIKE : current_location_of
+    BIKE_MODEL ||--o{ BIKE : describes
+    BIKE ||--o{ MAINTENANCE_LOG : has
+    CUSTOMER ||--o{ CUSTOMER_TARIFF : chooses
+    TARIFF ||--o{ CUSTOMER_TARIFF : assigned_as
+    CUSTOMER ||--o{ RENTAL : makes
+    BIKE ||--o{ RENTAL : is_used_for
+    STATION ||--o{ RENTAL : starts_at
+    STATION o|--o{ RENTAL : ends_at
+
+    STATION {
+        integer id PK
+        string station_code UK
+        string name UK
+        integer capacity
+        string status
+    }
+    BIKE_MODEL {
+        integer id PK
+        string model_code UK
+        string model_name
+        string category
+        integer service_interval_days
+    }
+    BIKE {
+        integer id PK
+        string bike_number UK
+        integer model_id FK
+        integer current_station_id FK
+        string status
+    }
+    MAINTENANCE_LOG {
+        integer bike_id PK,FK
+        integer sequence_number PK
+        date logged_on
+        string issue
+        integer cost_cents
+    }
+    CUSTOMER {
+        integer id PK
+        string customer_number UK
+        string email UK
+    }
+    TARIFF {
+        integer id PK
+        string tariff_code UK
+        string name UK
+    }
+    CUSTOMER_TARIFF {
+        integer customer_id PK,FK
+        date valid_from PK
+        integer tariff_id FK
+    }
+    RENTAL {
+        integer id PK
+        string rental_number UK
+        integer customer_id FK
+        integer bike_id FK
+        integer start_station_id FK
+        integer end_station_id FK
+        datetime start_time
+        datetime end_time
+        integer price_cents
+    }

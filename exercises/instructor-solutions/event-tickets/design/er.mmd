@@ -1,0 +1,55 @@
+erDiagram
+    VENUE ||--o{ EVENT : hosts
+    ORGANIZER o|--o{ EVENT : organizes
+    EVENT ||--|{ TICKET_CATEGORY : offers
+    BUYER ||--o{ TICKET_ORDER : places
+    TICKET_ORDER ||--|{ TICKET : contains
+    TICKET_CATEGORY ||--o{ TICKET : selected_as
+
+    VENUE {
+        integer id PK
+        string venue_code UK
+        string name UK
+        integer capacity
+    }
+    ORGANIZER {
+        integer id PK
+        string organizer_number UK
+        string name UK
+        string email UK
+    }
+    EVENT {
+        integer id PK
+        string event_number UK
+        integer venue_id FK
+        integer organizer_id FK
+        string title
+        string event_type
+        string admission_code
+    }
+    TICKET_CATEGORY {
+        integer event_id PK,FK
+        string category_name PK
+        integer price_cents
+        integer quota
+    }
+    BUYER {
+        integer id PK
+        string buyer_number UK
+        string email UK
+    }
+    TICKET_ORDER {
+        integer id PK
+        string order_number UK
+        integer buyer_id FK
+        datetime ordered_at
+        string status
+    }
+    TICKET {
+        integer id PK
+        integer order_id FK
+        integer event_id FK
+        string category_name FK
+        integer ticket_number
+        integer paid_price_cents
+    }

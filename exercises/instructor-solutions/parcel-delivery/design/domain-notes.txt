@@ -1,0 +1,7 @@
+Auftraggeber: Disposition eines regionalen Paketdienstes
+Problem: Paketdaten, Depotwechsel und Zustellversuche stehen in getrennten Scanner-Exporten.
+Hauptentität: Paket. Ein Paket ist eine über die Sendungsnummer verfolgte Sendung mit Empfänger und Gewicht.
+Offene Annahme: Das Zieldepot darf bis zum ersten Statusscan geändert werden; spätere Umleitungen brauchen ein neues Ereignis.
+Begriffe: Paket, Depot, Absender, Empfänger, Statusmeldung, Zustellversuch, Sendungsnummer
+Geschäftsregel 1: Die Nummer einer Statusmeldung ist nur innerhalb eines Pakets eindeutig.
+Geschäftsregel 2: Ein Paket wiegt zwischen 0 und 31,5 Kilogramm und Start- und Zieldepot unterscheiden sich.

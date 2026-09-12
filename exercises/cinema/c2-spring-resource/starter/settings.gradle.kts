@@ -1,1 +1,1 @@
-rootProject.name = "cinema-rest"
+rootProject.name = "cinema-rest-starter"

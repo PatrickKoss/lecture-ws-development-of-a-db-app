@@ -1,0 +1,7 @@
+Auftraggeber: Liefermarktplatz für mehrere Restaurants
+Problem: Restaurants, Speisekarten, Bestellungen, Kuriere und Bewertungen stehen in getrennten Systemen.
+Hauptentität: Restaurant. Ein Restaurant ist ein unter einer eindeutigen Partnernummer geführter Anbieter.
+Offene Annahme: Eine Bestellung enthält nur Gerichte eines Restaurants.
+Begriffe: Restaurant, Gericht, Kunde, Kurier, Bestellung, Bestellposition, Bewertung
+Geschäftsregel 1: Eine Bestellung verweist auf genau ein Restaurant und einen Kunden.
+Geschäftsregel 2: Eine Bestellung erhält höchstens eine Bewertung.

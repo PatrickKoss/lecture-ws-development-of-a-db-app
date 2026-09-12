@@ -1,24 +1,52 @@
 package course.carworkshop.api;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import course.carworkshop.domain.Part;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 
-@Schema(description = "API-Darstellung der Ressource Part")
+@Schema(description = "Öffentliche Darstellung von Ersatzteile")
 public record PartResponse(
     @Schema(
             description = "Vom Server vergebene ID",
             example = "1",
-            accessMode = Schema.AccessMode.READ_ONLY)
+            accessMode = Schema.AccessMode.READ_ONLY,
+            requiredMode = Schema.RequiredMode.REQUIRED)
         Long id,
-    @Schema(description = "Eindeutige Teilenummer", example = "P-1999") String partNumber,
-    @Schema(description = "Bezeichnung des Ersatzteils", example = "Ölfilter") String name,
-    @Schema(description = "Teilekategorie", example = "Filter") String category,
-    @Schema(description = "Lagerplatz", example = "R-12") String shelfCode,
-    @Schema(description = "Aktueller Lagerbestand", example = "25") Integer stockQuantity,
-    @Schema(description = "Meldebestand", example = "5") Integer reorderLevel,
-    @Schema(description = "Listenpreis in Euro", example = "19.90") BigDecimal listPrice) {
+    @Schema(
+            description = "Eindeutige Ersatzteilnummer",
+            example = "P-9999",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        String partNumber,
+    @Schema(
+            description = "Bezeichnung",
+            example = "Testfilter",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        String name,
+    @Schema(
+            description = "Warengruppe",
+            example = "Filter",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        String category,
+    @Schema(
+            description = "Lagerplatz",
+            example = "T-01",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        String shelfCode,
+    @Schema(
+            description = "Lagerbestand",
+            example = "5",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        Integer stockQuantity,
+    @Schema(
+            description = "Meldebestand",
+            example = "2",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        Integer reorderLevel,
+    @Schema(
+            description = "Listenpreis",
+            example = "14.90",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        BigDecimal listPrice) {
   public static PartResponse from(Part value) {
     return new PartResponse(
         value.id(),

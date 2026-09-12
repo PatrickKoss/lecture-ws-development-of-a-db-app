@@ -1,14 +1,14 @@
-# Musterlösung für B4
+# B4: Repository-Refactoring, Musterlösung
 
-`MusicCourseCatalog` hängt von `MusicCourseRepository` ab, nicht von
-`JdbcMusicCourseRepository`. Der Catalog kennt weder SQL noch `Connection`,
-`PreparedStatement` oder `ResultSet`.
+Dieses Verzeichnis ist ein eigenständiges Java-21-Projekt. Es enthält den vollständigen B3-Stand und die B4-Lösung.
 
-Eine Umbenennung von `course_code` in der Datenbank betrifft damit die
-JDBC-Implementierung und ihre Migration. Solange das Repository weiter ein
-`MusicCourse` mit `courseCode` liefert, bleibt der Catalog unverändert. Auch ein
-In-Memory-Repository kann dieselbe Schnittstelle implementieren.
+`MusicCourseRepository` ist die öffentliche Grenze für den Datenzugriff. Die Schnittstelle enthält keine JDBC-Typen. `JdbcMusicCourseRepository` übersetzt SQL-Fehler in `RepositoryException`; Verstöße gegen den eindeutigen fachlichen Schlüssel werden zu `DuplicateKeyException`.
 
-Die vorhandene Schnittstelle gibt noch `SQLException` weiter. Das reicht für
-die kurze Refactoring-Übung. Eine Anwendungsschicht könnte diese technische
-Exception später in eine eigene Repository-Exception übersetzen.
+`InMemoryMusicCourseRepository` hat dieselbe Schnittstelle, vergibt IDs und prüft den fachlichen Schlüssel ohne SQLite. `MusicCourseCatalog` kennt nur das Repository. Sein Test zeigt, dass Listen, Suchen und Einfügen vollständig im Speicher laufen.
+
+```bash
+./gradlew test
+! rg 'Connection|ResultSet|PreparedStatement|SQLException' src/main/java \
+  --glob '!**/Database.java' \
+  --glob '!**/Jdbc*Repository.java'
+```

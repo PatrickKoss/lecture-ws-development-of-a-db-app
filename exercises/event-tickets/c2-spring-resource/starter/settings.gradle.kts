@@ -1,1 +1,1 @@
-rootProject.name = "event-tickets-rest"
+rootProject.name = "event-tickets-rest-starter"

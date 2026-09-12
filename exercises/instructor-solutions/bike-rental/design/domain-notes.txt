@@ -1,0 +1,7 @@
+Auftraggeber: Fahrradverleih "StadtRad Münster"
+Problem: Stationslogbücher, Ausleihen, Tarife und Wartungszettel liegen getrennt vor.
+Hauptentität: Station. Eine Station ist ein eindeutig bezeichneter Standort mit Adresse, Kapazität und Betriebsstatus.
+Offene Annahme: Während einer offenen Ausleihe hat ein Rad keine aktuelle Station.
+Begriffe: Station, Rad, Radmodell, Kunde, Tarif, Ausleihe, Wartung
+Geschäftsregel 1: Pro Rad darf höchstens eine Ausleihe ohne Endzeit existieren.
+Geschäftsregel 2: Endzeit, Endstation und Preis werden entweder gemeinsam gesetzt oder bleiben gemeinsam leer.

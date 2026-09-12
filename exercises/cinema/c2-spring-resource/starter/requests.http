@@ -1,0 +1,59 @@
+@baseUrl = http://localhost:8081
+
+### Liste lesen (200)
+GET {{baseUrl}}/api/movies
+X-Correlation-ID: manual-list
+
+### Einzelnen Datensatz lesen (200)
+GET {{baseUrl}}/api/movies/1
+
+### Gültigen Datensatz anlegen (201)
+POST {{baseUrl}}/api/movies
+Content-Type: application/json
+X-Correlation-ID: manual-create
+
+{
+  "movieCode": "F-999",
+  "title": "Testfilm",
+  "releaseYear": 2026,
+  "durationMinutes": 90,
+  "fskCode": "FSK_6",
+  "minimumAge": 6
+}
+
+### Ungültigen Datensatz ablehnen (400)
+POST {{baseUrl}}/api/movies
+Content-Type: application/json
+X-Correlation-ID: manual-validation
+
+{}
+
+### Vorhandenen fachlichen Schlüssel ablehnen (409)
+POST {{baseUrl}}/api/movies
+Content-Type: application/json
+X-Correlation-ID: manual-conflict
+
+{
+  "movieCode": "F-101",
+  "title": "Testfilm",
+  "releaseYear": 2026,
+  "durationMinutes": 90,
+  "fskCode": "FSK_6",
+  "minimumAge": 6
+}
+
+### Seed-Datensatz mit unverändertem Schlüssel ersetzen (200)
+PUT {{baseUrl}}/api/movies/1
+Content-Type: application/json
+
+{
+  "movieCode": "F-101",
+  "title": "Testfilm aktualisiert",
+  "releaseYear": 2026,
+  "durationMinutes": 90,
+  "fskCode": "FSK_6",
+  "minimumAge": 6
+}
+
+### Unbekannten Datensatz idempotent löschen (204)
+DELETE {{baseUrl}}/api/movies/999999

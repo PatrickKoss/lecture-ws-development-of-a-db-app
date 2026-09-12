@@ -21,4 +21,5 @@ INSERT INTO exhibit_artists (exhibit_id, artist_id, role) VALUES
 
 INSERT INTO loans (id, exhibit_id, borrower, starts_on, ends_on) VALUES
     (1, 1, 'Museum am Hafen', '2026-10-01', '2027-01-15'),
-    (2, 3, 'Technikforum Nord', '2026-11-05', '2027-02-28');
+    (2, 3, 'Technikforum Nord', '2026-11-05', '2027-02-28'),
+    (3, 1, 'Kunsthalle Süd', '2027-03-01', '2027-05-31');

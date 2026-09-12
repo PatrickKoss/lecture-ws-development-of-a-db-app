@@ -1,0 +1,60 @@
+erDiagram
+    CUSTOMER ||--o{ VEHICLE : owns
+    CUSTOMER o|--o{ VEHICLE : previously_owned
+    VEHICLE ||--o{ WORK_ORDER : receives
+    WORK_ORDER ||--o{ WORK_ORDER_MECHANIC : assigns
+    MECHANIC ||--o{ WORK_ORDER_MECHANIC : works_on
+    WORK_ORDER ||--o{ WORK_ORDER_PART : contains
+    PART ||--o{ WORK_ORDER_PART : is_installed_as
+    WORK_ORDER ||--o| INVOICE : billed_by
+
+    CUSTOMER {
+        integer id PK
+        string customer_number UK
+        string email UK
+    }
+    VEHICLE {
+        integer id PK
+        integer owner_id FK
+        integer previous_owner_id FK
+        string licence_plate UK
+        string vin UK
+    }
+    MECHANIC {
+        integer id PK
+        string personnel_number UK
+        string specialization
+    }
+    PART {
+        integer id PK
+        string part_number UK
+        string name
+        string category
+        integer stock_quantity
+    }
+    WORK_ORDER {
+        integer id PK
+        string order_number UK
+        integer vehicle_id FK
+        string status
+        datetime opened_at
+    }
+    WORK_ORDER_MECHANIC {
+        integer work_order_id PK,FK
+        integer mechanic_id PK,FK
+        integer minutes_worked
+        string task
+    }
+    WORK_ORDER_PART {
+        integer work_order_id PK,FK
+        integer position_number PK
+        integer part_id FK
+        integer quantity
+        integer unit_price_cents
+    }
+    INVOICE {
+        integer id PK
+        string invoice_number UK
+        integer work_order_id FK,UK
+        integer total_cents
+    }

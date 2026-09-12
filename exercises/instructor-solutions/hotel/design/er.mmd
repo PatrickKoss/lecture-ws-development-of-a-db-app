@@ -1,0 +1,58 @@
+erDiagram
+    ROOM_TYPE ||--o{ ROOM : classifies
+    GUEST ||--o{ BOOKING : makes
+    EMPLOYEE o|--o{ BOOKING : checks_in
+    BOOKING ||--|{ BOOKING_ROOM : reserves
+    ROOM ||--o{ BOOKING_ROOM : assigned_to
+    BOOKING ||--o{ BOOKING_SERVICE : adds
+    SERVICE ||--o{ BOOKING_SERVICE : selected_as
+
+    GUEST {
+        integer id PK
+        string guest_number UK
+        string email UK
+        string company_account_number UK
+    }
+    ROOM_TYPE {
+        integer id PK
+        string type_code UK
+        string name UK
+        integer base_price_cents
+    }
+    ROOM {
+        integer floor PK
+        string room_number PK
+        integer room_type_id FK
+        string cleaning_area
+    }
+    EMPLOYEE {
+        integer id PK
+        string employee_code UK
+        string role
+    }
+    SERVICE {
+        integer id PK
+        string service_code UK
+        string name UK
+        integer price_cents
+    }
+    BOOKING {
+        integer id PK
+        string booking_number UK
+        integer guest_id FK
+        integer checked_in_by_employee_id FK
+        date arrives_on
+        date departs_on
+    }
+    BOOKING_ROOM {
+        integer booking_id PK,FK
+        integer floor PK,FK
+        string room_number PK,FK
+        integer nightly_price_cents
+    }
+    BOOKING_SERVICE {
+        integer booking_id PK,FK
+        integer service_id PK,FK
+        integer quantity
+        integer unit_price_cents
+    }

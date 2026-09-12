@@ -1,11 +1,11 @@
 PRAGMA foreign_keys = ON;
 
--- Abfrage 1: Welche aktiven Mitglieder gibt es?
--- erwartet: 10 Zeilen
-SELECT id, membership_number, first_name, last_name
-FROM members
-WHERE active = 1
-ORDER BY last_name, first_name;
+-- Abfrage 1: Welche Bücher stehen im Sachgebiet Roman?
+-- erwartet: 6 Zeilen
+SELECT id, isbn, title, publication_year
+FROM books
+WHERE subject_area = 'Roman'
+ORDER BY title;
 
 -- Abfrage 2: Welche offenen Ausleihen waren am 2026-03-01 bereits fällig?
 -- erwartet: 2 Zeilen

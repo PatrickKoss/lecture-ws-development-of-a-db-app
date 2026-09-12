@@ -1,1 +1,1 @@
-rootProject.name = "library-rest"
+rootProject.name = "library-rest-starter"

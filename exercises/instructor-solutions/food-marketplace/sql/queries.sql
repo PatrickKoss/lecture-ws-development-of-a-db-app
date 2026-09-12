@@ -1,11 +1,11 @@
 PRAGMA foreign_keys = ON;
 
--- Abfrage 1: Welche aktiven Gerichte gibt es?
--- erwartet: 12 Zeilen
-SELECT id, restaurant_id, name, category, current_price
-FROM dishes
+-- Abfrage 1: Welche Restaurants sind aktiv?
+-- erwartet: 9 Zeilen
+SELECT id, partner_number, name, city, commission_rate
+FROM restaurants
 WHERE active = 1
-ORDER BY name;
+ORDER BY partner_number;
 
 -- Abfrage 2: Welche noch nicht abgeschlossenen Bestellungen wurden vor dem 2026-03-01 aufgegeben?
 -- erwartet: 3 Zeilen

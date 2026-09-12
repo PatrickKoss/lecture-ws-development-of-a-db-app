@@ -1,0 +1,7 @@
+Auftraggeber: Kommunaler Gerätepool
+Problem: Ressourcen, Standorte, Zuständigkeiten, Ausgaben und Prüfungen stehen in getrennten Listen.
+Hauptentität: Hauptressource. Eine Ressource ist ein über resource_code eindeutig geführter Gegenstand mit Name und messbarer Größe.
+Offene Annahme: Eine Ressource hat höchstens einen aktuellen Standort; während einer Ausgabe darf der Standort leer sein.
+Begriffe: Ressource, Kategorie, Standort, Verantwortlicher, Ausgabe, Prüfung
+Geschäftsregel 1: Pro Ressource darf höchstens eine nicht zurückgegebene Ausgabe existieren.
+Geschäftsregel 2: Die gemessene Größe measure darf nicht negativ sein.

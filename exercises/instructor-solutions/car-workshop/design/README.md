@@ -6,7 +6,7 @@ Diese Dateien sind für die gemeinsame Auswertung gedacht. Studierende öffnen s
 
 ## Normalisierte Tabellen
 
-Das Referenzmodell hat sechs fachliche Entitäten. `work_order_parts` setzt die Beziehung zwischen Arbeitsauftrag und Ersatzteil um. `work_order_mechanics` setzt die Beziehung zwischen Arbeitsauftrag und Mechaniker um.
+Das Referenzmodell trennt die fachlichen Entitäten von den Beziehungstabellen. `work_order_parts` setzt die Beziehung zwischen Arbeitsauftrag und Ersatzteil um. `work_order_mechanics` setzt die Beziehung zwischen Arbeitsauftrag und Mechaniker um.
 
 ### `customers`
 
@@ -89,17 +89,6 @@ Funktionale Abhängigkeiten:
 - `id -> invoice_number, work_order_id, issued_on, due_on, paid_on, net_amount, tax_amount, status`
 - `invoice_number -> id, work_order_id, issued_on, due_on, paid_on, net_amount, tax_amount, status`
 - `work_order_id -> id, invoice_number, issued_on, due_on, paid_on, net_amount, tax_amount, status`
-
-## REST-Endpunkte
-
-| Methode  | Pfad                        | Erfolg           | Weitere Statuscodes                                |
-| -------- | --------------------------- | ---------------- | -------------------------------------------------- |
-| `GET`    | `/work-orders`              | `200 OK`         | keine                                              |
-| `GET`    | `/work-orders/{id}`         | `200 OK`         | `404 Not Found`                                    |
-| `POST`   | `/work-orders`              | `201 Created`    | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `PUT`    | `/work-orders/{id}`         | `200 OK`         | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `DELETE` | `/work-orders/{id}`         | `204 No Content` | `404 Not Found`, `409 Conflict`                    |
-| `GET`    | `/work-orders/{id}/invoice` | `200 OK`         | `404 Not Found`                                    |
 
 ## Annahmen zu den offenen Fragen
 

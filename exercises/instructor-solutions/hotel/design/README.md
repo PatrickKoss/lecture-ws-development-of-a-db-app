@@ -6,7 +6,7 @@ Diese Dateien sind für die gemeinsame Auswertung gedacht. Studierende öffnen s
 
 ## Normalisierte Tabellen
 
-Das Referenzmodell hat sechs Kernentitäten. `booking_rooms` und `booking_services` setzen die beiden n:m-Beziehungen als Zuordnungstabellen mit eigenen Attributen um.
+Das Referenzmodell trennt die Kernentitäten von den Buchungszuordnungen. `booking_rooms` und `booking_services` setzen die beiden n:m-Beziehungen als Zuordnungstabellen mit eigenen Attributen um.
 
 ### `guests`
 
@@ -86,17 +86,6 @@ Attribute sind `booking_id`, `service_id`, `service_on`, `quantity` und `unit_pr
 Funktionale Abhängigkeit:
 
 - `(booking_id, service_id, service_on) -> quantity, unit_price_cents`
-
-## REST-Endpunkte
-
-| Methode  | Pfad                               | Erfolg           | Weitere Statuscodes                                |
-| -------- | ---------------------------------- | ---------------- | -------------------------------------------------- |
-| `GET`    | `/bookings`                        | `200 OK`         | keine                                              |
-| `GET`    | `/bookings/{id}`                   | `200 OK`         | `404 Not Found`                                    |
-| `POST`   | `/bookings`                        | `201 Created`    | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `PUT`    | `/bookings/{id}`                   | `200 OK`         | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `DELETE` | `/bookings/{id}`                   | `204 No Content` | `404 Not Found`, `409 Conflict`                    |
-| `GET`    | `/bookings/{id}/check-in-employee` | `200 OK`         | `404 Not Found`                                    |
 
 ## Annahmen zu den offenen Fragen
 

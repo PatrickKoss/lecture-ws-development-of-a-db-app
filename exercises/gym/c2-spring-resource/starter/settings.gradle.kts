@@ -1,1 +1,1 @@
-rootProject.name = "gym-rest"
+rootProject.name = "gym-rest-starter"

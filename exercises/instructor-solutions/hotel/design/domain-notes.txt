@@ -1,0 +1,7 @@
+Auftraggeber: Hotel "Rheinblick"
+Problem: Gäste, Buchungen, Zimmer und Zusatzleistungen stehen im Rezeptionsbuch und auf Zimmerzetteln.
+Hauptentität: Zimmertyp. Ein Zimmertyp ist eine eindeutig codierte Kategorie mit Kapazität und Standardpreis.
+Offene Annahme: Eine Zimmernummer ist nur zusammen mit der Etage eindeutig.
+Begriffe: Zimmertyp, Zimmer, Gast, Buchung, Mitarbeiter, Leistung, Zimmerbelegung
+Geschäftsregel 1: Das Abreisedatum liegt nach dem Anreisedatum.
+Geschäftsregel 2: Der Preis einer Zimmer- oder Leistungszuordnung wird für die konkrete Buchung gespeichert.

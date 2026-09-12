@@ -7,4 +7,14 @@ Content-Type: application/json
 
 {"partnerNumber": "R-199", "name": "Kursküche", "street": "Kursweg 1", "postalCode": "45127", "city": "Essen", "commissionRate": 17.5, "active": true}
 
-### TODO(C3): denselben Wert für partner_number erneut senden und 409 prüfen
+### ungültiger POST (400)
+POST {{base}}/api/restaurants
+Content-Type: application/json
+
+{}
+
+### doppelter fachlicher Schlüssel (409)
+POST {{base}}/api/restaurants
+Content-Type: application/json
+
+{"partnerNumber": "R-199", "name": "Kursküche", "street": "Kursweg 1", "postalCode": "45127", "city": "Essen", "commissionRate": 17.5, "active": true}

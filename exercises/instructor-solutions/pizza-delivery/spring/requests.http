@@ -1,0 +1,59 @@
+@baseUrl = http://localhost:8081
+
+### Liste lesen (200)
+GET {{baseUrl}}/api/pizzas
+X-Correlation-ID: manual-list
+
+### Einzelnen Datensatz lesen (200)
+GET {{baseUrl}}/api/pizzas/1
+
+### Gültigen Datensatz anlegen (201)
+POST {{baseUrl}}/api/pizzas
+Content-Type: application/json
+X-Correlation-ID: manual-create
+
+{
+  "pizzaNumber": "P-99",
+  "name": "Testpizza",
+  "category": "Saisonal",
+  "ovenStation": "OFEN-Z",
+  "basePrice": 11.5,
+  "active": true
+}
+
+### Ungültigen Datensatz ablehnen (400)
+POST {{baseUrl}}/api/pizzas
+Content-Type: application/json
+X-Correlation-ID: manual-validation
+
+{}
+
+### Vorhandenen fachlichen Schlüssel ablehnen (409)
+POST {{baseUrl}}/api/pizzas
+Content-Type: application/json
+X-Correlation-ID: manual-conflict
+
+{
+  "pizzaNumber": "P-01",
+  "name": "Testpizza",
+  "category": "Saisonal",
+  "ovenStation": "OFEN-Z",
+  "basePrice": 11.5,
+  "active": true
+}
+
+### Seed-Datensatz mit unverändertem Schlüssel ersetzen (200)
+PUT {{baseUrl}}/api/pizzas/1
+Content-Type: application/json
+
+{
+  "pizzaNumber": "P-01",
+  "name": "Testpizza aktualisiert",
+  "category": "Saisonal",
+  "ovenStation": "OFEN-Z",
+  "basePrice": 11.5,
+  "active": true
+}
+
+### Unbekannten Datensatz idempotent löschen (204)
+DELETE {{baseUrl}}/api/pizzas/999999

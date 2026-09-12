@@ -1,1 +1,1 @@
-rootProject.name = "food-marketplace-rest"
+rootProject.name = "food-marketplace-rest-starter"

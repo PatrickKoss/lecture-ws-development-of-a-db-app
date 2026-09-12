@@ -1,0 +1,56 @@
+erDiagram
+    BOOK ||--o{ BOOK_AUTHOR : has
+    AUTHOR ||--o{ BOOK_AUTHOR : writes
+    BOOK ||--|{ COPY : owns
+    MEMBER ||--o{ RESERVATION : places
+    BOOK ||--o{ RESERVATION : is_reserved
+    MEMBER ||--o{ LOAN : borrows
+    COPY ||--o{ LOAN : is_loaned_as
+    RESERVATION o|--o| LOAN : fulfilled_by
+
+    MEMBER {
+        integer id PK
+        string membership_number UK
+        string email UK
+    }
+    AUTHOR {
+        integer id PK
+        string first_name
+        string last_name
+        integer birth_year
+    }
+    BOOK {
+        integer id PK
+        string isbn UK
+        string title
+        string subject_area
+        string shelf_code
+    }
+    BOOK_AUTHOR {
+        integer book_id PK,FK
+        integer author_id PK,FK
+        integer author_order UK
+    }
+    COPY {
+        integer book_id PK,FK
+        integer copy_number PK
+        string barcode UK
+        string branch_code
+    }
+    RESERVATION {
+        integer id PK
+        integer member_id FK
+        integer book_id FK
+        date reserved_on
+        string status
+    }
+    LOAN {
+        integer id PK
+        integer member_id FK
+        integer book_id FK
+        integer copy_number FK
+        integer reservation_id FK,UK
+        date loaned_on
+        date due_on
+        date returned_on
+    }

@@ -6,7 +6,7 @@ Diese Dateien sind für die gemeinsame Auswertung gedacht. Studierende öffnen s
 
 ## Normalisierte Tabellen
 
-Das Referenzmodell hat sechs Entitäten. `tickets` setzt die Beziehung zwischen Vorstellung und Sitz um.
+Das Referenzmodell trennt Film, Saal, Sitz, Vorstellung, Kunde und Ticket. `tickets` setzt die Beziehung zwischen Vorstellung und Sitz um.
 
 ### `movies`
 
@@ -72,17 +72,6 @@ Funktionale Abhängigkeiten:
 - `(screening_id, hall_id, row_label, seat_number) -> id, ticket_number, customer_id, price_cents, sold_at`
 
 `tickets` löst die Beziehung zwischen Vorstellung und Sitz auf. Preis und Verkaufszeitpunkt sind Attribute dieser Beziehung. Der Alternativschlüssel aus Vorstellung und Sitz verhindert einen Doppelverkauf. `customer_id` darf `NULL` sein, wenn die Kasse an Laufkundschaft verkauft.
-
-## REST-Endpunkte
-
-| Methode  | Pfad                       | Erfolg           | Weitere Statuscodes                                |
-| -------- | -------------------------- | ---------------- | -------------------------------------------------- |
-| `GET`    | `/screenings`              | `200 OK`         | keine                                              |
-| `GET`    | `/screenings/{id}`         | `200 OK`         | `404 Not Found`                                    |
-| `POST`   | `/screenings`              | `201 Created`    | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `PUT`    | `/screenings/{id}`         | `200 OK`         | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `DELETE` | `/screenings/{id}`         | `204 No Content` | `404 Not Found`, `409 Conflict`                    |
-| `GET`    | `/screenings/{id}/tickets` | `200 OK`         | `404 Not Found`                                    |
 
 ## Annahmen zu den offenen Fragen
 

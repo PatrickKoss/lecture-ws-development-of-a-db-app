@@ -6,7 +6,7 @@ Diese Dateien sind für die gemeinsame Auswertung gedacht. Studierende öffnen s
 
 ## Normalisierte Tabellen
 
-Das Referenzmodell hat sechs fachliche Entitätstypen. `tickets` setzt die Beziehung zwischen Bestellung und Ticketkategorie als Zuordnungstabelle mit eigenen Attributen um.
+Das Referenzmodell trennt Stammdaten, Veranstaltungen, Bestellungen und Tickets. `tickets` setzt die Beziehung zwischen Bestellung und Ticketkategorie mit eigenen Attributen um.
 
 ### `venues`
 
@@ -83,17 +83,6 @@ Funktionale Abhängigkeiten:
 - `(event_id, seat_label) -> id, order_id, category_name, ticket_number, price_paid, checked_in_at`, sofern `seat_label` nicht `NULL` ist
 
 `tickets` löst die n:m-Beziehung zwischen Bestellung und Ticketkategorie auf. Sitzplatz, bezahlter Preis und Check-in-Zeitpunkt sind Attribute dieser Beziehung.
-
-## REST-Endpunkte
-
-| Methode  | Pfad                     | Erfolg           | Weitere Statuscodes                                |
-| -------- | ------------------------ | ---------------- | -------------------------------------------------- |
-| `GET`    | `/events`                | `200 OK`         | keine                                              |
-| `GET`    | `/events/{id}`           | `200 OK`         | `404 Not Found`                                    |
-| `POST`   | `/events`                | `201 Created`    | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `PUT`    | `/events/{id}`           | `200 OK`         | `400 Bad Request`, `404 Not Found`, `409 Conflict` |
-| `DELETE` | `/events/{id}`           | `204 No Content` | `404 Not Found`, `409 Conflict`                    |
-| `GET`    | `/events/{id}/organizer` | `200 OK`         | `404 Not Found`                                    |
 
 ## Annahmen zu den offenen Fragen
 
