@@ -7,4 +7,14 @@ Content-Type: application/json
 
 {"isbn": "9780000000000", "title": "Kursbuch", "publicationYear": 2026, "subjectArea": "Fachbuch", "shelfCode": "F-10"}
 
-### TODO(C3): denselben Wert für isbn erneut senden und 409 prüfen
+### ungültiger POST (400)
+POST {{base}}/api/books
+Content-Type: application/json
+
+{}
+
+### doppelter fachlicher Schlüssel (409)
+POST {{base}}/api/books
+Content-Type: application/json
+
+{"isbn": "9780000000000", "title": "Kursbuch", "publicationYear": 2026, "subjectArea": "Fachbuch", "shelfCode": "F-10"}

@@ -1,0 +1,50 @@
+@baseUrl = http://localhost:8081
+
+### Liste lesen (200)
+GET {{baseUrl}}/api/parcels
+X-Correlation-ID: manual-list
+
+### Einzelnen Datensatz lesen (200)
+GET {{baseUrl}}/api/parcels/1
+
+### Gültigen Datensatz anlegen (201)
+POST {{baseUrl}}/api/parcels
+Content-Type: application/json
+X-Correlation-ID: manual-create
+
+{
+  "trackingCode": "PK-99",
+  "recipient": "Test Empfänger",
+  "weight": 3.5
+}
+
+### Ungültigen Datensatz ablehnen (400)
+POST {{baseUrl}}/api/parcels
+Content-Type: application/json
+X-Correlation-ID: manual-validation
+
+{}
+
+### Vorhandenen fachlichen Schlüssel ablehnen (409)
+POST {{baseUrl}}/api/parcels
+Content-Type: application/json
+X-Correlation-ID: manual-conflict
+
+{
+  "trackingCode": "PK-01",
+  "recipient": "Test Empfänger",
+  "weight": 3.5
+}
+
+### Seed-Datensatz mit unverändertem Schlüssel ersetzen (200)
+PUT {{baseUrl}}/api/parcels/1
+Content-Type: application/json
+
+{
+  "trackingCode": "PK-01",
+  "recipient": "Test Empfänger aktualisiert",
+  "weight": 3.5
+}
+
+### Unbekannten Datensatz idempotent löschen (204)
+DELETE {{baseUrl}}/api/parcels/999999

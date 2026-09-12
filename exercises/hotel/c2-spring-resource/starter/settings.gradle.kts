@@ -1,1 +1,1 @@
-rootProject.name = "hotel-rest"
+rootProject.name = "hotel-rest-starter"

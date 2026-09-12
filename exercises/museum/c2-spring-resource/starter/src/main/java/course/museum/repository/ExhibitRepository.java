@@ -9,7 +9,11 @@ public interface ExhibitRepository {
 
   Optional<Exhibit> findById(long id);
 
-  Exhibit insert(Exhibit value);
+  Exhibit save(Exhibit value);
 
-  boolean existsByInventoryCode(String inventoryCode);
+  boolean existsByInventoryCode(String value);
+
+  boolean existsByInventoryCodeAndIdNot(String value, long id);
+
+  void deleteById(long id);
 }

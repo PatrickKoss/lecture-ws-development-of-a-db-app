@@ -9,7 +9,11 @@ public interface MusicCourseRepository {
 
   Optional<MusicCourse> findById(long id);
 
-  MusicCourse insert(MusicCourse value);
+  MusicCourse save(MusicCourse value);
 
-  boolean existsByCourseCode(String courseCode);
+  boolean existsByCourseCode(String value);
+
+  boolean existsByCourseCodeAndIdNot(String value, long id);
+
+  void deleteById(long id);
 }

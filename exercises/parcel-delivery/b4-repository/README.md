@@ -4,7 +4,9 @@ Zeitbox: etwa 15 Minuten für den Kernauftrag. Die Vertiefung beginnt erst danac
 
 ## Eingang
 
-Der lauffähige Stand liegt in `../b3-jdbc/starter`. `starter/ParcelCatalog.java` ist die vorbereitete aufrufende Schicht.
+Arbeitet mit eurem lauffähigen Stand aus `../b3-jdbc/starter`. `starter/ParcelCatalog.java` ist die vorbereitete aufrufende Schicht. Ihr kopiert sie in das B3-Projekt.
+
+Der Catalog enthält absichtlich kein `SQLException`. Nach dem Kopieren kompiliert er erst, wenn ihr die Repository-Schnittstelle im Kernauftrag bereinigt habt.
 
 Starttest:
 
@@ -14,26 +16,38 @@ cd ../b3-jdbc/starter && ./gradlew test
 
 ## Kernauftrag
 
-Kopiert `ParcelCatalog` in das B3-Projekt. Verschiebt alle SQL-Zugriffe hinter `ParcelRepository`. Die aufrufende Schicht darf weder Connection noch ResultSet kennen.
+1. Entfernt `SQLException` aus der öffentlichen Schnittstelle `ParcelRepository`.
+2. Fangt `SQLException` ausschließlich in `JdbcParcelRepository` ab und übersetzt sie in eine eigene ungeprüfte `RepositoryException`.
+3. Benennt den vorbereiteten JDBC-Adapter `LookupRepository` in `JdbcLookupRepository` um und passt seinen Test an. Der Klassenname soll die technische Implementierung sichtbar machen.
+4. Lasst `ParcelCatalog` nur über `ParcelRepository` auf Parcel-Daten zugreifen. Im Catalog stehen weder SQL noch JDBC-Typen.
+5. Führt die vorhandenen Tests aus. Der JDBC-Test muss weiter dieselben Zeilen lesen.
 
 ## Vertiefung
 
-Implementiert ein In-Memory-Repository und testet den Catalog ohne SQLite.
+Implementiert `InMemoryParcelRepository`. Es vergibt IDs und lehnt einen doppelten fachlichen Schlüssel genauso ab wie die UNIQUE-Regel der Datenbank. Testet `ParcelCatalog` mit diesem Repository, ohne SQLite zu öffnen.
 
 ## Vorbereiteter Zwischenstand
 
-Wenn das Refactoring stockt, friert die öffentliche Repository-Schnittstelle ein und verschiebt nur eine Abfrage vollständig.
+Wenn das Refactoring stockt, legt zuerst die endgültigen Methodensignaturen von `ParcelRepository` fest. Verschiebt danach eine Methode vollständig in `JdbcParcelRepository` und übersetzt ihren SQL-Fehler an der Repository-Grenze.
 
 ## Ausgang
 
-Eine Quelltextsuche findet JDBC-Typen nur in Database und Jdbc-Repository.
+Die aufrufende Schicht kennt nur `ParcelRepository` und die Domänenklasse `Parcel`. Eine Quelltextsuche findet JDBC-Typen nur in `Database` und JDBC-Repositorys. Der Catalog-Test läuft mit der In-Memory-Implementierung.
 
-Prüfbefehl:
+Prüfbefehle:
 
 ```bash
-cd ../b3-jdbc/starter && ! rg 'Connection|ResultSet|PreparedStatement' src/main/java --glob '!**/Database.java' --glob '!**/Jdbc*Repository.java'
+cd ../b3-jdbc/starter
+./gradlew test
+! rg 'Connection|ResultSet|PreparedStatement|SQLException' src/main/java \
+  --glob '!**/Database.java' \
+  --glob '!**/Jdbc*Repository.java'
 ```
+
+## Übergabe an C2
+
+C2 ist ein vorbereitetes, eigenständiges Spring-Boot-Projekt. Übernehmt Schema und Seed-Daten als Flyway-Migrationen. Übertragt die Repository-Idee, aber kopiert `JdbcParcelRepository` nicht in den Spring-Starter. Dort implementiert Spring Data die Datenbankabfragen über JPA und Hibernate.
 
 ## Auswertung
 
-Welche Änderung am SQL-Schema bleibt jetzt innerhalb der Repository-Implementierung?
+Welche Änderung am SQL-Schema bleibt innerhalb der Repository-Implementierung? Warum sollte ein Catalog weder `SQLException` noch Hibernate-Typen kennen?

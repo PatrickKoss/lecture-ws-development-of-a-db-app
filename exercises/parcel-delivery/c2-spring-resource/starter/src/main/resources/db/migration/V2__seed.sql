@@ -22,4 +22,5 @@ INSERT INTO status_events (parcel_id, event_number, status, recorded_at, depot_i
 
 INSERT INTO delivery_attempts (id, parcel_id, attempted_at, outcome) VALUES
     (1, 2, '2026-09-02T14:10:00Z', 'ABSENT'),
-    (2, 3, '2026-09-02T16:25:00Z', 'DELIVERED');
+    (2, 3, '2026-09-02T16:25:00Z', 'DELIVERED'),
+    (3, 2, '2026-09-03T10:20:00Z', 'DELIVERED');

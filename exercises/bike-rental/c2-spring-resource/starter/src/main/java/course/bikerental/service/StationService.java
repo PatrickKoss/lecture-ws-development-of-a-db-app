@@ -1,14 +1,13 @@
 package course.bikerental.service;
 
-import course.bikerental.api.CreateStationRequest;
 import course.bikerental.domain.Station;
 import course.bikerental.repository.StationRepository;
-import course.bikerental.web.ConflictException;
-import course.bikerental.web.NotFoundException;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class StationService {
   private final StationRepository repository;
 
@@ -23,21 +22,48 @@ public class StationService {
   public Station findById(long id) {
     return repository
         .findById(id)
-        .orElseThrow(() -> new NotFoundException("STATION_NOT_FOUND", "Station nicht gefunden"));
+        .orElseThrow(
+            () -> new ResourceNotFoundException("STATION_NOT_FOUND", "Station nicht gefunden"));
   }
 
-  public Station create(CreateStationRequest request) {
-    if (repository.existsByStationCode(request.stationCode()))
-      throw new ConflictException(
-          "STATION_STATION_CODE_EXISTS",
-          "Station mit diesem Wert für station_code existiert bereits");
-    return repository.insert(
+  @Transactional
+  public Station create(StationCommand command) {
+    if (repository.existsByStationCode(command.stationCode())) {
+      throw duplicate();
+    }
+    return repository.save(
         new Station(
             null,
-            request.stationCode(),
-            request.name(),
-            request.address(),
-            request.capacity(),
-            request.status()));
+            command.stationCode(),
+            command.name(),
+            command.address(),
+            command.capacity(),
+            command.status()));
+  }
+
+  @Transactional
+  public Station replace(long id, StationCommand command) {
+    findById(id);
+    if (repository.existsByStationCodeAndIdNot(command.stationCode(), id)) {
+      throw duplicate();
+    }
+    return repository.save(
+        new Station(
+            id,
+            command.stationCode(),
+            command.name(),
+            command.address(),
+            command.capacity(),
+            command.status()));
+  }
+
+  @Transactional
+  public void delete(long id) {
+    repository.deleteById(id);
+  }
+
+  private ResourceConflictException duplicate() {
+    return new ResourceConflictException(
+        "STATION_CODE_EXISTS", "station_code ist bereits vergeben");
   }
 }

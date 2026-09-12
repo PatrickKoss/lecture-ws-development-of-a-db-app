@@ -1,14 +1,13 @@
 package course.template.service;
 
-import course.template.api.CreateResourceRequest;
 import course.template.domain.Resource;
 import course.template.repository.ResourceRepository;
-import course.template.web.ConflictException;
-import course.template.web.NotFoundException;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class ResourceService {
   private final ResourceRepository repository;
 
@@ -24,15 +23,37 @@ public class ResourceService {
     return repository
         .findById(id)
         .orElseThrow(
-            () -> new NotFoundException("RESOURCE_NOT_FOUND", "Hauptressource nicht gefunden"));
+            () ->
+                new ResourceNotFoundException(
+                    "RESOURCE_NOT_FOUND", "Hauptressource nicht gefunden"));
   }
 
-  public Resource create(CreateResourceRequest request) {
-    if (repository.existsByResourceCode(request.resourceCode()))
-      throw new ConflictException(
-          "RESOURCE_RESOURCE_CODE_EXISTS",
-          "Hauptressource mit diesem Wert für resource_code existiert bereits");
-    return repository.insert(
-        new Resource(null, request.resourceCode(), request.name(), request.measure()));
+  @Transactional
+  public Resource create(ResourceCommand command) {
+    if (repository.existsByResourceCode(command.resourceCode())) {
+      throw duplicate();
+    }
+    return repository.save(
+        new Resource(null, command.resourceCode(), command.name(), command.measure()));
+  }
+
+  @Transactional
+  public Resource replace(long id, ResourceCommand command) {
+    findById(id);
+    if (repository.existsByResourceCodeAndIdNot(command.resourceCode(), id)) {
+      throw duplicate();
+    }
+    return repository.save(
+        new Resource(id, command.resourceCode(), command.name(), command.measure()));
+  }
+
+  @Transactional
+  public void delete(long id) {
+    repository.deleteById(id);
+  }
+
+  private ResourceConflictException duplicate() {
+    return new ResourceConflictException(
+        "RESOURCE_CODE_EXISTS", "resource_code ist bereits vergeben");
   }
 }

@@ -67,7 +67,7 @@
 
   .d08-method-row {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 0.55rem;
     margin-top: 1rem;
   }
@@ -475,7 +475,8 @@
   </div>
   <aside class="notes">
     Wir kapseln JDBC, damit der Rest der Anwendung fachlich und testbar bleibt.
-    Morgen stellt Spring das Repository hinter HTTP.
+    In C2 ersetzt ein ORM-Adapter die JDBC-Implementierung. Der Service bleibt
+    vom fachlichen Repository-Interface abhängig.
   </aside>
 </section>
 
@@ -498,19 +499,19 @@
 
 <section class="code-slide d08-code d08-interface">
   <h2 class="slide-title">Interface zuerst</h2>
-  <span class="slide-context blue">AbstractRepository.java · 12 bis 17</span>
+  <span class="slide-context blue"
+    >B4 · fachliche Repository-Schnittstelle</span
+  >
   <div class="code-slide__content code-slide__content--wide">
-    <pre><code class="language-java" data-trim data-line-numbers="1|3|5">public interface AbstractRepository&lt;T&gt; {
-
-    Connection getConnection();
-
-    Class&lt;T&gt; getClassType();</code></pre>
+    <pre><code class="language-java" data-trim data-line-numbers="1|2-4">public interface BookRepository {
+    Optional&lt;Book&gt; findById(long id);
+    List&lt;Book&gt; findAll();
+    Book insert(Book value);
+}</code></pre>
     <div class="d08-method-row fragment fade-in" data-fragment-index="1">
-      <div class="d08-method-chip">all</div>
-      <div class="d08-method-chip">get</div>
-      <div class="d08-method-chip">create</div>
-      <div class="d08-method-chip">update</div>
-      <div class="d08-method-chip">delete</div>
+      <div class="d08-method-chip">findAll</div>
+      <div class="d08-method-chip">findById</div>
+      <div class="d08-method-chip">insert</div>
     </div>
     <p
       style="
@@ -520,16 +521,17 @@
         text-align: center;
       "
     >
-      gekürzt: Default-Methoden all/get/create/update/delete folgen ab Zeile 18
+      JDBC und In-Memory implementieren dieselbe Schnittstelle
     </p>
   </div>
   <div class="d08-source">
-    common-example/repository/src/main/java/org/lecture/AbstractRepository.java
+    Lehrendenpaket · library/repository · BookRepository.java
   </div>
   <aside class="notes">
-    Das echte Interface fordert Connection und Laufzeittyp. Die CRUD-Operationen
-    sind Default-Methoden im selben Interface. StudentRepository liefert die
-    beiden fehlenden Angaben.
+    Der Catalog kennt fachliche Methoden. Connection, ResultSet und SQLException
+    bleiben in der JDBC-Implementierung. In C2 verwendet der ORM-Adapter
+    dieselbe Trennung. Der folgende Reflection-Anhang erklärt das ältere
+    generische Kursbeispiel; die Gruppen bauen keinen eigenen ORM-Mapper.
   </aside>
 </section>
 
@@ -901,9 +903,9 @@ public class Student {
     <span class="slide-frame__footer-right">Fehler später sichtbar</span>
   </div>
   <aside class="notes">
-    Das Beispiel soll Mechanik zeigen, nicht Hibernate nachbauen. Reflection
-    tauscht sichtbaren Code gegen Konventionen. Frameworks investieren viel
-    Arbeit in die schwierigen Ränder.
+    Dieser Anhang erklärt die Mechanik des vorhandenen Reflection-Beispiels. Die
+    Übung endet beim fachlichen Repository-Interface. In C2 verwenden wir
+    Hibernate für das Mapping und Spring Data JPA für die Repository-Methoden.
   </aside>
 </section>
 
@@ -1028,9 +1030,9 @@ public class Student {
     <span class="slide-frame__footer-right">Spring Data</span>
   </div>
   <aside class="notes">
-    Spring Data erzeugt die konkrete Repository-Implementierung. Die Grundidee
-    habt ihr selbst gebaut. Morgen sehen wir diese eine Interface-Zeile im
-    Spring-Projekt.
+    Spring Data erzeugt die JPA-Repository-Implementierung. In C2 nutzt ein
+    Adapter diese Methoden hinter unserem fachlichen Interface. Das eigene
+    Reflection-Repository ist ein Vergleich zur Framework-Mechanik.
   </aside>
 </section>
 
@@ -1831,7 +1833,7 @@ public class Student {
     </div>
     <div class="d08-exercise-step">
       <span>4</span>
-      <div>Sichert Repository und Migration für C2.</div>
+      <div>Sichert Interface und Migration für den ORM-Übergang in C2.</div>
     </div>
   </div>
   <div class="exercise-slide__deliverable">

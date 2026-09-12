@@ -1,14 +1,13 @@
 package course.foodmarketplace.service;
 
-import course.foodmarketplace.api.CreateRestaurantRequest;
 import course.foodmarketplace.domain.Restaurant;
 import course.foodmarketplace.repository.RestaurantRepository;
-import course.foodmarketplace.web.ConflictException;
-import course.foodmarketplace.web.NotFoundException;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class RestaurantService {
   private final RestaurantRepository repository;
 
@@ -24,23 +23,52 @@ public class RestaurantService {
     return repository
         .findById(id)
         .orElseThrow(
-            () -> new NotFoundException("RESTAURANT_NOT_FOUND", "Restaurant nicht gefunden"));
+            () ->
+                new ResourceNotFoundException("RESTAURANT_NOT_FOUND", "Restaurant nicht gefunden"));
   }
 
-  public Restaurant create(CreateRestaurantRequest request) {
-    if (repository.existsByPartnerNumber(request.partnerNumber()))
-      throw new ConflictException(
-          "RESTAURANT_PARTNER_NUMBER_EXISTS",
-          "Restaurant mit diesem Wert für partner_number existiert bereits");
-    return repository.insert(
+  @Transactional
+  public Restaurant create(RestaurantCommand command) {
+    if (repository.existsByPartnerNumber(command.partnerNumber())) {
+      throw duplicate();
+    }
+    return repository.save(
         new Restaurant(
             null,
-            request.partnerNumber(),
-            request.name(),
-            request.street(),
-            request.postalCode(),
-            request.city(),
-            request.commissionRate(),
-            request.active()));
+            command.partnerNumber(),
+            command.name(),
+            command.street(),
+            command.postalCode(),
+            command.city(),
+            command.commissionRate(),
+            command.active()));
+  }
+
+  @Transactional
+  public Restaurant replace(long id, RestaurantCommand command) {
+    findById(id);
+    if (repository.existsByPartnerNumberAndIdNot(command.partnerNumber(), id)) {
+      throw duplicate();
+    }
+    return repository.save(
+        new Restaurant(
+            id,
+            command.partnerNumber(),
+            command.name(),
+            command.street(),
+            command.postalCode(),
+            command.city(),
+            command.commissionRate(),
+            command.active()));
+  }
+
+  @Transactional
+  public void delete(long id) {
+    repository.deleteById(id);
+  }
+
+  private ResourceConflictException duplicate() {
+    return new ResourceConflictException(
+        "PARTNER_NUMBER_EXISTS", "partner_number ist bereits vergeben");
   }
 }

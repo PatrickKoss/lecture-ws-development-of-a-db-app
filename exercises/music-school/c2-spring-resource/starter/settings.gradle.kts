@@ -1,1 +1,1 @@
-rootProject.name = "music-school-rest"
+rootProject.name = "music-school-rest-starter"

@@ -1,14 +1,13 @@
 package course.museum.service;
 
-import course.museum.api.CreateExhibitRequest;
 import course.museum.domain.Exhibit;
 import course.museum.repository.ExhibitRepository;
-import course.museum.web.ConflictException;
-import course.museum.web.NotFoundException;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class ExhibitService {
   private final ExhibitRepository repository;
 
@@ -24,15 +23,35 @@ public class ExhibitService {
     return repository
         .findById(id)
         .orElseThrow(
-            () -> new NotFoundException("EXHIBIT_NOT_FOUND", "Exponat nicht gefunden"));
+            () -> new ResourceNotFoundException("EXHIBIT_NOT_FOUND", "Exponat nicht gefunden"));
   }
 
-  public Exhibit create(CreateExhibitRequest request) {
-    if (repository.existsByInventoryCode(request.inventoryCode()))
-      throw new ConflictException(
-          "EXHIBIT_INVENTORY_CODE_EXISTS",
-          "Exponat mit diesem Wert für inventory_code existiert bereits");
-    return repository.insert(
-        new Exhibit(null, request.inventoryCode(), request.title(), request.insuredValue()));
+  @Transactional
+  public Exhibit create(ExhibitCommand command) {
+    if (repository.existsByInventoryCode(command.inventoryCode())) {
+      throw duplicate();
+    }
+    return repository.save(
+        new Exhibit(null, command.inventoryCode(), command.title(), command.insuredValue()));
+  }
+
+  @Transactional
+  public Exhibit replace(long id, ExhibitCommand command) {
+    findById(id);
+    if (repository.existsByInventoryCodeAndIdNot(command.inventoryCode(), id)) {
+      throw duplicate();
+    }
+    return repository.save(
+        new Exhibit(id, command.inventoryCode(), command.title(), command.insuredValue()));
+  }
+
+  @Transactional
+  public void delete(long id) {
+    repository.deleteById(id);
+  }
+
+  private ResourceConflictException duplicate() {
+    return new ResourceConflictException(
+        "INVENTORY_CODE_EXISTS", "inventory_code ist bereits vergeben");
   }
 }

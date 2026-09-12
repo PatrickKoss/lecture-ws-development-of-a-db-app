@@ -9,7 +9,11 @@ public interface ResourceRepository {
 
   Optional<Resource> findById(long id);
 
-  Resource insert(Resource value);
+  Resource save(Resource value);
 
-  boolean existsByResourceCode(String resourceCode);
+  boolean existsByResourceCode(String value);
+
+  boolean existsByResourceCodeAndIdNot(String value, long id);
+
+  void deleteById(long id);
 }

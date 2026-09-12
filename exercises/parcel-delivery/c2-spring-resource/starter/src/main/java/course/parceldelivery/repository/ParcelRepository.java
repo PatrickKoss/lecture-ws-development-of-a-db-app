@@ -9,7 +9,11 @@ public interface ParcelRepository {
 
   Optional<Parcel> findById(long id);
 
-  Parcel insert(Parcel value);
+  Parcel save(Parcel value);
 
-  boolean existsByTrackingCode(String trackingCode);
+  boolean existsByTrackingCode(String value);
+
+  boolean existsByTrackingCodeAndIdNot(String value, long id);
+
+  void deleteById(long id);
 }

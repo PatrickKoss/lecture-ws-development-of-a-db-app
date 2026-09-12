@@ -1,1 +1,1 @@
-rootProject.name = "parcel-delivery-rest"
+rootProject.name = "parcel-delivery-rest-starter"

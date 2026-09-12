@@ -9,7 +9,11 @@ public interface PartRepository {
 
   Optional<Part> findById(long id);
 
-  Part insert(Part value);
+  Part save(Part value);
 
-  boolean existsByPartNumber(String partNumber);
+  boolean existsByPartNumber(String value);
+
+  boolean existsByPartNumberAndIdNot(String value, long id);
+
+  void deleteById(long id);
 }

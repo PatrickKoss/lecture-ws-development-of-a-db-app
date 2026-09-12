@@ -7,4 +7,14 @@ Content-Type: application/json
 
 {"courseCode": "C-199", "title": "Kursformat", "level": "BEGINNER", "durationMinutes": 45, "roomId": 1}
 
-### TODO(C3): denselben Wert für course_code erneut senden und 409 prüfen
+### ungültiger POST (400)
+POST {{base}}/api/courses
+Content-Type: application/json
+
+{}
+
+### doppelter fachlicher Schlüssel (409)
+POST {{base}}/api/courses
+Content-Type: application/json
+
+{"courseCode": "C-199", "title": "Kursformat", "level": "BEGINNER", "durationMinutes": 45, "roomId": 1}

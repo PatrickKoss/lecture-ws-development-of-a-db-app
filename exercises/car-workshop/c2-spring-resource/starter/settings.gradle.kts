@@ -1,1 +1,1 @@
-rootProject.name = "car-workshop-rest"
+rootProject.name = "car-workshop-rest-starter"

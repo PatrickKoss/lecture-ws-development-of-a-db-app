@@ -9,7 +9,11 @@ public interface MedicationRepository {
 
   Optional<Medication> findById(long id);
 
-  Medication insert(Medication value);
+  Medication save(Medication value);
 
-  boolean existsByPzn(String pzn);
+  boolean existsByPzn(String value);
+
+  boolean existsByPznAndIdNot(String value, long id);
+
+  void deleteById(long id);
 }
