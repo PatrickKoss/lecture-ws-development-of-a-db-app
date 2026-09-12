@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title desc">
+  <title id="title">ER-Diagramm der Tierarztpraxis</title>
+  <desc id="desc">Sechs Entitäten mit Schlüsseln, Attributen und Beziehungen in Crow's-Foot-Notation.</desc>
+  <defs>
+    <style>
+      .box { fill: #0d1117; stroke: #00bfff; stroke-width: 4; }
+      .box-main { fill: #161b22; stroke: #ffa500; stroke-width: 5; }
+      .head { fill: #ffffff; font: 700 32px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      .attr { fill: #ffffff; font: 23px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      .key { fill: #ffa500; font-weight: 700; }
+      .rel { fill: none; stroke: #00bfff; stroke-width: 4; }
+      .rel-optional { fill: none; stroke: #ffa500; stroke-width: 4; stroke-dasharray: 12 9; }
+      .label { fill: #ffffff; font: 23px Inter, Arial, sans-serif; paint-order: stroke; stroke: #0d1117; stroke-width: 8; stroke-linejoin: round; }
+      .label-small { fill: #ffffff; font: 19px Inter, Arial, sans-serif; paint-order: stroke; stroke: #0d1117; stroke-width: 8; stroke-linejoin: round; }
+      .caption { fill: #ffffff; font: 26px Inter, Arial, sans-serif; }
+    </style>
+    <marker id="one" markerWidth="18" markerHeight="18" refX="9" refY="9" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M9 1 V17" stroke="#00bfff" stroke-width="4" />
+    </marker>
+    <marker id="zero-one" markerWidth="30" markerHeight="20" refX="25" refY="10" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <circle cx="6" cy="10" r="5" fill="#0d1117" stroke="#ffa500" stroke-width="3" />
+      <path d="M22 2 V18" stroke="#ffa500" stroke-width="4" />
+    </marker>
+    <marker id="zero-many" markerWidth="38" markerHeight="30" refX="34" refY="15" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <circle cx="6" cy="15" r="5" fill="#0d1117" stroke="#00bfff" stroke-width="3" />
+      <path d="M14 15 L34 3 M14 15 H34 M14 15 L34 27" stroke="#00bfff" stroke-width="4" fill="none" />
+    </marker>
+    <marker id="one-many" markerWidth="38" markerHeight="30" refX="34" refY="15" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M9 3 V27 M14 15 L34 3 M14 15 H34 M14 15 L34 27" stroke="#00bfff" stroke-width="4" fill="none" />
+    </marker>
+  </defs>
+
+  <rect width="1920" height="1080" fill="#0d1117" />
+  <text x="70" y="58" class="head" font-size="44">Tierarztpraxis: Referenzmodell</text>
+  <text x="1840" y="58" text-anchor="end" class="caption">orange gestrichelt = optionale Behandlung</text>
+
+  <g aria-label="Halter">
+    <rect x="60" y="100" width="420" height="285" rx="16" class="box" />
+    <text x="90" y="145" class="head">OWNER</text>
+    <line x1="60" y1="163" x2="480" y2="163" class="rel" />
+    <text x="90" y="200" class="attr key">PK id</text>
+    <text x="90" y="234" class="attr">UQ customer_number</text>
+    <text x="90" y="268" class="attr">first_name, last_name</text>
+    <text x="90" y="302" class="attr">UQ email</text>
+    <text x="90" y="336" class="attr">phone, city</text>
+  </g>
+
+  <g aria-label="Tier">
+    <rect x="720" y="90" width="510" height="350" rx="16" class="box-main" />
+    <text x="750" y="138" class="head">PET</text>
+    <line x1="720" y1="158" x2="1230" y2="158" stroke="#ffa500" stroke-width="4" />
+    <text x="750" y="198" class="attr key">PK id</text>
+    <text x="750" y="232" class="attr">FK owner_id</text>
+    <text x="750" y="266" class="attr">pet_number</text>
+    <text x="750" y="300" class="attr">name, species</text>
+    <text x="750" y="334" class="attr">birth_date NULL</text>
+    <text x="750" y="368" class="attr">UQ insurance_policy_number NULL</text>
+    <text x="750" y="402" class="attr">active</text>
+  </g>
+
+  <g aria-label="Tierarzt">
+    <rect x="1450" y="100" width="400" height="285" rx="16" class="box" />
+    <text x="1480" y="145" class="head">VET</text>
+    <line x1="1450" y1="163" x2="1850" y2="163" class="rel" />
+    <text x="1480" y="200" class="attr key">PK id</text>
+    <text x="1480" y="234" class="attr">UQ license_number</text>
+    <text x="1480" y="268" class="attr">first_name, last_name</text>
+    <text x="1480" y="302" class="attr">specialization</text>
+    <text x="1480" y="336" class="attr">consultation_room, active</text>
+  </g>
+
+  <g aria-label="Termin">
+    <rect x="60" y="690" width="530" height="310" rx="16" class="box-main" />
+    <text x="90" y="738" class="head">APPOINTMENT</text>
+    <line x1="60" y1="758" x2="590" y2="758" stroke="#ffa500" stroke-width="4" />
+    <text x="90" y="798" class="attr key">PK id</text>
+    <text x="90" y="832" class="attr">FK pet_id</text>
+    <text x="90" y="866" class="attr">FK vet_id</text>
+    <text x="90" y="900" class="attr">scheduled_at</text>
+    <text x="90" y="934" class="attr">reason</text>
+    <text x="90" y="968" class="attr">status</text>
+  </g>
+
+  <g aria-label="Behandlung">
+    <rect x="720" y="700" width="500" height="300" rx="16" class="box" />
+    <text x="750" y="745" class="head">TREATMENT</text>
+    <line x1="720" y1="763" x2="1220" y2="763" class="rel" />
+    <text x="750" y="800" class="attr key">PK id</text>
+    <text x="750" y="834" class="attr">FK UQ appointment_id</text>
+    <text x="750" y="868" class="attr">treated_on</text>
+    <text x="750" y="902" class="attr">diagnosis</text>
+    <text x="750" y="936" class="attr">notes NULL</text>
+    <text x="750" y="970" class="attr">fee_cents</text>
+  </g>
+
+  <g aria-label="Medikament">
+    <rect x="1420" y="690" width="430" height="310" rx="16" class="box" />
+    <text x="1450" y="735" class="head">MEDICATION</text>
+    <line x1="1420" y1="753" x2="1850" y2="753" class="rel" />
+    <text x="1450" y="790" class="attr key">PK id</text>
+    <text x="1450" y="824" class="attr">UQ pzn</text>
+    <text x="1450" y="858" class="attr">product_name</text>
+    <text x="1450" y="892" class="attr">active_ingredient</text>
+    <text x="1450" y="926" class="attr">dosage_form</text>
+    <text x="1450" y="960" class="attr">prescription_required, active</text>
+  </g>
+
+  <path d="M480 235 H720" class="rel" marker-start="url(#one)" marker-end="url(#zero-many)" />
+  <text x="600" y="214" text-anchor="middle" class="label">hält</text>
+
+  <path d="M875 440 V555 H220 V690" class="rel" marker-start="url(#one)" marker-end="url(#zero-many)" />
+  <text x="550" y="535" text-anchor="middle" class="label">hat Termine</text>
+
+  <path d="M1650 385 V610 H450 V690" class="rel" marker-start="url(#one)" marker-end="url(#zero-many)" />
+  <text x="1100" y="590" text-anchor="middle" class="label">übernimmt Termine</text>
+
+  <path d="M590 845 H720" class="rel-optional" marker-start="url(#one)" marker-end="url(#zero-one)" />
+  <text x="655" y="824" text-anchor="middle" class="label">führt optional zu</text>
+
+  <path d="M1220 850 H1420" class="rel" marker-start="url(#zero-many)" marker-end="url(#zero-many)" />
+  <text x="1320" y="792" text-anchor="middle" class="label-small">Verschreibung</text>
+  <text x="1320" y="820" text-anchor="middle" class="label-small">dose, duration_days</text>
+</svg>
