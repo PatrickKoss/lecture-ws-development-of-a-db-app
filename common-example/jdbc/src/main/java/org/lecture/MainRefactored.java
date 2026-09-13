@@ -151,7 +151,7 @@ public class MainRefactored {
 
     private static Student rowToStudent(ResultSet resultSet) throws SQLException {
         return new Student(
-                resultSet.getInt("id"),
+                resultSet.getLong("id"),
                 resultSet.getString("first_name"),
                 resultSet.getString("last_name"),
                 resultSet.getString("email"),

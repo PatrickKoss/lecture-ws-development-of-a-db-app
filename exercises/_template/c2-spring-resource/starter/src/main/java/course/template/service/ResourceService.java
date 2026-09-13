@@ -16,44 +16,16 @@ public class ResourceService {
   }
 
   public List<Resource> findAll() {
-    return repository.findAll();
+    throw new UnsupportedOperationException("TODO C2: Alle Datensätze aus dem Repository lesen");
   }
 
   public Resource findById(long id) {
-    return repository
-        .findById(id)
-        .orElseThrow(
-            () ->
-                new ResourceNotFoundException(
-                    "RESOURCE_NOT_FOUND", "Hauptressource nicht gefunden"));
+    throw new UnsupportedOperationException("TODO C2: Datensatz lesen und unbekannte ID als 404 melden");
   }
 
   @Transactional
   public Resource create(ResourceCommand command) {
-    if (repository.existsByResourceCode(command.resourceCode())) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Resource(null, command.resourceCode(), command.name(), command.measure()));
+    throw new UnsupportedOperationException("TODO C3: Fachschlüssel prüfen und Datensatz speichern");
   }
 
-  @Transactional
-  public Resource replace(long id, ResourceCommand command) {
-    findById(id);
-    if (repository.existsByResourceCodeAndIdNot(command.resourceCode(), id)) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Resource(id, command.resourceCode(), command.name(), command.measure()));
-  }
-
-  @Transactional
-  public void delete(long id) {
-    repository.deleteById(id);
-  }
-
-  private ResourceConflictException duplicate() {
-    return new ResourceConflictException(
-        "RESOURCE_CODE_EXISTS", "resource_code ist bereits vergeben");
-  }
 }

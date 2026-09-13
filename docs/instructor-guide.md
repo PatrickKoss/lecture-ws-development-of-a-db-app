@@ -17,15 +17,17 @@ Dieser Leitfaden ergänzt die Sprecherhinweise in den Decks. Der verbindliche Ta
 Führe diese Befehle am Repository-Root aus:
 
 ```sh
-make -C common-example build-all
-make -C common-example test-all
+make -C common-example check-sql
+make -C common-example build-core
+make -C common-example build-starters
+npm --prefix common-example/frontend ci
 make -C common-example frontend-test
 make -C slides pdf-all
 ```
 
 Prüfe danach mindestens eine aktive Gruppendomäne vollständig. Die übrigen Domänen lassen sich mit den Prüfbefehlen in ihren Aufgabenordnern testen. Die Starter bleiben an den markierten TODOs unvollständig. Der Build allein beweist deshalb noch keine fachlich richtige Lösung.
 
-Halte auf dem Lehrrechner zwei VS-Code-Fenster bereit. Eines zeigt das gemeinsame Universitätsbeispiel. Das zweite zeigt die jeweilige Domänenkarte und kann bei Gruppenfragen geteilt werden. Öffne keine Lösung, solange die Gruppen arbeiten.
+Halte auf dem Lehrrechner zwei VS-Code-Fenster bereit. Eines zeigt das gemeinsame Universitätsbeispiel. Das zweite zeigt die jeweilige Domänenkarte und kann bei Gruppenfragen geteilt werden. Die Lösungen des gemeinsamen Hochschulbeispiels bleiben für die Studierenden zugänglich. Verwende sie zum Erklären des Vorgehens; die domänenspezifischen Gruppenlösungen bleiben im Lehrendenpaket.
 
 ### Gruppenzuordnung
 
@@ -48,7 +50,9 @@ In A1 und A3 teilt sich jede Gruppe in zwei Teilteams und bearbeitet beide Theme
 
 ### Lösungen und Checkpoints
 
-Die Teilnehmerordner enthalten TODOs, kleine Beispieldaten und vorbereitete Zwischenstände. Vollständige Lösungen gehören zum separaten Lehrendenpaket und sind in diesem Branch nicht enthalten. Alle Verweise auf `exercises/instructor-solutions/<domain>/` in diesem Leitfaden beziehen sich auf dieses Paket.
+`common-example/exercises/README.md` führt durch die gemeinsamen Aufgaben A0 bis C3. Jede Aufgabe verlinkt eine enthaltene Musterlösung. Die Java-Lösungen in `common-example/jdbc/`, `common-example/repository-basic/` und `common-example/backend/` sind vollständig ausführbar. Zum gemeinsamen Implementieren verwenden wir die Starter in `common-example/exercises/`.
+
+Die Gruppenordner unter `exercises/<domain>/` enthalten TODOs, kleine Beispieldaten und vorbereitete Zwischenstände. Ihre vollständigen Lösungen gehören zum separaten Lehrendenpaket und sind in diesem Branch nicht enthalten. Alle Verweise auf `exercises/instructor-solutions/<domain>/` in diesem Leitfaden beziehen sich auf dieses Paket.
 
 Die Ordner `jdbc/`, `repository/` und `spring/` im Lehrendenpaket sind eigenständige Gradle-Projekte. Sie lassen sich dort mit `./gradlew test` prüfen. Die Spring-Lösung refaktoriert den JDBC-Starter auf Spring Data JPA und Hibernate. Controller, DTOs, Service und Repository haben getrennte Aufgaben. Unter `api/` liegt der exportierte OpenAPI-Vertrag. Die vollständigen Prüfhinweise stehen im README des Lehrendenpakets.
 
@@ -322,13 +326,11 @@ Die Studierenden erklären den Weg von Java über JDBC Driver und Connection zur
 ### Live-Demo
 
 ```sh
-cd common-example/jdbc
+cd common-example/exercises/b3-jdbc/starter
 ./gradlew build
-./gradlew run
-./gradlew runRefactored
 ```
 
-Zeige im ersten Lauf Create und List. Setze einen Breakpoint vor `resultSet.next()` und einen in den Konstruktorblock. Öffne danach `Main.java` und `MainRefactored.java` nebeneinander. Die unsichere Injection-Variante steht absichtlich nicht im Repository. Nutze dafür nur den klar markierten Einzeiler auf Folie 07.7 und lokale Seed-Daten.
+Öffne den Auftrag in `common-example/exercises/b3-jdbc/README.md`. Implementiere gemeinsam `findAll`, `findById` und das Row-Mapping in `JdbcStudentRepository`. Setze einen Breakpoint vor `resultSet.next()` und beim Erzeugen des Domänen-Records. Aktiviere die Repository-Tests und vergleiche mit der vollständigen Lösung in `common-example/jdbc/`. Die alte Main-Demo bleibt ein zusätzlicher Vergleich; für den Gruppenauftrag zählt der getestete Repository-Weg.
 
 ### Häufige Fehler und Steuerung
 
@@ -355,7 +357,7 @@ Kürze pgJDBC, Fehlerlogging und den vollständigen Datei-Walkthrough. Behalte C
 
 ### Ziel
 
-Die Studierenden kapseln Datenzugriff hinter einem typisierten Repository. Die öffentliche Schnittstelle enthält keine JDBC-Typen oder geprüften SQL-Ausnahmen. Ein In-Memory-Repository macht diese Grenze ohne SQLite testbar. Für C2 übernehmen die Studierenden Schema und Seed-Daten als Flyway-Migrationen, nicht die JDBC-Implementierung.
+Die Studierenden kapseln Datenzugriff hinter einem typisierten Repository. Die öffentliche Schnittstelle enthält keine JDBC-Typen oder geprüften SQL-Ausnahmen. Für C2 übernehmen die Studierenden Schema und Seed-Daten als Flyway-Migrationen, nicht die JDBC-Implementierung. Das In-Memory-Repository bleibt eine Vertiefung.
 
 ### Leitfragen
 
@@ -369,12 +371,11 @@ Die Studierenden kapseln Datenzugriff hinter einem typisierten Repository. Die �
 ### Live-Demo
 
 ```sh
-cd common-example/repository
+cd common-example/repository-basic
 ./gradlew build
-./gradlew run
 ```
 
-Der Lauf zeigt Create, All, Get, Update und Delete. Öffne danach `AbstractRepository.java`, `Student.java`, `Entity.java` und `Column.java`. Vergleiche zuletzt `common-example/jdbc/src/main/java/org/lecture/MainRefactored.java` mit dem Reflection-Mapping.
+Bearbeite `common-example/exercises/b4-repository/README.md` mit dem gemeinsam erreichten B3-Stand. Kopiere den vorbereiteten `StudentCatalog`, entferne `SQLException` aus `StudentRepository` und übersetze SQL-Fehler im JDBC-Adapter. Vergleiche das Ergebnis mit `common-example/repository-basic/`. Die Reflection-Implementierung in `common-example/repository/` bleibt eine Vertiefung.
 
 ### Häufige Fehler und Steuerung
 
@@ -388,10 +389,10 @@ Der Lauf zeigt Create, All, Get, Update und Delete. Öffne danach `AbstractRepos
 ### Auswertung B4
 
 - Frage, welcher Teil der Suche in der Schnittstelle blieb und welcher JDBC-Ablauf in der Implementierung steckt.
-- Lasse den Catalog einmal mit dem JDBC-Repository und einmal mit dem In-Memory-Repository erklären.
+- Lasse den Catalog mit dem JDBC-Repository erklären. Wenn eine Gruppe die Vertiefung bearbeitet hat, vergleicht zusätzlich das In-Memory-Repository.
 - Frage, welcher Rückgabetyp einen fehlenden Treffer ausdrückt.
 - Frage, welche Migration eine bereits verteilte Datenbank für die zweite Tabelle bräuchte.
-- Eine gute Antwort zeigt eine JDBC-freie Schnittstelle, einen grünen Catalog-Test ohne SQLite und die beiden Flyway-Dateien für Schema und Seed-Daten.
+- Eine gute Antwort zeigt eine JDBC-freie Schnittstelle, einen grünen JDBC-Test und die beiden Flyway-Dateien für Schema und Seed-Daten.
 
 ### Wenn Zeit fehlt
 
@@ -402,6 +403,8 @@ Reflection und die generische Repository-Basis stehen im Anhang. Im Pflichtteil 
 ### Ziel
 
 Die Studierenden entwerfen einen HTTP-Vertrag mit Ressourcen, Methoden, Statuscodes und JSON. Sie unterscheiden diesen Vertrag von Java-Code und Datenbankmodell.
+
+Öffne `common-example/exercises/c1-http-contract/README.md` und ergänze gemeinsam die DTOs und den Vertrag im zugehörigen Spring-Starter. Die vollständige Lösung in `common-example/backend/` bleibt daneben zum Vergleichen verfügbar. Dort funktionieren auch die fachlichen Endpunkte bereits.
 
 ### Leitfragen
 
@@ -421,6 +424,8 @@ Die Studierenden entwerfen einen HTTP-Vertrag mit Ressourcen, Methoden, Statusco
 
 ### Auswertung C1
 
+- Prüfe, ob Request und Response alle Felder aus der Domänenkarte enthalten und weiter kompilieren.
+- Aktiviere zum Abschluss `OpenApiContractExerciseTest`. `OpenApiStarterTest` allein prüft die ergänzten DTO-Schemas und Fehlerantworten nicht.
 - Lasse eine andere Gruppe den Vertrag ohne mündliche Erklärung lesen.
 - Frage, ob jede URL eine Ressource als Nomen benennt.
 - Frage, welche Operation idempotent ist und was bei einer Wiederholung gleich bleibt.
@@ -447,27 +452,17 @@ Die Studierenden starten ihr vorbereitetes Domänenprojekt. Flyway übernimmt Sc
 
 ### Live-Demo
 
-Terminal 1:
+Öffne `common-example/exercises/c2-spring-resource/README.md` und arbeite mit dem C1-Stand weiter:
 
 ```sh
-cd exercises/<domain>/c2-spring-resource/starter
+cd common-example/exercises/c2-spring-resource/starter
 ./gradlew build
-./gradlew bootRun
+SERVER_PORT=18081 ./gradlew bootRun
 ```
 
-Terminal 2:
+Implementiere zuerst die GET-Liste durch Response-Mapping, JPA-Adapter, Service und Controller. Prüfe sie unter `http://localhost:18081/api/students` und aktiviere die passenden Lese-Checkpoints. Wiederhole die Folge für GET nach ID und prüfe eine unbekannte ID. Den automatisierten HTTP-404-Test schreiben wir in C3.
 
-```sh
-curl -i http://localhost:8081/api/health
-```
-
-Prüfe danach die gruppenspezifische Collection. Für die Bibliothek lautet der Pfad zum Beispiel:
-
-```sh
-curl -i http://localhost:8081/api/books
-```
-
-Öffne danach `http://localhost:8081/swagger-ui.html` und `http://localhost:8081/v3/api-docs`. Arbeite in sichtbaren Checkpoints: Flyway-Migration erfolgreich, `OpenApiStarterTest` grün, `JpaRepositoryExerciseTest` aktiviert und GET mit den Seed-Daten. POST folgt in C3.
+Vergleiche bei Bedarf mit der vollständigen Lösung in `common-example/backend/`. Dort läuft dieselbe Architektur mit Spring Data JPA. Der Starterbuild allein bestätigt nur den technischen Startstand. Swagger UI liegt unter `/swagger-ui.html`, die Spec unter `/v3/api-docs`.
 
 ### Häufige Fehler und Steuerung
 
@@ -486,7 +481,7 @@ curl -i http://localhost:8081/api/books
 - Frage, wer die Repository-Implementierung erzeugt.
 - Verfolge einen GET über Controller, Response-DTO, Service, `Jpa<Entity>Repository`, Spring Data und SQLite.
 - Lasse die tatsächlich erzeugte SQL-Anweisung im Log zeigen, wenn die Gruppe sie aktiviert hat.
-- Eine gute Antwort zeigt den aktiven `JpaRepositoryExerciseTest`, GET 200 und einen Seed-Datensatz, der schon in B2 per SQL und in B3 per JDBC gelesen wurde.
+- Eine gute Antwort zeigt aktive Lese-Checkpoints in `JpaRepositoryExerciseTest` und `ReadApiExerciseTest`, GET 200, 404 für eine unbekannte ID und einen Seed-Datensatz, der schon in B2 per SQL und in B3 per JDBC gelesen wurde.
 
 ### Wenn Zeit fehlt
 
@@ -515,18 +510,22 @@ Die Studierenden trennen HTTP-Darstellung, Fachlogik und Speicherung. Sie nutzen
 - Wenn alle Exceptions zu 500 werden, sortiere einen Formfehler, eine fehlende ID und einen Konflikt in 400, 404 und 409.
 - Wenn Feldnamen voneinander abweichen, verfolgt sie vom DTO bis zur SQL-Spalte. Im gemeinsamen Beispiel heißen sie durchgehend `firstName`, `lastName`, `email`, `studentNumber` und `enrollmentDate`; SQL verwendet snake_case.
 
+### Gemeinsamer Auftrag
+
+`common-example/exercises/c3-tests-errors/README.md` führt durch Validation, Request-Konvertierung, JPA-Schreiben, Konfliktregel und POST mit `Location`. Die Matrikelnummer ist unsere fachliche Konfliktregel. Die Datenbank schützt zusätzlich die eindeutige E-Mail-Adresse. Das Einschreibedatum erzeugt der Service; der Request enthält es nicht.
+
 ### Auswertung C3, Fehlervertrag
 
 - Lasse den UNIQUE-Konflikt durch Controller, Service, JPA-Adapter, `saveAndFlush`, Übersetzer und Datenbank verfolgen.
 - Frage, wo syntaktische Validation endet und eine Fachregel beginnt.
 - Lasse ein internes Entity-Feld nennen, das im Response nicht erscheinen soll.
 - Frage, welche Exception welchen Statuscode und welches Fehlerformat erzeugt.
-- Eine gute Antwort zeigt GET und POST, getrennte DTOs sowie 400 und 409 für die Hauptressource. `JpaRepositoryExerciseTest` und `<Entity>ApiExerciseTest` sind aktiviert.
+- Eine gute Antwort zeigt GET und POST, getrennte DTOs sowie 400 und 409 für die Hauptressource. `JpaRepositoryExerciseTest`, `ReadApiExerciseTest` und die bereitgestellten POST-Fälle `createsResource` und `reportsValidationWithCorrelationId` sind aktiviert.
 - PUT, DELETE und Beziehungsendpunkte sind Vertiefungen. Die Gruppe beginnt sie erst, wenn der Kernauftrag geprüft ist.
 
 ### Wenn Zeit fehlt
 
-Gib bei Bedarf den vorbereiteten Zwischenstand aus `c3-tests-errors/` frei. GET, POST, DTOs, `@Valid`, `saveAndFlush`, genau eine Konfliktregel und der stabile Fehlercode bleiben im Kernauftrag. Die hexagonale Struktur von `common-example/advanced-backend` ist Nachschlageinhalt.
+Gib bei Bedarf den vorbereiteten Zwischenstand aus `c3-tests-errors/` frei. GET, POST, DTOs, `@Valid`, `saveAndFlush`, genau eine Konfliktregel und der stabile Fehlercode bleiben im Kernauftrag. Die Gruppen implementieren `reportsUnknownId` und `rejectsDuplicateBusinessKey` selbst. Die Fälle für einen erfolgreichen und einen ungültigen POST dienen als Beispiele. Die hexagonale Struktur von `common-example/advanced-backend` ist Nachschlageinhalt.
 
 ## 12 Die Anwendung absichern
 
@@ -544,7 +543,7 @@ Die Studierenden prüfen den HTTP-Rand mit MockMvc und eine Fachentscheidung mit
 
 ### Live-Demo
 
-Entferne nach der Service-Implementierung `@Disabled` aus den beiden vorbereiteten Testklassen. Führe dann nur diese Tests aus:
+Bearbeite die Testaufträge in `common-example/exercises/c3-tests-errors/README.md`. Schreibe im Starter die Fälle für eine unbekannte ID und eine doppelte Matrikelnummer und aktiviere sie. Vergleiche danach mit den bereits aktiven Tests der vollständigen Lösung:
 
 ```sh
 cd common-example/backend
@@ -565,7 +564,7 @@ cd common-example/backend
 
 ### Auswertung C3, Tests
 
-- Frage, welche Grenze jeder der zwei Tests prüft.
+- Frage, welche Grenze der Beispieltest und die beiden selbst geschriebenen Tests prüfen.
 - Lasse zeigen, welches Repository oder welcher Service im Test ersetzt wurde.
 - Frage, warum der Erfolgsfall 201, eine Response-ID und das Fachfeld der Karte prüft.
 - Frage, warum der Konfliktfall 409 und einen stabilen Fehlercode braucht.

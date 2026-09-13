@@ -475,7 +475,10 @@
     </text>
   </svg>
   <aside class="notes">
-    Wir ändern nicht die Abfragen, sondern ihren Absender. Java übernimmt
+    Gemeinsame Vorbereitung: common-example/exercises/b3-jdbc/README.md.
+    Bearbeitet diesen Auftrag vor der Gruppenphase. Die vollständige Lösung
+    unter common-example/jdbc/README.md bleibt zum Nachschlagen zugänglich. Wir
+    ändern nicht die Abfragen, sondern ihren Absender. Java übernimmt
     Terminalarbeit und Objektabbildung.
   </aside>
 </section>
@@ -939,7 +942,7 @@ try (Connection connection = DriverManager.getConnection(DATABASE_URL);
     <pre
       class="d07-code-fit"
     ><code class="language-java" data-trim data-line-numbers="1|2-6|7-8">Student student = new Student(
-        resultSet.getInt("id"),
+        resultSet.getLong("id"),
         resultSet.getString("first_name"),
         resultSet.getString("last_name"),
         resultSet.getString("email"),
@@ -974,7 +977,7 @@ try (Connection connection = DriverManager.getConnection(DATABASE_URL);
     while (resultSet.next()) {
         foundStudent = true;
         Student student = new Student(
-                resultSet.getInt("id"),
+                resultSet.getLong("id"),
                 resultSet.getString("first_name"),
                 resultSet.getString("last_name"),
                 resultSet.getString("email"),
@@ -1239,7 +1242,7 @@ try (Connection connection = DriverManager.getConnection(DATABASE_URL);
         <pre
           class="d07-code-compact"
         ><code class="language-java" data-trim data-line-numbers="1-8">Student student = new Student(
-        resultSet.getInt("id"),
+        resultSet.getLong("id"),
         resultSet.getString("first_name"),
         resultSet.getString("last_name"),
         resultSet.getString("email"),
@@ -1252,7 +1255,7 @@ try (Connection connection = DriverManager.getConnection(DATABASE_URL);
         <pre
           class="d07-code-compact"
         ><code class="language-java" data-trim data-line-numbers="1-8">Student student = new Student(
-        resultSet.getInt("id"),
+        resultSet.getLong("id"),
         resultSet.getString("first_name"),
         resultSet.getString("last_name"),
         resultSet.getString("email"),

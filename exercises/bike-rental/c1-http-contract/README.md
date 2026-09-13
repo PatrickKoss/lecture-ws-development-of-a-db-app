@@ -4,9 +4,9 @@ Zeitbox: etwa 25 Minuten für den Kernauftrag. Die Vertiefung beginnt erst danac
 
 ## Eingang
 
-Arbeitet im Projekt `../c2-spring-resource/starter`. Es enthält das Modell `Station`, getrennte Request- und Response-DTOs sowie SpringDoc. `StationController` zeigt am POST-Endpunkt bereits, wie 201, `Location`, 400 und 409 dokumentiert werden.
+Arbeitet im Projekt `../c2-spring-resource/starter`. Das technische Spring-Gerüst kompiliert bereits. `CreateStationRequest` und `StationResponse` sind absichtlich leere Records. Der Controller enthält die Verdrahtung und die Routen für GET und POST. Die dokumentierte Listenroute dient als Beispiel. Bei GET nach ID und POST ergänzt ihr den Antwortvertrag selbst. Die Implementierungen folgen in C2 und C3.
 
-`OpenApiStarterTest` ist aktiv und prüft, dass der Anwendungskontext und die Spec ohne Aufruf der noch offenen JPA-Adaptermethoden funktionieren.
+Das gemeinsame Universitätsbeispiel zeigt vorher, wie Request- und Response-Modelle sowie `@Operation`, `@ApiResponse`, `@Schema` und `@ArraySchema` zusammen den Vertrag erzeugen.
 
 Start:
 
@@ -18,27 +18,33 @@ SERVER_PORT=18081 ./gradlew bootRun
 
 Öffnet http://localhost:18081/swagger-ui.html. JSON liegt unter http://localhost:18081/v3/api-docs, YAML unter `/v3/api-docs.yaml`.
 
+## Feldvorgabe
+
+`StationResponse` enthält diese Komponenten in dieser Reihenfolge:
+
+```text
+Long id, String stationCode, String name, String address, Integer capacity, String status
+```
+
+`CreateStationRequest` enthält dieselben fachlichen Komponenten ohne `Long id`. Die ID vergibt der Server. Verwendet die angegebenen Java-Typen und Feldnamen unverändert, damit die späteren Checkpoints anschließen können. Validierungsannotationen und Konvertierung ergänzt ihr in C3.
+
 ## Kernauftrag
 
-1. Lest die Annotationen am POST-Endpunkt. `@Operation` beschreibt die Operation, `@ApiResponse` eine Antwort und `@Schema` ein Modell. Exportiert die unveränderte Spec als `openapi.before.json`.
-2. Ändert an mindestens drei Feldern von `CreateStationRequest` und `StationResponse` die vorbereitete Beschreibung oder das Beispiel. Verwendet konkrete Werte aus eurer Domäne. Der Request enthält keine vom Server vergebene ID.
-3. Formuliert Summary oder Beschreibung beider GET-Methoden fachlich genauer. Prüft dabei den vorbereiteten Vertrag: Die Liste liefert 200 mit einem Array aus `StationResponse`. GET nach ID liefert 200 oder 404 mit `ApiError`. Die Liste verwendet `@ArraySchema`.
-4. Formuliert die Konfliktbeschreibung mit eigenen Worten und nennt den Schlüssel `stationCode` ausdrücklich.
-5. Startet nach Änderungen neu, exportiert `openapi.after.json` und vergleicht beide Dateien. Prüft in Swagger UI Pflichtfelder, Modelle und Statuscodes.
+1. Exportiert die unveränderte Spec als `openapi.before.json`.
+2. Ergänzt die Komponenten von `CreateStationRequest` und `StationResponse`. Beide Records müssen weiter kompilieren. Lasst die vorbereiteten TODO-Methoden zunächst offen.
+3. Beschreibt jedes Feld mit `@Schema` und einem konkreten Beispiel aus eurer Domäne. Markiert alle Komponenten im Schema als erforderlich. `id` ist zusätzlich nur lesbar.
+4. Vervollständigt den OpenAPI-Vertrag im Controller. Die Liste liefert 200 mit einem Array aus `StationResponse`. GET nach ID liefert 200 oder 404 mit `ApiError`. POST liefert 201 mit `Location` sowie 400 und 409. Nennt im Konfliktfall den Schlüssel `stationCode`.
+5. Aktiviert `OpenApiContractExerciseTest` und führt `./gradlew test` aus. Startet die Anwendung neu und exportiert `openapi.after.json`. Vergleicht beide Dateien und prüft Modelle, Pflichtfelder und Statuscodes in Swagger UI.
 
-`@Schema` beschreibt den Vertrag. `@Valid` und Bean Validation prüfen einen Request zur Laufzeit. Die JPA-Abfragen implementiert ihr erst in C2 und C3.
+Die Endpunktkörper dürfen in C1 noch `UnsupportedOperationException` werfen. `OpenApiStarterTest` prüft nur, ob die Spec mit den vorbereiteten Routen erzeugt wird. Den ergänzten Vertrag prüft `OpenApiContractExerciseTest`.
 
 ## Vertiefung
 
-Plant PUT oder DELETE. Haltet für jede Operation Pfad, Request, erfolgreiche Antwort und Fehlerantworten fest. Begründet, ob ein wiederholter identischer Request denselben Zustand erzeugt.
-
-## Vorbereiteter Zwischenstand
-
-Das dokumentierte POST dient als Muster. Die Controller- und DTO-Dateien sind vorbereitet. `OpenApiStarterTest` muss während C1 grün bleiben.
+Entwerft den Vertrag für PUT oder DELETE. Haltet Pfad, Request, erfolgreiche Antwort und Fehlerantworten fest. Die Implementierung über alle Schichten gehört erst in die Vertiefung von C3.
 
 ## Ausgang
 
-Die generierte Spec beschreibt GET und POST mit ihren DTOs und Fehlerantworten. Gebt die geänderten Java-Dateien und einen Export ab. Bearbeitet den Export nicht von Hand.
+Die beiden DTO-Records enthalten die vorgegebenen Felder. Die generierte Spec beschreibt GET und POST. `OpenApiStarterTest` und der aktivierte `OpenApiContractExerciseTest` sind grün.
 
 Prüfbefehl in einem zweiten Terminal:
 
@@ -47,8 +53,6 @@ curl --fail http://localhost:18081/v3/api-docs -o openapi.after.json
 diff -u openapi.before.json openapi.after.json || true
 ```
 
-Prüft unter `paths` die GET- und POST-Antworten. Unter `components.schemas` müssen die DTOs, Pflichtfelder und Beispiele stehen.
-
 ## Auswertung
 
-Welche Angaben erzeugt SpringDoc aus Java? Welche fachlichen Angaben musstet ihr selbst ergänzen? Was unterscheidet 400 und 409?
+Welche Angaben erzeugt SpringDoc aus den Java-Typen? Welche fachlichen Angaben musstet ihr selbst formulieren? Warum steht die ID nur im Response?

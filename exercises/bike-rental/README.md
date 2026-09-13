@@ -16,8 +16,8 @@ Eure Hauptentität ist **Station** (`Station`). Ihr führt sie durch alle elf Ph
 | B2    | vier geprüfte Abfragen                   |
 | B3    | JDBC-Mapping für `Station`               |
 | B4    | Datenzugriff hinter einem Repository     |
-| C1    | GET- und POST-Vertrag                    |
-| C2    | GET-Endpunkte für `Station`              |
-| C3    | POST, Validierung, 409-Konflikt und Test |
+| C1    | DTOs und GET-/POST-Vertrag                    |
+| C2    | GET durch Controller, Service und JPA              |
+| C3    | POST, Validierung, 404-/409-Tests |
 
 Die fertigen SQL-Lösungen liegen nicht in diesem Gruppenordner. Die Lehrperson verwaltet sie unter `exercises/instructor-solutions/bike-rental/`.

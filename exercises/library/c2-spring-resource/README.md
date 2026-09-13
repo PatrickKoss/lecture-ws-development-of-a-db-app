@@ -1,12 +1,14 @@
-# C2: Spring-Ressource mit JPA
+# C2: GET vom Controller bis JPA
 
 Zeitbox: etwa 50 Minuten für den Kernauftrag. Die Vertiefung beginnt erst danach.
 
 ## Eingang
 
-`starter/` ist ein eigenständiges Spring-Boot-Projekt. Flyway enthält das vollständige Schema aus B1 und die Seed-Daten aus B2. Hibernate prüft das Mapping, erzeugt aber kein Schema, weil `ddl-auto=none` gesetzt ist.
+Arbeitet mit eurem Stand aus C1 weiter. Die Request- und Response-Felder sowie der HTTP-Vertrag sind ergänzt; `OpenApiContractExerciseTest` ist aktiv.
 
-Die fachliche Klasse `Book` bleibt ein unveränderlicher Java-Record. `BookJpaEntity` bildet die Tabelle für JPA ab. `SpringDataBookRepository` erweitert `JpaRepository` und ist fertig. Offen sind `findAll` und `findById` im Adapter `JpaBookRepository`. Das vorbereitete `JpaLookupRepository` liest `authors`.
+`starter/` ist ein eigenständiges Spring-Boot-Projekt. Flyway enthält das Schema und die Seed-Daten. Hibernate erzeugt kein Schema, weil `ddl-auto=none` gesetzt ist.
+
+`Book` ist der Domänen-Record. `BookJpaEntity` bildet die Tabelle für JPA ab. `SpringDataBookRepository` und die Infrastruktur sind vorbereitet. Der Controller, der Service und `JpaBookRepository` enthalten die TODOs für beide GET-Wege. `JpaLookupRepository` liest `authors`.
 
 Starttest:
 
@@ -14,18 +16,21 @@ Starttest:
 cd starter && ./gradlew test
 ```
 
-`OpenApiStarterTest` läuft bereits. `JpaRepositoryExerciseTest` ist deaktiviert, bis ihr die beiden Lesemethoden implementiert habt.
+Der Startstand baut grün. Die Lookup-Prüfung läuft bereits. Die Methoden in `JpaRepositoryExerciseTest` und `ReadApiExerciseTest` sind deaktiviert, bis der jeweilige Checkpoint fertig ist.
 
 ## Kernauftrag
 
-1. Implementiert `findAll` in `JpaBookRepository`. Nutzt das Spring-Data-Repository und mappt jede `BookJpaEntity` auf `Book`.
-2. Implementiert `findById(long)` mit `Optional`, ohne einen unbekannten Datensatz durch `null` darzustellen.
-3. Aktiviert `JpaRepositoryExerciseTest` und führt alle Tests aus.
-4. Startet die Anwendung und prüft GET-Liste sowie GET nach ID über Swagger UI. Der Controller liefert `BookResponse`, keine JPA-Entity. Eine unbekannte ID ergibt 404.
+Arbeitet zuerst die Liste vollständig durch. So könnt ihr einen Weg testen, bevor GET nach ID dazukommt.
 
-## Vertiefung
+1. Implementiert `BookResponse.from(Book)`.
+2. Implementiert `findAll` in `JpaBookRepository`. Nutzt das Spring-Data-Repository, sortiert nach ID und mappt jede `BookJpaEntity` auf `Book`.
+3. Implementiert `findAll` im Service und danach im Controller. Der Controller mappt Domänenobjekte auf `BookResponse`.
+4. Aktiviert `readsSortedSeedRows` in `JpaRepositoryExerciseTest` und `readsSeedData` in `ReadApiExerciseTest`. Führt die Tests aus, startet die Anwendung und ruft die GET-Liste auf.
+5. Implementiert `findById(long)` im Adapter mit `Optional`.
+6. Implementiert den Service-Lookup. Eine unbekannte ID wird zur vorbereiteten Not-found-Ausnahme.
+7. Implementiert GET nach ID im Controller. Aktiviert `readsKnownIdAndReportsMissingId` in `JpaRepositoryExerciseTest` und führt die Tests aus. Prüft eine bekannte und eine unbekannte ID zusätzlich über Swagger UI oder `requests.http`; den automatisierten HTTP-404-Test schreibt ihr in C3.
 
-Verfolgt die vorbereitete Lookup-Kette von `JpaLookupRepository` bis zur Lookup-Tabelle. Verschärft `JpaRepositoryExerciseTest`: Prüft die Seed-Labels mit `containsExactly` und damit auch die Sortierung nach ID.
+`containsExactly` prüft in `JpaRepositoryExerciseTest` bereits die Seed-Werte und ihre Reihenfolge. Ihr müsst diese Assertion nicht neu schreiben.
 
 ## Vorbereiteter Zwischenstand
 
@@ -33,7 +38,7 @@ Verfolgt die vorbereitete Lookup-Kette von `JpaLookupRepository` bis zur Lookup-
 
 ## Ausgang
 
-Die Anwendung startet. Beide GET-Endpunkte liefern die Seed-Daten über das Response-DTO. ID 1 enthält `9783446279899`. `JpaRepositoryExerciseTest` und `OpenApiStarterTest` laufen.
+Beide GET-Endpunkte lesen über Service, Repository-Interface und JPA-Adapter. Der Controller gibt `BookResponse` zurück. Eine unbekannte ID ergibt 404. Die aktivierten Repository- und API-Checkpoints laufen.
 
 Prüfbefehl:
 
@@ -49,4 +54,4 @@ SERVER_PORT=18081 ./gradlew bootRun
 
 ## Auswertung
 
-Welche Aufgabe hat `BookJpaEntity`? Warum gibt der Controller trotzdem `BookResponse` zurück? Wo endet Spring Data und wo beginnt euer Adapter?
+Wo wird zwischen JPA-Entity, Domänenobjekt und Response übersetzt? Welche Schicht entscheidet über 404? Warum implementiert ihr einen Endpunkt erst vollständig, bevor der zweite folgt?

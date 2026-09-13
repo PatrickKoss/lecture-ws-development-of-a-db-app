@@ -696,7 +696,11 @@
     <span class="slide-frame__footer-right">09</span>
   </div>
   <aside class="notes">
-    Heute verlässt unsere Anwendung den lokalen Prozess. Wir entwerfen erst den
+    Gemeinsame Vorbereitung:
+    common-example/exercises/c1-http-contract/README.md. Bearbeitet diesen
+    Auftrag vor der Gruppenphase. Die vollständige Lösung unter
+    common-example/backend/README.md bleibt zum Nachschlagen zugänglich. Heute
+    verlässt unsere Anwendung den lokalen Prozess. Wir entwerfen erst den
     Vertrag und implementieren ihn danach mit Spring.
   </aside>
 </section>
@@ -1659,13 +1663,13 @@
 <section class="code-slide d09-code">
   <h2 class="slide-title">OpenAPI aus Controller und DTOs</h2>
   <div class="code-slide__content code-slide__content--wide">
-    <pre><code class="language-java" data-trim data-line-numbers="1-5|6-9">@Operation(summary = "Buch anlegen")
-@ApiResponse(responseCode = "201", description = "Buch angelegt",
+    <pre><code class="language-java" data-trim data-line-numbers="1-5|6-9">@Operation(summary = "Studierende anlegen")
+@ApiResponse(responseCode = "201", description = "Student angelegt",
     content = @Content(mediaType = "application/json",
-        schema = @Schema(implementation = BookResponse.class)))
+        schema = @Schema(implementation = StudentResponse.class)))
 @PostMapping
-public ResponseEntity&lt;BookResponse&gt; create(
-    @Valid @RequestBody CreateBookRequest request) {
+public ResponseEntity&lt;StudentResponse&gt; create(
+    @Valid @RequestBody CreateStudentRequest request) {
   // Service aufrufen, 201 mit Location und Response zurückgeben
 }</code></pre>
   </div>
@@ -1673,29 +1677,28 @@ public ResponseEntity&lt;BookResponse&gt; create(
     Controller + DTOs → SpringDoc → <code>/v3/api-docs</code> → Swagger UI
   </p>
   <aside class="notes">
-    Das vollständige Beispiel steht im BookController unter
-    exercises/library/c2-spring-resource/starter. Es dokumentiert den Request
-    explizit mit der OpenAPI-RequestBody-Annotation und dem Request-Modell.
-    SpringDoc erkennt auch den Java-Parametertyp. Spring @RequestBody bindet
-    JSON; die gleichnamige OpenAPI-Annotation dokumentiert. 400 und 409
-    verwenden ApiError. Die Spec wird beim Abruf generiert. Wir bearbeiten Java,
-    keinen YAML-Vertrag.
+    Das Universitätsbeispiel zeigt den vollständigen Controller. Diese Folie
+    ergänzt die ausführlichen Response-Annotationen, die die Gruppen auf ihre
+    Ressource übertragen. SpringDoc erkennt auch den Java-Parametertyp. Spring
+    @RequestBody bindet JSON; die gleichnamige OpenAPI-Annotation dokumentiert.
+    400 und 409 verwenden ApiError. Die Spec wird beim Abruf generiert. Wir
+    bearbeiten Java, keinen YAML-Vertrag.
   </aside>
 </section>
 
 <section class="code-slide d09-code">
   <h2 class="slide-title">Request und Response sind Modelle</h2>
   <div class="code-slide__content code-slide__content--wide">
-    <pre><code class="language-java" data-trim data-line-numbers="1-4|6-10">// Auszug aus CreateBookRequest
-@Schema(description = "ISBN des Buchs", example = "9783446279899")
+    <pre><code class="language-java" data-trim data-line-numbers="1-4|6-10">// Auszug aus CreateStudentRequest
+@Schema(description = "Matrikelnummer", example = "M2025001")
 @NotBlank
-String isbn,
+String studentNumber,
 
-// Auszug aus BookResponse
+// Auszug aus StudentResponse
 @Schema(description = "Vom Server vergebene ID", example = "1",
     accessMode = Schema.AccessMode.READ_ONLY)
 Long id,
-String isbn,</code></pre>
+String studentNumber,</code></pre>
   </div>
   <p class="d09-code-source">
     <code>@Schema</code> dokumentiert. <code>@Valid</code> und
@@ -1741,30 +1744,31 @@ String isbn,</code></pre>
   <div class="d09-exercise-steps">
     <div class="d09-exercise-step">
       <span>1</span
-      ><span>Startet den C2-Starter und öffnet /swagger-ui.html.</span>
+      ><span>Leitet Request- und Response-Felder aus der Vorgabe ab.</span>
     </div>
     <div class="d09-exercise-step">
-      <span>2</span
-      ><span>Lest das POST-Beispiel mit Request- und Response-Modell.</span>
+      <span>2</span><span>Trennt Eingabefelder und Serverfelder.</span>
     </div>
     <div class="d09-exercise-step">
       <span>3</span><span>Ergänzt @Schema an den DTO-Feldern.</span>
     </div>
     <div class="d09-exercise-step">
-      <span>4</span
-      ><span>Dokumentiert GET, 200 und 404. Beschreibt den 409-Konflikt.</span>
+      <span>4</span><span>Dokumentiert GET, POST, 200, 201, 404 und 409.</span>
     </div>
   </div>
   <div class="d09-exercise-path">
     exercises/&lt;domain&gt;/c1-http-contract/
   </div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> Java-Annotationen und Export aus /v3/api-docs
+    <strong>Abgabe:</strong> grüner OpenApiContractExerciseTest und /v3/api-docs
   </div>
   <aside class="notes">
-    Der Controller ist vorbereitet. Die Gruppen ergänzen Annotationen und DTOs.
-    Die Dokumentation läuft schon vor der Repository-Implementierung.
-    Erfolgreiche Datenzugriffe folgen in C2 und C3. Export nicht von Hand
+    Die Lehrperson ergänzt die Response-Annotationen im gemeinsamen
+    Spring-Starter. Die vollständige Lösung liegt unter common-example/backend/.
+    Die Gruppen übertragen den Schritt auf ihre Hauptressource. DTOs und
+    Controller kompilieren als Gerüste, enthalten aber noch keine fertige
+    Fachimplementierung. Nach den Änderungen entfernen die Gruppen @Disabled von
+    OpenApiContractExerciseTest. Den Export aus /v3/api-docs nicht von Hand
     ändern.
   </aside>
 </section>

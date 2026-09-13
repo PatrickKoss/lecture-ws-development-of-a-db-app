@@ -16,52 +16,16 @@ public class BookService {
   }
 
   public List<Book> findAll() {
-    return repository.findAll();
+    throw new UnsupportedOperationException("TODO C2: Alle Datensätze aus dem Repository lesen");
   }
 
   public Book findById(long id) {
-    return repository
-        .findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("BOOK_NOT_FOUND", "Buch nicht gefunden"));
+    throw new UnsupportedOperationException("TODO C2: Datensatz lesen und unbekannte ID als 404 melden");
   }
 
   @Transactional
   public Book create(BookCommand command) {
-    if (repository.existsByIsbn(command.isbn())) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Book(
-            null,
-            command.isbn(),
-            command.title(),
-            command.publicationYear(),
-            command.subjectArea(),
-            command.shelfCode()));
+    throw new UnsupportedOperationException("TODO C3: Fachschlüssel prüfen und Datensatz speichern");
   }
 
-  @Transactional
-  public Book replace(long id, BookCommand command) {
-    findById(id);
-    if (repository.existsByIsbnAndIdNot(command.isbn(), id)) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Book(
-            id,
-            command.isbn(),
-            command.title(),
-            command.publicationYear(),
-            command.subjectArea(),
-            command.shelfCode()));
-  }
-
-  @Transactional
-  public void delete(long id) {
-    repository.deleteById(id);
-  }
-
-  private ResourceConflictException duplicate() {
-    return new ResourceConflictException("ISBN_EXISTS", "isbn ist bereits vergeben");
-  }
 }

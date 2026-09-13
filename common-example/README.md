@@ -1,38 +1,65 @@
 # Gemeinsames Beispiel: Hochschulverwaltung
 
-Der Kurs entwickelt eine kleine Hochschulverwaltung. Wir beginnen mit dem Satz "Studierende belegen Lehrveranstaltungen, die von Lehrenden angeboten werden". Aus diesem Satz entstehen nacheinander ER-Modell, normalisierte Tabellen, SQL-Abfragen, JDBC-Code, ein Repository, eine REST API und ein Frontend.
+Wir bearbeiten vor jeder Gruppenphase denselben Schritt an der Hochschulverwaltung. `Student` bleibt die Hauptentität: zuerst im Fachmodell, dann in Tabellen, JDBC und der REST-API. Lehrende, Lehrveranstaltungen, Fachbereiche und Belegungen liefern die Beziehungen für Modellierung und SQL.
 
-`Student` bleibt die Hauptressource für den Programmierteil. `Course`, `Lecturer`, `Department` und `Enrollment` bleiben im Schema erhalten. Dadurch verwenden SQL-Abfragen weiterhin Beziehungen, JOINs und Aggregationen.
+Die [gemeinsamen Übungen](exercises/README.md) folgen denselben Phasen A0 bis C3 wie die [Gruppenübungen](../exercises/README.md). Sie enthalten den Arbeitsauftrag für die Vorlesung, vorbereitete Arbeitsstellen und Links zu den vollständigen Lösungen. Die Lösungen sind Teil dieses Repositories und dürfen während der Gruppenarbeit als Beispiel verwendet werden.
 
-## Arbeitsstände
+## Arbeitsauftrag und Lösung
 
-| Phase     | Ordner                       | Gemeinsame Arbeit                         |
-| --------- | ---------------------------- | ----------------------------------------- |
-| A0 bis A3 | [`design/`](design/)         | Fachregeln, ER-Modell und Normalisierung  |
-| B1 und B2 | [`sql/`](sql/)               | Schema, Seed-Daten und Abfragen           |
-| B3        | [`jdbc/`](jdbc/)             | Verbindungen, Statements und Row-Mapping  |
-| B4        | [`repository/`](repository/) | Repository und wiederverwendbares Mapping |
-| C1 bis C3 | [`backend/`](backend/)       | Migrationen, DTOs und Service             |
-| Abschluss | [`frontend/`](frontend/)     | API im Browser verwenden                  |
+| Phase | Gemeinsam bearbeiten | Vollständiges Beispiel |
+| --- | --- | --- |
+| A0 | [Domäne und Hauptentität](exercises/a0-domain/README.md) | [Fachregeln](design/domain.md) |
+| A1 | [ER-Modell](exercises/a1-er-model/README.md) | [ER-Diagramm](design/er.mmd) |
+| A2 | [Relationenmodell](exercises/a2-relational-model/README.md) | [Relationen](design/relational-model.md) |
+| A3 | [Normalisierung](exercises/a3-normalization/README.md) | [Herleitung bis 3NF](design/normalization.md) |
+| B1 | [Schema und Seed-Daten](exercises/b1-schema/README.md) | [Schema](sql/schema.sql) und [Seed-Daten](sql/seed.sql) |
+| B2 | [SQL-Abfragen](exercises/b2-sql/README.md) | [SQL-Beispiele und Prüfung](sql/README.md) |
+| B3 | [JDBC und Row-Mapping](exercises/b3-jdbc/README.md) | [JDBC-Lösung](jdbc/README.md) |
+| B4 | [Repository-Refactoring](exercises/b4-repository/README.md) | [Repository-Lösung](repository-basic/README.md) |
+| C1 | [DTOs und HTTP-Vertrag](exercises/c1-http-contract/README.md) | [Spring-Lösung](backend/README.md) |
+| C2 | [GET durch alle Schichten](exercises/c2-spring-resource/README.md) | [Spring-Lösung](backend/README.md) |
+| C3 | [POST, Fehler und Tests](exercises/c3-tests-errors/README.md) | [Spring-Lösung](backend/README.md) |
 
-`repository-exercise/` enthält eine kurze Zwischenübung. `zone-example/` und `advanced-backend/` sind Reservebeispiele. Sie gehören nicht zum roten Faden.
+## Ablauf in der Vorlesung
 
-## Gemeinsamer Ablauf
+1. Öffnet den gemeinsamen Arbeitsauftrag der aktuellen Phase. Haltet zunächst fest, welches Ergebnis ihr erwartet.
+2. Bearbeitet die Schritte gemeinsam. Im Programmierteil verwendet ihr die Starter unter `exercises/`; die gelösten Projekte bleiben zum Vergleichen erhalten.
+3. Führt den Checkpoint aus. Verfolgt dabei einen konkreten Datensatz oder Fehlerfall.
+4. Vergleicht eure Entscheidungen mit der verlinkten Lösung. Die Aufgaben erklären, warum die Lösung so aufgebaut ist.
+5. Übertragt denselben Schritt auf die eigene Gruppendomäne. Tabellen, Feldnamen und Fachregeln müsst ihr dafür selbst bestimmen.
 
-1. Ergänzt die Fachregeln in `design/domain.md` und zeichnet das ER-Modell.
-2. Normalisiert die flache Ausgangstabelle in `design/normalization.md` bis zur 3NF.
-3. Übertragt das Ergebnis nach `sql/schema.sql` und formuliert die Abfragen in `sql/queries.sql`.
-4. Öffnet `jdbc/` und verfolgt eine Student-Zeile durch `Connection`, `PreparedStatement` und `ResultSet`.
-5. Verschiebt den Datenzugriff in `repository/`.
-6. Öffnet `backend/`. Implementiert dort Migrationen, DTO-Regeln und `StudentService`.
-7. Startet `frontend/` gegen `http://localhost:8081`.
+B3 beginnt mit JDBC und sichtbarem Row-Mapping. B4 entfernt geprüfte SQL-Ausnahmen aus der Repository-Schnittstelle. C1 bis C3 verwenden Spring Data JPA mit getrennten Request-, Response-, Domänen- und Persistenzmodellen. Im GET-Teil bauen wir zuerst die Liste vollständig und ergänzen danach den Zugriff nach ID. Anschließend folgen POST, Validation, die Konfliktregel und eigene Tests.
 
-## Prüfen
+## Prüfen und starten
+
+Java 21 genügt für die Java-Projekte. Die SQL-Prüfung verwendet Python 3 mit dessen SQLite-Modul.
+
+```sh
+make check-sql
+make build-core
+make build-starters
+```
+
+`build-core` baut und testet die vollständigen Lösungen für JDBC, Repository und Spring. `build-starters` prüft die technischen Startstände. Dort werden die fachlichen Checkpoints erst während der gemeinsamen Arbeit aktiviert. Ein grüner Starterbuild bedeutet deshalb noch nicht, dass die Aufgabe gelöst ist.
+
+Die vollständige API startet ohne vorherige Implementierung:
+
+```sh
+cd backend
+./gradlew bootRun
+```
+
+Die API liegt unter `http://localhost:8081/api/students`, Swagger UI unter `http://localhost:8081/swagger-ui.html`. Das [Frontend](frontend/) verwendet denselben Vertrag.
+
+## Weitere Beispiele
+
+`repository/` zeigt ein generisches Repository mit Reflection. `repository-exercise/` ist eine ältere Zwischenübung. `zone-example/` und `advanced-backend/` enthalten weitere Vertiefungen. Der gemeinsame Pflichtweg verwendet `repository-basic/`.
 
 ```sh
 make build-all
 make test-all
+npm --prefix frontend ci
 make frontend-test
 ```
 
-Die Spring-Vorlage kompiliert vor der gemeinsamen Implementierung. Fachliche Aufrufe liefern an den markierten Stellen noch einen Fehler. Der Health Check unter `/api/students/health` funktioniert sofort.
+Diese Befehle prüfen auch die weiteren Java-Beispiele beziehungsweise die vorhandenen Frontend-Tests.

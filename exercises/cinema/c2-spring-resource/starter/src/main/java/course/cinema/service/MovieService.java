@@ -16,54 +16,16 @@ public class MovieService {
   }
 
   public List<Movie> findAll() {
-    return repository.findAll();
+    throw new UnsupportedOperationException("TODO C2: Alle Datensätze aus dem Repository lesen");
   }
 
   public Movie findById(long id) {
-    return repository
-        .findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("MOVIE_NOT_FOUND", "Film nicht gefunden"));
+    throw new UnsupportedOperationException("TODO C2: Datensatz lesen und unbekannte ID als 404 melden");
   }
 
   @Transactional
   public Movie create(MovieCommand command) {
-    if (repository.existsByMovieCode(command.movieCode())) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Movie(
-            null,
-            command.movieCode(),
-            command.title(),
-            command.releaseYear(),
-            command.durationMinutes(),
-            command.fskCode(),
-            command.minimumAge()));
+    throw new UnsupportedOperationException("TODO C3: Fachschlüssel prüfen und Datensatz speichern");
   }
 
-  @Transactional
-  public Movie replace(long id, MovieCommand command) {
-    findById(id);
-    if (repository.existsByMovieCodeAndIdNot(command.movieCode(), id)) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Movie(
-            id,
-            command.movieCode(),
-            command.title(),
-            command.releaseYear(),
-            command.durationMinutes(),
-            command.fskCode(),
-            command.minimumAge()));
-  }
-
-  @Transactional
-  public void delete(long id) {
-    repository.deleteById(id);
-  }
-
-  private ResourceConflictException duplicate() {
-    return new ResourceConflictException("MOVIE_CODE_EXISTS", "movie_code ist bereits vergeben");
-  }
 }

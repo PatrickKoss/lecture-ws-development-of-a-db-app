@@ -9,14 +9,12 @@ import com.example.restsimple.domain.Student;
 import com.example.restsimple.service.StudentService;
 import java.time.LocalDate;
 import java.util.List;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-@Disabled("Nach der gemeinsamen Implementierung von StudentService aktivieren")
 @WebMvcTest(StudentController.class)
 class StudentControllerTest {
     @Autowired MockMvc mockMvc;

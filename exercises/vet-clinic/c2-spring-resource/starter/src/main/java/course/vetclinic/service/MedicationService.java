@@ -16,56 +16,16 @@ public class MedicationService {
   }
 
   public List<Medication> findAll() {
-    return repository.findAll();
+    throw new UnsupportedOperationException("TODO C2: Alle Datensätze aus dem Repository lesen");
   }
 
   public Medication findById(long id) {
-    return repository
-        .findById(id)
-        .orElseThrow(
-            () ->
-                new ResourceNotFoundException("MEDICATION_NOT_FOUND", "Medikament nicht gefunden"));
+    throw new UnsupportedOperationException("TODO C2: Datensatz lesen und unbekannte ID als 404 melden");
   }
 
   @Transactional
   public Medication create(MedicationCommand command) {
-    if (repository.existsByPzn(command.pzn())) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Medication(
-            null,
-            command.pzn(),
-            command.productName(),
-            command.activeIngredient(),
-            command.dosageForm(),
-            command.prescriptionRequired(),
-            command.active()));
+    throw new UnsupportedOperationException("TODO C3: Fachschlüssel prüfen und Datensatz speichern");
   }
 
-  @Transactional
-  public Medication replace(long id, MedicationCommand command) {
-    findById(id);
-    if (repository.existsByPznAndIdNot(command.pzn(), id)) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Medication(
-            id,
-            command.pzn(),
-            command.productName(),
-            command.activeIngredient(),
-            command.dosageForm(),
-            command.prescriptionRequired(),
-            command.active()));
-  }
-
-  @Transactional
-  public void delete(long id) {
-    repository.deleteById(id);
-  }
-
-  private ResourceConflictException duplicate() {
-    return new ResourceConflictException("PZN_EXISTS", "pzn ist bereits vergeben");
-  }
 }

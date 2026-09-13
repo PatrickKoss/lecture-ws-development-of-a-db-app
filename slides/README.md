@@ -9,6 +9,12 @@ The full course is in `index.html`. The files `day1.html`, `day2.html`, and
 `day3.html` contain the daily subsets. Slide content is specified in
 `../docs/draft.md` and implemented as one chapter file under `decks/`.
 
+The C exercises use one complete university example before groups transfer the
+same step to their domain. C1 covers request and response models plus the HTTP
+contract. C2 builds both GET paths through repository, service, and controller.
+C3 adds validation, POST, duplicate handling, and student-written error tests.
+PUT or DELETE is an extension across every affected layer.
+
 ## Commands
 
 ```bash
@@ -76,3 +82,12 @@ Both commands use a 1920 by 1080 Chromium viewport.
 `make lint` checks HTML, CSS, JavaScript, JSON, and Markdown. `make format`
 writes the configured two-space format. Commit `package-lock.json` with changes
 to dependencies.
+
+## Gemeinsame Aufgaben und Lösungen
+
+Vor jeder Gruppenphase führt der gleich benannte Auftrag unter
+[`common-example/exercises/`](../common-example/exercises/README.md) durch das
+Hochschulbeispiel. Die Sprecherhinweise der Kapitel verweisen auf den Auftrag
+und die enthaltene Lösung. JDBC und Spring haben separate Starter für die
+gemeinsame Implementierung. Die vollständigen Beispiele bleiben zum Nachschlagen
+verfügbar.

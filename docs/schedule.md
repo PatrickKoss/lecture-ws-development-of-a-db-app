@@ -2,7 +2,7 @@
 
 Die Aufgaben haben feste Phasenkennungen. Diese Kennungen bleiben gleich, wenn Tag 2 und Tag 3 als gemeinsamer Implementierungsblock stattfinden. In A1 und A3 bearbeitet jede Gruppe zwei Themen. In allen übrigen Phasen arbeitet sie in `exercises/<thema-a>/` mit derselben Hauptentität.
 
-Vor jeder Gruppenphase bearbeiten alle am Universitätsbeispiel denselben Schritt: ER-Modell, Relationen, Normalisierung, SQL, JDBC, Repository, HTTP-Vertrag und Spring-Implementierung. Die Ergebnisse liegen unter `common-example/`. Die Gruppenaufgaben übertragen den gerade besprochenen Schritt anschließend auf ihre Domäne.
+Vor jeder Gruppenphase bearbeiten alle am Universitätsbeispiel denselben Schritt: ER-Modell, Relationen, Normalisierung, SQL, JDBC, Repository, HTTP-Vertrag und Spring-Implementierung. Die gemeinsamen Arbeitsaufträge liegen unter `common-example/exercises/` und verwenden dieselben Kennungen A0 bis C3. Die vollständigen Lösungen in `common-example/design/`, `sql/`, `jdbc/`, `repository-basic/` und `backend/` bleiben als Beispiele zugänglich. Die gemeinsame Bearbeitung gehört zu den Vortrags- und Demo-Blöcken der folgenden Tabellen. Sie ergänzt keine weitere Zeitbox. Die Gruppenaufgaben übertragen den gerade besprochenen Schritt anschließend auf ihre Domäne.
 
 Jede Aufgabe endet mit einem lauffähigen oder lesbaren Checkpoint. Die Lehrperson kann danach den vorbereiteten Zwischenstand freigeben. Eine Gruppe beginnt die nächste Phase nicht mit einem leeren Projekt.
 
@@ -18,9 +18,9 @@ Jede Aufgabe endet mit einem lauffähigen oder lesbaren Checkpoint. Die Lehrpers
 | B2    | vier geprüfte SQL-Abfragen                    |
 | B3    | JDBC-Mapping für `findById` und `findAll`     |
 | B4    | JDBC-freie Repository-Grenze                  |
-| C1    | HTTP-Vertrag für GET und POST                 |
-| C2    | JPA-Leseadapter und GET                       |
-| C3    | JPA-Schreiben, Konfliktfall und API-Tests     |
+| C1    | Request-/Response-Modelle und HTTP-Vertrag    |
+| C2    | GET durch Controller, Service und JPA         |
+| C3    | POST, Konfliktregel und eigene API-Tests      |
 
 ## Tag 1
 
@@ -77,7 +77,7 @@ Tagessumme: 420 Minuten.
 | 10:10 | 10:25 | Pause                           | keine                             | keine                                    |      15 |
 | 10:25 | 11:00 | 10 Spring Boot                  | `decks/10-spring-boot.html`       | gemeinsamer Start                        |      35 |
 | 11:00 | 11:50 | C2 GET mit JPA                  | `decks/10-spring-boot.html`       | `exercises/<domain>/c2-spring-resource/` |      50 |
-| 11:50 | 12:15 | POST, Request- und Response-DTO | `decks/11-good-design.html`       | vorbereiteter Pfad für C3                |      25 |
+| 11:50 | 12:15 | POST und Request-Validation     | `decks/11-good-design.html`       | gemeinsames Beispiel für C3              |      25 |
 | 12:15 | 13:00 | Mittagspause                    | keine                             | keine                                    |      45 |
 | 13:00 | 13:35 | 11 Service und Fehlervertrag    | `decks/11-good-design.html`       | keine                                    |      35 |
 | 13:35 | 14:20 | C3 JPA-POST und Konflikt        | `decks/11-good-design.html`       | `exercises/<domain>/c3-tests-errors/`    |      45 |
@@ -90,6 +90,6 @@ Tagessumme: 420 Minuten.
 
 ## Pflicht und Vertiefung
 
-Pflicht sind die Kernaufträge in A0 bis C3. Für REST gehören GET, POST, Validation, genau eine Konfliktregel mit `409 Conflict` und ein Controller-Test dazu. PUT, DELETE, weitere Beziehungen, Reflection, Security, Docker, Pagination und PATCH sind Vertiefungen oder Nachschlageinhalte.
+Pflicht sind die Kernaufträge in A0 bis C3. Für REST gehören beide GET-Wege, POST, Validation, genau eine Konfliktregel mit `409 Conflict`, ein vorgegebener Erfolgstest und selbst geschriebene Tests für 404 und 409 dazu. PUT, DELETE, weitere Beziehungen, Reflection, Security, Docker, Pagination und PATCH sind Vertiefungen oder Nachschlageinhalte.
 
 Wenn Tag 2 und Tag 3 zusammengelegt werden, bleibt die Reihenfolge B1 bis C3 bestehen. Die Lehrperson kann Vortragsblöcke kürzen und vorbereitete Zwischenstände freigeben. Die Übergaben zwischen Schema, JDBC, Repository-Grenze, Flyway und JPA dürfen nicht entfallen.

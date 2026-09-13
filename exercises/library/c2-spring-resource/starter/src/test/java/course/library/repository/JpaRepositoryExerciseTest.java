@@ -7,16 +7,27 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@Disabled("TODO C2: nach findAll und findById aktivieren")
 @SpringBootTest
 class JpaRepositoryExerciseTest {
   @Autowired BookRepository repository;
   @Autowired LookupRepository lookups;
 
+  @Disabled("TODO C2: nach findAll aktivieren")
   @Test
-  void readsSeedRowsThroughHibernateMappings() {
-    assertThat(repository.findById(1)).isPresent();
+  void readsSortedSeedRows() {
     assertThat(repository.findAll()).isNotEmpty();
+    assertThat(repository.findAll()).extracting(value -> value.id()).isSorted();
+  }
+
+  @Disabled("TODO C2: nach findById aktivieren")
+  @Test
+  void readsKnownIdAndReportsMissingId() {
+    assertThat(repository.findById(1)).isPresent();
+    assertThat(repository.findById(Long.MAX_VALUE)).isEmpty();
+  }
+
+  @Test
+  void readsPreparedLookupsInIdOrder() {
     assertThat(lookups.findAllLabels())
         .containsExactly(
             "Herrndorf",

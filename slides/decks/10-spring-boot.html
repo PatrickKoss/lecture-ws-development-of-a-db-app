@@ -442,7 +442,11 @@
     <span class="slide-frame__footer-right">10.1</span>
   </div>
   <aside class="notes">
-    Wir starten den Health-Endpoint des C2-Starters. Danach gleichen wir das
+    Gemeinsame Vorbereitung:
+    common-example/exercises/c2-spring-resource/README.md. Bearbeitet diesen
+    Auftrag vor der Gruppenphase. Die vollständige Lösung unter
+    common-example/backend/README.md bleibt zum Nachschlagen zugänglich. Wir
+    starten den Health-Endpoint des C2-Starters. Danach gleichen wir das
     B1-Schema mit dem JPA-Mapping ab und lesen dieselbe Hauptressource über zwei
     GET-Endpunkte. B4 liefert die fachliche Repository-Grenze.
   </aside>
@@ -1047,18 +1051,18 @@ springdoc.swagger-ui.path=/swagger-ui.html</code></pre>
       rx="10"
     ></rect>
     <text class="d10-body d10-blue" x="1410" y="305" text-anchor="middle">
-      BookResponse
+      StudentResponse
     </text>
     <text class="d10-body" x="850" y="500" text-anchor="middle">
-      GET /api/books
+      GET /api/students
     </text>
   </svg>
   <div class="slide-caption d10-source">
-    exercises/library/c2-spring-resource/starter · BookController.java
+    common-example/backend · StudentController.java
   </div>
   <aside class="notes">
-    Controller und Service sind vorbereitet. Wir implementieren findAll im
-    JpaBookRepository und prüfen danach das Mapping zu BookResponse.
+    Das Universitätsbeispiel zeigt den vollständigen Pfad. Die Gruppen bauen
+    denselben Pfad in ihrer Domäne durch Repository, Service und Controller.
   </aside>
 </section>
 
@@ -1154,7 +1158,7 @@ public List&lt;Book&gt; findAll() {
 
 <section class="code-slide d10-code d10-code-compact">
   <h2 class="slide-title">Eine Transaktion pro Anwendungsfall</h2>
-  <div class="slide-context blue">Service · C3</div>
+  <div class="slide-context blue">Service · C2 und C3</div>
   <div class="code-slide__content">
     <pre><code class="language-java" data-trim data-line-numbers="1-3|5-7">@Service
 @Transactional(readOnly = true)
@@ -1191,18 +1195,17 @@ public class BookService {
   <div class="slide-context amber">C2 · Kernpfad</div>
   <div class="code-slide__content code-slide__content--wide">
     <pre><code class="language-java" data-trim data-line-numbers="1|2|3">@GetMapping("/{id}")
-public BookResponse findById(@PathVariable long id) {
-    return BookResponse.from(service.findById(id));
+public StudentResponse findById(@PathVariable long id) {
+    return StudentResponse.from(service.findById(id));
 }</code></pre>
   </div>
   <div class="slide-caption d10-source">
-    exercises/library/c2-spring-resource/starter · BookController.java, ohne
-    OpenAPI-Annotationen
+    common-example/backend · StudentController.java
   </div>
   <aside class="notes">
-    Der Controller delegiert die Suche an den vorbereiteten Service. Wir
-    ergänzen den ORM-Adapter und prüfen die vorbereitete Service-Regel für
-    Treffer und 404 gemeinsam.
+    Das Universitätsbeispiel zeigt den fertigen Weg. In C2 schreiben die Gruppen
+    Response-Mapping, Repository, Service und Controller selbst. Ein fehlender
+    Datensatz wird im Service zum 404-Fall.
   </aside>
 </section>
 
@@ -1633,32 +1636,36 @@ public BookResponse findById(@PathVariable long id) {
   <div class="d10-exercise-steps">
     <div class="d10-exercise-step">
       <span>1</span>
-      <div>Übernehmt das B1-Schema und prüft das JPA-Mapping.</div>
+      <div>Ergänzt Response-Mapping und <code>findAll</code>.</div>
     </div>
     <div class="d10-exercise-step">
       <span>2</span>
-      <div>Verbindet den Repository-Adapter mit Spring Data JPA.</div>
+      <div>Baut Collection-GET durch Service und Controller.</div>
     </div>
     <div class="d10-exercise-step">
       <span>3</span>
-      <div>Implementiert <code>findAll</code> und aktiviert den ORM-Test.</div>
+      <div>Ergänzt <code>findById</code>, Service und Einzel-GET.</div>
     </div>
     <div class="d10-exercise-step">
       <span>4</span>
-      <div>Prüft GET per ID mit <code>findById</code>, 200 und 404.</div>
+      <div>Prüft Collection, bekannte ID und 404.</div>
     </div>
   </div>
   <div class="d10-exercise-path">
     exercises/&lt;domain&gt;/c2-spring-resource/
   </div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> GET 200 und 404, grüner ORM-Test
+    <strong>Abgabe:</strong> grüne Repository- und GET-Checkpoints
   </div>
   <aside class="notes">
-    Der Starter enthält Controller, DTOs, Service, Entity und ein
-    Spring-Data-Interface. Die Gruppe ergänzt die GET-Methoden im ORM-Adapter.
-    Das JDBC-Repository aus B4 bleibt der Vergleichsstand. Die B1-Migrationen
-    und fachlichen Methoden werden weiterverwendet. POST folgt in C3.
+    Arbeitet in zwei Checkpoints. Zuerst muss die Collection durch alle
+    Schichten laufen. Aktiviert danach
+    JpaRepositoryExerciseTest.readsSortedSeedRows und
+    ReadApiExerciseTest.readsSeedData. Für Einzelzugriff und fehlende ID folgt
+    JpaRepositoryExerciseTest.readsKnownIdAndReportsMissingId. Der Starter
+    enthält Konstruktorverdrahtung, Entity, Spring-Data-Interface, Fehlerhandler
+    und Infrastruktur. Die Methodenrümpfe in Service und Controller schreiben
+    die Gruppen. POST folgt in C3.
   </aside>
 </section>
 
@@ -1817,7 +1824,8 @@ implementation(
     passt zu Spring Boot 4, siehe https://springdoc.org/faq.html. Die Version
     entspricht dem gemeinsamen Kursbeispiel. Der POST-Controller liefert 201
     samt Location und nutzt getrennte Request- und Response-DTOs. Die Gruppen
-    implementieren in C2 die GET-Repository-Methoden und in C3 save sowie die
-    Eindeutigkeitsprüfung. Nach Codeänderungen neu starten.
+    implementieren in C2 den vollständigen GET-Pfad durch Repository, Service
+    und Controller. In C3 folgen Request-Mapping, Speichern, Konfliktregel und
+    POST. Nach Codeänderungen neu starten.
   </aside>
 </section>

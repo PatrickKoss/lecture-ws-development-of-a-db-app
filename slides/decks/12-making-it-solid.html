@@ -369,6 +369,9 @@
     <span class="slide-frame__footer-right">12.1</span>
   </div>
   <aside class="notes">
+    Gemeinsame Vorbereitung: common-example/exercises/c3-tests-errors/README.md.
+    Bearbeitet diesen Auftrag vor der Gruppenphase. Die vollständige Lösung
+    unter common-example/backend/README.md bleibt zum Nachschlagen zugänglich.
     Wir machen aus einer laufenden Demo ein System, dessen Verhalten prüfbar und
     beobachtbar ist.
   </aside>
@@ -936,14 +939,14 @@
 <section class="code-slide d12-code-medium">
   <h2 class="slide-title">Ein Mockito-Test</h2>
   <div class="code-slide__content code-slide__content--wide">
-    <pre><code class="language-java" data-trim data-line-numbers="1|4|7-8">when(repository.insert(any(Student.class))).thenReturn(saved);
+    <pre><code class="language-java" data-trim data-line-numbers="1|4|7-8">when(repository.save(any(Student.class))).thenReturn(saved);
 
 // When
-Student result = service.create(request);
+Student result = service.create(command);
 
 // Then
 assertThat(result).isEqualTo(saved);
-verify(repository).insert(any(Student.class));</code></pre>
+verify(repository).save(any(Student.class));</code></pre>
   </div>
   <div class="d12-code-source">
     common-example/backend/src/test/java/com/example/restsimple/service/StudentServiceTest.java
@@ -1779,24 +1782,26 @@ try {
   <p class="exercise-slide__task">Vertrag und Fehler testen</p>
   <div class="d12-exercise-steps">
     <div class="d12-exercise-step">
-      <strong>1</strong>Testet POST 201, Location und gespeicherte Felder.
+      <strong>1</strong>Aktiviert den Beispieltest für POST 201 und Location.
     </div>
     <div class="d12-exercise-step">
-      <strong>2</strong>Testet Validierung 400 mit fields und correlationId.
+      <strong>2</strong>Aktiviert den Beispieltest für Validation 400.
     </div>
     <div class="d12-exercise-step">
-      <strong>3</strong>Testet UNIQUE 409 mit der echten ORM-Datenbank.
+      <strong>3</strong>Schreibt Tests für unbekannte ID und Duplikat 409.
     </div>
   </div>
   <div class="d12-exercise-path">exercises/&lt;domain&gt;/c3-tests-errors/</div>
   <div class="exercise-slide__deliverable">
-    <strong>Abgabe:</strong> grüne Tests für 201, 400, 409 und ApiError
+    <strong>Abgabe:</strong> grüne Tests für 201, 400, 404, 409 und ApiError
   </div>
   <aside class="notes">
-    Der Filter ist vorbereitet. Die Gruppe prüft den gleichen Wert in Header und
-    Fehlerkörper. Die Integrationstests verwenden Flyway und Hibernate mit
-    SQLite. Als Vertiefung kommen PUT, DELETE und ein Fremdschlüsselkonflikt
-    hinzu. Fehlgeschlagene Schreibzugriffe dürfen keine Teildaten hinterlassen.
+    CreateApiExampleTest enthält createsResource und
+    reportsValidationWithCorrelationId. Die Gruppen schreiben
+    ReadApiExerciseTest.reportsUnknownId und
+    CreateApiExampleTest.rejectsDuplicateBusinessKey selbst. Die
+    Integrationstests verwenden Flyway, Hibernate und SQLite. PUT oder DELETE
+    bleibt eine Vertiefung durch DTO, Controller, Service und Repository.
   </aside>
 </section>
 

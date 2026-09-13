@@ -295,6 +295,9 @@
     </g>
   </svg>
   <aside class="notes">
+    Gemeinsame Vorbereitung: common-example/exercises/c3-tests-errors/README.md.
+    Bearbeitet diesen Auftrag vor der Gruppenphase. Die vollständige Lösung
+    unter common-example/backend/README.md bleibt zum Nachschlagen zugänglich.
     Wir verbessern eine laufende API. Jede neue Klasse braucht eine konkrete
     Verantwortung.
   </aside>
@@ -1903,19 +1906,16 @@ return data.saveAndFlush(BookJpaEntity.fromDomain(value))
   <p class="exercise-slide__task">POST für dieselbe Hauptressource</p>
   <div class="d11-exercise-steps">
     <div class="d11-exercise-step">
-      <span>1</span
-      ><span>Implementiert save im ORM-Adapter mit Spring Data.</span>
+      <span>1</span><span>Ergänzt Request-Validierung und Mapping.</span>
     </div>
     <div class="d11-exercise-step">
-      <span>2</span
-      ><span>Prüft DTO-Validierung und POST 201 mit Location.</span>
+      <span>2</span><span>Implementiert exists und save im ORM-Adapter.</span>
     </div>
     <div class="d11-exercise-step">
-      <span>3</span
-      ><span>Ergänzt die Eindeutigkeitsprüfung und prüft 409.</span>
+      <span>3</span><span>Baut Service-Regel und POST 201 mit Location.</span>
     </div>
     <div class="d11-exercise-step">
-      <span>4</span><span>Aktiviert die Tests für 400, 409 und ApiError.</span>
+      <span>4</span><span>Prüft 201, 400 und 409.</span>
     </div>
   </div>
   <div class="d11-exercise-path">exercises/&lt;domain&gt;/c3-tests-errors/</div>
@@ -1924,10 +1924,11 @@ return data.saveAndFlush(BookJpaEntity.fromDomain(value))
   </div>
   <aside class="notes">
     POST verwendet dieselbe flache Hauptressource wie die GET-Endpunkte aus C2.
-    Der vorbereitete Service führt die Fachregel in einer Transaktion aus. Die
-    Gruppe ergänzt die ORM-Methoden und aktiviert die Tests. PUT, DELETE und
-    Fremdschlüsselkonflikte sind Vertiefung. Die Musterlösung enthält auch diese
-    Methoden und Tests.
+    Die Gruppen schreiben Request-Konvertierung, Repository-Zugriffe,
+    Konfliktregel und Controller-Methode. Infrastruktur und Fehlerübersetzung
+    sind vorbereitet. Ein Beispieltest zeigt das Muster; die Fehlerfälle
+    schreiben die Gruppen selbst. PUT oder DELETE ist eine Vertiefung durch alle
+    betroffenen Schichten.
   </aside>
 </section>
 

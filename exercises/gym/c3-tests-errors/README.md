@@ -1,12 +1,10 @@
-# C3: Schreiben, Fehler und Tests
+# C3: POST, Fehler und eigene Tests
 
 Zeitbox: 45 Minuten für POST und Fehlervertrag, danach 35 Minuten für die Tests. Die Vertiefung beginnt erst nach beiden Blöcken.
 
 ## Eingang
 
-Arbeitet weiter in `../c2-spring-resource/starter`. `requests.http` enthält GET- und POST-Requests. Controller, Bean Validation, Service, globaler Fehlerhandler und Korrelationsfilter sind vorbereitet.
-
-Aus C2 funktionieren `findAll` und `findById` im JPA-Adapter. Offen sind `save` und `existsByCourseCode` in `JpaCourseRepository`. `SQLiteConstraintTranslator` übersetzt einen UNIQUE-Verstoß, der trotz vorheriger Konfliktprüfung beim Speichern auftreten kann.
+Arbeitet weiter in `../c2-spring-resource/starter`. Aus C2 funktionieren beide GET-Wege. Der globale Fehlerhandler, der Korrelationsfilter und `SQLiteConstraintTranslator` sind vorbereitet. `requests.http` enthält Beispielaufrufe.
 
 Starttest:
 
@@ -14,25 +12,39 @@ Starttest:
 cd ../c2-spring-resource/starter && ./gradlew test
 ```
 
-## Kernauftrag
+## Regeln für den Request
 
-1. Implementiert `existsByCourseCode(String)` über die vorbereitete abgeleitete Methode in `SpringDataCourseRepository`.
-2. Implementiert `save(Course)`. Mappt auf `CourseJpaEntity` und verwendet `saveAndFlush`, damit ein Datenbankfehler innerhalb des Repository-Aufrufs auftritt. Übergibt die Ausnahme an `SQLiteConstraintTranslator`.
-3. Aktiviert `CourseApiExerciseTest`.
-4. Prüft 201 samt `Location`-Header, 400 samt Feldfehlern und 409 für ein doppeltes `courseCode`. Der Fehlerkörper enthält `code`, `message`, `correlationId` und bei Validierungsfehlern `fields`.
-5. Führt `requests.http` gegen die gestartete Anwendung aus und vergleicht die Antworten mit `/v3/api-docs`.
+- courseCode: Text, 2 bis 20 Zeichen, nicht leer
+- title: Text, 1 bis 100 Zeichen, nicht leer
+- level: BEGINNER, INTERMEDIATE oder ADVANCED
+- durationMinutes: positive Ganzzahl
+- roomId: positive Ganzzahl
+
+Alle Request-Komponenten sind erforderlich. Texte dürfen nicht leer sein. Setzt die genannten Grenzen und Formate mit Bean Validation um. `@Schema` beschreibt die Felder, prüft sie aber nicht zur Laufzeit.
+
+## Kernauftrag: POST und Fehlervertrag
+
+1. Ergänzt die Validierungsannotationen in `CreateCourseRequest` und implementiert `toCommand()`. Die ID gehört nicht in den Request.
+2. Implementiert `existsByCourseCode(String)` und `save(Course)` in `JpaCourseRepository`. Nutzt die vorbereitete Spring-Data-Methode. Mappt beim Speichern auf `CourseJpaEntity`, verwendet `saveAndFlush` und reicht Datenbankfehler an `SQLiteConstraintTranslator` weiter.
+3. Implementiert `create` im Service. Prüft `courseCode` vor dem Speichern und werft bei einem Duplikat die vorbereitete Konfliktausnahme.
+4. Implementiert POST im Controller. Validiert den Request, ruft den Service auf und liefert 201 mit dem gespeicherten `CourseResponse` sowie einem `Location`-Header auf die neue Ressource.
+5. Aktiviert in `CreateApiExampleTest` die bereitgestellten Fälle `createsResource` und `reportsValidationWithCorrelationId`. Sie zeigen einen erfolgreichen POST sowie den 400-Fehlervertrag. Führt danach alle Tests aus.
+
+## Kernauftrag: zwei eigene Tests
+
+Schreibt die Assertions selbst. Kopiert nicht nur den Beispieltest.
+
+1. Implementiert und aktiviert in `ReadApiExerciseTest` den TODO-Test `reportsUnknownId` für eine unbekannte ID. Prüft Status 404 sowie `code`, `message` und `correlationId`.
+2. Implementiert und aktiviert in `CreateApiExampleTest` den TODO-Test `rejectsDuplicateBusinessKey` für ein doppeltes `courseCode`. Legt den Konflikt über zwei Requests oder mit den Seed-Daten an. Prüft Status 409 und den Fehlerkörper.
+3. Prüft zusätzlich mit `requests.http` einen ungültigen Request. Erwartet 400 und mindestens einen Eintrag unter `fields`.
 
 ## Vertiefung
 
-Implementiert PUT mit `existsByCourseCodeAndIdNot(String, long)`. Für ein idempotentes DELETE verwendet ihr `deleteById(long)` und `flush`. Ergänzt für jede neue Operation einen API-Test und den OpenAPI-Vertrag.
-
-## Vorbereiteter Zwischenstand
-
-Der Service prüft den fachlichen Schlüssel vor dem Speichern. Der Übersetzer fängt zusätzlich den UNIQUE-Verstoß der Datenbank ab. Der Korrelationsfilter übernimmt eine eingehende `X-Correlation-ID` oder erzeugt eine neue und schreibt sie in Response und MDC.
+Implementiert PUT oder DELETE vollständig über DTO, Controller, Service, Repository-Interface, JPA-Adapter und Spring-Data-Repository. Ergänzt den OpenAPI-Vertrag und mindestens einen API-Test. Für PUT braucht ihr eine Duplikatprüfung, die die aktuelle ID ausnimmt. Für DELETE legt ihr fest und testet, wie ein wiederholter Aufruf antwortet.
 
 ## Ausgang
 
-Alle aktivierten Tests laufen. `requests.http` reproduziert 201, 400 und 409. Weder JPA-Entity noch technische Ausnahmedetails erscheinen im HTTP-Response.
+GET und POST laufen durch alle Schichten. POST liefert 201 mit `Location`. Validation liefert 400, ein doppeltes `courseCode` liefert 409 und eine unbekannte ID 404. Die beiden bereitgestellten Beispiele und eure beiden Tests laufen.
 
 Prüfbefehl:
 
@@ -42,4 +54,4 @@ cd ../c2-spring-resource/starter && ./gradlew test
 
 ## Auswertung
 
-Warum reicht die Abfrage mit `existsByCourseCode` allein nicht als Schutz vor Duplikaten? Welche Information braucht ein Client, und welche gehört nur ins Server-Log?
+Warum reicht die vorherige `existsByCourseCode`-Abfrage nicht als alleiniger Schutz vor Duplikaten? Welche Fehlerdetails braucht ein Client, und welche gehören nur ins Server-Log?

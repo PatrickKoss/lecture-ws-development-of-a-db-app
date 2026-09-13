@@ -16,51 +16,16 @@ public class RoomTypeService {
   }
 
   public List<RoomType> findAll() {
-    return repository.findAll();
+    throw new UnsupportedOperationException("TODO C2: Alle Datensätze aus dem Repository lesen");
   }
 
   public RoomType findById(long id) {
-    return repository
-        .findById(id)
-        .orElseThrow(
-            () -> new ResourceNotFoundException("ROOM_TYPE_NOT_FOUND", "Zimmertyp nicht gefunden"));
+    throw new UnsupportedOperationException("TODO C2: Datensatz lesen und unbekannte ID als 404 melden");
   }
 
   @Transactional
   public RoomType create(RoomTypeCommand command) {
-    if (repository.existsByTypeCode(command.typeCode())) {
-      throw duplicate();
-    }
-    return repository.save(
-        new RoomType(
-            null,
-            command.typeCode(),
-            command.name(),
-            command.capacity(),
-            command.standardPriceCents()));
+    throw new UnsupportedOperationException("TODO C3: Fachschlüssel prüfen und Datensatz speichern");
   }
 
-  @Transactional
-  public RoomType replace(long id, RoomTypeCommand command) {
-    findById(id);
-    if (repository.existsByTypeCodeAndIdNot(command.typeCode(), id)) {
-      throw duplicate();
-    }
-    return repository.save(
-        new RoomType(
-            id,
-            command.typeCode(),
-            command.name(),
-            command.capacity(),
-            command.standardPriceCents()));
-  }
-
-  @Transactional
-  public void delete(long id) {
-    repository.deleteById(id);
-  }
-
-  private ResourceConflictException duplicate() {
-    return new ResourceConflictException("ROOM_TYPE_CODE_EXISTS", "type_code ist bereits vergeben");
-  }
 }
