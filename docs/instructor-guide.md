@@ -48,9 +48,9 @@ In A1 und A3 teilt sich jede Gruppe in zwei Teilteams und bearbeitet beide Theme
 
 ### Lösungen und Checkpoints
 
-Die Teilnehmerordner enthalten TODOs, kleine Beispieldaten und vorbereitete Zwischenstände. Vollständige Lösungen liegen getrennt unter `exercises/instructor-solutions/<domain>/`. Erstelle die Teilnehmerausgabe ohne diesen Ordner.
+Die Teilnehmerordner enthalten TODOs, kleine Beispieldaten und vorbereitete Zwischenstände. Vollständige Lösungen gehören zum separaten Lehrendenpaket und sind in diesem Branch nicht enthalten. Alle Verweise auf `exercises/instructor-solutions/<domain>/` in diesem Leitfaden beziehen sich auf dieses Paket.
 
-Die Ordner `jdbc/`, `repository/` und `spring/` im Lehrendenpaket sind eigenständige Gradle-Projekte. Sie lassen sich dort mit `./gradlew test` prüfen. Die Spring-Lösung refaktoriert den JDBC-Starter auf Spring Data JPA und Hibernate. Controller, DTOs, Service und Repository haben getrennte Aufgaben. Unter `api/` liegt der exportierte OpenAPI-Vertrag. `bash exercises/instructor-solutions/verify.sh` prüft alle Lösungen einschließlich der Reserveübungen und `_template`.
+Die Ordner `jdbc/`, `repository/` und `spring/` im Lehrendenpaket sind eigenständige Gradle-Projekte. Sie lassen sich dort mit `./gradlew test` prüfen. Die Spring-Lösung refaktoriert den JDBC-Starter auf Spring Data JPA und Hibernate. Controller, DTOs, Service und Repository haben getrennte Aufgaben. Unter `api/` liegt der exportierte OpenAPI-Vertrag. Die vollständigen Prüfhinweise stehen im README des Lehrendenpakets.
 
 `music-school` ist als zusätzliche Beispielübung gedacht. Die zugehörige Musterlösung erklärt alle Phasen bis zu den Spring-Tests. Gib sie nach C3 vollständig aus oder stelle nach jeder Auswertung nur den abgeschlossenen Abschnitt bereit.
 

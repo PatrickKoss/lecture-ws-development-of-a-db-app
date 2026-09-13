@@ -33,20 +33,13 @@ Eine Gruppe startet in ihrem Domänenordner. Beispiel:
 cd exercises/library
 ```
 
-Die Aufgaben heißen A0 bis C3. Jeder Aufgabenordner nennt den benötigten Eingang, den Kernauftrag, Erweiterungen und einen Prüfbefehl. Die vollständigen Lösungen liegen getrennt unter `exercises/instructor-solutions/` und gehören nicht zur Teilnehmerausgabe.
+Die Aufgaben heißen A0 bis C3. Jeder Aufgabenordner nennt den benötigten Eingang, den Kernauftrag, Erweiterungen und einen Prüfbefehl. Vollständige Lösungen gehören zum separaten Lehrendenpaket und sind in diesem Branch nicht enthalten.
 
 B3 vermittelt JDBC mit PreparedStatements und Row Mapping. B4 trennt den
 Datenzugriff hinter einem Repository-Interface. Die Spring-Übungen C1 bis C3
 verwenden Spring Data JPA und Hibernate mit getrennten DTOs, Controller,
 Service und ORM-Repository. Flyway verwaltet das Schema; SpringDoc erzeugt
-die OpenAPI-Spec. Alle 13 Domänen und `_template` haben passende Starter und
-ausführbare Musterlösungen.
-
-Das gesamte Lehrendenpaket prüfen:
-
-```sh
-bash exercises/instructor-solutions/verify.sh
-```
+die OpenAPI-Spec. Alle 13 Domänen und `_template` haben passende Starter.
 
 Vor dem Kurs können Lehrpersonen das gemeinsame Beispiel prüfen:
 

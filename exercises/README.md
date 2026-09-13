@@ -70,7 +70,7 @@ B3 zeigt JDBC und sichtbares Row-Mapping. B4 zieht eine JDBC-freie Repository-Sc
 
 ## Lösungen
 
-Vollständige Lösungen für A0 bis C3 liegen unter `instructor-solutions/`. Neben Modellen und SQL enthalten sie ausführbare JDBC-, Repository- und Spring-Projekte für alle Domänen und `_template`. Die Spring-Lösungen verwenden Spring Data JPA und Hibernate und enthalten einen exportierten OpenAPI-Vertrag. Dieser Ordner gehört zum Lehrendenpaket und wird nicht an Teilnehmer verteilt. Die Gruppenordner enthalten TODOs, wenige Beispieldaten und lauffähige technische Grundgerüste.
+Vollständige Lösungen für A0 bis C3 gehören zum separaten Lehrendenpaket und sind in diesem Branch nicht enthalten. Verweise auf `instructor-solutions/` in den Aufgaben bezeichnen Dateien aus diesem Paket, die die Lehrperson bei Bedarf freigibt. Die Gruppenordner enthalten TODOs, wenige Beispieldaten und lauffähige technische Grundgerüste.
 
 ## OpenAPI in C1 bis C3
 
