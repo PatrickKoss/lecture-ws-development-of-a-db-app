@@ -353,8 +353,11 @@
     <span class="slide-frame__footer-right">08</span>
   </div>
   <aside class="notes">
-    Das Kapitel beginnt mit unserem eigenen Schmerz. Wiederholter JDBC-Code wird
-    zu einer gemeinsamen Abstraktion.
+    Gemeinsame Vorbereitung: common-example/exercises/b4-repository/README.md.
+    Bearbeitet diesen Auftrag vor der Gruppenphase. Die vollständige Lösung
+    unter common-example/repository-basic/README.md bleibt zum Nachschlagen
+    zugänglich. Das Kapitel beginnt mit unserem eigenen Schmerz. Wiederholter
+    JDBC-Code wird zu einer gemeinsamen Abstraktion.
   </aside>
 </section>
 
@@ -503,15 +506,13 @@
     >B4 · fachliche Repository-Schnittstelle</span
   >
   <div class="code-slide__content code-slide__content--wide">
-    <pre><code class="language-java" data-trim data-line-numbers="1|2-4">public interface BookRepository {
-    Optional&lt;Book&gt; findById(long id);
-    List&lt;Book&gt; findAll();
-    Book insert(Book value);
+    <pre><code class="language-java" data-trim data-line-numbers="1|2-3">public interface StudentRepository {
+    Optional&lt;Student&gt; findById(long id);
+    List&lt;Student&gt; findAll();
 }</code></pre>
     <div class="d08-method-row fragment fade-in" data-fragment-index="1">
       <div class="d08-method-chip">findAll</div>
       <div class="d08-method-chip">findById</div>
-      <div class="d08-method-chip">insert</div>
     </div>
     <p
       style="
@@ -525,7 +526,7 @@
     </p>
   </div>
   <div class="d08-source">
-    Lehrendenpaket · library/repository · BookRepository.java
+    common-example/repository-basic · StudentRepository.java
   </div>
   <aside class="notes">
     Der Catalog kennt fachliche Methoden. Connection, ResultSet und SQLException
@@ -541,7 +542,7 @@
   <div class="code-slide__content">
     <pre><code class="language-java" data-trim data-line-numbers>private static Student rowToStudent(ResultSet resultSet) throws SQLException {
     return new Student(
-            resultSet.getInt("id"),
+            resultSet.getLong("id"),
             resultSet.getString("first_name"),
             resultSet.getString("last_name"),
             resultSet.getString("email"),

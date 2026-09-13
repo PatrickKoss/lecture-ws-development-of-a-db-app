@@ -1,6 +1,6 @@
 # Entwicklung einer Datenbankanwendung
 
-Content-Spezifikation für 14 Reveal.js-Decks, drei Tage von 09:00 bis 16:00 Uhr. Alle Folientexte, Notizen und Übungen sind deutsch. Code, SQL und Identifier bleiben englisch. Ein technischer Begriff erscheint beim ersten Einsatz mit deutscher Erklärung. Die Studierenden arbeiten in VS Code. Es gibt keine Benotung. Lösungen liegen auf `main`. Das gemeinsame Lehrbeispiel unter `common-example/` nutzt durchgehend `Student`, `Course`, `Lecturer`, `Department` und `Enrollment`. Zehn Gruppen übertragen die Schritte auf je eine eigene Domäne.
+Content-Spezifikation für 14 Reveal.js-Decks, drei Tage von 09:00 bis 16:00 Uhr. Alle Folientexte, Notizen und Übungen sind deutsch. Code, SQL und Identifier bleiben englisch. Ein technischer Begriff erscheint beim ersten Einsatz mit deutscher Erklärung. Die Studierenden arbeiten in VS Code. Es gibt keine Benotung. Die Lösungen des gemeinsamen Beispiels sind im Repository enthalten und bleiben zum Nachschlagen verfügbar. Gruppenspezifische Lösungen gehören zum separaten Lehrendenpaket. Das gemeinsame Lehrbeispiel unter `common-example/` nutzt durchgehend `Student`, `Course`, `Lecturer`, `Department` und `Enrollment`. Zehn Gruppen übertragen die Schritte auf je eine eigene Domäne.
 
 ## Stand
 
@@ -42,6 +42,7 @@ Die Deck-Agenten übernehmen diese Namen und Zahlen unverändert.
 - `courses` hat `id`, `course_code`, `title`, `credits`, `lecturer_id`. `lecturers` hat `id`, `first_name`, `last_name`, `email`, `department_id`. `departments` hat `id`, `name`, `code`.
 - `common-example/sql/queries.sql` enthält genau zwölf Anweisungen. Ihre erwarteten Zeilenzahlen sind der Reihe nach 20, 5, 1, 1, 16, 1, 7, 7, 3, 7, 24 und 3. Query 3 ändert Lenas E-Mail-Adresse. Query 4 löscht Samir Saleh. Die folgenden Queries laufen auf diesem veränderten Stand.
 - Das gemeinsame Backend und die Spring-Decks verwenden `firstName`, `lastName`, `email`, `studentNumber` und `enrollmentDate`. In SQL heißen die entsprechenden Spalten `first_name`, `last_name`, `email`, `student_number` und `enrollment_date`. `common-example/advanced-backend` ist nur ein weiterführendes Referenzprojekt und bestimmt nicht den Kursvertrag.
+- Die gemeinsamen Aufgaben unter `common-example/exercises/` verwenden dieselben Phasenkennungen. Sie verlinken enthaltene Lösungen in `design/`, `sql/`, `jdbc/`, `repository-basic/` und `backend/`. Für JDBC und Spring gibt es eigene Starter. Vor der Gruppenphase bearbeiten wir den passenden Auftrag gemeinsam.
 - Die Übungsordner sind verbindlich und bauen aufeinander auf: A0 `a0-domain`, A1 `a1-er-model`, A2 `a2-relational-model`, A3 `a3-normalization`, B1 `b1-schema`, B2 `b2-sql`, B3 `b3-jdbc`, B4 `b4-repository`, C1 `c1-http-contract`, C2 `c2-spring-resource` und C3 `c3-tests-errors`. Jeder Pfad beginnt mit `exercises/<domain>/` und enthält ein Grundgerüst, eine Gruppenanleitung und einen Leitfaden.
 
 ## 00 Auftakt (Dateiname decks/00-opening.html)
@@ -1081,7 +1082,7 @@ Reveal.js Prompt: SVG Ergebnistabelle mit Cursorpfeil oberhalb. Fragmente: 1 `rs
 #### Folie 07.10: ResultSet wird Student
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/jdbc/src/main/java/org/lecture/Main.java`, Zeilen 115 bis 122, vollständig und verbatim. Code: `Student student = new Student(\n        resultSet.getInt("id"),\n        resultSet.getString("first_name"),\n        resultSet.getString("last_name"),\n        resultSet.getString("email"),\n        resultSet.getString("student_number"),\n        LocalDate.parse(resultSet.getString("enrollment_date"))\n);`. Highlights 1|2-6|7-8. Notizen: "Die Namen entsprechen `students` in `schema.sql`. Hier wird eine Zeile zum Objekt. Ein falscher Spaltenname fällt erst zur Laufzeit auf."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/jdbc/src/main/java/org/lecture/Main.java`, Zeilen 115 bis 122, vollständig und verbatim. Code: `Student student = new Student(\n        resultSet.getLong("id"),\n        resultSet.getString("first_name"),\n        resultSet.getString("last_name"),\n        resultSet.getString("email"),\n        resultSet.getString("student_number"),\n        LocalDate.parse(resultSet.getString("enrollment_date"))\n);`. Highlights 1|2-6|7-8. Notizen: "Die Namen entsprechen `students` in `schema.sql`. Hier wird eine Zeile zum Objekt. Ein falscher Spaltenname fällt erst zur Laufzeit auf."
 ```
 
 #### Folie 07.11: SELECT und Cursor zusammen
@@ -1190,7 +1191,7 @@ Der absichtlich duplizierte Mapping-Block lautet an beiden Stellen verbatim, ein
 
 ```java
 Student student = new Student(
-        resultSet.getInt("id"),
+        resultSet.getLong("id"),
         resultSet.getString("first_name"),
         resultSet.getString("last_name"),
         resultSet.getString("email"),
@@ -1352,7 +1353,7 @@ Zuerst wird `common-example/jdbc/src/main/java/org/lecture/MainRefactored.java` 
 ```java
 private static Student rowToStudent(ResultSet resultSet) throws SQLException {
     return new Student(
-            resultSet.getInt("id"),
+            resultSet.getLong("id"),
             resultSet.getString("first_name"),
             resultSet.getString("last_name"),
             resultSet.getString("email"),
@@ -1503,11 +1504,11 @@ Reveal.js Prompt: SVG OpenAPI-Datei in Mitte, Pfeile zu Swagger UI, Clientgenera
 
 #### Folie 09.14: OpenAPI aus Controller und DTOs
 
-Reveal.js Prompt: Layout .code-slide. Java-Ausschnitt aus dem BookController der Library-Übung mit @Operation, @ApiResponse für 201, @Schema(implementation = BookResponse.class), @PostMapping und CreateBookRequest als Parameter. Ablauf unten: Controller + DTOs → SpringDoc → /v3/api-docs → Swagger UI. Notizen erklären den Unterschied zwischen Spring @RequestBody und der gleichnamigen OpenAPI-Annotation. Die vollständige Methode enthält 400, 409 und Location.
+Reveal.js Prompt: Layout .code-slide. Java-Ausschnitt auf Basis des vollständigen Universitätsbeispiels mit @Operation, @ApiResponse für 201, @Schema(implementation = StudentResponse.class), @PostMapping und CreateStudentRequest als Parameter. Ablauf unten: Controller + DTOs → SpringDoc → /v3/api-docs → Swagger UI. Notizen erklären den Unterschied zwischen Spring @RequestBody und der gleichnamigen OpenAPI-Annotation. Die Folie ergänzt die ausführlichen Response-Annotationen für 400, 409 und Location.
 
 #### Zusatzfolie: Request und Response sind Modelle
 
-Reveal.js Prompt: Layout .code-slide. Feldausschnitte aus CreateBookRequest und BookResponse zeigen @Schema, @NotBlank und die schreibgeschützte Server-ID. Notizen: @Schema dokumentiert; @Valid und Bean Validation prüfen Eingaben. Weitere Felder ergänzen die Gruppen.
+Reveal.js Prompt: Layout .code-slide. Feldausschnitte aus CreateStudentRequest und StudentResponse zeigen @Schema, @NotBlank und die schreibgeschützte Server-ID. Notizen: @Schema dokumentiert; @Valid und Bean Validation prüfen Eingaben. Weitere Felder leiten die Gruppen aus ihrer Fachvorgabe ab.
 
 #### Folie 09.15: GitHub und Stripe
 
@@ -1517,7 +1518,7 @@ Reveal.js Prompt: Two-column content. Links GitHub OpenAPI → docs und Octokit;
 
 #### Folie 09.16: C1, OpenAPI im Code ergänzen
 
-Reveal.js Prompt: Layout .exercise-slide. 25 min. Startet den C2-Starter und öffnet /swagger-ui.html. Lest das POST-Beispiel mit Request- und Response-Modell. Ergänzt @Schema an den DTO-Feldern. Dokumentiert GET, 200 und 404 und beschreibt den 409-Konflikt. Abgabe: Java-Annotationen und Export aus /v3/api-docs. Die Spec wird aus Java generiert. Repository-TODOs folgen in C2 und C3.
+Reveal.js Prompt: Layout .exercise-slide. 25 min. Nutzt die von der Lehrperson am Universitätsbeispiel ergänzten Response-Annotationen als Vorlage. Leitet die Felder von `Create<Entity>Request` und `<Entity>Response` aus der Vorgabe ab und ergänzt beide Mapping-Methoden. Ergänzt @Schema an den DTO-Feldern. Dokumentiert GET und POST mit 200, 201, 404 und 409. Abgabe: grüner `OpenApiContractExerciseTest` und Export aus /v3/api-docs. Die Spec wird aus Java generiert. Repository-, Service- und Controller-Implementierungen folgen in C2 und C3.
 
 #### Folie 09.17: Debrief, generierten Vertrag prüfen
 
@@ -1531,13 +1532,13 @@ Reveal.js Prompt: Layout citation-slide. Visual: `openapi.yaml` in amber, Pfeile
 
 ### Übung
 
-C1, "OpenAPI im Code ergänzen", dauert 25 Minuten. Die Karte liegt in `exercises/<domain>/c1-http-contract/`. Alle Gruppen nutzen ihren C2-Starter mit SpringDoc und einem dokumentierten POST-Beispiel. Sie ergänzen DTO-Felder und GET-Annotationen und exportieren `/v3/api-docs`. Der Export wird nicht von Hand bearbeitet. Die Repository-Implementierung folgt in C2 und C3.
+C1, "OpenAPI im Code ergänzen", dauert 25 Minuten. Die Karte liegt in `exercises/<domain>/c1-http-contract/`. Die Lehrperson ergänzt die Response-Annotationen zuerst am Universitätsbeispiel. Danach nutzen alle Gruppen den gemeinsamen Starter unter `c2-spring-resource/starter`. Sie konstruieren Request- und Response-Felder aus der Fachvorgabe, ergänzen die Mapping-Methoden sowie GET- und POST-Annotationen und aktivieren `OpenApiContractExerciseTest`. Danach exportieren sie `/v3/api-docs`; der Export wird nicht von Hand bearbeitet. Die fachlichen Methodenrümpfe folgen in C2 und C3.
 
 ## 10 Spring Boot (Dateiname decks/10-spring-boot.html)
 
 ### Ziel
 
-Die Studierenden übernehmen das Schema aus B1 und die Repository-Grenze aus B4 in die Spring-Anwendung. Sie ersetzen JDBC-Abfragen und Row Mapping durch Spring Data JPA und Hibernate. Sie starten einen Health-Endpoint und implementieren GET für Collection und vorhandene ID mit `findAll` und `findById`. Sie erklären Dependency Injection und ordnen Spring-Annotationen den bekannten Grenzen zu. POST folgt in C3.
+Die Studierenden übernehmen das Schema aus B1 und die Repository-Grenze aus B4 in die Spring-Anwendung. Sie ersetzen JDBC-Abfragen und Row Mapping durch Spring Data JPA und Hibernate. Nach dem gemeinsamen Universitätsbeispiel bauen sie zuerst GET Collection vollständig durch Response-Mapping, Repository, Service und Controller. Danach ergänzen sie GET per ID samt 404. Sie erklären Dependency Injection und ordnen Spring-Annotationen den bekannten Grenzen zu. POST folgt in C3.
 
 ### Position auf der roten Linie
 
@@ -1551,7 +1552,7 @@ Dependency Injection ist in einem Bild erklärt: Der Controller erhält den Serv
 
 `@RestController` markiert die Präsentationsschicht, `@GetMapping` verbindet Methode und Pfad, `@Repository` markiert den Datenzugriff. Der Service führt Fachregeln in einer Transaktion aus und nimmt einen Command statt eines HTTP-DTOs an. Der ORM-Adapter übersetzt Domain-Objekte in JPA-Entities. Spring Data implementiert das `JpaRepository`; Hibernate erzeugt SQL und übernimmt das Row Mapping. JPA gehört zum Kernauftrag C2.
 
-Im Live-Teil öffne ich `exercises/library/c2-spring-resource/starter`: Anwendung starten, Flyway-Migration und JPA-Mapping abgleichen, ORM-Adapter ergänzen, Seed-Datensatz lesen und GET Collection sowie GET per ID über Swagger UI prüfen. Das ältere Student-Beispiel bleibt für allgemeine HTTP- und DI-Erklärungen nutzbar; die ORM-Demo läuft im Bibliotheks-Starter.
+Im Live-Teil verwende ich das Universitätsbeispiel: Anwendung starten, Flyway-Migration und JPA-Mapping abgleichen und einen vollständigen GET-Pfad durch Repository, Service und Controller verfolgen. Danach übertragen die Gruppen denselben Ablauf auf ihren Starter. Die Bibliothek ist eine Gruppendomäne und kein zweites Lehrendenbeispiel.
 
 ### Leitfragen
 
@@ -1634,7 +1635,7 @@ Reveal.js Prompt: Terminal-Content-Slide. Quelle `exercises/library/c2-spring-re
 #### Folie 10.12: Der erste GET
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle BookController.java im Bibliotheks-Starter. Zeige `@GetMapping`, `service.findAll()` und `BookResponse`, verbunden durch blue Pfeile. Darunter `GET /api/books`. Notizen: "Controller und Service sind vorbereitet. Wir ergänzen findAll im JpaBookRepository. Nach außen geht ein Response-DTO."
+Reveal.js Prompt: Layout .code-slide. Zeige am vollständigen Universitätsbeispiel `@GetMapping`, `service.findAll()` und `StudentResponse`, verbunden durch blue Pfeile. Darunter `GET /api/students`. Notizen: "Das Lehrendenbeispiel zeigt den ganzen Weg. In den Gruppenstartern sind die Methodengerüste vorhanden; die Gruppen schreiben Repository, Service und Controller selbst."
 ```
 
 #### Folie 10.13: JPA-Entity
@@ -1652,7 +1653,7 @@ Reveal.js Prompt: Layout .code-slide, Label "C2 · ORM-Repository". Code: `inter
 #### Folie 10.15: GET per ID
 
 ```text
-Reveal.js Prompt: Layout .code-slide, Label "C2 · Kernpfad". Codeauszug aus `BookController`: `@GetMapping("/{id}") public BookResponse findById(@PathVariable long id) { return BookResponse.from(service.findById(id)); }`. Quellenhinweis auf den Bibliotheks-Starter, OpenAPI-Annotationen als ausgelassen markieren. Notizen: "Der Controller delegiert an den Service. Der Service übersetzt ein fehlendes Domain-Objekt in 404. Das ORM-Mapping bleibt im Repository."
+Reveal.js Prompt: Layout .code-slide, Label "C2 · Kernpfad". Codeauszug aus dem vollständigen Universitätsbeispiel: `@GetMapping("/{id}") public StudentResponse findById(@PathVariable Long id) { return StudentResponse.from(service.findById(id)); }`. OpenAPI-Annotationen als ausgelassen markieren. Notizen: "Der Controller delegiert an den Service. Der Service übersetzt ein fehlendes Domain-Objekt in 404. Die Gruppen übertragen den Weg auf ihre Hauptressource."
 ```
 
 #### Folie 10.16: Request durch die Anwendung
@@ -1676,7 +1677,7 @@ Reveal.js Prompt: Timeline "health 200" → "Seed 42" → "GET Liste" → "GET /
 #### Folie 10.19: C2, vorhandene Ressource lesen
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide. Tag "C2 · Kernauftrag", Timer "50 min". Pfad `exercises/<domain>/c2-spring-resource/`. Schritte: 1 "Übernehmt das B1-Schema und prüft das JPA-Mapping." 2 "Verbindet den Repository-Adapter mit Spring Data JPA." 3 "Implementiert findAll und aktiviert den ORM-Test." 4 "Prüft GET per ID mit findById, 200 und 404." Abgabe: "GET 200 und 404, grüner ORM-Test". Notizen: "Der JDBC-Stand aus B4 bleibt zum Vergleich erhalten. POST folgt in C3."
+Reveal.js Prompt: Layout .exercise-slide. Tag "C2 · Kernauftrag", Timer "50 min". Pfad `exercises/<domain>/c2-spring-resource/`. Schritte: 1 "Ergänzt Response-Mapping und findAll im Repository." 2 "Baut Collection-GET durch Service und Controller; prüft den ersten Checkpoint." 3 "Ergänzt findById, die Service-Regel für fehlende IDs und Einzel-GET." 4 "Prüft Collection, bekannte ID und 404." Abgabe sichtbar und kurz: "grüne Repository- und GET-Checkpoints". Notizen: "Arbeitet erst die Collection durch alle Schichten fertig. Aktiviert danach `JpaRepositoryExerciseTest.readsSortedSeedRows` und `ReadApiExerciseTest.readsSeedData`. Für Einzelzugriff und fehlende ID folgt `JpaRepositoryExerciseTest.readsKnownIdAndReportsMissingId`. POST folgt in C3."
 ```
 
 #### Folie 10.20: Debrief, welche Annotation ersetzt was?
@@ -1693,24 +1694,23 @@ Reveal.js Prompt: Layout citation-slide. Visual: einzeiliges `JpaRepository<Book
 
 ### Übung
 
-C2, "Vorhandene Ressource lesen", dauert 50 Minuten. Die Gruppe gleicht das B1-Schema mit der JPA-Entity ab und ergänzt `findAll` sowie `findById` im ORM-Adapter. Der vorbereitete Service liefert Domain-Objekte; der Controller erzeugt Response-DTOs. Abgabe sind 200 für Collection und bekannte ID, 404 für eine unbekannte ID und ein grüner ORM-Test. POST folgt in C3. Im Debrief vergleichen die Gruppen das von Hibernate erzeugte SQL mit B3.
+C2, "Vorhandene Ressource lesen", dauert 50 Minuten. Die Gruppe ergänzt zuerst Response-Mapping und `findAll` im ORM-Adapter. Danach führt sie die Collection durch Service und Controller bis zur laufenden Antwort. Dafür aktiviert sie `JpaRepositoryExerciseTest.readsSortedSeedRows` und `ReadApiExerciseTest.readsSeedData`. Im zweiten Checkpoint folgen `findById`, die Service-Regel für eine unbekannte ID, Einzel-GET und 404 sowie `JpaRepositoryExerciseTest.readsKnownIdAndReportsMissingId`. Konstruktorverdrahtung, JPA-Entity, Spring-Data-Interface, Fehlerhandler und Infrastruktur sind vorbereitet. POST folgt in C3. Im Debrief vergleichen die Gruppen das von Hibernate erzeugte SQL mit B3.
 
 ### Code
 
-Gezeigt werden die Spring-Boot-Startklasse für das allgemeine DI-Beispiel und danach die Dateien im Bibliotheks-Starter: HealthController, application.properties, BookJpaEntity, SpringDataBookRepository, JpaBookRepository, BookService und BookController. Die vollständigen Implementierungen liegen parallel im Lehrendenpaket. JDBC und Reflection aus B3/B4 bleiben Vergleichsmaterial.
+Gezeigt werden die Spring-Boot-Startklasse und der vollständige GET-Pfad des Universitätsbeispiels. Danach öffnen die Gruppen die entsprechenden Dateien ihres Starters: HealthController, application.properties, JPA-Entity, Spring-Data-Repository, Repository-Adapter, Service, Controller und DTOs. JDBC und Reflection aus B3/B4 bleiben Vergleichsmaterial.
 
 Alle 14 C2-Starter verwenden Spring Data JPA und Hibernate. Die Hauptentität jeder Domäne bleibt über alle Phasen gleich. Das Bibliotheksbeispiel verwendet `Book`, `BookJpaEntity`, `SpringDataBookRepository`, `JpaBookRepository`, `BookService` und die API-DTOs. Deck 11 ergänzt POST und prüft Validierung, Fachkonflikte und Datenbank-Constraints.
 
 ### Ergänzung zu Deck 10: SpringDoc im Übungsprojekt
 
-Die SpringDoc-Folie zeigt die vorhandene Abhängigkeit, den Start mit `SERVER_PORT=18081 ./gradlew bootRun` und die URLs `/swagger-ui.html` und `/v3/api-docs`. POST mit Location ist vorbereitet. In C2 ergänzt die Gruppe die lesenden ORM-Adaptermethoden, in C3 `save` und die Eindeutigkeitsprüfung. Die Spec wird aus den DTOs und Controller-Annotationen exportiert.
+Die SpringDoc-Folie zeigt die vorhandene Abhängigkeit, den Start mit `SERVER_PORT=18081 ./gradlew bootRun` und die URLs `/swagger-ui.html` und `/v3/api-docs`. In C2 baut die Gruppe den vollständigen GET-Pfad durch Repository, Service und Controller. In C3 folgen Request-Konvertierung, `save`, Eindeutigkeitsprüfung und POST mit Location. Die Spec wird aus den DTOs und Controller-Annotationen exportiert.
 
 ### Zusätzliche ORM-Folien nach 10.14
 
 "Der Adapter hält JPA im Repository" zeigt `data.findById(id).map(BookJpaEntity::toDomain)` und eine nach ID sortierte `findAll`-Abfrage. Quelle ist die Bibliothekslösung. Die Folie wird erst bei der C2-Auswertung vollständig aufgedeckt.
 
 "Eine Transaktion pro Anwendungsfall" zeigt `@Transactional(readOnly = true)` am Service und `@Transactional` an `create`. Der Methodenrumpf ist ausdrücklich gekürzt. Controller mappen Request-DTOs auf Commands, Services führen Fachregeln aus und Repositories übersetzen Domain-Objekte in Entities. `open-in-view=false` begrenzt Datenzugriffe auf die Service-Transaktion.
-
 
 ## 11 Gutes Anwendungsdesign (Dateiname decks/11-good-design.html)
 
@@ -1843,7 +1843,7 @@ Reveal.js Prompt: Sequence SVG Client → Controller validates/maps → Service 
 #### Folie 11.17: C3, POST für dieselbe Hauptressource
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide, C3, 45 min. Schritte: 1 save im ORM-Adapter mit Spring Data implementieren; 2 DTO-Validierung und POST 201 mit Location prüfen; 3 Eindeutigkeitsprüfung ergänzen und 409 prüfen; 4 Tests für 400, 409 und ApiError aktivieren. Abgabe: POST 201, Validation 400 und Konflikt 409. PUT, DELETE und Fremdschlüsselkonflikte sind Vertiefung und in den Musterlösungen implementiert.
+Reveal.js Prompt: Layout .exercise-slide, C3, 45 min. Schritte: 1 Request-Validierung und Konvertierung ergänzen; 2 `exists` und `save` im ORM-Adapter implementieren; 3 Duplikatregel im Service und POST 201 mit Location bauen; 4 201, 400 und 409 prüfen. Abgabe: POST 201, Validation 400 und Konflikt 409. Infrastruktur und Fehlerübersetzung sind vorbereitet. PUT oder DELETE ist eine Vertiefung durch alle betroffenen Schichten.
 ```
 
 #### Folie 11.18: Debrief, ein Request durch alle Schichten
@@ -1866,7 +1866,7 @@ Reveal.js Prompt: Layout citation-slide. Visual: GitHub und Stripe als Clientkar
 
 ### Übung
 
-C3 dauert 45 Minuten für POST und Fehlerverhalten. Die Gruppe ergänzt `save` und Eindeutigkeitsabfragen im ORM-Adapter. Der Service arbeitet in einer Transaktion. DTOs, Bean Validation und Fehlerhandler sind vorbereitet und werden geprüft. Abgabe sind 201 mit Location, 400 mit Feldfehlern und 409 bei einem Eindeutigkeitskonflikt. Die folgende Folie erklärt das Rennen zwischen Vorabfrage und INSERT sowie den Schutz durch UNIQUE und saveAndFlush. PUT, DELETE und Fremdschlüsselkonflikte bleiben Vertiefung.
+C3 dauert 45 Minuten für POST und Fehlerverhalten. Die Gruppe ergänzt Request-Validierung und Konvertierung, `save` und Eindeutigkeitsabfragen im ORM-Adapter, die Duplikatregel im Service sowie POST mit 201 und Location im Controller. Fehlerhandler und technische Infrastruktur sind vorbereitet. Abgabe sind 201 mit Location, 400 mit Feldfehlern und 409 bei einem Eindeutigkeitskonflikt. Die folgende Folie erklärt das Rennen zwischen Vorabfrage und INSERT sowie den Schutz durch UNIQUE und saveAndFlush. PUT oder DELETE bleibt eine Vertiefung, die DTO, Controller, Service und Repository umfasst.
 
 ### Zusätzliche ORM-Folien in Deck 11 und 12
 
@@ -1984,7 +1984,7 @@ Reveal.js Prompt: SVG StudentService in Mitte, ein `StudentRepository`-Mock mit 
 #### Folie 12.7: Ein Mockito-Test
 
 ```text
-Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/backend/src/test/java/com/example/restsimple/service/StudentServiceTest.java`. Code zeigt `when(repository.insert(...)).thenReturn(saved)`, `service.create(request)`, die Prüfung auf `saved` und `verify(repository).insert(...)`. Notizen: "Stub, Aufruf, Zustandsprüfung und eine Interaktionsprüfung sind sichtbar. Wir prüfen nur die Interaktion, die zum Fachfall gehört."
+Reveal.js Prompt: Layout .code-slide. Quelle sichtbar unten: `common-example/backend/src/test/java/com/example/restsimple/service/StudentServiceTest.java`. Code zeigt `when(repository.save(...)).thenReturn(saved)`, `service.create(command)`, die Prüfung auf `saved` und `verify(repository).save(...)`. Notizen: "Stub, Aufruf, Zustandsprüfung und eine Interaktionsprüfung sind sichtbar. Wir prüfen nur die Interaktion, die zum Fachfall gehört."
 ```
 
 #### Folie 12.8: Was wir nicht testen
@@ -2044,7 +2044,7 @@ Reveal.js Prompt: Two-column content, markiert "(Reserve)". Links PUT mit vollst
 #### Folie 12.17: C3, Vertrag und Fehler testen
 
 ```text
-Reveal.js Prompt: Layout .exercise-slide, C3, 35 min. Schritte: 1 POST 201, Location und gespeicherte Felder prüfen; 2 Validierung 400 mit fields und correlationId prüfen; 3 UNIQUE 409 mit der echten ORM-Datenbank prüfen. Abgabe: grüne Tests für 201, 400, 409 und ApiError. Der Korrelationsfilter ist vorbereitet. Vertiefung: PUT, DELETE und Fremdschlüsselkonflikt.
+Reveal.js Prompt: Layout .exercise-slide, C3, 35 min. Schritte: 1 die vorbereiteten Tests `CreateApiExampleTest.createsResource` für POST 201 samt Location und `reportsValidationWithCorrelationId` für 400 aktivieren; 2 selbst `ReadApiExerciseTest.reportsUnknownId` für 404 schreiben; 3 selbst `CreateApiExampleTest.rejectsDuplicateBusinessKey` für 409 schreiben. Abgabe: grüne Tests für 201, 400, 404, 409 und ApiError. Test-Infrastruktur und Korrelationsfilter sind vorbereitet. Vertiefung: PUT oder DELETE durch alle betroffenen Schichten.
 ```
 
 #### Folie 12.18: Actuator liefert eingebaute Betriebsendpunkte
@@ -2055,11 +2055,11 @@ Reveal.js Prompt: Layout citation-slide. Visual: laufende Spring-App mit `/actua
 
 ### Übung
 
-C3, "Vertrag und Fehler testen", dauert 35 Minuten. Die Gruppe arbeitet in `exercises/<domain>/c3-tests-errors/` und schreibt zwei verbindliche Tests: POST-Erfolg mit 201 sowie 409 mit `code`, `message` und `correlationId`. Der Correlation-ID-Filter ist Vertiefung, falls der Starter die ID noch nicht setzt. Abgabe sind zwei grüne Tests und ein stabiler 409-Fehlerkörper. Debrief-Fragen: Welche Grenze prüft der Test? Welcher Port wurde ersetzt? Welche Felder bilden den stabilen Fehlervertrag? Exakter Folientext steht auf Folie 12.17.
+C3, "Vertrag und Fehler testen", dauert 35 Minuten. Die Gruppe arbeitet in `exercises/<domain>/c3-tests-errors/`. `CreateApiExampleTest.createsResource` zeigt POST mit 201, Location und gespeicherten Feldern; `reportsValidationWithCorrelationId` zeigt 400 samt Feldfehler. Die Gruppe schreibt selbst `ReadApiExerciseTest.reportsUnknownId` für 404 und `CreateApiExampleTest.rejectsDuplicateBusinessKey` für 409. Abgabe sind grüne Tests für 201, 400, 404 und 409 sowie ein stabiler Fehlerkörper. Debrief-Fragen: Welche Grenze prüft der Test? Welche Schicht entscheidet den Fehler? Welche Felder bilden den stabilen Fehlervertrag? Exakter Folientext steht auf Folie 12.17.
 
 ### Code
 
-Gezeigt werden die vorbereiteten Tests `common-example/backend/src/test/java/com/example/restsimple/controller/StudentControllerTest.java` und `common-example/backend/src/test/java/com/example/restsimple/service/StudentServiceTest.java`. Beide Klassen bleiben bis zur gemeinsamen Service-Implementierung mit `@Disabled` markiert. Die Kernsnippets stehen auf Folien 12.5 und 12.7.
+Gezeigt werden Tests aus `common-example/backend/src/test/java/com/example/restsimple/controller/StudentControllerTest.java` und `common-example/backend/src/test/java/com/example/restsimple/service/StudentServiceTest.java` als vollständige Universitätsbeispiele. In den Gruppenstartern ist ein Erfolgstest als Muster vorhanden. Die Gruppen schreiben die 404- und Duplikatfälle selbst. Die Kernsnippets stehen auf Folien 12.5 und 12.7.
 
 Danach folgt `common-example/advanced-backend/src/main/java/com/example/restsimple/config/LoggingFilter.java`: Annotationen und Konstanten Zeilen 16 bis 23, `doFilterInternal` Zeilen 25 bis 59 und `getOrGenerateCorrelationId` Zeilen 61 bis 68. Folie 12.10 zeigt die Zeilen 30 bis 59 vollständig und verbatim. `DetailedLoggingFilter.java` wird nur für die Warnung vor Body- und Header-Logging geöffnet, insbesondere die Methoden zum Maskieren sensibler Header und zur Größenbegrenzung. Für Actuator zeigt das Deck `common-example/backend/src/main/resources/application.properties`, Zeilen 43 bis 48. Für Security zeigt es nur die Dateinamen `SecurityConfig.java` und `JwtAuthenticationFilter.java`, keinen vollständigen Code. Der vorhandene `common-example/advanced-backend/Dockerfile` baut eine VS-Code-Lernumgebung und enthält kein `COPY`/`EXPOSE`/`ENTRYPOINT` für die Spring-Anwendung. Folie 12.14 bleibt deshalb ein klar markiertes Architekturdiagramm und behauptet keinen vorhandenen Produktions-Dockerfile.
 

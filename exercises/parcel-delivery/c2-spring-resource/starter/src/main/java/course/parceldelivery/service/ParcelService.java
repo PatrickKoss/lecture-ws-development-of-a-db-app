@@ -16,42 +16,16 @@ public class ParcelService {
   }
 
   public List<Parcel> findAll() {
-    return repository.findAll();
+    throw new UnsupportedOperationException("TODO C2: Alle Datensätze aus dem Repository lesen");
   }
 
   public Parcel findById(long id) {
-    return repository
-        .findById(id)
-        .orElseThrow(
-            () -> new ResourceNotFoundException("PARCEL_NOT_FOUND", "Paket nicht gefunden"));
+    throw new UnsupportedOperationException("TODO C2: Datensatz lesen und unbekannte ID als 404 melden");
   }
 
   @Transactional
   public Parcel create(ParcelCommand command) {
-    if (repository.existsByTrackingCode(command.trackingCode())) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Parcel(null, command.trackingCode(), command.recipient(), command.weight()));
+    throw new UnsupportedOperationException("TODO C3: Fachschlüssel prüfen und Datensatz speichern");
   }
 
-  @Transactional
-  public Parcel replace(long id, ParcelCommand command) {
-    findById(id);
-    if (repository.existsByTrackingCodeAndIdNot(command.trackingCode(), id)) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Parcel(id, command.trackingCode(), command.recipient(), command.weight()));
-  }
-
-  @Transactional
-  public void delete(long id) {
-    repository.deleteById(id);
-  }
-
-  private ResourceConflictException duplicate() {
-    return new ResourceConflictException(
-        "TRACKING_CODE_EXISTS", "tracking_code ist bereits vergeben");
-  }
 }

@@ -16,42 +16,16 @@ public class ExhibitService {
   }
 
   public List<Exhibit> findAll() {
-    return repository.findAll();
+    throw new UnsupportedOperationException("TODO C2: Alle Datensätze aus dem Repository lesen");
   }
 
   public Exhibit findById(long id) {
-    return repository
-        .findById(id)
-        .orElseThrow(
-            () -> new ResourceNotFoundException("EXHIBIT_NOT_FOUND", "Exponat nicht gefunden"));
+    throw new UnsupportedOperationException("TODO C2: Datensatz lesen und unbekannte ID als 404 melden");
   }
 
   @Transactional
   public Exhibit create(ExhibitCommand command) {
-    if (repository.existsByInventoryCode(command.inventoryCode())) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Exhibit(null, command.inventoryCode(), command.title(), command.insuredValue()));
+    throw new UnsupportedOperationException("TODO C3: Fachschlüssel prüfen und Datensatz speichern");
   }
 
-  @Transactional
-  public Exhibit replace(long id, ExhibitCommand command) {
-    findById(id);
-    if (repository.existsByInventoryCodeAndIdNot(command.inventoryCode(), id)) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Exhibit(id, command.inventoryCode(), command.title(), command.insuredValue()));
-  }
-
-  @Transactional
-  public void delete(long id) {
-    repository.deleteById(id);
-  }
-
-  private ResourceConflictException duplicate() {
-    return new ResourceConflictException(
-        "INVENTORY_CODE_EXISTS", "inventory_code ist bereits vergeben");
-  }
 }

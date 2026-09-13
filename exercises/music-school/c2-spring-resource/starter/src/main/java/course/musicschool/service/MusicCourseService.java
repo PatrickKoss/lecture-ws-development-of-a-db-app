@@ -16,44 +16,16 @@ public class MusicCourseService {
   }
 
   public List<MusicCourse> findAll() {
-    return repository.findAll();
+    throw new UnsupportedOperationException("TODO C2: Alle Datensätze aus dem Repository lesen");
   }
 
   public MusicCourse findById(long id) {
-    return repository
-        .findById(id)
-        .orElseThrow(
-            () ->
-                new ResourceNotFoundException(
-                    "MUSIC_COURSE_NOT_FOUND", "Kursangebot nicht gefunden"));
+    throw new UnsupportedOperationException("TODO C2: Datensatz lesen und unbekannte ID als 404 melden");
   }
 
   @Transactional
   public MusicCourse create(MusicCourseCommand command) {
-    if (repository.existsByCourseCode(command.courseCode())) {
-      throw duplicate();
-    }
-    return repository.save(
-        new MusicCourse(null, command.courseCode(), command.title(), command.fee()));
+    throw new UnsupportedOperationException("TODO C3: Fachschlüssel prüfen und Datensatz speichern");
   }
 
-  @Transactional
-  public MusicCourse replace(long id, MusicCourseCommand command) {
-    findById(id);
-    if (repository.existsByCourseCodeAndIdNot(command.courseCode(), id)) {
-      throw duplicate();
-    }
-    return repository.save(
-        new MusicCourse(id, command.courseCode(), command.title(), command.fee()));
-  }
-
-  @Transactional
-  public void delete(long id) {
-    repository.deleteById(id);
-  }
-
-  private ResourceConflictException duplicate() {
-    return new ResourceConflictException(
-        "MUSIC_COURSE_CODE_EXISTS", "course_code ist bereits vergeben");
-  }
 }

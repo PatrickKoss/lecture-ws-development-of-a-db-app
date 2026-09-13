@@ -16,59 +16,16 @@ public class RestaurantService {
   }
 
   public List<Restaurant> findAll() {
-    return repository.findAll();
+    throw new UnsupportedOperationException("TODO C2: Alle Datensätze aus dem Repository lesen");
   }
 
   public Restaurant findById(long id) {
-    return repository
-        .findById(id)
-        .orElseThrow(
-            () ->
-                new ResourceNotFoundException("RESTAURANT_NOT_FOUND", "Restaurant nicht gefunden"));
+    throw new UnsupportedOperationException("TODO C2: Datensatz lesen und unbekannte ID als 404 melden");
   }
 
   @Transactional
   public Restaurant create(RestaurantCommand command) {
-    if (repository.existsByPartnerNumber(command.partnerNumber())) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Restaurant(
-            null,
-            command.partnerNumber(),
-            command.name(),
-            command.street(),
-            command.postalCode(),
-            command.city(),
-            command.commissionRate(),
-            command.active()));
+    throw new UnsupportedOperationException("TODO C3: Fachschlüssel prüfen und Datensatz speichern");
   }
 
-  @Transactional
-  public Restaurant replace(long id, RestaurantCommand command) {
-    findById(id);
-    if (repository.existsByPartnerNumberAndIdNot(command.partnerNumber(), id)) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Restaurant(
-            id,
-            command.partnerNumber(),
-            command.name(),
-            command.street(),
-            command.postalCode(),
-            command.city(),
-            command.commissionRate(),
-            command.active()));
-  }
-
-  @Transactional
-  public void delete(long id) {
-    repository.deleteById(id);
-  }
-
-  private ResourceConflictException duplicate() {
-    return new ResourceConflictException(
-        "PARTNER_NUMBER_EXISTS", "partner_number ist bereits vergeben");
-  }
 }

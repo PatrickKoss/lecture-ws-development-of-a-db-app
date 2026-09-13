@@ -1,39 +1,34 @@
-# Spring-Vorlage für das gemeinsame Beispiel
+# Musterlösung für die Studierenden-API
 
-Dieses Projekt ist der vorbereitete Spring-Stand der Hochschulverwaltung. Der Controller, der JDBC-Adapter, die Fehlerbehandlung und die Verbindung zum Frontend sind vorhanden. Wir schreiben in der Vorlesung die Migrationen, vervollständigen die DTO-Regeln und implementieren den Service.
+Dieses Projekt ist die vollständige JPA-Lösung für das gemeinsame Beispiel. Die Übungsfassung liegt unter [`../exercises/c2-spring-resource/starter`](../exercises/c2-spring-resource/starter).
 
-## Was vorbereitet ist
+Die API verwendet dieselben Felder wie das Frontend: `id`, `firstName`, `lastName`, `email`, `studentNumber` und `enrollmentDate`. Der Create-Request enthält die vier String-Eingabefelder ohne ID und Datum. `StudentService` setzt das Einschreibedatum mit der injizierten `Clock`. Dadurch kontrolliert der Server das Datum und der Test kann die Zeit festsetzen.
 
-- Spring Web, Spring JDBC, Validation und Flyway
-- SQLite mit `PRAGMA foreign_keys=ON` für jede Pool-Verbindung
-- OpenAPI unter `/swagger-ui.html`
-- ein Fehlerkörper mit `code`, `message`, `correlationId` und optionalen `fields`
-- `CorrelationIdFilter`, der `X-Correlation-ID` übernimmt oder erzeugt
-- CORS für das Frontend unter `http://localhost:3000`
+Der Weg durch die Anwendung ist absichtlich sichtbar:
 
-Technische Exceptions bleiben im Log. Der Handler sendet bei einem unerwarteten Fehler weder SQL noch Dateipfade oder Exception-Texte an den Client.
+1. `StudentController` verarbeitet HTTP und wandelt Request und Response um.
+2. `StudentService` prüft Matrikelnummer und E-Mail-Adresse und vergibt das Datum.
+3. `JpaStudentRepository` verwendet Spring Data und übersetzt zwischen Domainobjekt und `StudentJpaEntity`.
+4. `saveAndFlush` löst Datenbankregeln noch innerhalb des Adapters aus. `SQLiteConstraintTranslator` übersetzt SQLite-Constraintfehler.
 
-## Start
+Flyway lädt das Schema und alle Seed-Daten aus `../sql`. Die Migrationskopie entfernt nur `PRAGMA`, `BEGIN TRANSACTION` und `COMMIT`, weil Flyway Verbindung und Transaktion selbst verwaltet.
+
+## Start und Tests
 
 ```sh
 ./gradlew build
 ./gradlew bootRun
 ```
 
-Ohne `SERVER_PORT` läuft die Anwendung auf Port 8081. Die beiden Dateien unter `db/migration/` enden zunächst auf `.sql.todo`. Wir füllen sie mit dem Schema und den Seed-Daten aus `../sql/` und entfernen erst danach die Endung `.todo`. So registriert Flyway keine leere Migration.
+Die Anwendung läuft standardmäßig auf Port 8081. OpenAPI ist unter `http://localhost:8081/swagger-ui.html` verfügbar.
 
-Der Health Check läuft sofort:
-
-```text
-GET http://localhost:8081/api/students/health
+```sh
+curl -i http://localhost:8081/api/students/health
+curl -i http://localhost:8081/api/students
+curl -i http://localhost:8081/api/students/1
+curl -i -X POST http://localhost:8081/api/students \
+  -H 'Content-Type: application/json' \
+  -d '{"firstName":"Ada","lastName":"Lovelace","email":"ada@campus.example","studentNumber":"M2026999"}'
 ```
 
-## Arbeitsstellen
-
-- `src/main/resources/db/migration/`: Schema und Seed-Daten aus `../sql/` übernehmen, dann beide Dateien von `.sql.todo` nach `.sql` umbenennen
-- `dto/CreateStudentRequest.java`: Eingabefelder und Validation begründen
-- `dto/StudentResponse.java`: zugesagte Ausgabefelder und Mapping festlegen
-- `service/StudentService.java`: `findAll`, `findById` und `create` implementieren
-- `src/test/java/`: vorbereitete Tests aktivieren und als Rückmeldung während der Implementierung nutzen
-
-`requests.http` enthält die Aufrufe für jeden Zwischenstand. Das Frontend erwartet `GET /api/students` als JSON-Array und `POST /api/students` mit dem Kursvertrag.
+Alle Tests sind aktiv. `StudentApiIntegrationTest` startet SQLite mit einer eigenen temporären Datenbank und prüft Seed-Daten, 404, POST mit `Location`, 409 und Validation mit Korrelations-ID.

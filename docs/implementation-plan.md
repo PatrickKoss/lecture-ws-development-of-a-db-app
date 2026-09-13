@@ -32,11 +32,15 @@ Jeder Aufgabenordner nennt Eingang, Starttest, Kernauftrag, Vertiefung, Hilfe un
 - B2 verlangt vier Abfragen, darunter zwei JOINs und eine Aggregation.
 - B3 verlangt `findById`, `findAll`, sichtbares Row-Mapping und einen Fehlerfall. Schreiboperationen sind Vertiefung.
 - B4 ist ein kurzes, verbindliches Repository-Refactoring. Schema und Seed-Daten werden als Flyway-Migrationen übergeben.
-- C1 definiert GET und POST unter `/api/<resource>`.
-- C2 implementiert GET für die Hauptentität auf dem vorbereiteten Spring-Stand.
-- C3 ergänzt POST, Validation, genau eine Konfliktregel mit `409 Conflict` und die geforderten Tests. PUT, DELETE und Beziehungen sind Vertiefung.
+- C1 erstellt Request- und Response-Felder nach der Domänenspezifikation und dokumentiert GET und POST unter `/api/<resource>`. Die Methoden bleiben zunächst offen.
+- C2 implementiert zuerst die GET-Liste mit Response-Mapping, Repository, Service und Controller. Danach folgt GET nach ID mit dem 404-Fall.
+- C3 ergänzt Request-Validation, Mapping, Repository-Schreiben, die Konfliktregel im Service und POST mit `201` und `Location`. Die Gruppen schreiben eigene Tests für unbekannte IDs und doppelte Fachschlüssel. PUT und DELETE werden als Vertiefung in allen betroffenen Schichten ergänzt; Beziehungen bleiben ebenfalls Vertiefung.
+
+Vor jeder Gruppenphase demonstriert die Lehrperson den entsprechenden Schritt am Hochschulbeispiel. Die Gruppen erhalten kompilierende Klassen mit Arbeitsstellen. Konfiguration, JPA-Entity, Spring-Data-Interface, Konstruktoren und technische Fehlerbehandlung bleiben vorbereitet. Ein erfolgreicher Startbuild prüft das Grundgerüst; erst die phasenweise aktivierten Vertragstests und Verhaltenstests prüfen die studentische Implementierung.
 
 ## Lösungen
+
+Das gemeinsame Hochschulbeispiel enthält Aufgaben A0 bis C3 unter `common-example/exercises/` und vollständige Lösungen zum Nachschlagen. JDBC und Spring haben zusätzlich kompilierende Starter für die gemeinsame Implementierung. Die Repository-Lösung für den Pflichtteil steht in `repository-basic/`; die Reflection-Variante bleibt Vertiefung.
 
 Teilnehmerordner enthalten keine fertigen SQL- oder Code-Lösungen an den Arbeitsstellen. Das Lehrendenpaket liegt unter `exercises/instructor-solutions/` und wird aus der Teilnehmerausgabe entfernt.
 

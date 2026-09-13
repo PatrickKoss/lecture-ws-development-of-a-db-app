@@ -16,54 +16,16 @@ public class StationService {
   }
 
   public List<Station> findAll() {
-    return repository.findAll();
+    throw new UnsupportedOperationException("TODO C2: Alle Datensätze aus dem Repository lesen");
   }
 
   public Station findById(long id) {
-    return repository
-        .findById(id)
-        .orElseThrow(
-            () -> new ResourceNotFoundException("STATION_NOT_FOUND", "Station nicht gefunden"));
+    throw new UnsupportedOperationException("TODO C2: Datensatz lesen und unbekannte ID als 404 melden");
   }
 
   @Transactional
   public Station create(StationCommand command) {
-    if (repository.existsByStationCode(command.stationCode())) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Station(
-            null,
-            command.stationCode(),
-            command.name(),
-            command.address(),
-            command.capacity(),
-            command.status()));
+    throw new UnsupportedOperationException("TODO C3: Fachschlüssel prüfen und Datensatz speichern");
   }
 
-  @Transactional
-  public Station replace(long id, StationCommand command) {
-    findById(id);
-    if (repository.existsByStationCodeAndIdNot(command.stationCode(), id)) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Station(
-            id,
-            command.stationCode(),
-            command.name(),
-            command.address(),
-            command.capacity(),
-            command.status()));
-  }
-
-  @Transactional
-  public void delete(long id) {
-    repository.deleteById(id);
-  }
-
-  private ResourceConflictException duplicate() {
-    return new ResourceConflictException(
-        "STATION_CODE_EXISTS", "station_code ist bereits vergeben");
-  }
 }

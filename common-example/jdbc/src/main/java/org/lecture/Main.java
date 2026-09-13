@@ -113,7 +113,7 @@ public class Main {
             while (resultSet.next()) {
                 foundStudent = true;
                 Student student = new Student(
-                        resultSet.getInt("id"),
+                        resultSet.getLong("id"),
                         resultSet.getString("first_name"),
                         resultSet.getString("last_name"),
                         resultSet.getString("email"),
@@ -147,7 +147,7 @@ public class Main {
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     Student student = new Student(
-                            resultSet.getInt("id"),
+                            resultSet.getLong("id"),
                             resultSet.getString("first_name"),
                             resultSet.getString("last_name"),
                             resultSet.getString("email"),

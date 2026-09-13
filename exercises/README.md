@@ -66,7 +66,7 @@ Die Zeiten gelten für den Kernauftrag. Die Vertiefung ist kein Pflichtstoff. Na
 
 B3 und C2 sind eigenständige Gradle-Projekte. Sie enthalten den Gradle-Wrapper aus dem Kursprojekt, aber keine Caches oder Build-Ausgaben. Java 21 genügt für `./gradlew test`. SQLite-Fremdschlüssel werden pro Verbindung eingeschaltet. Das Spring-Projekt nutzt Flyway und Spring Data JPA. Hibernate verwendet den SQLite-Dialekt und erzeugt kein Schema, weil `ddl-auto=none` gesetzt ist.
 
-B3 zeigt JDBC und sichtbares Row-Mapping. B4 zieht eine JDBC-freie Repository-Schnittstelle davor und prüft den Catalog mit einer In-Memory-Implementierung. C2 übernimmt diese Grenze als Idee. Der vorbereitete `Jpa<Entity>Repository` passt zwischen Domänen-Record und `SpringData<Entity>Repository`; die JDBC-Implementierung aus B3 wird nicht kopiert.
+B3 zeigt JDBC und sichtbares Row-Mapping. B4 zieht eine JDBC-freie Repository-Schnittstelle davor. Das In-Memory-Repository ist eine Vertiefung. C2 übernimmt die Repository-Grenze als Idee. Der vorbereitete `Jpa<Entity>Repository` passt zwischen Domänen-Record und `SpringData<Entity>Repository`; die JDBC-Implementierung aus B3 wird nicht kopiert.
 
 ## Lösungen
 
@@ -74,6 +74,6 @@ Vollständige Lösungen für A0 bis C3 gehören zum separaten Lehrendenpaket und
 
 ## OpenAPI in C1 bis C3
 
-Alle 13 Themen und `_template` enthalten SpringDoc im C2-Starter. C1 beginnt dort mit einem dokumentierten POST-Beispiel und getrennten Request- und Response-DTOs. Die Gruppen ergänzen GET-Annotationen und Feldbeschreibungen. `/v3/api-docs` generiert die Spec, `/swagger-ui.html` zeigt sie an. Es gibt keine von Hand zu pflegende YAML-Datei. Das Lehrendenpaket enthält zusätzlich einen Export der generierten Spec.
+Alle 13 Themen und `_template` enthalten SpringDoc im C2-Starter. In C1 bauen die Gruppen die Request- und Response-Records aus einer Feldvorgabe und dokumentieren GET und POST. `/v3/api-docs` generiert die Spec, `/swagger-ui.html` zeigt sie an. Es gibt keine von Hand zu pflegende YAML-Datei.
 
-`OpenApiStarterTest` läuft von Beginn an, ohne offene Adaptermethoden aufzurufen. In C2 implementieren die Gruppen `findAll` und `findById` im JPA-Adapter und aktivieren `JpaRepositoryExerciseTest`. In C3 folgen `save`, die fachliche `existsBy...`-Abfrage und `<Entity>ApiExerciseTest`. `saveAndFlush` und `SQLiteConstraintTranslator` halten UNIQUE-Fehler innerhalb der Repository-Grenze.
+Der Baseline-Build läuft trotz offener Endpunktkörper. `OpenApiStarterTest` prüft von Beginn an nur das Gerüst. C1 endet mit dem aktivierten `OpenApiContractExerciseTest`. In C2 implementieren die Gruppen erst die Liste und aktivieren `readsSortedSeedRows` sowie `readsSeedData`. Danach folgt GET nach ID mit `readsKnownIdAndReportsMissingId`. Jeder Weg führt durch Response-Mapping, JPA-Adapter, Service und Controller. In C3 folgen Request-Validation, Konvertierung, Speichern, Konfliktregel und POST. Tests für einen erfolgreichen und einen ungültigen POST sind vorgegeben; die Gruppen implementieren die TODO-Tests für 404 und 409 selbst.

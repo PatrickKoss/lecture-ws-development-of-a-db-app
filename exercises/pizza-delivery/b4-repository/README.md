@@ -32,7 +32,7 @@ Wenn das Refactoring stockt, legt zuerst die endgültigen Methodensignaturen von
 
 ## Ausgang
 
-Die aufrufende Schicht kennt nur `PizzaRepository` und die Domänenklasse `Pizza`. Eine Quelltextsuche findet JDBC-Typen nur in `Database` und JDBC-Repositorys. Der Catalog-Test läuft mit der In-Memory-Implementierung.
+Die aufrufende Schicht kennt nur `PizzaRepository` und die Domänenklasse `Pizza`. Eine Quelltextsuche findet JDBC-Typen nur in `Database` und JDBC-Repositorys. Wenn ihr die Vertiefung bearbeitet habt, läuft der Catalog-Test zusätzlich mit der In-Memory-Implementierung.
 
 Prüfbefehle:
 
@@ -46,7 +46,7 @@ cd ../b3-jdbc/starter
 
 ## Übergabe an C2
 
-C2 ist ein vorbereitetes, eigenständiges Spring-Boot-Projekt. Übernehmt Schema und Seed-Daten als Flyway-Migrationen. Übertragt die Repository-Idee, aber kopiert `JdbcPizzaRepository` nicht in den Spring-Starter. Dort implementiert Spring Data die Datenbankabfragen über JPA und Hibernate.
+C1 bis C3 verwenden ein vorbereitetes, eigenständiges Spring-Boot-Projekt. Übernehmt Schema und Seed-Daten als Flyway-Migrationen. Übertragt die Repository-Idee, aber kopiert `JdbcPizzaRepository` nicht in den Spring-Starter. In C1 erstellt ihr DTOs und HTTP-Vertrag. C2 setzt die Lesewege durch Controller, Service und JPA-Adapter um. Spring Data führt die Datenbankabfragen über JPA und Hibernate aus.
 
 ## Auswertung
 

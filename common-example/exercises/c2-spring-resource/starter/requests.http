@@ -1,0 +1,19 @@
+### Health Check funktioniert vor der Fachimplementierung
+GET http://localhost:18081/api/students/health
+
+### TODO C2: Liste
+GET http://localhost:18081/api/students
+
+### TODO C2: Einzelner Datensatz
+GET http://localhost:18081/api/students/1
+
+### TODO C3: Anlegen
+POST http://localhost:18081/api/students
+Content-Type: application/json
+
+{
+  "firstName": "Ada",
+  "lastName": "Lovelace",
+  "email": "ada.lovelace@stud.example",
+  "studentNumber": "M2026001"
+}

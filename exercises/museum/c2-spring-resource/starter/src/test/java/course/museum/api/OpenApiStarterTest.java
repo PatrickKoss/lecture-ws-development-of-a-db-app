@@ -16,13 +16,9 @@ class OpenApiStarterTest {
   @Autowired MockMvc mvc;
 
   @Test
-  void generatesContractWithoutCallingUnfinishedRepositoryMethods() throws Exception {
+  void generatesDocumentationWithoutCallingExerciseMethods() throws Exception {
     mvc.perform(get("/v3/api-docs"))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.paths['/api/exhibits'].post").exists())
-        .andExpect(
-            jsonPath("$.components.schemas.CreateExhibitRequest.properties.id").doesNotExist())
-        .andExpect(
-            jsonPath("$.components.schemas.ExhibitResponse.properties.id.readOnly").value(true));
+        .andExpect(jsonPath("$.paths['/api/exhibits'].post").exists());
   }
 }

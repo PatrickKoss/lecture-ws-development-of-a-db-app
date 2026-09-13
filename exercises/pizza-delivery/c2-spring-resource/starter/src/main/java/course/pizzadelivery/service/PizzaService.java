@@ -16,56 +16,16 @@ public class PizzaService {
   }
 
   public List<Pizza> findAll() {
-    return repository.findAll();
+    throw new UnsupportedOperationException("TODO C2: Alle Datensätze aus dem Repository lesen");
   }
 
   public Pizza findById(long id) {
-    return repository
-        .findById(id)
-        .orElseThrow(
-            () -> new ResourceNotFoundException("PIZZA_NOT_FOUND", "Pizza nicht gefunden"));
+    throw new UnsupportedOperationException("TODO C2: Datensatz lesen und unbekannte ID als 404 melden");
   }
 
   @Transactional
   public Pizza create(PizzaCommand command) {
-    if (repository.existsByPizzaNumber(command.pizzaNumber())) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Pizza(
-            null,
-            command.pizzaNumber(),
-            command.name(),
-            command.category(),
-            command.ovenStation(),
-            command.basePrice(),
-            command.active()));
+    throw new UnsupportedOperationException("TODO C3: Fachschlüssel prüfen und Datensatz speichern");
   }
 
-  @Transactional
-  public Pizza replace(long id, PizzaCommand command) {
-    findById(id);
-    if (repository.existsByPizzaNumberAndIdNot(command.pizzaNumber(), id)) {
-      throw duplicate();
-    }
-    return repository.save(
-        new Pizza(
-            id,
-            command.pizzaNumber(),
-            command.name(),
-            command.category(),
-            command.ovenStation(),
-            command.basePrice(),
-            command.active()));
-  }
-
-  @Transactional
-  public void delete(long id) {
-    repository.deleteById(id);
-  }
-
-  private ResourceConflictException duplicate() {
-    return new ResourceConflictException(
-        "PIZZA_NUMBER_EXISTS", "pizza_number ist bereits vergeben");
-  }
 }

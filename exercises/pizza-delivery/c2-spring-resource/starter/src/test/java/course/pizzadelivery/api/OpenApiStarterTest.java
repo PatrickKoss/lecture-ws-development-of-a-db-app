@@ -16,12 +16,10 @@ class OpenApiStarterTest {
   @Autowired MockMvc mvc;
 
   @Test
-  void generatesContractWithoutCallingUnfinishedRepositoryMethods() throws Exception {
+  void generatesDocumentationWithoutCallingExerciseMethods() throws Exception {
     mvc.perform(get("/v3/api-docs"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.paths['/api/pizzas'].post").exists())
-        .andExpect(jsonPath("$.components.schemas.CreatePizzaRequest.properties.id").doesNotExist())
-        .andExpect(
-            jsonPath("$.components.schemas.PizzaResponse.properties.id.readOnly").value(true));
+        .andExpect(jsonPath("$.components.schemas.CreatePizzaRequest.properties.id").doesNotExist());
   }
 }
