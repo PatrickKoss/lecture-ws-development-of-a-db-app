@@ -1,8 +1,9 @@
 # Lehrendenpaket
 
-Dieser Ordner enthält die Lösungen für A0 bis C3 in allen 13 Domänen und in
-`_template`. Gebt gezielt einzelne Abschnitte als vorbereiteten Zwischenstand
-frei. Der Ordner gehört nicht in die Teilnehmerausgabe.
+Dieser Ordner enthält die Lösungen für A0 bis C3 in allen 13 Domänen, im
+gemeinsamen [Hochschulbeispiel](common-example/README.md) und in `_template`.
+Gebt gezielt einzelne Abschnitte als vorbereiteten Zwischenstand frei. Der
+Ordner gehört nicht in die Teilnehmerausgabe.
 
 ## Aufbau jeder Lösung
 
@@ -76,6 +77,7 @@ Einzelne Domänen oder nur SQL lassen sich getrennt prüfen:
 
 ```bash
 bash exercises/instructor-solutions/verify.sh library music-school
+bash exercises/instructor-solutions/verify.sh common-example
 bash exercises/instructor-solutions/verify.sh --sql-only
 bash exercises/instructor-solutions/verify.sh --with-starters
 ```

@@ -31,11 +31,16 @@ if [[ ${#domains[@]} -eq 0 ]]; then
     for exercise in "$solution_root"/../*/a0-domain; do
         domains+=("$(basename -- "$(dirname -- "$exercise")")")
     done
+    domains+=("common-example")
 fi
 
 for domain in "${domains[@]}"; do
+    exercise_root="$solution_root/../$domain"
+    if [[ "$domain" == "common-example" ]]; then
+        exercise_root="$solution_root/../../common-example/exercises"
+    fi
     if [[ ! "$domain" =~ ^[a-z][a-z-]*$ && "$domain" != "_template" ]] ||
-        [[ ! -d "$solution_root/../$domain/a0-domain" ]]; then
+        [[ ! -d "$exercise_root/a0-domain" ]]; then
         printf 'Unknown exercise: %s\n' "$domain" >&2
         exit 1
     fi
@@ -86,7 +91,7 @@ for domain in "${domains[@]}"; do
     done
     if [[ "$with_starters" == true ]]; then
         printf '%s: participant ORM starter baseline\n' "$domain"
-        if ! (cd -- "$solution_root/../$domain/c2-spring-resource/starter" && \
+        if ! (cd -- "$exercise_root/c2-spring-resource/starter" && \
             bash ./gradlew test --console=plain --max-workers=2) >"$log_dir/starter.log" 2>&1; then
             cat -- "$log_dir/starter.log" >&2
             exit 1

@@ -1,0 +1,44 @@
+erDiagram
+    DEPARTMENT ||--o{ LECTURER : employs
+    LECTURER ||--o{ COURSE : teaches
+    STUDENT ||--o{ ENROLLMENT : has
+    COURSE ||--o{ ENROLLMENT : has
+
+    DEPARTMENT {
+        integer id PK
+        string code UK
+        string name UK
+    }
+
+    LECTURER {
+        integer id PK
+        string first_name
+        string last_name
+        string email UK
+        integer department_id FK
+    }
+
+    STUDENT {
+        integer id PK
+        string first_name
+        string last_name
+        string email UK
+        string student_number UK
+        date enrollment_date
+    }
+
+    COURSE {
+        integer id PK
+        string course_code UK
+        string title
+        integer credits
+        integer lecturer_id FK
+    }
+
+    ENROLLMENT {
+        integer id PK
+        integer student_id FK
+        integer course_id FK
+        date enrolled_on
+        decimal grade
+    }

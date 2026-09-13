@@ -1,0 +1,41 @@
+### Health Check funktioniert vor der Fachimplementierung
+GET http://localhost:8081/api/students/health
+
+### Seed-Daten lesen
+GET http://localhost:8081/api/students
+
+### Einzelne Person lesen
+GET http://localhost:8081/api/students/1
+
+### 404 für eine unbekannte ID
+GET http://localhost:8081/api/students/999999
+X-Correlation-ID: lecture-not-found
+
+### Anlegen, enrollmentDate setzt der Server
+POST http://localhost:8081/api/students
+Content-Type: application/json
+
+{
+  "firstName": "Ada",
+  "lastName": "Lovelace",
+  "email": "ada.lovelace@stud.example",
+  "studentNumber": "M2026001"
+}
+
+### 409 für eine vorhandene Matrikelnummer
+POST http://localhost:8081/api/students
+Content-Type: application/json
+
+{
+  "firstName": "Neue",
+  "lastName": "Person",
+  "email": "neue.person@campus.example",
+  "studentNumber": "M2023001"
+}
+
+### 400 mit Feldfehlern und übernommener Korrelations-ID
+POST http://localhost:8081/api/students
+Content-Type: application/json
+X-Correlation-ID: lecture-validation
+
+{}
