@@ -1308,3 +1308,31 @@ body {
 .redline__step--active text {
   fill: var(--color-amber);
 }
+
+/* ---------------------------------------------------------------------------
+ * Print view — PDF export.
+ *
+ * Reveal's print stylesheet forces `display: block !important` and
+ * `padding: 0 !important` onto every <section>. That flattens the flex
+ * layouts above and drops each layout's padding, so slides collapse toward
+ * the top of the page and content runs into the page edge.
+ *
+ * Reveal also gives each section an inline
+ * `top: (pageHeight - contentHeight) / 2`. Our sections are already
+ * `height: 100%`, so that offset only pushes them down and pushes the same
+ * number of pixels off the bottom.
+ *
+ * Restoring `display` and `padding` per layout is not possible here without
+ * repeating every layout's values, so `deck.js` re-applies the screen values
+ * inline once the print view is built. See `applyPrintLayout()` there. This
+ * block only handles what a stylesheet can do on its own.
+ * ------------------------------------------------------------------------- */
+
+@media print {
+  html.print-pdf .reveal .pdf-page > section {
+    top: calc((100% - 1080px) / 2) !important;
+    left: calc((100% - 1920px) / 2) !important;
+    width: 1920px !important;
+    height: 1080px !important;
+  }
+}
